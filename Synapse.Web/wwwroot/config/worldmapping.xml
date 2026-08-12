@@ -1,0 +1,181 @@
+﻿<root>
+  <country fullname="Unknown" aliasname="Unknown" />
+  <country fullname="Afghanistan" aliasname="AFG"/>
+  <country fullname="Angola" aliasname="AGO" />
+  <country fullname="Albania" aliasname="ALB" />
+  <country fullname="United Arab Emirates" aliasname="ARE" />
+  <country fullname="Argentina" aliasname="ARG" />
+  <country fullname="Armenia" aliasname="ARM" />
+  <country fullname="Antarctica" aliasname="ATA" />
+  <country fullname="French Southern and Antarctic Lands" aliasname="ATF" />
+  <country fullname="Australia" aliasname="AUS" />
+  <country fullname="Austria" aliasname="AUT" />
+  <country fullname="Azerbaijan" aliasname="AZE" />
+  <country fullname="Burundi" aliasname="BDI" />
+  <country fullname="Belgium" aliasname="BEL" />
+  <country fullname="Benin" aliasname="BEN" />
+  <country fullname="Burkina Faso" aliasname="BFA" />
+  <country fullname="Bangladesh" aliasname="BGD" />
+  <country fullname="Bulgaria" aliasname="BGR" />
+  <country fullname="The Bahamas" aliasname="BHS" />
+  <country fullname="Bosnia and Herzegovina" aliasname="BIH" />
+  <country fullname="Belarus" aliasname="BLR" />
+  <country fullname="Belize" aliasname="BLZ" />
+  <country fullname="Bolivia" aliasname="BOL" />
+  <country fullname="Brazil" aliasname="BRA" />
+  <country fullname="Brunei" aliasname="BRN" />
+  <country fullname="Bhutan" aliasname="BTN" />
+  <country fullname="Botswana" aliasname="BWA" />
+  <country fullname="Central African Republic" aliasname="CAF" />
+  <country fullname="Canada" aliasname="CAN" />
+  <country fullname="Switzerland" aliasname="CHE" />
+  <country fullname="Chile" aliasname="CHL" />
+  <country fullname="China" aliasname="CHN" />
+  <country fullname="Ivory Coast" aliasname="CIV" />
+  <country fullname="Cameroon" aliasname="CMR" />
+  <country fullname="Democratic Republic of the Congo" aliasname="COD" />
+  <country fullname="Republic of the Congo" aliasname="COG" />
+  <country fullname="Colombia" aliasname="COL" />
+  <country fullname="Costa Rica" aliasname="CRI" />
+  <country fullname="Cuba" aliasname="CUB" />
+  <country fullname="Northern Cyprus" aliasname="-99" />
+  <country fullname="Cyprus" aliasname="CYP" />
+  <country fullname="Czech Republic" aliasname="CZE" />
+  <country fullname="Germany" aliasname="DEU" />
+  <country fullname="Djibouti" aliasname="DJI" />
+  <country fullname="Denmark" aliasname="DNK" />
+  <country fullname="Dominican Republic" aliasname="DOM" />
+  <country fullname="Algeria" aliasname="DZA" />
+  <country fullname="Ecuador" aliasname="ECU" />
+  <country fullname="Egypt" aliasname="EGY" />
+  <country fullname="Eritrea" aliasname="ERI" />
+  <country fullname="Spain" aliasname="ESP" />
+  <country fullname="Estonia" aliasname="EST" />
+  <country fullname="Ethiopia" aliasname="ETH" />
+  <country fullname="Finland" aliasname="FIN" />
+  <country fullname="Fiji" aliasname="FJI" />
+  <country fullname="Falkland Islands" aliasname="FLK" />
+  <country fullname="France" aliasname="FRA" />
+  <country fullname="French Guiana" aliasname="GUF" />
+  <country fullname="Gabon" aliasname="GAB" />
+  <country fullname="United Kingdom" aliasname="GBR" />
+  <country fullname="Georgia" aliasname="GEO" />
+  <country fullname="Ghana" aliasname="GHA" />
+  <country fullname="Guinea" aliasname="GIN" />
+  <country fullname="Gambia" aliasname="GMB" />
+  <country fullname="Guinea Bissau" aliasname="GNB" />
+  <country fullname="Equatorial Guinea" aliasname="GNQ" />
+  <country fullname="Greece" aliasname="GRC" />
+  <country fullname="Greenland" aliasname="GRL" />
+  <country fullname="Guatemala" aliasname="GTM" />
+  <country fullname="Guyana" aliasname="GUY" />
+  <country fullname="Honduras" aliasname="HND" />
+  <country fullname="Croatia" aliasname="HRV" />
+  <country fullname="Haiti" aliasname="HTI" />
+  <country fullname="Hungary" aliasname="HUN" />
+  <country fullname="Indonesia" aliasname="IDN" />
+  <country fullname="India" aliasname="IND" />
+  <country fullname="Ireland" aliasname="IRL" />
+  <country fullname="Iran" aliasname="IRN" />
+  <country fullname="Iraq" aliasname="IRQ" />
+  <country fullname="Iceland" aliasname="ISL" />
+  <country fullname="Israel" aliasname="ISR" />
+  <country fullname="Italy" aliasname="ITA" />
+  <country fullname="Jamaica" aliasname="JAM" />
+  <country fullname="Jordan" aliasname="JOR" />
+  <country fullname="Japan" aliasname="JPN" />
+  <country fullname="Kazakhstan" aliasname="KAZ" />
+  <country fullname="Kenya" aliasname="KEN" />
+  <country fullname="Kyrgyzstan" aliasname="KGZ" />
+  <country fullname="Cambodia" aliasname="KHM" />
+  <country fullname="South Korea" aliasname="KOR" />
+  <country fullname="Kosovo" aliasname="-99" />
+  <country fullname="Kuwait" aliasname="KWT" />
+  <country fullname="Laos" aliasname="LAO" />
+  <country fullname="Lebanon" aliasname="LBN" />
+  <country fullname="Liberia" aliasname="LBR" />
+  <country fullname="Libya" aliasname="LBY" />
+  <country fullname="Sri Lanka" aliasname="LKA" />
+  <country fullname="Lesotho" aliasname="LSO" />
+  <country fullname="Lithuania" aliasname="LTU" />
+  <country fullname="Luxembourg" aliasname="LUX" />
+  <country fullname="Latvia" aliasname="LVA" />
+  <country fullname="Morocco" aliasname="MAR" />
+  <country fullname="Moldova" aliasname="MDA" />
+  <country fullname="Madagascar" aliasname="MDG" />
+  <country fullname="Mexico" aliasname="MEX" />
+  <country fullname="Macedonia" aliasname="MKD" />
+  <country fullname="Mali" aliasname="MLI" />
+  <country fullname="Myanmar" aliasname="MMR" />
+  <country fullname="Montenegro" aliasname="MNE" />
+  <country fullname="Mongolia" aliasname="MNG" />
+  <country fullname="Mozambique" aliasname="MOZ" />
+  <country fullname="Mauritania" aliasname="MRT" />
+  <country fullname="Malawi" aliasname="MWI" />
+  <country fullname="Malaysia" aliasname="MYS" />
+  <country fullname="Namibia" aliasname="NAM" />
+  <country fullname="New Caledonia" aliasname="NCL" />
+  <country fullname="Niger" aliasname="NER" />
+  <country fullname="Nigeria" aliasname="NGA" />
+  <country fullname="Nicaragua" aliasname="NIC" />
+  <country fullname="Netherlands" aliasname="NLD" />
+  <country fullname="Norway" aliasname="NOR" />
+  <country fullname="Nepal" aliasname="NPL" />
+  <country fullname="New Zealand" aliasname="NZL" />
+  <country fullname="Oman" aliasname="OMN" />
+  <country fullname="Pakistan" aliasname="PAK" />
+  <country fullname="Panama" aliasname="PAN" />
+  <country fullname="Peru" aliasname="PER" />
+  <country fullname="Philippines" aliasname="PHL" />
+  <country fullname="Papua New Guinea" aliasname="PNG" />
+  <country fullname="Poland" aliasname="POL" />
+  <country fullname="Puerto Rico" aliasname="PRI" />
+  <country fullname="North Korea" aliasname="PRK" />
+  <country fullname="Portugal" aliasname="PRT" />
+  <country fullname="Paraguay" aliasname="PRY" />
+  <country fullname="Qatar" aliasname="QAT" />
+  <country fullname="Romania" aliasname="ROU" />
+  <country fullname="Russia" aliasname="RUS" />
+  <country fullname="Rwanda" aliasname="RWA" />
+  <country fullname="Western Sahara" aliasname="ESH" />
+  <country fullname="Saudi Arabia" aliasname="SAU" />
+  <country fullname="Sudan" aliasname="SDN" />
+  <country fullname="South Sudan" aliasname="SSD" />
+  <country fullname="Senegal" aliasname="SEN" />
+  <country fullname="Solomon Islands" aliasname="SLB" />
+  <country fullname="Sierra Leone" aliasname="SLE" />
+  <country fullname="El Salvador" aliasname="SLV" />
+  <country fullname="Somaliland" aliasname="-99" />
+  <country fullname="Somalia" aliasname="SOM" />
+  <country fullname="Republic of Serbia" aliasname="SRB" />
+  <country fullname="Suriname" aliasname="SUR" />
+  <country fullname="Slovakia" aliasname="SVK" />
+  <country fullname="Slovenia" aliasname="SVN" />
+  <country fullname="Sweden" aliasname="SWE" />
+  <country fullname="Swaziland" aliasname="SWZ" />
+  <country fullname="Syria" aliasname="SYR" />
+  <country fullname="Chad" aliasname="TCD" />
+  <country fullname="Togo" aliasname="TGO" />
+  <country fullname="Thailand" aliasname="THA" />
+  <country fullname="Tajikistan" aliasname="TJK" />
+  <country fullname="Turkmenistan" aliasname="TKM" />
+  <country fullname="East Timor" aliasname="TLS" />
+  <country fullname="Trinidad and Tobago" aliasname="TTO" />
+  <country fullname="Tunisia" aliasname="TUN" />
+  <country fullname="Turkey" aliasname="TUR" />
+  <country fullname="Taiwan" aliasname="TWN" />
+  <country fullname="United Republic of Tanzania" aliasname="TZA" />
+  <country fullname="Uganda" aliasname="UGA" />
+  <country fullname="Ukraine" aliasname="UKR" />
+  <country fullname="Uruguay" aliasname="URY" />
+  <country fullname="United States of America" aliasname="USA" />
+  <country fullname="Uzbekistan" aliasname="UZB" />
+  <country fullname="Venezuela" aliasname="VEN" />
+  <country fullname="Vietnam" aliasname="VNM" />
+  <country fullname="Vanuatu" aliasname="VUT" />
+  <country fullname="West Bank" aliasname="PSE" />
+  <country fullname="Yemen" aliasname="YEM" />
+  <country fullname="South Africa" aliasname="ZAF" />
+  <country fullname="Zambia" aliasname="ZMB" />
+  <country fullname="Zimbabwe" aliasname="ZWE" />
+</root>

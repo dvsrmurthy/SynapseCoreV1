@@ -1,0 +1,148 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Synapse Messaging Platform</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="@Url.Content("~/IntroPagesContent/css/main.css")">
+    <style>
+        /*! CSS Used from: https://vectramind.com/assets/css/bootstrap.min.css */
+
+
+        .img-fluid {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .fw-bold {
+            font-weight: 700 !important;
+        }
+
+        .section-full {
+            width: 100%;
+            margin: 0 auto;
+            background: #ffffff50;
+        }
+
+        .integration-padding {
+            padding: 30px 150px;
+        }
+
+        @@media screen and (max-width: 767px) {
+            .integration-padding {
+                padding: 45px;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cccccc;
+            border-radius: 10px;
+            opacity: 0.5;
+        }
+
+        .fw-black {
+            font-weight: 900;
+        }
+
+        .section-heading {
+            font-size: 2.22vw;
+            font-weight: normal;
+            color: #348c44;
+        }
+
+        @@media screen and (max-width: 576px) {
+            .integration-padding {
+                padding: 20px;
+            }
+
+            .section-full {
+                margin: 60px auto 0px auto;
+            }
+
+                .section-full.integration-padding .section-heading {
+                    font-size: 3.8vw;
+                }
+        }
+
+        @@media screen and (min-width: 577px) and (max-width: 1023px) {
+            .section-full .section-heading {
+                font-size: 5vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="@Url.Action("About", "Home")">  <img src="@Url.Content("~/IntroPagesContent/images/synapselogo.svg")" alt=""> </a>
+        </div>
+        <nav class="desktop-nav">
+            <a href="@Url.Action("About", "Home")">About company</a>
+            <a href="@Url.Action("complaince", "Home")">Compliance</a>
+            <a href="@Url.Action("services", "Home")">Services</a>
+            <a href="@Url.Action("Contact", "Home")">Contact</a>
+            <a class="sign-in-btn" href="@Url.Action("Login", "Account")">Sign in</a>
+        </nav>
+    </header>
+    <main>
+        <section class="compliance-section">
+            <h1 class="compliance-title">Regulatory Compliance</h1>
+            <div class="compliance-subtitle">
+                Synapse send SMS, Whatsapp messages efficiently and professionally
+            </div>
+            <div class="compliance-grid">
+                <a href="#" class="compliance-card" download>
+                    Regulatory Compliance Document
+                    <span class="compliance-icon">
+                        <img src="@Url.Content("~/IntroPagesContent/images/down_arrow.svg")" alt="">
+                    </span>
+                </a>
+                <div class="compliance-card">
+                    Anti-Spam Regulations
+                    <span class="compliance-icon">
+                        
+                        <a href="@Url.Content("~/IntroPagesContent/pdf/spam-regulation-en.pdf")" download><img src="~/IntroPagesContent/images/english.svg" alt="" width="24"></a>
+                        <a href="@Url.Content("~/IntroPagesContent/pdf/spam-regulation-ar.pdf")" download><img src="~/IntroPagesContent/images/arabic.svg" alt="" width="24"></a>
+                    </span>
+                </div>
+                <a href="#" class="compliance-card" download>
+                    Privacy Protection System
+                    <span class="compliance-icon">
+                        <img src="@Url.Content("~/IntroPagesContent/images/down_arrow.svg")" alt="">
+                    </span>
+                </a>
+                <a href="#" class="compliance-card" download>
+                    User Rights
+                    <span class="compliance-icon">
+                        <img src="@Url.Content("~/IntroPagesContent/images/down_arrow.svg")" alt="">
+                    </span>
+                </a>
+            </div>
+        </section>
+
+
+        <section class="section-full integration-padding">
+            <h3 class="section-heading fw-bold">
+                Expand your conversational ecosystem
+                <br>with our <span class="fw-black">integration options</span>
+            </h3>
+            <img src="@Url.Content("~/IntroPagesContent/images/bottom.png")" class="img-fluid" alt="Integration options"><br>
+        </section>
+
+    </main>
+</body>
+</html>

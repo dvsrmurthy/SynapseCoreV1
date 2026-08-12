@@ -1,0 +1,5103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="A" xml:space="preserve">
+    <value>أ</value>
+  </data>
+  <data name="Accepted" xml:space="preserve">
+    <value>مقبول</value>
+  </data>
+  <data name="Accounthasbeenlockedpleasetryaftersometime" xml:space="preserve">
+    <value>لقد تم إغلاق الحساب، يرجى المحاولة بعد مرور بعض الوقت.</value>
+  </data>
+  <data name="AccountLogin" xml:space="preserve">
+    <value>دخول الحساب</value>
+  </data>
+  <data name="AccountManager" xml:space="preserve">
+    <value>مدير الحساب</value>
+  </data>
+  <data name="AccountManagerAlreadyExist" xml:space="preserve">
+    <value>مدير الحساب موجود بالفعل</value>
+  </data>
+  <data name="AccountManagerCreation" xml:space="preserve">
+    <value>إنشاء مدير الحساب</value>
+  </data>
+  <data name="AccountManagerMap" xml:space="preserve">
+    <value>خريطة مدير الحساب</value>
+  </data>
+  <data name="AccountManagers" xml:space="preserve">
+    <value>مدراء الحسابات</value>
+  </data>
+  <data name="AccountManagerView" xml:space="preserve">
+    <value>مشاهدة مدير الحساب</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>نشاط</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>نشط</value>
+  </data>
+  <data name="ActiveStatus" xml:space="preserve">
+    <value>الوضع نشط</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>أضف</value>
+  </data>
+  <data name="AddAccountManager" xml:space="preserve">
+    <value>أضفمدير الحساب</value>
+  </data>
+  <data name="AddASingleContact" xml:space="preserve">
+    <value>أضف جهة اتصال واحدة.</value>
+  </data>
+  <data name="AddatleastoneIP" xml:space="preserve">
+    <value>أضِف عنوان IP واحد على الأقل</value>
+  </data>
+  <data name="Addauser" xml:space="preserve">
+    <value>إضافة مستخدم</value>
+  </data>
+  <data name="AddCampaignTimings" xml:space="preserve">
+    <value>إضافة أوقات الحملة</value>
+  </data>
+  <data name="AddConnections" xml:space="preserve">
+    <value>إضافة اتصالات</value>
+  </data>
+  <data name="AddContacts" xml:space="preserve">
+    <value>إضافة  جهات اتصال</value>
+  </data>
+  <data name="AddContactsfromaFile" xml:space="preserve">
+    <value>أضف جهات اتصال من الملف.</value>
+  </data>
+  <data name="AddCountry" xml:space="preserve">
+    <value>أضفالدولة</value>
+  </data>
+  <data name="AddCustomer" xml:space="preserve">
+    <value>إضافة عميل</value>
+  </data>
+  <data name="AddCustomerCredits" xml:space="preserve">
+    <value>إضافة ائتمانات العميل</value>
+  </data>
+  <data name="AddDNDList" xml:space="preserve">
+    <value>إضافة قائمة DND</value>
+  </data>
+  <data name="AddDNDNumbers" xml:space="preserve">
+    <value>إضافة أرقام عدم الإزعاج</value>
+  </data>
+  <data name="AddedOn" xml:space="preserve">
+    <value>تمت الإضافة على</value>
+  </data>
+  <data name="AddFilterWords" xml:space="preserve">
+    <value>أضف كلمات الترشيح</value>
+  </data>
+  <data name="AddFilterWordsView" xml:space="preserve">
+    <value>إضافة عرض تصفية الكلمات</value>
+  </data>
+  <data name="AddGroup" xml:space="preserve">
+    <value>إضافة مجموعة</value>
+  </data>
+  <data name="AddMapDivision" xml:space="preserve">
+    <value>إضافة قسم المخططات</value>
+  </data>
+  <data name="AddMapSender" xml:space="preserve">
+    <value>إضافة مرسل الخريطة</value>
+  </data>
+  <data name="AddMOMapShortCode" xml:space="preserve">
+    <value>إضافة الرمز المختصر لخريطة MO</value>
+  </data>
+  <data name="AddNewKeyword" xml:space="preserve">
+    <value>إضافة كلمة رئيسية جديدة</value>
+  </data>
+  <data name="AddOperator" xml:space="preserve">
+    <value>المشغل أضف</value>
+  </data>
+  <data name="AddPreferredRoute" xml:space="preserve">
+    <value>إضافة الطريق المفضل</value>
+  </data>
+  <data name="AddRateCard" xml:space="preserve">
+    <value>إضافة معدل</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>العنوان</value>
+  </data>
+  <data name="AddressRange" xml:space="preserve">
+    <value>نطاق العنوان</value>
+  </data>
+  <data name="AddressRangeNPI" xml:space="preserve">
+    <value>تحديد خطة ترقيم نطاق العنوان</value>
+  </data>
+  <data name="AddressRangeTon" xml:space="preserve">
+    <value>نوع رقم نطاق العنوان</value>
+  </data>
+  <data name="AddRole" xml:space="preserve">
+    <value>إضافة دور</value>
+  </data>
+  <data name="AddRoute" xml:space="preserve">
+    <value>إضافة طريق</value>
+  </data>
+  <data name="AddSenderIDShortCode" xml:space="preserve">
+    <value>إضافة معرف/الرمز المختصر للمرسل</value>
+  </data>
+  <data name="AddSMPPMaster" xml:space="preserve">
+    <value>إضافة رسالة SMPP رئيسية</value>
+  </data>
+  <data name="AddTestSMSC" xml:space="preserve">
+    <value>إضافة SMSC اختبار</value>
+  </data>
+  <data name="AddVendorMaster" xml:space="preserve">
+    <value>إضافة مورد رئيسي</value>
+  </data>
+  <data name="AdministratorView" xml:space="preserve">
+    <value>مشاهدة المشرف</value>
+  </data>
+  <data name="AdminOperations" xml:space="preserve">
+    <value>عمليات المشرف</value>
+  </data>
+  <data name="AlertName" xml:space="preserve">
+    <value>اسم التنبيه</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>الجميع</value>
+  </data>
+  <data name="AllowDuplicateMobileNumbers" xml:space="preserve">
+    <value>السماح بتكرار أرقام الهواتف الجوالة</value>
+  </data>
+  <data name="AllowDuplicateNumbers" xml:space="preserve">
+    <value>السماح بتكرار الأرقام</value>
+  </data>
+  <data name="AllowDuplicates" xml:space="preserve">
+    <value>السماح بالتكرارات</value>
+  </data>
+  <data name="AllowedSpecialCharacters" xml:space="preserve">
+    <value>الحروف الخاصة المسموح بها</value>
+  </data>
+  <data name="AllowTransactionalCampaigns" xml:space="preserve">
+    <value>السماح بحملات المعاملات</value>
+  </data>
+  <data name="AlreadyExisted" xml:space="preserve">
+    <value>موجودة بالفعل</value>
+  </data>
+  <data name="AlreadyexistedinMOCampaign" xml:space="preserve">
+    <value>موجود بالفعل في رسائل الجوال</value>
+  </data>
+  <data name="AlreadyexistedsamerecordinActivestatus" xml:space="preserve">
+    <value>يوجد بالفعل نفس السجل في حالة التفعيل</value>
+  </data>
+  <data name="Alreadyexistedwithuser" xml:space="preserve">
+    <value>مستخدم بالفعل من قبل مستخدم آخر</value>
+  </data>
+  <data name="AlreadyExists" xml:space="preserve">
+    <value>موجودة بالفعل</value>
+  </data>
+  <data name="Alreadyftppathassigendtoanotheralerttype" xml:space="preserve">
+    <value>تم تعيين مسار بروتوكول نقل الملفات إلى نوع إنذار آخر.</value>
+  </data>
+  <data name="AlreadymappedwithCampaign" xml:space="preserve">
+    <value>تم التعيين مع الحملة بالفعل</value>
+  </data>
+  <data name="Alreadymappingexisted" xml:space="preserve">
+    <value>التعيين موجود بالفعل</value>
+  </data>
+  <data name="Analytics" xml:space="preserve">
+    <value>تحليلات</value>
+  </data>
+  <data name="Anerroroccurredwhileprocessingyourrequest" xml:space="preserve">
+    <value>حدث خطأ عند معالجة طلبك</value>
+  </data>
+  <data name="AnotherDefaultRouteinactivestatePreferedRoute" xml:space="preserve">
+    <value>مسار افتراضي آخر في حالة نشطة (مسار مفضل).</value>
+  </data>
+  <data name="ANYIPAddress" xml:space="preserve">
+    <value>أي عنوان IP</value>
+  </data>
+  <data name="APIIPWhitelist" xml:space="preserve">
+    <value>القائمة البيضاء لعنوان API IP</value>
+  </data>
+  <data name="APIIPWhitelistView" xml:space="preserve">
+    <value>عرض القائمة البيضاء لعنوان API IP</value>
+  </data>
+  <data name="ApplyChanges" xml:space="preserve">
+    <value>طبق التغييرات</value>
+  </data>
+  <data name="Arabic" xml:space="preserve">
+    <value>اللغة العربية</value>
+  </data>
+  <data name="Areyousureactiverecord" xml:space="preserve">
+    <value>هل أنت متأكد أن السجل نشط!</value>
+  </data>
+  <data name="AreyousureactiverecordAreyousureinactiverecord" xml:space="preserve">
+    <value>هل أنت متأكد من السجل النشط! : هل أنت متأكد من السجل غير النشط!</value>
+  </data>
+  <data name="Areyousureinactiverecord" xml:space="preserve">
+    <value>هل أنت متأكد أن السجل غير نشط!</value>
+  </data>
+  <data name="Areyousurestoptheprocess" xml:space="preserve">
+    <value>هل أنت متأكد من أنك تريد توقف هذه العملية</value>
+  </data>
+  <data name="Areyousuretodeleteselectedcontacts" xml:space="preserve">
+    <value>هل أنت متأكد من حذف جهات الاتصال المحددة!</value>
+  </data>
+  <data name="AreYousurewanttochangethestatus" xml:space="preserve">
+    <value>هل أنت متأكد من أنك تريد تغيير الحالة؟</value>
+  </data>
+  <data name="Areyousurewanttoproceed" xml:space="preserve">
+    <value>هل تريد بالتأكيد المتابعة!</value>
+  </data>
+  <data name="AreyousurewanttoremoveSubKeywords" xml:space="preserve">
+    <value>هل تريد بالتأكيد إزالة الكلمات الأساسية الفرعية</value>
+  </data>
+  <data name="Areyousureyouwanttochangethestatus" xml:space="preserve">
+    <value>هل أنت متأكد أنك تريد تغيير الحالة</value>
+  </data>
+  <data name="Areyousureyouwanttopermanetlydeletethisfile" xml:space="preserve">
+    <value>هل أنت متأكد من أنك تريد حذف هذا الملف نهائيًّا؟</value>
+  </data>
+  <data name="Areyousureyouwanttoproceedtofurther" xml:space="preserve">
+    <value>هل أنت متأكد من أنك تريد الاستمرار</value>
+  </data>
+  <data name="AssembleLongMessages" xml:space="preserve">
+    <value>الرسائل المجمعة الطويلة</value>
+  </data>
+  <data name="AssignPrivileges" xml:space="preserve">
+    <value>تعيين الامتيازات</value>
+  </data>
+  <data name="AtleastAddOneNumber" xml:space="preserve">
+    <value>على الأقل يُضاف رقم واحد</value>
+  </data>
+  <data name="Attachment" xml:space="preserve">
+    <value>مرفقات</value>
+  </data>
+  <data name="Attempts" xml:space="preserve">
+    <value>محاولات</value>
+  </data>
+  <data name="AuditLogView" xml:space="preserve">
+    <value>عرض سجل التدقيق</value>
+  </data>
+  <data name="AuthenticationType" xml:space="preserve">
+    <value>نوع المصادقة</value>
+  </data>
+  <data name="AutoConection" xml:space="preserve">
+    <value>الاتصال التلقائي</value>
+  </data>
+  <data name="AutoConnection" xml:space="preserve">
+    <value>الاتصال التلقائي</value>
+  </data>
+  <data name="AvailableCredits" xml:space="preserve">
+    <value>الائتمانات المتاحة</value>
+  </data>
+  <data name="AverageTPS" xml:space="preserve">
+    <value>متوسط خدمة تفضيل الهاتف</value>
+  </data>
+  <data name="B" xml:space="preserve">
+    <value>ب</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>الخلف</value>
+  </data>
+  <data name="BalanceCredits" xml:space="preserve">
+    <value>بيانات الموازنة</value>
+  </data>
+  <data name="Bind" xml:space="preserve">
+    <value>مقيد</value>
+  </data>
+  <data name="BindStatus" xml:space="preserve">
+    <value>الحالة الإلزامية</value>
+  </data>
+  <data name="BODY" xml:space="preserve">
+    <value>الجسم</value>
+  </data>
+  <data name="BulkCustomSMS" xml:space="preserve">
+    <value>الرسائل القصيرة المخصصة / بالجملة</value>
+  </data>
+  <data name="BulkSMS" xml:space="preserve">
+    <value>الرسائل القصيرة بالجملة</value>
+  </data>
+  <data name="BulkSMSView" xml:space="preserve">
+    <value>عرض كلي للرسائل النصية القصيرة</value>
+  </data>
+  <data name="Business" xml:space="preserve">
+    <value>العمل</value>
+  </data>
+  <data name="BusinessEmail" xml:space="preserve">
+    <value>البريد الإلكتروني للعمل</value>
+  </data>
+  <data name="BusinessPhone" xml:space="preserve">
+    <value>العمللهاتف</value>
+  </data>
+  <data name="BusinessRule" xml:space="preserve">
+    <value>قاعدة العمل</value>
+  </data>
+  <data name="BusinessRulealreadyexists" xml:space="preserve">
+    <value>قواعد الأعمال موجودة بالفعل</value>
+  </data>
+  <data name="BusinessRules" xml:space="preserve">
+    <value>قواعد العمل</value>
+  </data>
+  <data name="BusinessRuleView" xml:space="preserve">
+    <value>عرض قاعدة العمل</value>
+  </data>
+  <data name="ByPassDNDList" xml:space="preserve">
+    <value>تخطي قائمو السحب والإسقاط</value>
+  </data>
+  <data name="ByPassDNSList" xml:space="preserve">
+    <value>تخطي قائمة خادم اسم النطاق</value>
+  </data>
+  <data name="C" xml:space="preserve">
+    <value>ج</value>
+  </data>
+  <data name="Campaign" xml:space="preserve">
+    <value>الحملة</value>
+  </data>
+  <data name="CampaignActivity" xml:space="preserve">
+    <value>نشاط الحملة</value>
+  </data>
+  <data name="Campaignalreadyexisted" xml:space="preserve">
+    <value>الرسالة موجودة بالفعل</value>
+  </data>
+  <data name="CampaignalreadymappedinSMSTOEMAIL" xml:space="preserve">
+    <value>تم تعيين الرسالة بالفعل عبر SMSTOMAIL</value>
+  </data>
+  <data name="CampaignConfigurationView" xml:space="preserve">
+    <value>عرض تهيئة الحملة</value>
+  </data>
+  <data name="CampaignDeactivatedSuccessfully" xml:space="preserve">
+    <value>تم تعطيل الحملة مؤقتًا.</value>
+  </data>
+  <data name="CampaignDetailed" xml:space="preserve">
+    <value>الحملة مفصلة</value>
+  </data>
+  <data name="CampaignDetailedReportbetween" xml:space="preserve">
+    <value>تقرير مفصل للحملة بين</value>
+  </data>
+  <data name="CampaignDetailReport" xml:space="preserve">
+    <value>تقرير تفاصيل الحملة</value>
+  </data>
+  <data name="CampaignDetails" xml:space="preserve">
+    <value>بيانات الرسالة</value>
+  </data>
+  <data name="CampaignisInactiveyoucantactivatedthisrecord" xml:space="preserve">
+    <value>الحملة غير نشطة، لا يمكنك تنشيط هذا السجل</value>
+  </data>
+  <data name="CampaignName" xml:space="preserve">
+    <value>اسم الحملة</value>
+  </data>
+  <data name="CampaignNameAlreadyExisted" xml:space="preserve">
+    <value>اسم الرسالة موجود بالفعل</value>
+  </data>
+  <data name="Campaignnamealreadyexistedindb" xml:space="preserve">
+    <value>اسم الحملة موجود بالفعل في قاعدة البيانات</value>
+  </data>
+  <data name="CampaignNamealreadyExists" xml:space="preserve">
+    <value>اسم الرسالة موجود بالفعل.</value>
+  </data>
+  <data name="Campaignnameshouldntbeempty" xml:space="preserve">
+    <value>يجب عدم ترك اسم الرسالة فارغًا.</value>
+  </data>
+  <data name="CampaignPausedSuccessfully" xml:space="preserve">
+    <value>تم إيقاف الحملة مؤقتًا.</value>
+  </data>
+  <data name="CampaignReports" xml:space="preserve">
+    <value>تقارير الحملة</value>
+  </data>
+  <data name="CampaignReportStatus" xml:space="preserve">
+    <value>وضع تقرير الحملة</value>
+  </data>
+  <data name="CampaignResumedSuccessfully" xml:space="preserve">
+    <value>تم استشناف الحملة مؤقتًا.</value>
+  </data>
+  <data name="Campaigns" xml:space="preserve">
+    <value>الحملات</value>
+  </data>
+  <data name="Campaignsubmittedsuccessfully" xml:space="preserve">
+    <value>تم إدخال نص الرسالة بنجاح.</value>
+  </data>
+  <data name="CampaignSummary" xml:space="preserve">
+    <value>ملخص الحملة</value>
+  </data>
+  <data name="CampaignSummaryReportbetween" xml:space="preserve">
+    <value>تقارير ملخص الحملة بين</value>
+  </data>
+  <data name="CampaignSummaryReports" xml:space="preserve">
+    <value>تقارير ملخص الحملة</value>
+  </data>
+  <data name="CampaignSummery" xml:space="preserve">
+    <value>ملخص الحملة</value>
+  </data>
+  <data name="CampaignSuspendedSuccessfully" xml:space="preserve">
+    <value>تم تعليق الحملة مؤقتًا.</value>
+  </data>
+  <data name="CampaignTimings" xml:space="preserve">
+    <value>توقيتات الحملة</value>
+  </data>
+  <data name="Campaigntimingsalreadyexists" xml:space="preserve">
+    <value>مواعيد الحملة موجودة بالفعل</value>
+  </data>
+  <data name="CampaignTimingsView" xml:space="preserve">
+    <value>عرض أوقات الحملة</value>
+  </data>
+  <data name="CampaignType" xml:space="preserve">
+    <value>نوع الحملة</value>
+  </data>
+  <data name="CampaignUpdatedSuccessfully" xml:space="preserve">
+    <value>تم تحديث الحملة بنجاح</value>
+  </data>
+  <data name="Campaignwisestatistics" xml:space="preserve">
+    <value>إحصاء الرسالة</value>
+  </data>
+  <data name="CannotChangeMailServerDetailsAlreadyConfigured" xml:space="preserve">
+    <value>لا يمكن تغيير بيانات خادم البريد المكونة بالفعل</value>
+  </data>
+  <data name="CantAssignPostPaidCreditType" xml:space="preserve">
+    <value>لا يمكن تعيير نوع الائتمان المدفوع مسبقًا</value>
+  </data>
+  <data name="CCaddressshouldcontainsMobilenumberwithdomainnameandSMSmessageshouldbeinthebody" xml:space="preserve">
+    <value>يجب أن يحتوي عنوان CC على رقم المحمول مع اسم النطاق ورسالة SMS يجب أن تكون في الجسم.</value>
+  </data>
+  <data name="CCEmail" xml:space="preserve">
+    <value>نسخة إلى البريد الإلكتروني</value>
+  </data>
+  <data name="CCMail" xml:space="preserve">
+    <value>البريد الإلكتروني الموجه له نسخة</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>تغيير كلمة السر</value>
+  </data>
+  <data name="ChangePasswordonFirstLogin" xml:space="preserve">
+    <value>تغيير كلمة السر عند الدخول الأول</value>
+  </data>
+  <data name="ChangeStatus" xml:space="preserve">
+    <value>تغيير الحالة</value>
+  </data>
+  <data name="Character" xml:space="preserve">
+    <value>الحرف</value>
+  </data>
+  <data name="CharacterS" xml:space="preserve">
+    <value>الحرف (الأحرف)</value>
+  </data>
+  <data name="Charset" xml:space="preserve">
+    <value>طقم محارف</value>
+  </data>
+  <data name="Check" xml:space="preserve">
+    <value>تحقق</value>
+  </data>
+  <data name="Checked" xml:space="preserve">
+    <value>محدد</value>
+  </data>
+  <data name="Choose" xml:space="preserve">
+    <value>اختر</value>
+  </data>
+  <data name="Choosefile" xml:space="preserve">
+    <value>اختر ملفًا</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="Click" xml:space="preserve">
+    <value>انقر</value>
+  </data>
+  <data name="ClickHEREtoaddmobilenumber" xml:space="preserve">
+    <value>إضغط هنا لإضافة رقم الجوال</value>
+  </data>
+  <data name="ClickHeretoaddRoute" xml:space="preserve">
+    <value>إضغط هنا لإضافة مسار</value>
+  </data>
+  <data name="ClickHeretoaddSMPPIPDetails" xml:space="preserve">
+    <value>إضغط هنا لإضافة بروتوكول الإنترنت للرسائل النصية القصيرة من النظير للنظير</value>
+  </data>
+  <data name="ColumnList" xml:space="preserve">
+    <value>قائمة العمود</value>
+  </data>
+  <data name="commaseparatedmobilenumbers" xml:space="preserve">
+    <value>أرقام الهواتف المحمولة مفصولة بفاصلة،</value>
+  </data>
+  <data name="CommonMessages" xml:space="preserve">
+    <value>الرسائل الشائعة</value>
+  </data>
+  <data name="CommonWords" xml:space="preserve">
+    <value>الكلمات الشائعة</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>مكتمل</value>
+  </data>
+  <data name="Component" xml:space="preserve">
+    <value>العنصر</value>
+  </data>
+  <data name="ComposeBulkSMS" xml:space="preserve">
+    <value>كتابة رسائل قصيرة مجمعة</value>
+  </data>
+  <data name="ComposeCustomSMS" xml:space="preserve">
+    <value>إنشاء رسالة نصية مخصصة</value>
+  </data>
+  <data name="ComposeQuickSMS" xml:space="preserve">
+    <value>أنشئ رسائل نصية قصيرة سريعة جديدة</value>
+  </data>
+  <data name="ComposeSimpleSMS" xml:space="preserve">
+    <value>اكتب رسالة نصية بسيطة</value>
+  </data>
+  <data name="ComposeTestSMSC" xml:space="preserve">
+    <value>تكوين SMSC اختبار</value>
+  </data>
+  <data name="ConfiguredRules" xml:space="preserve">
+    <value>القواعد التي تم تكوينها</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>تأكيد كلمة السر</value>
+  </data>
+  <data name="ConfirmPasswordNotmatchedwithgivenPassword" xml:space="preserve">
+    <value>تأكيد كلمة المرور غير متطابق مع كلمة المرور المسجلة</value>
+  </data>
+  <data name="Connectionestablishedsuccessfully" xml:space="preserve">
+    <value>تم إنشاء الاتصال بنجاح.</value>
+  </data>
+  <data name="ConnectionName" xml:space="preserve">
+    <value>اسم الرابط</value>
+  </data>
+  <data name="Connections" xml:space="preserve">
+    <value>الروابط</value>
+  </data>
+  <data name="ConnectionsView" xml:space="preserve">
+    <value>عرض الاتصالات</value>
+  </data>
+  <data name="Consolation" xml:space="preserve">
+    <value>ترضية</value>
+  </data>
+  <data name="Contactalreadyexistswiththegivendetails" xml:space="preserve">
+    <value>جهة الاتصال موجودة بالفعل مع تفاصيل معينة</value>
+  </data>
+  <data name="ContactNumber" xml:space="preserve">
+    <value>رقم الاتصال</value>
+  </data>
+  <data name="ContactPerson" xml:space="preserve">
+    <value>مسؤول الاتصال</value>
+  </data>
+  <data name="Contacts" xml:space="preserve">
+    <value>الاتصالات</value>
+  </data>
+  <data name="Contactsdeletedsuccessfully" xml:space="preserve">
+    <value>تم حذف جهة الاتصال (جهات الاتصال) بنجاح</value>
+  </data>
+  <data name="ContactsGroupNameshouldbespecifiedintheSubjectandSMSmessageshouldbespecifiedinthebody" xml:space="preserve">
+    <value>يجب تحديد اسم مجموعة جهات الاتصال في الموضوع و يجب تحديد رسالة SMS في الجسم.</value>
+  </data>
+  <data name="ContactsView" xml:space="preserve">
+    <value>عرض جهات الاتصال</value>
+  </data>
+  <data name="Counry" xml:space="preserve">
+    <value>الدولة</value>
+  </data>
+  <data name="Count" xml:space="preserve">
+    <value>العدد</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>الدولة</value>
+  </data>
+  <data name="CountryAddedSuccessfully" xml:space="preserve">
+    <value>تم إضافة الدولة بنجاح.</value>
+  </data>
+  <data name="CountryCode" xml:space="preserve">
+    <value>رمز البلد</value>
+  </data>
+  <data name="CountrycodeneedstobeappendedtoMobilenumberforEx971" xml:space="preserve">
+    <value>3 -- يجب إضافة كود الدولة إلى رقم هاتف الجوال مثل: 971</value>
+  </data>
+  <data name="CountryMaster" xml:space="preserve">
+    <value>الخط الرئيسي للدولة</value>
+  </data>
+  <data name="CountryName" xml:space="preserve">
+    <value>الدولةاسم</value>
+  </data>
+  <data name="CountrynotAdded" xml:space="preserve">
+    <value>لم يتم إضافة الدولة</value>
+  </data>
+  <data name="CountryNotaddedContactyourSystemAdmin" xml:space="preserve">
+    <value>لم يتم إضافة الدولة اتصل بمسؤول النظام الخاص بك.</value>
+  </data>
+  <data name="CountrynotAddedISDCode" xml:space="preserve">
+    <value>لم يتم إضافة الدولة، رمز الاتصال الدولي</value>
+  </data>
+  <data name="CountrynotUpdated" xml:space="preserve">
+    <value>لم يتم تحديث الدولة</value>
+  </data>
+  <data name="CountrynotUpdatedISDCode" xml:space="preserve">
+    <value>لم يتم تحديث الدولة، رمز الاتصال الدولي</value>
+  </data>
+  <data name="CountrySenderWise" xml:space="preserve">
+    <value>بالنسبة للدولة والمرسل</value>
+  </data>
+  <data name="CountryUpdateSuccessfully" xml:space="preserve">
+    <value>تم تحديث الدولة بنجاح.</value>
+  </data>
+  <data name="CountryView" xml:space="preserve">
+    <value>عرض البلد</value>
+  </data>
+  <data name="Countshouldnotbezero" xml:space="preserve">
+    <value>لا يجب أن يكون المجموع زيرو.</value>
+  </data>
+  <data name="Coupon" xml:space="preserve">
+    <value>قسيمة</value>
+  </data>
+  <data name="CouponNumber" xml:space="preserve">
+    <value>رقم الكوبون</value>
+  </data>
+  <data name="CreateaContactList" xml:space="preserve">
+    <value>أنشئ قائمة بجهات الاتصال.</value>
+  </data>
+  <data name="CreateBusinessRules" xml:space="preserve">
+    <value>إنشاء قواعد عمل</value>
+  </data>
+  <data name="CreateCampaign" xml:space="preserve">
+    <value>أنشئ حملة</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>تم الإنشاء</value>
+  </data>
+  <data name="CreatedBy" xml:space="preserve">
+    <value>تم إنشاؤه بواسطة</value>
+  </data>
+  <data name="CreatedOn" xml:space="preserve">
+    <value>تم الإنشاء بتاريخ</value>
+  </data>
+  <data name="Createdsuccessfully" xml:space="preserve">
+    <value>تم الإنشاء بنجاح</value>
+  </data>
+  <data name="CreateEmailTemplate" xml:space="preserve">
+    <value>إنشاء قالب البريد الإلكتروني</value>
+  </data>
+  <data name="CreateKeyword" xml:space="preserve">
+    <value>أنشئ الكلمة الرئيسية</value>
+  </data>
+  <data name="CreateProfile" xml:space="preserve">
+    <value>إنشاء ملف تعريف</value>
+  </data>
+  <data name="CreateToCustomerCount" xml:space="preserve">
+    <value>إنشاء إلى عدد العملاء</value>
+  </data>
+  <data name="Creatingfailedtoinformation" xml:space="preserve">
+    <value>فشل في إنشاء المعلومات.</value>
+  </data>
+  <data name="CreditAllocationonlyforPrepaidCustomer" xml:space="preserve">
+    <value>تخصيص الائتمان فقط للعميل الذي دفع مسبقًا</value>
+  </data>
+  <data name="CreditManagement" xml:space="preserve">
+    <value>إدارة الائتمان</value>
+  </data>
+  <data name="Credits" xml:space="preserve">
+    <value>الائتمانات</value>
+  </data>
+  <data name="CreditsPerMessage" xml:space="preserve">
+    <value>بيانات كل رسالة</value>
+  </data>
+  <data name="CreditsPerMsg" xml:space="preserve">
+    <value>ائتمانات للرسائل</value>
+  </data>
+  <data name="CreditSystem" xml:space="preserve">
+    <value>نظام الائتمان</value>
+  </data>
+  <data name="CreditType" xml:space="preserve">
+    <value>نوع الائتمان</value>
+  </data>
+  <data name="Currency" xml:space="preserve">
+    <value>العملة</value>
+  </data>
+  <data name="CurrentBalance" xml:space="preserve">
+    <value>رصيد العميل</value>
+  </data>
+  <data name="CurrentLocation" xml:space="preserve">
+    <value>الموقع الحالي</value>
+  </data>
+  <data name="CustExpired" xml:space="preserve">
+    <value>انتهت صلاحية العميل.</value>
+  </data>
+  <data name="CustInActive" xml:space="preserve">
+    <value>عميل غير نشط.</value>
+  </data>
+  <data name="CustomColumn" xml:space="preserve">
+    <value>عمود مخصص</value>
+  </data>
+  <data name="Customer" xml:space="preserve">
+    <value>العميل</value>
+  </data>
+  <data name="Customeralreadyexistedindb" xml:space="preserve">
+    <value>العميل موجود بالفعل في قاعدة الباينات.</value>
+  </data>
+  <data name="Customeralreadyexistedindbwithgivenname" xml:space="preserve">
+    <value>العميل موجود بالفعل في قاعدة البيانات باسمه المذكور.</value>
+  </data>
+  <data name="CustomerAlreadyExists" xml:space="preserve">
+    <value>العميل موجود بالفعل.</value>
+  </data>
+  <data name="CustomerCreation" xml:space="preserve">
+    <value>إنشاء عميل</value>
+  </data>
+  <data name="Customercreationcountelapsed" xml:space="preserve">
+    <value>تم إنقضاء حساب إنشاء العميل</value>
+  </data>
+  <data name="CustomerCredits" xml:space="preserve">
+    <value>ائتمانات العملاء</value>
+  </data>
+  <data name="CustomerCreditsView" xml:space="preserve">
+    <value>عرض ائتمانات العميل</value>
+  </data>
+  <data name="CustomerDetails" xml:space="preserve">
+    <value>بيانات العميل</value>
+  </data>
+  <data name="CustomerExpired" xml:space="preserve">
+    <value>انتهت صلاحية العميل</value>
+  </data>
+  <data name="Customerexpiredpleasecontactadmin" xml:space="preserve">
+    <value>انتهت صلاحية حساب المستخدم، يرجى الاتصال بالمسؤول.</value>
+  </data>
+  <data name="CustomerExpirydateexceeded" xml:space="preserve">
+    <value>تم تجاوز تاريخ انتهاء صلاحية العميل.</value>
+  </data>
+  <data name="CustomerisinInActivestate" xml:space="preserve">
+    <value>العميل في حالة غير نشطة</value>
+  </data>
+  <data name="CustomerName" xml:space="preserve">
+    <value>اسم العميل</value>
+  </data>
+  <data name="CustomerNotApprovedInactivated" xml:space="preserve">
+    <value>لم تتم الموافقة على العميل / إلغاء تنشيط حساب العميل.</value>
+  </data>
+  <data name="CustomerPreference" xml:space="preserve">
+    <value>تفضيلات العميل</value>
+  </data>
+  <data name="CustomerPreferences" xml:space="preserve">
+    <value>تفضيلات العميل</value>
+  </data>
+  <data name="CustomerPreferencesareinInActiveState" xml:space="preserve">
+    <value>تفضيلات العميل غير نشطة</value>
+  </data>
+  <data name="Customers" xml:space="preserve">
+    <value>العملاء</value>
+  </data>
+  <data name="CustomerType" xml:space="preserve">
+    <value>نوع العميل</value>
+  </data>
+  <data name="CustomerUserWise" xml:space="preserve">
+    <value>بالنسبة للعميل والمستخدم</value>
+  </data>
+  <data name="CustomerView" xml:space="preserve">
+    <value>مشاهدة العميل</value>
+  </data>
+  <data name="CustomerWise" xml:space="preserve">
+    <value>بالنسبة للعميل</value>
+  </data>
+  <data name="CustomSMS" xml:space="preserve">
+    <value>الرسائل القصيرة المخصصة</value>
+  </data>
+  <data name="CustomSMSView" xml:space="preserve">
+    <value>عرض رسالة نصية مخصصة</value>
+  </data>
+  <data name="CustPrefInActive" xml:space="preserve">
+    <value>تفضيلات العميل غير نشظة.</value>
+  </data>
+  <data name="D" xml:space="preserve">
+    <value>1 يوم</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>لوحة التحكم</value>
+  </data>
+  <data name="DataBackup" xml:space="preserve">
+    <value>النسخ الاحتياطي للبيانات</value>
+  </data>
+  <data name="DatabaseName" xml:space="preserve">
+    <value>اسم قاعدة البيانات</value>
+  </data>
+  <data name="DatabaseSearch" xml:space="preserve">
+    <value>بحث قاعدة البيانات</value>
+  </data>
+  <data name="DatabaseType" xml:space="preserve">
+    <value>نوع قاعدة البيانات</value>
+  </data>
+  <data name="DatanotAvailable" xml:space="preserve">
+    <value>البيانات غير متوفرة</value>
+  </data>
+  <data name="Datanotexistsinuploadedfile" xml:space="preserve">
+    <value>لا يوجد تاريخ في الملف المحمل</value>
+  </data>
+  <data name="datanotfound" xml:space="preserve">
+    <value>لم يتم العثور على البيانات.</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>التاريخ</value>
+  </data>
+  <data name="DateTime" xml:space="preserve">
+    <value>التاريخ والوقت</value>
+  </data>
+  <data name="DateWiseLoadLast48hours" xml:space="preserve">
+    <value>التحميل اليومي (يدوم 48 ساعة)</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>اليوم</value>
+  </data>
+  <data name="DayofWeek" xml:space="preserve">
+    <value>يوم في الأسبوع</value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>الأيام</value>
+  </data>
+  <data name="DaysLefttoExpiry" xml:space="preserve">
+    <value>الأيام المتبقية على تاريخ الصلاحية:</value>
+  </data>
+  <data name="Daysmustbelessthan31" xml:space="preserve">
+    <value>يجب أن يكون اليوم أقل من "31"</value>
+  </data>
+  <data name="DayTotal" xml:space="preserve">
+    <value>إجمالي الأيام</value>
+  </data>
+  <data name="Daywisestatistics" xml:space="preserve">
+    <value>الإحصاء اليومي</value>
+  </data>
+  <data name="DBType" xml:space="preserve">
+    <value>نوع قاعدة البيانات</value>
+  </data>
+  <data name="DCS" xml:space="preserve">
+    <value>نظام تحكم موزع</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>الإفتراضي</value>
+  </data>
+  <data name="DefaultDB" xml:space="preserve">
+    <value>قاعدة البيانات الافتراضية</value>
+  </data>
+  <data name="DefaultRoutealreadyExists" xml:space="preserve">
+    <value>المسار الافتراضي موجود بالفعل.</value>
+  </data>
+  <data name="DefaultTemplates" xml:space="preserve">
+    <value>قوالب إفتراضية</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="DeleteFile" xml:space="preserve">
+    <value>حذف الملف</value>
+  </data>
+  <data name="DelieveryReport" xml:space="preserve">
+    <value>تقرير التسليم</value>
+  </data>
+  <data name="Delivered" xml:space="preserve">
+    <value>تم التسليم</value>
+  </data>
+  <data name="DeliveryDate" xml:space="preserve">
+    <value>تاريخ التسليم</value>
+  </data>
+  <data name="DeliveryRate" xml:space="preserve">
+    <value>معدل التسليم</value>
+  </data>
+  <data name="DeliveryReport" xml:space="preserve">
+    <value>تقرير التوصيل</value>
+  </data>
+  <data name="DeliveryReportRequired" xml:space="preserve">
+    <value>تقرير التسليم مطلوب</value>
+  </data>
+  <data name="DEMOSYNAPSE" xml:space="preserve">
+    <value>عرض توضيحي لـSYNAPSE</value>
+  </data>
+  <data name="Department" xml:space="preserve">
+    <value>القسم</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>الوصف</value>
+  </data>
+  <data name="Destination" xml:space="preserve">
+    <value>الوجهة</value>
+  </data>
+  <data name="DestinationMail" xml:space="preserve">
+    <value>البريد الإلكتروني المرسل إليه</value>
+  </data>
+  <data name="DestNPI" xml:space="preserve">
+    <value>تحديد خطة ترقيم الوجهة</value>
+  </data>
+  <data name="DestTon" xml:space="preserve">
+    <value>نوع رقم الوجهة</value>
+  </data>
+  <data name="DetailAnalysis" xml:space="preserve">
+    <value>تحليل البيانات</value>
+  </data>
+  <data name="DigitsOnly" xml:space="preserve">
+    <value>أرقام فقط.</value>
+  </data>
+  <data name="DirectOutBound" xml:space="preserve">
+    <value>التوجيه للخارج مباشرة</value>
+  </data>
+  <data name="DispatchedSID" xml:space="preserve">
+    <value>معرِّف المرسل الذي تم إرساله</value>
+  </data>
+  <data name="DispatchSenderID" xml:space="preserve">
+    <value>إرسال مُعرف المُرسل</value>
+  </data>
+  <data name="DispatchType" xml:space="preserve">
+    <value>نوع الإرسال</value>
+  </data>
+  <data name="Division" xml:space="preserve">
+    <value>القسم</value>
+  </data>
+  <data name="DNDExcelFileShouldbeinthisFormat" xml:space="preserve">
+    <value>يجب أن يكون ملف DND Excel بهذه الهيئة</value>
+  </data>
+  <data name="DNDList" xml:space="preserve">
+    <value>سحب القائمة وإسقاطها</value>
+  </data>
+  <data name="DNDListView" xml:space="preserve">
+    <value>عرض قائمة DND</value>
+  </data>
+  <data name="DNDNotepadFileShouldbeinthisFormat" xml:space="preserve">
+    <value>ملف مفكرة عدم الإرسال يجب أن يكون بهذا التنسيق</value>
+  </data>
+  <data name="Domain" xml:space="preserve">
+    <value>النطاق</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>التحميل</value>
+  </data>
+  <data name="DownloadLookupResultFiles" xml:space="preserve">
+    <value>تحميل ملفات نتائج البحث</value>
+  </data>
+  <data name="duetootheryouraccountlockedpleasecontactsystemadmin" xml:space="preserve">
+    <value>نظرًا لإغلاق حسابك الآخر، يرجى الاتصال بمسؤول النظام.</value>
+  </data>
+  <data name="DuplicateColumnPleasetryagain" xml:space="preserve">
+    <value>كرِّر العمود. يرجى المحاولة مرة أخرى.</value>
+  </data>
+  <data name="DuplicateFilterWords" xml:space="preserve">
+    <value>تكرار ترشيح الكلمات.</value>
+  </data>
+  <data name="DUPLICATEMOBILENOs" xml:space="preserve">
+    <value>أرقام هاتف مكررة.</value>
+  </data>
+  <data name="DuplicateMobileNumber" xml:space="preserve">
+    <value>تكرار رقم الهاتف النقال.</value>
+  </data>
+  <data name="DuplicateMobilenumbersfound" xml:space="preserve">
+    <value>تم العثور على أرقام جوال متكررة.</value>
+  </data>
+  <data name="DuplicateName" xml:space="preserve">
+    <value>اسم متكرر</value>
+  </data>
+  <data name="Duplicaterecord" xml:space="preserve">
+    <value>تسجيل متكرر.</value>
+  </data>
+  <data name="DuplicateRecordsContainUploadedFile" xml:space="preserve">
+    <value>تحتوت السجلات المكررة على ملف تم رفعه.</value>
+  </data>
+  <data name="EditAuditLogs" xml:space="preserve">
+    <value>عدِّل سجلات التدقيق</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>البريد الإلكتروني</value>
+  </data>
+  <data name="EmailAddress" xml:space="preserve">
+    <value>عنوان البريد الإلكتروني</value>
+  </data>
+  <data name="EmailAddressBusiness" xml:space="preserve">
+    <value>عنوان البريد الإلكتروني (العمل)</value>
+  </data>
+  <data name="EmailAddressTechnical" xml:space="preserve">
+    <value>عنوان البريد الإلكتروني (الفني)</value>
+  </data>
+  <data name="EmailConfigurationsSuccessfullyconnected" xml:space="preserve">
+    <value>تكوينات البريد الإلكتروني متصلة بنجاح</value>
+  </data>
+  <data name="EmailField" xml:space="preserve">
+    <value>حقل البريد الإلكتروني</value>
+  </data>
+  <data name="EmailFormat" xml:space="preserve">
+    <value>شكل البريد الإلكتروني</value>
+  </data>
+  <data name="EmailLink" xml:space="preserve">
+    <value>رابط البريد الإلكتروني</value>
+  </data>
+  <data name="EmailSignature" xml:space="preserve">
+    <value>توقيع البريد الإلكتروني</value>
+  </data>
+  <data name="EmailSubject" xml:space="preserve">
+    <value>موضوع البريد الإلكتروني</value>
+  </data>
+  <data name="EmailTemplate" xml:space="preserve">
+    <value>قالب البريد الإلكتروني</value>
+  </data>
+  <data name="EmailTemplatePreview" xml:space="preserve">
+    <value>عرض قالب البريد الإلكتروني</value>
+  </data>
+  <data name="EmailToSMS" xml:space="preserve">
+    <value>البريد الإلكتروني إلى خدمة الرسائل القصيرة</value>
+  </data>
+  <data name="EmailToSMSView" xml:space="preserve">
+    <value>عرض إرسال البريد الإلكتروني إلى الرسالة النصية</value>
+  </data>
+  <data name="EmailType" xml:space="preserve">
+    <value>نوع البريد الإلكتروني</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>تمكين</value>
+  </data>
+  <data name="Encryption" xml:space="preserve">
+    <value>التشفير</value>
+  </data>
+  <data name="End" xml:space="preserve">
+    <value>النهاية</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>تاريخ الانتهاء</value>
+  </data>
+  <data name="EndDateshouldnotbelessthantostartdate" xml:space="preserve">
+    <value>يجب ألا يكون تاريخ الانتهاء أقل من تاريخ البدء</value>
+  </data>
+  <data name="Endtag" xml:space="preserve">
+    <value>وسم النهاية</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="EnglishArabic" xml:space="preserve">
+    <value>الإنجليزية / العربية</value>
+  </data>
+  <data name="EnquiryInterval" xml:space="preserve">
+    <value>تحقيق الفاصل الزمني</value>
+  </data>
+  <data name="EnterKeyword" xml:space="preserve">
+    <value>أدخل الكلمة الأساسية</value>
+  </data>
+  <data name="EnterMessage" xml:space="preserve">
+    <value>أدخل رسالة</value>
+  </data>
+  <data name="EnterMobileNumbers" xml:space="preserve">
+    <value>أدخل أرقام الهاتف الجوال</value>
+  </data>
+  <data name="ENTERPRISE" xml:space="preserve">
+    <value>مؤسسة</value>
+  </data>
+  <data name="EnterShortcode" xml:space="preserve">
+    <value>أدخل الرمز المختصر</value>
+  </data>
+  <data name="EnterYourEmail" xml:space="preserve">
+    <value>أدخل البريد الإلكتروني الخاص بك</value>
+  </data>
+  <data name="Entries" xml:space="preserve">
+    <value>المدخلات</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>خطأ</value>
+  </data>
+  <data name="ErroringeneratingXML" xml:space="preserve">
+    <value>خطأ في إنشاء XML</value>
+  </data>
+  <data name="ErrorInSavingInformation" xml:space="preserve">
+    <value>فشل في حفظ المعلومات.</value>
+  </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>رسالة الخطأ</value>
+  </data>
+  <data name="ErrorResponse" xml:space="preserve">
+    <value>خطأ الرد</value>
+  </data>
+  <data name="ErrorwhileInsertion" xml:space="preserve">
+    <value>خطأ عند الإدراج.</value>
+  </data>
+  <data name="EveryDay" xml:space="preserve">
+    <value>كل يوم</value>
+  </data>
+  <data name="EveryHour" xml:space="preserve">
+    <value>كل ساعة</value>
+  </data>
+  <data name="EveryMinute" xml:space="preserve">
+    <value>كل دقيقة</value>
+  </data>
+  <data name="EverySecond" xml:space="preserve">
+    <value>كل ثانية</value>
+  </data>
+  <data name="ExceptionOccured" xml:space="preserve">
+    <value>حدوث استثناء</value>
+  </data>
+  <data name="ExcludingCountryCode" xml:space="preserve">
+    <value>استثناء رمز الدولة</value>
+  </data>
+  <data name="ExpiryDate" xml:space="preserve">
+    <value>تاريخ الصلاحية</value>
+  </data>
+  <data name="ExportContacts" xml:space="preserve">
+    <value>تصدير جهات الاتصال.</value>
+  </data>
+  <data name="Exportto" xml:space="preserve">
+    <value>إرسال إلى</value>
+  </data>
+  <data name="ExporttoCSV" xml:space="preserve">
+    <value>تصدير إلى ملف بصيغة قيم منفصلة بفواصل</value>
+  </data>
+  <data name="ExporttoExcel" xml:space="preserve">
+    <value>تصدير إلى ملف بصيغة الإكسيل</value>
+  </data>
+  <data name="ExporttoPDF" xml:space="preserve">
+    <value>تصدير إلى ملف بصيغة بي دي إف</value>
+  </data>
+  <data name="Exvectramindcom" xml:space="preserve">
+    <value>مثال: vectramind.com</value>
+  </data>
+  <data name="Failed" xml:space="preserve">
+    <value>فشل</value>
+  </data>
+  <data name="FailedRecords" xml:space="preserve">
+    <value>تقارير الفشل</value>
+  </data>
+  <data name="Failedtoapproved" xml:space="preserve">
+    <value>فشل في الموافقة.</value>
+  </data>
+  <data name="FailedtoDbConnectionsandStatement" xml:space="preserve">
+    <value>تعذر الوصول إلى اتصالات وكشف قاعدة البيانات</value>
+  </data>
+  <data name="Failedtodeletecontact" xml:space="preserve">
+    <value>فشل في حذف جهة الاتصال</value>
+  </data>
+  <data name="Failedtosaveinformation" xml:space="preserve">
+    <value>فشل في حفظ المعلومات.</value>
+  </data>
+  <data name="Failedtosavethefile" xml:space="preserve">
+    <value>فشل حفظ الملف</value>
+  </data>
+  <data name="Failedtosavetheinformation" xml:space="preserve">
+    <value>فشل حفظ المعلومات.</value>
+  </data>
+  <data name="Failedtoupdate" xml:space="preserve">
+    <value>فشل في التحديث.</value>
+  </data>
+  <data name="Failedtoupdateinformation" xml:space="preserve">
+    <value>فشل في تحديث المعلومات.</value>
+  </data>
+  <data name="FailedtoUpdateyourrequest" xml:space="preserve">
+    <value>فشل في تحديث طلبك</value>
+  </data>
+  <data name="FAQ" xml:space="preserve">
+    <value>الأسئلة المتداولة</value>
+  </data>
+  <data name="Fax" xml:space="preserve">
+    <value>الفاكس</value>
+  </data>
+  <data name="Feature" xml:space="preserve">
+    <value>خاصية</value>
+  </data>
+  <data name="Features" xml:space="preserve">
+    <value>المميزات</value>
+  </data>
+  <data name="FeaturesprivilegesSetup" xml:space="preserve">
+    <value>إعداد امتيازات الميزات</value>
+  </data>
+  <data name="Filedeletedbysomeone" xml:space="preserve">
+    <value>تم حذف الملف بواسطة أحد الأشخاص</value>
+  </data>
+  <data name="FileDeletedSuccessfully" xml:space="preserve">
+    <value>تم حذف الملف بنجاح.</value>
+  </data>
+  <data name="FileName" xml:space="preserve">
+    <value>اسم الملف</value>
+  </data>
+  <data name="FilenotExist" xml:space="preserve">
+    <value>الملف غير موجود.</value>
+  </data>
+  <data name="Filenotfound" xml:space="preserve">
+    <value>لم يتم العثور على الملف</value>
+  </data>
+  <data name="FilePath" xml:space="preserve">
+    <value>مسار الملف</value>
+  </data>
+  <data name="FileSeparator" xml:space="preserve">
+    <value>فاصل الملفات</value>
+  </data>
+  <data name="Fileshouldcontainheaderinformation" xml:space="preserve">
+    <value>يجب أن يحتوى الملف على معلومات رأسية</value>
+  </data>
+  <data name="FilterByRecords" xml:space="preserve">
+    <value>الترشيح بواسطة السجلات</value>
+  </data>
+  <data name="FilterWord" xml:space="preserve">
+    <value>كلمة الترشيح</value>
+  </data>
+  <data name="FilterWords" xml:space="preserve">
+    <value>كلمات الترشيح</value>
+  </data>
+  <data name="FilterWordsFileShouldbeinthisFormat" xml:space="preserve">
+    <value>يجب أن يكون ملف كلمات التصفية بهذا التنسيق</value>
+  </data>
+  <data name="FinanceCustomerSummary" xml:space="preserve">
+    <value>ملخص مالي للعميل</value>
+  </data>
+  <data name="FinanceSummary" xml:space="preserve">
+    <value>ملخص مالي</value>
+  </data>
+  <data name="FinanceVendorSummary" xml:space="preserve">
+    <value>ملخص مالي للبائع</value>
+  </data>
+  <data name="Finish" xml:space="preserve">
+    <value>إنهاء</value>
+  </data>
+  <data name="Firstcharactershouldnotbe0" xml:space="preserve">
+    <value>يجب ألا يكون العنصر الأول صفر (0)</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>الاسم الأول</value>
+  </data>
+  <data name="Footer" xml:space="preserve">
+    <value>التذييل</value>
+  </data>
+  <data name="FooterNotes" xml:space="preserve">
+    <value>ملاحظات التذييل</value>
+  </data>
+  <data name="Formats" xml:space="preserve">
+    <value>أشكال</value>
+  </data>
+  <data name="FormatsTemplate" xml:space="preserve">
+    <value>التنسيقات/النموذج</value>
+  </data>
+  <data name="Forward" xml:space="preserve">
+    <value>إعادة التوجيه</value>
+  </data>
+  <data name="ForwardBox" xml:space="preserve">
+    <value>صندوق إعادة توجيه</value>
+  </data>
+  <data name="ForwardDate" xml:space="preserve">
+    <value>تاريخ إعادة توجيه</value>
+  </data>
+  <data name="ForwardType" xml:space="preserve">
+    <value>نوع إعادة توجيه</value>
+  </data>
+  <data name="ForwardURL" xml:space="preserve">
+    <value>إعادة توجيه محدد المصدر الموحد</value>
+  </data>
+  <data name="ForwardURLSMPP" xml:space="preserve">
+    <value>إعادة توجيه URL / SMPP</value>
+  </data>
+  <data name="Forwardview" xml:space="preserve">
+    <value>عرض نافذة  التوجيه</value>
+  </data>
+  <data name="ForwaredDate" xml:space="preserve">
+    <value>تاريخ إعادة التوجيه</value>
+  </data>
+  <data name="ForxlsxlsxsheetDatashouldbeatSheet1" xml:space="preserve">
+    <value>يجب أن تكون البيانات في الورقة 1 في الورقات ذات الامتداد: xls/xlsx.</value>
+  </data>
+  <data name="ForxlsxlsxthesheetnamemustbeSheet1" xml:space="preserve">
+    <value>يجب أن يكون اسم الورقة (الورقة 1) في الورقات ذات الامتداد: xls/xlsx.</value>
+  </data>
+  <data name="FristPrize" xml:space="preserve">
+    <value>الجائزة الأولى</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>من</value>
+  </data>
+  <data name="FromAliasname" xml:space="preserve">
+    <value>من/ الاسم المستعار</value>
+  </data>
+  <data name="FromAliesName" xml:space="preserve">
+    <value>من اسم مستعار</value>
+  </data>
+  <data name="FromDate" xml:space="preserve">
+    <value>من تاريخ</value>
+  </data>
+  <data name="FromEmail" xml:space="preserve">
+    <value>من البريد الإلكتروني</value>
+  </data>
+  <data name="Fromemailalreadyconfiguredchooseanotherfrommail" xml:space="preserve">
+    <value>تم تشكيل بريد المرسل بالفعل، اختر بريدًا آخر من البريد</value>
+  </data>
+  <data name="FromName" xml:space="preserve">
+    <value>اسم المرسل</value>
+  </data>
+  <data name="FromtimeshouldbelessthanTotime" xml:space="preserve">
+    <value>مون وقت لآخر يجب أن يكون أقل</value>
+  </data>
+  <data name="FullAddress" xml:space="preserve">
+    <value>العنوان بالكامل</value>
+  </data>
+  <data name="GenarateasaGroupofXML" xml:space="preserve">
+    <value>أنشئها باعتبارها مجموعة من لغة الترميز القابلة للامتداد</value>
+  </data>
+  <data name="GenarateClientConfig" xml:space="preserve">
+    <value>إنشاء تكوين العميل</value>
+  </data>
+  <data name="GenarateServerConfig" xml:space="preserve">
+    <value>إنشاء تكوين الخادم</value>
+  </data>
+  <data name="Generate" xml:space="preserve">
+    <value>أنشأ</value>
+  </data>
+  <data name="Generatedby" xml:space="preserve">
+    <value>تم إنشاؤها بواسطة</value>
+  </data>
+  <data name="GenerateVIPConfig" xml:space="preserve">
+    <value>إنشاء تهئية VIP</value>
+  </data>
+  <data name="GivenInformationisWrong" xml:space="preserve">
+    <value>المعلومات المقدمة خاطئة</value>
+  </data>
+  <data name="Go" xml:space="preserve">
+    <value>ذهاب</value>
+  </data>
+  <data name="GrandTotal" xml:space="preserve">
+    <value>الإجمالي الكلي</value>
+  </data>
+  <data name="GroupAlreadyExists" xml:space="preserve">
+    <value>الموجوعة موجودة بالفعل.</value>
+  </data>
+  <data name="GroupCreatedBy" xml:space="preserve">
+    <value>تم إنشاء المجموعة بواسطة</value>
+  </data>
+  <data name="GroupName" xml:space="preserve">
+    <value>اسم المجموعة</value>
+  </data>
+  <data name="Groups" xml:space="preserve">
+    <value>المجموعات</value>
+  </data>
+  <data name="GroupsView" xml:space="preserve">
+    <value>عرض المجموعة</value>
+  </data>
+  <data name="Here" xml:space="preserve">
+    <value>هنا</value>
+  </data>
+  <data name="HintEnteraliasnamewithseparatorExUniqyID" xml:space="preserve">
+    <value>تلميح: أدخل اسمًا مستعارًا باستخدام فاصل "|" مثل Uniqy|ID</value>
+  </data>
+  <data name="HLRLookup" xml:space="preserve">
+    <value>بحث مسجل موقع الصفحة الرئيسية</value>
+  </data>
+  <data name="HLRLookupResult" xml:space="preserve">
+    <value>نتائج بحث HLR</value>
+  </data>
+  <data name="HLRLookupSingle" xml:space="preserve">
+    <value>بحث مسجل موقع الصفحة الرئيسية برقم فردي</value>
+  </data>
+  <data name="HLRLookupUpload" xml:space="preserve">
+    <value>رفع بحث مسجل موقع الصفحة الرئيسية برقم فردي</value>
+  </data>
+  <data name="HLRSingleNumberLookup" xml:space="preserve">
+    <value>بحث رقم HLR</value>
+  </data>
+  <data name="HostIPAddress" xml:space="preserve">
+    <value>عنوان المضيف/IP</value>
+  </data>
+  <data name="HostName" xml:space="preserve">
+    <value>اسم المضيف</value>
+  </data>
+  <data name="Hot" xml:space="preserve">
+    <value>فعال</value>
+  </data>
+  <data name="Hours" xml:space="preserve">
+    <value>الساعات</value>
+  </data>
+  <data name="Hrs" xml:space="preserve">
+    <value>الساعات</value>
+  </data>
+  <data name="HTMLText" xml:space="preserve">
+    <value>نص بلغة ترميز النص الفائق</value>
+  </data>
+  <data name="HTTP" xml:space="preserve">
+    <value>بروتوكول نقل النص الفائق</value>
+  </data>
+  <data name="HttpURL" xml:space="preserve">
+    <value>HTTP URL</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>معرّف</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>استيراد</value>
+  </data>
+  <data name="ImportContacts" xml:space="preserve">
+    <value>استيراد جهات الاتصال</value>
+  </data>
+  <data name="ImportDNDNumbers" xml:space="preserve">
+    <value>استيراد أرقام عدم الإزعاج</value>
+  </data>
+  <data name="ImportFilterWords" xml:space="preserve">
+    <value>استيراد كلمات الترشيح</value>
+  </data>
+  <data name="ImportFrom" xml:space="preserve">
+    <value>استيراد من</value>
+  </data>
+  <data name="IMSI" xml:space="preserve">
+    <value>IMSI</value>
+  </data>
+  <data name="Inactive" xml:space="preserve">
+    <value>غير نشط</value>
+  </data>
+  <data name="Inbox" xml:space="preserve">
+    <value>البريد الوارد</value>
+  </data>
+  <data name="InboxView" xml:space="preserve">
+    <value>عرض البريد الوارد</value>
+  </data>
+  <data name="IncompleteconfigurationPleasecontactadmin" xml:space="preserve">
+    <value>عند عدم اكتمال التكوين يرجى الاتصال بالمسؤول.</value>
+  </data>
+  <data name="Incsvortxtfileseachcolumnshouldbeseparatedbyacomma" xml:space="preserve">
+    <value>في ملفات sv  أو txt يجب فصل كل عمود بفاصلة.</value>
+  </data>
+  <data name="Individual" xml:space="preserve">
+    <value>فردي</value>
+  </data>
+  <data name="Informationfailed" xml:space="preserve">
+    <value>فشل المعلومات.</value>
+  </data>
+  <data name="InformationSavedSuccessfully" xml:space="preserve">
+    <value>تم حفظ المعلومات بنجاح.</value>
+  </data>
+  <data name="InformationUpdatedSuccessfully" xml:space="preserve">
+    <value>تم تحديث المعلومات بنجاح.</value>
+  </data>
+  <data name="InProgress" xml:space="preserve">
+    <value>في تقدم</value>
+  </data>
+  <data name="Inputmailboxtoread" xml:space="preserve">
+    <value>ادخل إلى صندوق البريد لقراءته</value>
+  </data>
+  <data name="Inputmailserver" xml:space="preserve">
+    <value>أدخل خادم البريد</value>
+  </data>
+  <data name="InputPortNumber" xml:space="preserve">
+    <value>أدخل رقم المنفذ</value>
+  </data>
+  <data name="InsertError" xml:space="preserve">
+    <value>خطأ في الإدراج</value>
+  </data>
+  <data name="Instance" xml:space="preserve">
+    <value>نموذج</value>
+  </data>
+  <data name="InsufficentCredits" xml:space="preserve">
+    <value>ائتمانات غير كافية.</value>
+  </data>
+  <data name="InsufficentCreditstoTransfer" xml:space="preserve">
+    <value>ائتمانات غير كافية للتحويل</value>
+  </data>
+  <data name="InsufficientCredits" xml:space="preserve">
+    <value>ائتمانات غير كافية</value>
+  </data>
+  <data name="Interval" xml:space="preserve">
+    <value>الفاصل الزمني</value>
+  </data>
+  <data name="IntervalTimings" xml:space="preserve">
+    <value>الفترات الزمنية</value>
+  </data>
+  <data name="IntervalType" xml:space="preserve">
+    <value>نوع الفاصل الزمني</value>
+  </data>
+  <data name="Invalid" xml:space="preserve">
+    <value>غير صالح</value>
+  </data>
+  <data name="Invalidcode" xml:space="preserve">
+    <value>رمز غير صحيح</value>
+  </data>
+  <data name="Invalidcontactscount" xml:space="preserve">
+    <value>عدد جهات اتصال غير صالح</value>
+  </data>
+  <data name="Invalidcountriesselection" xml:space="preserve">
+    <value>اختصار الدول غير صحيح</value>
+  </data>
+  <data name="InvalidCredentialsPort" xml:space="preserve">
+    <value>منفذ/بيانات اعتماد غير صالحة</value>
+  </data>
+  <data name="Invalidcurrentpassword" xml:space="preserve">
+    <value>كلمة مرور الحالية غير صحيحة</value>
+  </data>
+  <data name="InvalidFile" xml:space="preserve">
+    <value>ملف غير صالح</value>
+  </data>
+  <data name="InvalidFileFormat" xml:space="preserve">
+    <value>صيغة ملف غير صالحة.</value>
+  </data>
+  <data name="Invalidfileformatforselectedfile" xml:space="preserve">
+    <value>تنسيق الملف غير صالح للملف المحدد</value>
+  </data>
+  <data name="InvalidFileMobileColumnShouldnotbeempty" xml:space="preserve">
+    <value>ملف غير صحيح، يجب ألا يكون عمود رقم المحمول فارغا</value>
+  </data>
+  <data name="Invalidgroupscount" xml:space="preserve">
+    <value>عدد مجموعات غير صالح</value>
+  </data>
+  <data name="Invalidinputdetails" xml:space="preserve">
+    <value>بيانات الإدخال غير صحيحة.</value>
+  </data>
+  <data name="Invalidkeyfoundinselectstatement" xml:space="preserve">
+    <value>تم العثور على مفتاح غير صحيح في الكشف المحدد</value>
+  </data>
+  <data name="InvalidKeysfoundintheselectstatement" xml:space="preserve">
+    <value>تم العثور على مفاتيح غير صحيحة في الكشف المحدد</value>
+  </data>
+  <data name="Invalidloginattempt" xml:space="preserve">
+    <value>محاولة دخول غير صحيحة.</value>
+  </data>
+  <data name="Invalidmobilefield" xml:space="preserve">
+    <value>حقل الهاتف غير صحيح</value>
+  </data>
+  <data name="InValidNos" xml:space="preserve">
+    <value>أرقام غير صحيحة</value>
+  </data>
+  <data name="Invalidpassword" xml:space="preserve">
+    <value>كلمة سر غير صالحة.</value>
+  </data>
+  <data name="Invalidrequest" xml:space="preserve">
+    <value>طلب غير صحيح.</value>
+  </data>
+  <data name="InvalidrequestMaximumCapitalCharactersreachedItshouldbe" xml:space="preserve">
+    <value>طلب غير صحيح: الحد الأقصى للحروف الكبيرة، يجب أن يكون:</value>
+  </data>
+  <data name="InvalidrequestMaximumPasswordLengthShouldbe" xml:space="preserve">
+    <value>طلب غير صحيح: يجب أن يكون الحد الأقصى لطول كلمة المرور:</value>
+  </data>
+  <data name="InvalidrequestMinimumCapitalCharactersnotmatchedItshouldbe" xml:space="preserve">
+    <value>طلب غير صالح لم يتم الوصول إلى الحد الأدنى من الحروف الكبيرة، يجب أن يكون</value>
+  </data>
+  <data name="InvalidrequestMinimumCapitalCharactersreachedItshouldbe" xml:space="preserve">
+    <value>طلب غير صالح تم الوصول إلى الحد الأدنى من الحروف الكبيرة، يجب أن يكون</value>
+  </data>
+  <data name="InvalidrequestMinimumDigitscountnotmatchedItshouldbe" xml:space="preserve">
+    <value>طلب غير صحيح: لا يتطابق الحد الأدنى من الأرقام، يجب أن يتطابق</value>
+  </data>
+  <data name="InvalidrequestMinimumPasswordLengthShouldbe" xml:space="preserve">
+    <value>طلب غير صحيح: يجب أن يكون الحد الأدنى لطول كلمة المرور:</value>
+  </data>
+  <data name="InvalidrequestNeedtoIncludeCapitalCharacters" xml:space="preserve">
+    <value>طلب غير صحيح: يلزم تضمين حروف كبيرة.</value>
+  </data>
+  <data name="InvalidrequestNeedtoIncludedigits" xml:space="preserve">
+    <value>طلب غير صحيح: ييلزم تضمين أرقام</value>
+  </data>
+  <data name="InvalidrequestNeedtoIncludeSpecialcharacters" xml:space="preserve">
+    <value>طلب غير صحيح: يلزم تضمين حروف خاصة.</value>
+  </data>
+  <data name="InvalidrequestOldPasswordandNewPasswordShouldnotsame" xml:space="preserve">
+    <value>طلب غير صحيح: لا يجب أن تكون كلمة المرور القديمة هي نفس كلمة المرور الجديدة .</value>
+  </data>
+  <data name="InvalidrequestspecialcharactersDoesntMatch" xml:space="preserve">
+    <value>طلب غير صحيح: الحروف الخاصة غير مطابقة</value>
+  </data>
+  <data name="InvalidSchedule" xml:space="preserve">
+    <value>جدول غير صحيح</value>
+  </data>
+  <data name="InvalidScheduleTime" xml:space="preserve">
+    <value>جدول زمني غير صحيح</value>
+  </data>
+  <data name="InvalidServerCredentialsPleasetryagain" xml:space="preserve">
+    <value>بيانات اعتماد الخادم غير صحيحة، يرجى المحاولة مرة أخرى..</value>
+  </data>
+  <data name="Invalidsubmit" xml:space="preserve">
+    <value>مدخل غير صالح</value>
+  </data>
+  <data name="InvalidTime" xml:space="preserve">
+    <value>وقت غير صحيح</value>
+  </data>
+  <data name="INVALIMOBILENOs" xml:space="preserve">
+    <value>أرقام هاتف غير صحيحة.</value>
+  </data>
+  <data name="Invlaidpasswordpattren" xml:space="preserve">
+    <value>نمط كلمة مرور غير صحيح.</value>
+  </data>
+  <data name="IPAddress" xml:space="preserve">
+    <value>عنوان بروتوكول الإنترنت</value>
+  </data>
+  <data name="IPAddressalreadyexisted" xml:space="preserve">
+    <value>عنوان IP موجود بالفعل</value>
+  </data>
+  <data name="IPAddressalreadyexists" xml:space="preserve">
+    <value>عنوان بروتوكول الانترنت موجود بالفعل.</value>
+  </data>
+  <data name="IPAddressalreadyexistsNoofSessionsUpdated" xml:space="preserve">
+    <value>عنوان بروتوكول الانترنت موجود بالفعل (لم يتم تحديث أي من الجلسات)</value>
+  </data>
+  <data name="ISDCode" xml:space="preserve">
+    <value>رمز اتصال المشترك الدولي</value>
+  </data>
+  <data name="ISDCodeShouldNotZero0" xml:space="preserve">
+    <value>يجب ألا يكون رمز الاتصال الدولي صفرًا(0)</value>
+  </data>
+  <data name="IsDLRRequired" xml:space="preserve">
+    <value>هل DLR مطلوب</value>
+  </data>
+  <data name="IsResponseEmailRequired" xml:space="preserve">
+    <value>هل يلزم الرد على البريد الإلكتروني</value>
+  </data>
+  <data name="Job" xml:space="preserve">
+    <value>الوظيفة</value>
+  </data>
+  <data name="JobLeft" xml:space="preserve">
+    <value>الوظيفة المتروكة</value>
+  </data>
+  <data name="JobLeftshouldnotbelessthantheDateofJoining" xml:space="preserve">
+    <value>يسار الوظيفة يجب أن يكون أقل من تاريخ التسجيل</value>
+  </data>
+  <data name="JobType" xml:space="preserve">
+    <value>نوع الوظيفة</value>
+  </data>
+  <data name="JoinDate" xml:space="preserve">
+    <value>تاريح الالتحاق</value>
+  </data>
+  <data name="KeepAlivePeriod" xml:space="preserve">
+    <value>الحفاظ على فترة النشاط</value>
+  </data>
+  <data name="Keyword" xml:space="preserve">
+    <value>الكلمة الرئيسية</value>
+  </data>
+  <data name="KeywordalreadyexistedinDB" xml:space="preserve">
+    <value>الكلمة الرئيسية موجودة بالفعل في قاعدة الباينات.</value>
+  </data>
+  <data name="KeywordConfigurationView" xml:space="preserve">
+    <value>عرض تهيئة الكلمة الرئيسية</value>
+  </data>
+  <data name="Keywordcouldntallowspacebetweenthewords" xml:space="preserve">
+    <value>لا يسمح بوجود مسافة بين الكلمات في الكلمة الرئيسية</value>
+  </data>
+  <data name="Keywordexistedindbwithgivenname" xml:space="preserve">
+    <value>الكلمة الرئيسية موجودة في قاعدة الباينات مع اسم معين.</value>
+  </data>
+  <data name="Keywords" xml:space="preserve">
+    <value>الكلمات الأساسية</value>
+  </data>
+  <data name="KickOff" xml:space="preserve">
+    <value>البداية</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>اللغة</value>
+  </data>
+  <data name="Last" xml:space="preserve">
+    <value>الاخير</value>
+  </data>
+  <data name="Last15minutes" xml:space="preserve">
+    <value>آخر 15 دقيقة</value>
+  </data>
+  <data name="Last30minutes" xml:space="preserve">
+    <value>آخر 30 دقيقة</value>
+  </data>
+  <data name="Last60minutes" xml:space="preserve">
+    <value>آخر 60 دقيقة</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>الاسم الأخير</value>
+  </data>
+  <data name="ListName" xml:space="preserve">
+    <value>الاسم الأخير</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>الموقع</value>
+  </data>
+  <data name="LockDate" xml:space="preserve">
+    <value>تاريخ الغلق</value>
+  </data>
+  <data name="LockedDate" xml:space="preserve">
+    <value>تاريخ مغلق</value>
+  </data>
+  <data name="Lockedout" xml:space="preserve">
+    <value>تم القفل</value>
+  </data>
+  <data name="LogCommunication" xml:space="preserve">
+    <value>أدخل الاتصال</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>الدخول</value>
+  </data>
+  <data name="Loginfailedforuser" xml:space="preserve">
+    <value>تعذر دخول المستخدم</value>
+  </data>
+  <data name="LoginPage" xml:space="preserve">
+    <value>صفحة الدخول</value>
+  </data>
+  <data name="Logo" xml:space="preserve">
+    <value>الشعار</value>
+  </data>
+  <data name="Logoff" xml:space="preserve">
+    <value>تسجيل الخروج</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>الخروج</value>
+  </data>
+  <data name="LookUpResult" xml:space="preserve">
+    <value>نتائج البحث</value>
+  </data>
+  <data name="M" xml:space="preserve">
+    <value>1 شهر</value>
+  </data>
+  <data name="MailAlreadyConfigured" xml:space="preserve">
+    <value>البريد مكون بالفعل</value>
+  </data>
+  <data name="Mailbox" xml:space="preserve">
+    <value>صندوق البريد</value>
+  </data>
+  <data name="MailServer" xml:space="preserve">
+    <value>خادم البريد</value>
+  </data>
+  <data name="MailServeralreadyconfigured" xml:space="preserve">
+    <value>تم تكوين خادم البريد بالفعل</value>
+  </data>
+  <data name="MailServeralreadyexisted" xml:space="preserve">
+    <value>خادم بريد موجود بالفعل</value>
+  </data>
+  <data name="MailServerSettings" xml:space="preserve">
+    <value>إعدادات خادم البريد</value>
+  </data>
+  <data name="MailServerSettingsView" xml:space="preserve">
+    <value>عرض إعدادات خادم البريد</value>
+  </data>
+  <data name="MapColumns" xml:space="preserve">
+    <value>عيِّن الأعمدة</value>
+  </data>
+  <data name="MapCustomColumns" xml:space="preserve">
+    <value>عواميد التعيين الخاصة</value>
+  </data>
+  <data name="MapDivision" xml:space="preserve">
+    <value>قسم المخططات</value>
+  </data>
+  <data name="Mappingalreadyexist" xml:space="preserve">
+    <value>التعيين موجود بالفعل</value>
+  </data>
+  <data name="MappingexistsinRouteMasterPleasedeactivaterouteandthenActivateDeactivateEditSMSC" xml:space="preserve">
+    <value>التعيين موجود بأصل المسار، يرجى إلغاء تنشيط المسار، ثم تنشيط / إلغاء تنشيط / تعديل نص الرسالة الصغيرة</value>
+  </data>
+  <data name="MappingexistsinRouteMasterPleasedeactivatetheSMSC" xml:space="preserve">
+    <value>يوجد التعيين في أصل المسار، يرجى إلغاء نص الرسالة القصيرة</value>
+  </data>
+  <data name="MapSender" xml:space="preserve">
+    <value>مرسل الخريطة</value>
+  </data>
+  <data name="MapSendersList" xml:space="preserve">
+    <value>قائمة مرسلين الخرائط</value>
+  </data>
+  <data name="MapSenderView" xml:space="preserve">
+    <value>عرضض مرسل الخريطة</value>
+  </data>
+  <data name="MaximumLength" xml:space="preserve">
+    <value>الحد الأقصى للطول</value>
+  </data>
+  <data name="MaximumlengthnotallowedlessthanMinimumlength" xml:space="preserve">
+    <value>الحد الأقصى للطول غير مسموح أن يكون اقل من من الحد الأدنى للطول</value>
+  </data>
+  <data name="Maximumnumberofcontactsexceeded" xml:space="preserve">
+    <value>تجاوز الحد الأقصى لعدد جهات الاتصال.</value>
+  </data>
+  <data name="Maximumrecipientsare" xml:space="preserve">
+    <value>الحد الأقصى للمستلمين هو </value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>الرسالة</value>
+  </data>
+  <data name="MessageCredits" xml:space="preserve">
+    <value>ائتمانات الرسالة</value>
+  </data>
+  <data name="Messagecreditsshouldnotexceeds12credits" xml:space="preserve">
+    <value>يجب ألا تتعدى ائتمانات الرسالة 12 ائتمان</value>
+  </data>
+  <data name="MessageDetails" xml:space="preserve">
+    <value>تفاصيل الرسالة</value>
+  </data>
+  <data name="MessageField" xml:space="preserve">
+    <value>حقل الرسالة</value>
+  </data>
+  <data name="MessageFields" xml:space="preserve">
+    <value>حقول الرسالة</value>
+  </data>
+  <data name="MessageFiled" xml:space="preserve">
+    <value>تم تقديم الرسالة</value>
+  </data>
+  <data name="Messagelanguagedidnotmatchwiththeselectedlanguage" xml:space="preserve">
+    <value>لغة الرسالة لا تتوافق مع اللغة المختارة</value>
+  </data>
+  <data name="MessagePreview" xml:space="preserve">
+    <value>معاينة الرسالة</value>
+  </data>
+  <data name="Messagesoutgoingtime" xml:space="preserve">
+    <value>وقت الرسائل الصادرة</value>
+  </data>
+  <data name="MessageStatistics" xml:space="preserve">
+    <value>إحصائيات الرسالة</value>
+  </data>
+  <data name="Messagesubmittedsuccessfully" xml:space="preserve">
+    <value>تم إدخال الرسالة بنجاح.</value>
+  </data>
+  <data name="Messagetag" xml:space="preserve">
+    <value>وسم الرسالة</value>
+  </data>
+  <data name="MessageTagInvalidFormatExFormat" xml:space="preserve">
+    <value>رسالة علامة غير صالحة تنسيق، التنسيق السابق: </value>
+  </data>
+  <data name="MessageTemplate" xml:space="preserve">
+    <value>قالب الرسالة</value>
+  </data>
+  <data name="Messagewithtag" xml:space="preserve">
+    <value>رسالة ذات علامة</value>
+  </data>
+  <data name="Milliseconds" xml:space="preserve">
+    <value>ميلي ثانية</value>
+  </data>
+  <data name="MilliSecounds" xml:space="preserve">
+    <value>ميلي ثانية</value>
+  </data>
+  <data name="MinimumCapitalAlphabets" xml:space="preserve">
+    <value>الحد الأدنى للحروف الأبجدية الكبيرة</value>
+  </data>
+  <data name="MinimumDigits" xml:space="preserve">
+    <value>الحد الأدنى للأرقام</value>
+  </data>
+  <data name="MinimumLength" xml:space="preserve">
+    <value>الحد الأدنى للطول</value>
+  </data>
+  <data name="Minutes" xml:space="preserve">
+    <value>الدقائق</value>
+  </data>
+  <data name="MISReport" xml:space="preserve">
+    <value>تقرير نظام إدارة المعلومات</value>
+  </data>
+  <data name="Mns" xml:space="preserve">
+    <value>الدقائق</value>
+  </data>
+  <data name="Mobile" xml:space="preserve">
+    <value>الهاتف النقال</value>
+  </data>
+  <data name="MobileField" xml:space="preserve">
+    <value>حقل الهاتف الجوال</value>
+  </data>
+  <data name="MobileLength" xml:space="preserve">
+    <value>طول النقال</value>
+  </data>
+  <data name="MobileNo" xml:space="preserve">
+    <value>رفم الهاتف النقال</value>
+  </data>
+  <data name="MobileNoDomain" xml:space="preserve">
+    <value>رقم الجوال@المجال</value>
+  </data>
+  <data name="MobileNoGroupName" xml:space="preserve">
+    <value>اسم مجموعة رقم المحمول</value>
+  </data>
+  <data name="MobileNubmer" xml:space="preserve">
+    <value>رقم الهاتف النقال</value>
+  </data>
+  <data name="MobileNumber" xml:space="preserve">
+    <value>رقم الهاتف النقال</value>
+  </data>
+  <data name="MobileNumberdoesnthavingmatchedcountrycodesforselectedsenderID" xml:space="preserve">
+    <value>لا يتوافق رقم الجوال مع رموز البلدان المخصصة لمعرِّف المرسل.</value>
+  </data>
+  <data name="MobileNumberField" xml:space="preserve">
+    <value>حقل رقم الهاتف النقال</value>
+  </data>
+  <data name="Mobilenumberpatternis00971" xml:space="preserve">
+    <value>2 -- نمط رقم الهاتف الجوال 00971XXXXXXXXX</value>
+  </data>
+  <data name="Mobilenumberpatternis0971" xml:space="preserve">
+    <value>4 -- نمط رقم الهاتف الجوال 0971XXXXXXXXX</value>
+  </data>
+  <data name="Mobilenumberpatternis971" xml:space="preserve">
+    <value>1 -- نمط رقم الهاتف الجوال 971XXXXXXXXX+</value>
+  </data>
+  <data name="MobileNumberpatternisdefaultCountryCodeNumber971" xml:space="preserve">
+    <value>0 -- نمط الهاتف الجوال افتراضي. رمز الدولة + الرقم (971XXXXXXXXX)</value>
+  </data>
+  <data name="mobilenumbers" xml:space="preserve">
+    <value>أرقام المحمول</value>
+  </data>
+  <data name="MobileNumbersareInvalid" xml:space="preserve">
+    <value>رقم (أرقام) الهاتف غير صحيحة</value>
+  </data>
+  <data name="MobilenumbersshouldbespecifiedinthesubjectlinewithcomaseparatorandSMSmessageshouldbespecifiedinthemailbody" xml:space="preserve">
+    <value>يجب تحديد أرقام الهواتف المحمولة في سطر الموضوع بفاصلة ويجب أن يتم تحديد رسالة SMS في جسم البريد.</value>
+  </data>
+  <data name="MobilityCentre" xml:space="preserve">
+    <value>مركز التنقل</value>
+  </data>
+  <data name="MOCampaign" xml:space="preserve">
+    <value>حملة الرسالة الصادرة من الهاتف النقال إلى تطبيق</value>
+  </data>
+  <data name="MOCampaignDeactivatedSuccessfully" xml:space="preserve">
+    <value>تم تعطيل حملة الرسالة الصادرة من الهاتف النقال إلى تطبيقمؤقتًا.</value>
+  </data>
+  <data name="MOCampaignPausedSuccessfully" xml:space="preserve">
+    <value>تم إيقاف حملة الرسالة الصادرة من الهاتف النقال إلى تطبيقمؤقتًا.</value>
+  </data>
+  <data name="MOCampaigns" xml:space="preserve">
+    <value>حملات MO</value>
+  </data>
+  <data name="MOCampaignSuspendedSuccessfully" xml:space="preserve">
+    <value>تم تعليق حملة الرسالة الصادرة من الهاتف النقال إلى تطبيق مؤقتًا.</value>
+  </data>
+  <data name="Mode" xml:space="preserve">
+    <value>الوضع</value>
+  </data>
+  <data name="MODetailed" xml:space="preserve">
+    <value>الرسالة الصادرة من الهاتف النقال إلى تطبيق مفصلة</value>
+  </data>
+  <data name="MODetailedReport" xml:space="preserve">
+    <value>تقرير الرسالة الصادرة من الهاتف النقال إلى تطبيق مفصلة</value>
+  </data>
+  <data name="ModulePlugin" xml:space="preserve">
+    <value>وحدة البرنامج المساعد</value>
+  </data>
+  <data name="ModuleWiseLoadLast48hours" xml:space="preserve">
+    <value>التحميل وفقًا للنموذج (يدوم 48 ساعة)</value>
+  </data>
+  <data name="MOMapShortCode" xml:space="preserve">
+    <value>الرمز المختصر لتعيين الجوال</value>
+  </data>
+  <data name="MOMapShortCodeView" xml:space="preserve">
+    <value>عرض الرمز المختصر لخريطة MO</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>الشهر</value>
+  </data>
+  <data name="Monthwisestatistics" xml:space="preserve">
+    <value>الإحصاء الشهري</value>
+  </data>
+  <data name="MOOperations" xml:space="preserve">
+    <value>عمليات الرسالة الصادرة من الهاتف النقال إلى تطبيق</value>
+  </data>
+  <data name="More" xml:space="preserve">
+    <value>المزيد</value>
+  </data>
+  <data name="MoreDetails" xml:space="preserve">
+    <value>مزيد من البيانات</value>
+  </data>
+  <data name="MOReports" xml:space="preserve">
+    <value>تقرير الرسالة الصادرة من الهاتف النقال إلى تطبيق</value>
+  </data>
+  <data name="MOShortCode" xml:space="preserve">
+    <value>الرمز المختصر لـMO</value>
+  </data>
+  <data name="MoShortCodeAddedSuccessfully" xml:space="preserve">
+    <value>تمت إضافة رمز الجوال المختصر بنجاح</value>
+  </data>
+  <data name="MoShortCodeFailedtoAdd" xml:space="preserve">
+    <value>فشل إضافة رمز الجوال المختصر</value>
+  </data>
+  <data name="MoShortCodeFailedtoAddContactyourSystemAdmin" xml:space="preserve">
+    <value>فشل إضافة رمز الجوال المختصر. تواصل مع مسؤول النظام</value>
+  </data>
+  <data name="MOSummary" xml:space="preserve">
+    <value>ملخص الرسالة الصادرة من الهاتف النقال إلى تطبيق</value>
+  </data>
+  <data name="MOSummaryReport" xml:space="preserve">
+    <value>تقرير ملخص الرسالة الصادرة من الهاتف النقال إلى تطبيق</value>
+  </data>
+  <data name="MOSurvey" xml:space="preserve">
+    <value>إجراء مسح للرسالة الصادرة من الهاتف النقال إلى تطبيق</value>
+  </data>
+  <data name="MOSurveyReport" xml:space="preserve">
+    <value>تقرير مسح الرسالة الصادرة من الهاتف النقال إلى تطبيق</value>
+  </data>
+  <data name="MOSurveysubmittedsuccessfully" xml:space="preserve">
+    <value>تم تقديم مسح الرسالة الصادرة من الهاتف النقال إلى تطبيقبنجاح</value>
+  </data>
+  <data name="MOSurveyView" xml:space="preserve">
+    <value>عرض استطلاع MO</value>
+  </data>
+  <data name="msgExceptionErr" xml:space="preserve">
+    <value>رسالة خطأ الاستثناء</value>
+  </data>
+  <data name="MsgID" xml:space="preserve">
+    <value>مُعرف الرسالة</value>
+  </data>
+  <data name="MsgSubmitSuccess" xml:space="preserve">
+    <value>نجاح إرسال الرسالة.</value>
+  </data>
+  <data name="MSISDN" xml:space="preserve">
+    <value>رقم المشترك الدولي بمحطة الهاتف المحمول</value>
+  </data>
+  <data name="MultipleUsers" xml:space="preserve">
+    <value>مستخدمين متعددين</value>
+  </data>
+  <data name="N" xml:space="preserve">
+    <value>لا</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>الاسم</value>
+  </data>
+  <data name="NameOrRecipients" xml:space="preserve">
+    <value>الاسم أو المستلم (المستلمون)</value>
+  </data>
+  <data name="Networkissuepleasecontactsystemadmin" xml:space="preserve">
+    <value>حدوث مشكلة بالشبكة، يرجى الاتصال بمسؤول النظام.</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>كلمة السر الجديدة</value>
+  </data>
+  <data name="Newpasswordconfimpassworddoesmatch" xml:space="preserve">
+    <value>توافق كلمة سر جديدة وتأكيد كلمة السر</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>التالي</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>لا</value>
+  </data>
+  <data name="Nodataavailableintable" xml:space="preserve">
+    <value>لا توجد بيانات متوفرة في الجدول</value>
+  </data>
+  <data name="NoDataFound" xml:space="preserve">
+    <value>لم يتم العثور على باينات.</value>
+  </data>
+  <data name="Nodatafoundinfile" xml:space="preserve">
+    <value>لم يتم العثور على بيانات في الملف</value>
+  </data>
+  <data name="Nodatafoundwiththefile" xml:space="preserve">
+    <value>لم يتم العثور على بيانات مع الملف</value>
+  </data>
+  <data name="NoDataWiseLoad" xml:space="preserve">
+    <value>لا يوجد تحميل للبيانات</value>
+  </data>
+  <data name="NofileSelected" xml:space="preserve">
+    <value>لم يتم تحديد ملف</value>
+  </data>
+  <data name="NofileSelectedChooseFile" xml:space="preserve">
+    <value>لم يتم تحديد ملف ححد ملف</value>
+  </data>
+  <data name="NonDefaultRouteCannotbesettoDefaultRoute" xml:space="preserve">
+    <value>لا يمكن تعيين المسار غير الافتراضي من المسار الافتراضي</value>
+  </data>
+  <data name="Nondefaultroutedoesntexistsselectedcountry" xml:space="preserve">
+    <value>لا يوجد مسار افتراضي للدولة المختارة</value>
+  </data>
+  <data name="NoneSelected" xml:space="preserve">
+    <value>لا يوجد أي تحديد</value>
+  </data>
+  <data name="NonPremium" xml:space="preserve">
+    <value>غير متميز</value>
+  </data>
+  <data name="noofalertsexceededforcustomer" xml:space="preserve">
+    <value>لا يوجد أي انذار تجاوز للعميل.</value>
+  </data>
+  <data name="NoofConsolation" xml:space="preserve">
+    <value>رقم الجهاز</value>
+  </data>
+  <data name="NoofContacts" xml:space="preserve">
+    <value>عدد الاتصالات</value>
+  </data>
+  <data name="NoofCreditsAvailable" xml:space="preserve">
+    <value>عدد أنظمة الائتمان المتوفرة</value>
+  </data>
+  <data name="NoOfSessions" xml:space="preserve">
+    <value>عدد الجلسات</value>
+  </data>
+  <data name="NoofWinners" xml:space="preserve">
+    <value>عدد الفائزين</value>
+  </data>
+  <data name="NoPrivileges" xml:space="preserve">
+    <value>لا توجد امتيازات</value>
+  </data>
+  <data name="NoSenderIdWiseLoad" xml:space="preserve">
+    <value>لا يوجد تحميل لمعرِّف المرسل</value>
+  </data>
+  <data name="Nosuchhostisknown" xml:space="preserve">
+    <value>لا يوجد مضيف غير معروف</value>
+  </data>
+  <data name="NotAllowed" xml:space="preserve">
+    <value>0 غير مسموح</value>
+  </data>
+  <data name="NotAllowedDataExisted" xml:space="preserve">
+    <value>غير مسموح: البيانات موجودة</value>
+  </data>
+  <data name="NotallowedDefaultRoutealreadyMappedforselectedPrefferredroute" xml:space="preserve">
+    <value>غير مسموح: المسار الافتراضي للمسار المفضل المحدد معين بالفعل</value>
+  </data>
+  <data name="NotAllowedMaximumAlphabetslength" xml:space="preserve">
+    <value>غير مسموح بالحد الأقصى لطول الحروف الهجائية</value>
+  </data>
+  <data name="NotAllowedMobileNumberLengthShoulddifferent" xml:space="preserve">
+    <value>غير مسموح: طول رقم الهاتف يجب أن يكون مختلف</value>
+  </data>
+  <data name="NotAllowedSameSeriesNotAllowed" xml:space="preserve">
+    <value>غير مسموح: لا يُسمح بنفس التسلسل</value>
+  </data>
+  <data name="NotAllowedSenderalreadymapped" xml:space="preserve">
+    <value>الراسل غير المسموح له مُعين بالفعل</value>
+  </data>
+  <data name="NotAllowedSeriesisalreadybindedwithanotheroperator" xml:space="preserve">
+    <value>غير مسموح: تم ربط التسلسلات بالفعل بمشغل آخر.</value>
+  </data>
+  <data name="NotAllowedWithSeriesandWithoutSeriesCombinationNotAllowed" xml:space="preserve">
+    <value>غير مسموح: لا يُسمح بالجمع مع التسلسل وبدون التسلسل</value>
+  </data>
+  <data name="Notearenotallowed" xml:space="preserve">
+    <value>ملاحظة: ممنوع استخدام رمز {}</value>
+  </data>
+  <data name="NoteForDynamicSenderIDchooseSenderIDasANYApplicableonlyforSMPP" xml:space="preserve">
+    <value>ملاحظة: بالنسبة إلى معرف المرسل الديناميكي، حدد  معرف المرسل باعتباره أيهم. ينطبق فقط على SMPP</value>
+  </data>
+  <data name="NoteMessageTagshouldcontainbothstarttagandendtagwithcommaseparator" xml:space="preserve">
+    <value>ملاحظة: يجب أن تحتوي علامة الرسالة على كل من علامة البدء وعلامة النهاية بفاصلة.</value>
+  </data>
+  <data name="NotePleaseappendcountrycodebeforemobilenumbertovalidatecorrectly" xml:space="preserve">
+    <value>ملاحظة: يرجى إلحاق رمز البلد قبل رقم المحمول للتحقق من صحته بشكل صحيح</value>
+  </data>
+  <data name="NotePleaseenterCommaseparatedmobilenumberswithoutspace" xml:space="preserve">
+    <value>ملاحظة: يُرجى إدخال أرقام المحمول  مفصولة بفاصلة بدون مسافة.</value>
+  </data>
+  <data name="NotePleaseenterseperatedformultipleemails" xml:space="preserve">
+    <value>ملاحظة: يرجى إدخال علامة "؛" للفصل بين العديد من رسائل البريد الإلكتروني</value>
+  </data>
+  <data name="NoteSenderTagshouldcontainbothstarttagandendtagwithcommaseparator" xml:space="preserve">
+    <value>ملاحظة: يجب أن تحتوي علامة تعريف المرسل على كل من علامة البداية وعلامة النهاية مفصولين بعلامة فاصلة.</value>
+  </data>
+  <data name="NumberOfContacts" xml:space="preserve">
+    <value>عدد جهات الاتصال</value>
+  </data>
+  <data name="Numberofoptions" xml:space="preserve">
+    <value>عدد من الخيارات</value>
+  </data>
+  <data name="NumericMobileNumberShouldNumeric" xml:space="preserve">
+    <value>رقمي: رقم الهاتف النقال يجب أن يكون رقمي</value>
+  </data>
+  <data name="NumericSeriesShouldNumeric" xml:space="preserve">
+    <value>رقمي: التسلسل ينبغي أن يكون رقمي</value>
+  </data>
+  <data name="Offline" xml:space="preserve">
+    <value>غير متصل بالإنترنت</value>
+  </data>
+  <data name="Offlinealertalreadyexists" xml:space="preserve">
+    <value>تنبيه غير المتصل بالإنترنت موجود بالفعل.</value>
+  </data>
+  <data name="OfflineAlerts" xml:space="preserve">
+    <value>تنبيهات في أثناء عدم الاتصال بالإنترنت</value>
+  </data>
+  <data name="Offlinealertssavedsuccessfully" xml:space="preserve">
+    <value>تم حفظ تنبيهات غير المتصل بالإنترنت بنجاح.</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>موافق</value>
+  </data>
+  <data name="OldPassword" xml:space="preserve">
+    <value>كلمة السر القديمة</value>
+  </data>
+  <data name="Online" xml:space="preserve">
+    <value>متصل بالإنترنت</value>
+  </data>
+  <data name="Onlinealertalreadyexists" xml:space="preserve">
+    <value>التنبيه عبر الإنترنت موجود بالفعل.</value>
+  </data>
+  <data name="OnlineAlerts" xml:space="preserve">
+    <value>تنبيهات في أثناء الاتصال بالإنترنت</value>
+  </data>
+  <data name="Onlinealertsavedsuccessfully" xml:space="preserve">
+    <value>تم حفظ التنبيه عبر الإنترنت بنجاح</value>
+  </data>
+  <data name="OnpreprocessorRestart" xml:space="preserve">
+    <value>إعادة تشغيل المعالج المسبق:</value>
+  </data>
+  <data name="Operator" xml:space="preserve">
+    <value>المشغل</value>
+  </data>
+  <data name="OperatorAddedSuccessfully" xml:space="preserve">
+    <value>تم إضافة المشغل بنجاح.</value>
+  </data>
+  <data name="OperatorName" xml:space="preserve">
+    <value>اسم المشغل</value>
+  </data>
+  <data name="OperatornotAddedContactSystemAdmin" xml:space="preserve">
+    <value>في حالة عدم إضافة المشغل، اتصل بمسؤول النظام</value>
+  </data>
+  <data name="OperatorNotAddedMobileLengthShouldbedifferentfromMultipleOperatorsonSameCountry" xml:space="preserve">
+    <value>لم يتم إضافة المشغل، ينبغي أن يكون طول النقال مختلف من المشغلين المتعددين في الدولة الواحدة.</value>
+  </data>
+  <data name="OperatornotAddedOperator" xml:space="preserve">
+    <value>لم يتم إضافة المشغل، المشغل.</value>
+  </data>
+  <data name="OperatorNotUpdatedMobileLengthShouldbedifferentfromMultipleOperatorsonSameCountry" xml:space="preserve">
+    <value>لم يتم تحديث المشغل، ينبغي أن يكون طول النقال مختلف من المشغلين المتعددين في الدولة الواحدة.</value>
+  </data>
+  <data name="OperatornotUpdatedOperator" xml:space="preserve">
+    <value>لم يتم تحديث المشغل، المشغل.</value>
+  </data>
+  <data name="OperatorPrId" xml:space="preserve">
+    <value>مدة المُشغّل</value>
+  </data>
+  <data name="Operators" xml:space="preserve">
+    <value>المشغلين</value>
+  </data>
+  <data name="OperatorUpdatedSuccessfully" xml:space="preserve">
+    <value>تم تحديث المشغل بنجاح.</value>
+  </data>
+  <data name="OperatorView" xml:space="preserve">
+    <value>عرض المشغل</value>
+  </data>
+  <data name="OracleConnectionnotestablishedRequiresOracleclientsoftwareversionorgreater" xml:space="preserve">
+    <value>لم يتم إنشاء اتصال Oracle: يلزم برنامج العميل Oracle إصدار 8.1.7 أو فما فوق</value>
+  </data>
+  <data name="Order" xml:space="preserve">
+    <value>الطلب</value>
+  </data>
+  <data name="OrderAlreadyExisted" xml:space="preserve">
+    <value>الأمر موجود بالفعل.</value>
+  </data>
+  <data name="Originator" xml:space="preserve">
+    <value>المنشأ</value>
+  </data>
+  <data name="OriginatorMail" xml:space="preserve">
+    <value>بريد المنشئ</value>
+  </data>
+  <data name="OtherParameter" xml:space="preserve">
+    <value>ضوابط أخرى</value>
+  </data>
+  <data name="Others" xml:space="preserve">
+    <value>أخرى</value>
+  </data>
+  <data name="OutboundSender" xml:space="preserve">
+    <value>المُرسل المتوجه</value>
+  </data>
+  <data name="Package" xml:space="preserve">
+    <value>حزمة</value>
+  </data>
+  <data name="PageName" xml:space="preserve">
+    <value>اسم الصفحة</value>
+  </data>
+  <data name="PageRefreshingin" xml:space="preserve">
+    <value>إعادة تحميل الصفحة في</value>
+  </data>
+  <data name="Pages" xml:space="preserve">
+    <value>الصفحات</value>
+  </data>
+  <data name="Parameter" xml:space="preserve">
+    <value>المعامل</value>
+  </data>
+  <data name="ParameterAlreadyExisted" xml:space="preserve">
+    <value>المعامل موجود بالفعل.</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>كلمة السر</value>
+  </data>
+  <data name="Passwordandconfirmpasswordnotmatched" xml:space="preserve">
+    <value>لا تتطابق كلمة السر وكلمة السر المؤكد.0</value>
+  </data>
+  <data name="PasswordChangedSuccessfullyPleaseLoginAgain" xml:space="preserve">
+    <value>تم تغيير كلمة المرور بنجاح، يرجى تسجيل الدخول مرة أخرى</value>
+  </data>
+  <data name="PasswordChangeRules" xml:space="preserve">
+    <value>قواعد تغيير كلمة المرور</value>
+  </data>
+  <data name="PasswordRepeat" xml:space="preserve">
+    <value>إعادة تكرار كلمة السر</value>
+  </data>
+  <data name="PasswordRules" xml:space="preserve">
+    <value>قواعد كلمة المرور</value>
+  </data>
+  <data name="Percentage" xml:space="preserve">
+    <value>النسبة المئوية</value>
+  </data>
+  <data name="Period" xml:space="preserve">
+    <value>المدة</value>
+  </data>
+  <data name="PermitCount" xml:space="preserve">
+    <value>عدد التصاريح</value>
+  </data>
+  <data name="PermittoCreateCount" xml:space="preserve">
+    <value>السماح بإنشاء حساب</value>
+  </data>
+  <data name="PerSecond" xml:space="preserve">
+    <value>كل ثانية</value>
+  </data>
+  <data name="PerSecound" xml:space="preserve">
+    <value>لكل ثانية</value>
+  </data>
+  <data name="PhoneBook" xml:space="preserve">
+    <value>دفتر الهاتف</value>
+  </data>
+  <data name="PhoneNo" xml:space="preserve">
+    <value>رقم الهاتف</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>رقم الهاتف</value>
+  </data>
+  <data name="PhoneNumberBusiness" xml:space="preserve">
+    <value>رقم الهاتف (العمل)</value>
+  </data>
+  <data name="PhoneNumberTechnical" xml:space="preserve">
+    <value>رقم الهاتف (الفني)</value>
+  </data>
+  <data name="PlainText" xml:space="preserve">
+    <value>نص بسيط</value>
+  </data>
+  <data name="Pleaseactivatekeywordinkeywordpage" xml:space="preserve">
+    <value>يرجى تنشيط الكلمة الأساسية في صفحة keyword</value>
+  </data>
+  <data name="Pleaseactivethisfeature" xml:space="preserve">
+    <value>يرجى تفعيل هذه الميزة</value>
+  </data>
+  <data name="PleaseaddatleastoneIPAddress" xml:space="preserve">
+    <value>يرجى إضافة على الأقل عنوان واحد لبروتوكول النت</value>
+  </data>
+  <data name="PleaseAddAtleastOneMapDetails" xml:space="preserve">
+    <value>يرجى إضافة على الأقل تفاصيل خريطة واحدة.</value>
+  </data>
+  <data name="PleaseAddAtleastOneOperator" xml:space="preserve">
+    <value>يرجى إضافة مشغل واحد على الأقل</value>
+  </data>
+  <data name="pleaseaddatleastoneroute" xml:space="preserve">
+    <value>يرجى إضافة مسار واحد على الأقل</value>
+  </data>
+  <data name="Pleaseaddcountry" xml:space="preserve">
+    <value>يرجى إضافة دولة</value>
+  </data>
+  <data name="PleaseatleastaddoneSystemMode" xml:space="preserve">
+    <value>من فضلك قم بإضافة وضع نظام واحد على الأقل</value>
+  </data>
+  <data name="PleaseChecktheCheckbox" xml:space="preserve">
+    <value>يرجى التحقق من خانة الاختيار</value>
+  </data>
+  <data name="Pleasecheckyouremailtoresetyourpassword" xml:space="preserve">
+    <value>يرجى فحص البريد الإلكتروني لإعادة ضبط كلمة السر الخاصة بك.</value>
+  </data>
+  <data name="Pleasechoosecorrectlanguage" xml:space="preserve">
+    <value>يرجى اختيار اللغة الصحيحة</value>
+  </data>
+  <data name="PleasechoosecorrectlanguageforDescriptionMessage" xml:space="preserve">
+    <value>يرجى اختيار اللغة الصحيحة لوصف الرسالة</value>
+  </data>
+  <data name="Pleasedeactivatethealertfirstandmakethenecessarychanges" xml:space="preserve">
+    <value>يرجى إلغاء تنشيط التنبيه أولًا، وإجراء التغييرات اللازمة</value>
+  </data>
+  <data name="PleaseEnterAddressDetails" xml:space="preserve">
+    <value>يُرجى إدخال تفاصيل العنوان</value>
+  </data>
+  <data name="PleaseEnterAlertName" xml:space="preserve">
+    <value>يرجى إدخال اسم التنبيه</value>
+  </data>
+  <data name="Pleaseenteralteastonecustomcolumn" xml:space="preserve">
+    <value>يرجى إدخال عمود مخصص واحد على الأقل.</value>
+  </data>
+  <data name="PleaseEnterAtleastoneRecipient" xml:space="preserve">
+    <value>يرجى ادخل على الأقل مستلم واحد</value>
+  </data>
+  <data name="PleaseenterausernameforthissitebelowandclicktheRegisterbuttontofinishloggingin" xml:space="preserve">
+    <value>يرجى إدخال اسم المستخدم لهذا الموقع والنقر على زر التسجيل لإنهاء عملية الدخول.</value>
+  </data>
+  <data name="PleaseEnterBCCEmailAddress" xml:space="preserve">
+    <value>يرجى إدخالة النسخة المخفية للبريد الإلكتروني BCC</value>
+  </data>
+  <data name="PleaseEnterBusinessRuleValue" xml:space="preserve">
+    <value>يرجى تحديد قيمة قاعدة العمل</value>
+  </data>
+  <data name="PleaseEnterCampaignName" xml:space="preserve">
+    <value>يرحى إدخال اسم الحملة.</value>
+  </data>
+  <data name="PleaseEnterCCemail" xml:space="preserve">
+    <value>يرجى إدخال بريد النسخ</value>
+  </data>
+  <data name="PleaseEnterCCEmailAddress" xml:space="preserve">
+    <value>يرجى إدخال نسخة البريد الإلكتروني CC</value>
+  </data>
+  <data name="Pleaseentercolumns" xml:space="preserve">
+    <value>يرجى إدخال الأعمدة</value>
+  </data>
+  <data name="pleaseentercommaseperatedmobileNos" xml:space="preserve">
+    <value>يرجى إدخال أرقام الجوالات، ويفصل بينهم باستخدام الفاصلة.</value>
+  </data>
+  <data name="PleaseEnterComponent" xml:space="preserve">
+    <value>يُرجى إدخال العنصر</value>
+  </data>
+  <data name="PleaseEnterConfirmPassword" xml:space="preserve">
+    <value>يرجى إدخال كلمة المرور المؤكدة</value>
+  </data>
+  <data name="PleaseEnterConnectionName" xml:space="preserve">
+    <value>يرجى إدخال اسم الاتصال.</value>
+  </data>
+  <data name="PleaseEnterContactNumber" xml:space="preserve">
+    <value>يرجى إدخال رقم حهة الاتصال</value>
+  </data>
+  <data name="PleaseEnterContactPersonName" xml:space="preserve">
+    <value>يُرجى إدخال اسم مسؤول الاتصال</value>
+  </data>
+  <data name="PleaseEnterCountry" xml:space="preserve">
+    <value>يرجى إدخال الدولة</value>
+  </data>
+  <data name="PleaseEnterCountrycode" xml:space="preserve">
+    <value>يرجى إدخال رمز البلد</value>
+  </data>
+  <data name="PleaseEnterCustomerName" xml:space="preserve">
+    <value>يرحى إدخال اسم العميل.</value>
+  </data>
+  <data name="PleaseEnterdatainCustomcolumn" xml:space="preserve">
+    <value>يرجى إدخال البيانات في العمود المخصص</value>
+  </data>
+  <data name="PleaseEnterDate" xml:space="preserve">
+    <value>يرجى إدخال تاريخ</value>
+  </data>
+  <data name="Pleaseenterdescription" xml:space="preserve">
+    <value>يرجى إدخال الوصف</value>
+  </data>
+  <data name="PleaseEnterDestination" xml:space="preserve">
+    <value>يرجى إدخال الوجهة</value>
+  </data>
+  <data name="PleaseEnterDestinationEmail" xml:space="preserve">
+    <value>يُرجى إدخال البريد المرسل إليه</value>
+  </data>
+  <data name="PleaseEnterDomain" xml:space="preserve">
+    <value>يرجى إدخال المجال</value>
+  </data>
+  <data name="PleaseEnterEmail" xml:space="preserve">
+    <value>يرجى إدخال البريد الإلكتروني</value>
+  </data>
+  <data name="PleaseEnterEmailAddress" xml:space="preserve">
+    <value>يُرجى إدخال البريد الإلكتروني</value>
+  </data>
+  <data name="PleaseEnterEmailFormat" xml:space="preserve">
+    <value>يُرجى إدخال صيغة البريد الإلكتروني</value>
+  </data>
+  <data name="PleaseEnterEmailSubject" xml:space="preserve">
+    <value>يُرجى إدخال موضوع البريد الإلكتروني</value>
+  </data>
+  <data name="PleaseEnterEndDate" xml:space="preserve">
+    <value>يرجى إدخال تاريخ الانتهاء</value>
+  </data>
+  <data name="PleaseEnterEndTag" xml:space="preserve">
+    <value>يرجى إدخال علامة الانتهاء</value>
+  </data>
+  <data name="Pleaseenterenquiryintervaltime" xml:space="preserve">
+    <value>يرجى إدراج المهلة الزمنية للاستفسار</value>
+  </data>
+  <data name="PleaseenterErrorMessage" xml:space="preserve">
+    <value>يرجى إدخال رسالة الخطأ</value>
+  </data>
+  <data name="PleaseEnterErrorResponse" xml:space="preserve">
+    <value>يرجى إدخال استجابة الخطأ</value>
+  </data>
+  <data name="PleaseenterFilePath" xml:space="preserve">
+    <value>يرجى إدخال مسار الملف</value>
+  </data>
+  <data name="PleaseenterFileSeparator" xml:space="preserve">
+    <value>يرجى إدخال فاصل الملفات</value>
+  </data>
+  <data name="PleaseEnterFilterword" xml:space="preserve">
+    <value>يرجى إدخال  كلمة الفلترة</value>
+  </data>
+  <data name="PleaseEnterFirstName" xml:space="preserve">
+    <value>يرحى إدخال الاسم الأول</value>
+  </data>
+  <data name="PleaseenterFooter" xml:space="preserve">
+    <value>يرجى إدخال تذييل</value>
+  </data>
+  <data name="PleaseEnterfromemail" xml:space="preserve">
+    <value>يرجى إدخال بريد المرسل</value>
+  </data>
+  <data name="PleaseEnterFromName" xml:space="preserve">
+    <value>يُرجى إدخال اسم المرسل</value>
+  </data>
+  <data name="pleaseEnterGroupName" xml:space="preserve">
+    <value>يرجى إدخال اسم المجموعة</value>
+  </data>
+  <data name="PleaseSelectinstance" xml:space="preserve">
+    <value>يرجى تحديد مثيل</value>
+  </data>
+  <data name="PleaseEnterIPAddress" xml:space="preserve">
+    <value>يُرجى إدخال عنوان بروتوكول الانترنت</value>
+  </data>
+  <data name="PleaseEnterISDCode" xml:space="preserve">
+    <value>يُرجى تحديد رمز الاتصال الدولي</value>
+  </data>
+  <data name="PleaseEnterJoinDate" xml:space="preserve">
+    <value>يُرجى إدخال تاريخ التسجيل</value>
+  </data>
+  <data name="PleaseEnterKeyword" xml:space="preserve">
+    <value>يُرجى إدخال الكلمة الرئيسية</value>
+  </data>
+  <data name="PleaseEnterLastName" xml:space="preserve">
+    <value>يرحى إدخال الاسم الأخير.</value>
+  </data>
+  <data name="PleaseEnterMailbox" xml:space="preserve">
+    <value>يُرجى إدخال صندوق البريد</value>
+  </data>
+  <data name="PleaseEnterMailServer" xml:space="preserve">
+    <value>يُرجى إدخال خادم البريد الإلكتروني</value>
+  </data>
+  <data name="PleaseEnterMessage" xml:space="preserve">
+    <value>يرجى إدخال الرسالة</value>
+  </data>
+  <data name="PleaseenterMessagefields" xml:space="preserve">
+    <value>يرجى إدخال حقول الرسالة</value>
+  </data>
+  <data name="PleaseEnterMessageTag" xml:space="preserve">
+    <value>يرجى إدخال علامة الرسالة</value>
+  </data>
+  <data name="PleaseenterMobileLength" xml:space="preserve">
+    <value>يرجى إدخال حد طول رقم الجوال</value>
+  </data>
+  <data name="PleaseEnterMobileNo" xml:space="preserve">
+    <value>يُرجى إدخال رقم الهاتف</value>
+  </data>
+  <data name="pleaseentermobileNos" xml:space="preserve">
+    <value>يرجى إدخال أرقام الهواتف المحمولة</value>
+  </data>
+  <data name="PleaseEnterMobileNumber" xml:space="preserve">
+    <value>يُرجى إدخال رقم الجوال</value>
+  </data>
+  <data name="pleaseentermobilenumberalongwithcountrycode" xml:space="preserve">
+    <value>يرجى إدخال رقم الهاتف الجوال بالإضافة إلى رمز البلد</value>
+  </data>
+  <data name="PleaseEnterMoShortCode" xml:space="preserve">
+    <value>يرجى إدخال رمز MO القصير</value>
+  </data>
+  <data name="Pleaseentername" xml:space="preserve">
+    <value>يرجى إدخال اسم</value>
+  </data>
+  <data name="PleaseEnterNewPassword" xml:space="preserve">
+    <value>يرجى إدخال كلمة المرور الجديدة</value>
+  </data>
+  <data name="PleaseEnterNoofSession" xml:space="preserve">
+    <value>يرجى إدخال لا يوجد جلسات</value>
+  </data>
+  <data name="Pleaseenternumberwithcountrycodeex971" xml:space="preserve">
+    <value>يُرجى إدخال الرقم مع رمز الدولة. (مثال: 971)</value>
+  </data>
+  <data name="PleaseEnterOldPassword" xml:space="preserve">
+    <value>يرجى إدخال كلمة المرور القديمة</value>
+  </data>
+  <data name="Pleaseenteronly" xml:space="preserve">
+    <value>يرجى فقط إدخال</value>
+  </data>
+  <data name="Pleaseenteronlynumbers" xml:space="preserve">
+    <value>يرجى إدخال أرقام فقط.</value>
+  </data>
+  <data name="PleaseEnterParameter" xml:space="preserve">
+    <value>يُرجى إدخال المعامل</value>
+  </data>
+  <data name="PleaseEnterPassword" xml:space="preserve">
+    <value>يرجى إدخال كلمة المرور</value>
+  </data>
+  <data name="PleaseEnterPhoneNumber" xml:space="preserve">
+    <value>يُرجى إدخال رقم الهاتف</value>
+  </data>
+  <data name="pleaseenterport" xml:space="preserve">
+    <value>يرجى إدخال منفذ</value>
+  </data>
+  <data name="PleaseEnterPortNumber" xml:space="preserve">
+    <value>يُرجى إدخال رقم المنفذ</value>
+  </data>
+  <data name="Pleaseenterprofilename" xml:space="preserve">
+    <value>يرجى إدخال اسم ملف التعريف</value>
+  </data>
+  <data name="PleaseenterQuestion" xml:space="preserve">
+    <value>يرجى إدخال سؤال</value>
+  </data>
+  <data name="PleaseenterrecipientmobilenumbersalongwithcountrycodeEg9715097155" xml:space="preserve">
+    <value>يرجى إدخال أرقام هاتف المستلم بالإضافة إلى كود الدولة، على سبيل المثال: 97150 XXX XXX, 97155 XXX XXX</value>
+  </data>
+  <data name="PleaseenterReplyMessage" xml:space="preserve">
+    <value>يرجى إدخال رسالة الرد</value>
+  </data>
+  <data name="PleaseEnterRoleName" xml:space="preserve">
+    <value>يرحى إدخال اسم الدور.</value>
+  </data>
+  <data name="PleaseEnterRouteName" xml:space="preserve">
+    <value>يرحى إدخال اسم المسار.</value>
+  </data>
+  <data name="PleaseenterSelectStatement" xml:space="preserve">
+    <value>يرجى إدخال تحديد كشف</value>
+  </data>
+  <data name="PleaseEnterSelectTable" xml:space="preserve">
+    <value>يرجى إدخال تحديد الجدول</value>
+  </data>
+  <data name="PleaseEnterSenderIdShortCode" xml:space="preserve">
+    <value>يرجى إدخال هوية الراسل/ الرمز المختصر.</value>
+  </data>
+  <data name="PleaseEnterSenderTag" xml:space="preserve">
+    <value>يرجى إدخال علامة المرسل</value>
+  </data>
+  <data name="PleaseEnterServer" xml:space="preserve">
+    <value>يُرجى إدخال الخادم</value>
+  </data>
+  <data name="PleaseEnterServerName" xml:space="preserve">
+    <value>يرجى إدخال اسم الخادم</value>
+  </data>
+  <data name="PleaseenterSetTime" xml:space="preserve">
+    <value>يرجى إدخال الوقت المحدد</value>
+  </data>
+  <data name="PleaseEnterSMPPUser" xml:space="preserve">
+    <value>يرجى إدخال مستخدم الرسائل النصية القصيرة من النظير للنظير</value>
+  </data>
+  <data name="PleaseEnterSMSCName" xml:space="preserve">
+    <value>يرجى إدخال اسم الخدمة.</value>
+  </data>
+  <data name="PleaseEnterSourceaddress" xml:space="preserve">
+    <value>يرجى إدخال عنوان المصدر</value>
+  </data>
+  <data name="PleaseEnterStartDate" xml:space="preserve">
+    <value>يرجى إدخال تاريخ البدء</value>
+  </data>
+  <data name="PleaseEnterStartTag" xml:space="preserve">
+    <value>يرجى إدخال علامة البدء</value>
+  </data>
+  <data name="PleaseEnterStatusColumn" xml:space="preserve">
+    <value>يرجى إدخال حالة العمود</value>
+  </data>
+  <data name="PleaseEnterSuccessResponse" xml:space="preserve">
+    <value>يرجى إدخال استجابة النجاح</value>
+  </data>
+  <data name="PleaseEnterSurveyName" xml:space="preserve">
+    <value>يُرجى إدخال اسم الاستطلاع</value>
+  </data>
+  <data name="PleaseEnterSystemID" xml:space="preserve">
+    <value>يرجى إدخال معرِّف النظام</value>
+  </data>
+  <data name="PleaseenterTemplate" xml:space="preserve">
+    <value>يرجى إدخال قالب</value>
+  </data>
+  <data name="PleaseEnterTemplatename" xml:space="preserve">
+    <value>يرجى إدخال اسم القالب</value>
+  </data>
+  <data name="PleaseenterTextArea" xml:space="preserve">
+    <value>يرجى إدخال جزء النص</value>
+  </data>
+  <data name="PleaseEnterthevalidstatement" xml:space="preserve">
+    <value>يرجى إدخال الكشف الصحيح</value>
+  </data>
+  <data name="PleaseEnterthevalidUniqueandstatuscolumn" xml:space="preserve">
+    <value>يرجى إدخال العمود الفريد الصحيح وحالة العمود</value>
+  </data>
+  <data name="PleaseEnterthevalidupdatetable" xml:space="preserve">
+    <value>يرجى إدخال الجدول المحدث الصحيح</value>
+  </data>
+  <data name="PleaseEnterthevalidupdatetableandUniquecolumnandstatuscolumn" xml:space="preserve">
+    <value>يرجى إدخال الجدول المحدث الصحيح والعمود الفريد وحالة العمود</value>
+  </data>
+  <data name="PleaseEnterThroughput" xml:space="preserve">
+    <value>يُرجى إدخال الإنتاجية</value>
+  </data>
+  <data name="PleaseEnterUniqueIDColumn" xml:space="preserve">
+    <value>يرجى إدخال عمود المعرِّف الفريد</value>
+  </data>
+  <data name="PleaseEnterUpdateValue" xml:space="preserve">
+    <value>يرجى إدخال قيمة التحديث</value>
+  </data>
+  <data name="PleaseEnterURL" xml:space="preserve">
+    <value>يُرجى تحديد محدد المصادر الموحد</value>
+  </data>
+  <data name="PleaseEnterURLTemplate" xml:space="preserve">
+    <value>يرجى إدخال قالب URL</value>
+  </data>
+  <data name="PleaseEnterURLTemplateUnicode" xml:space="preserve">
+    <value>يرجى إدخال رمز قالب URL الموحد</value>
+  </data>
+  <data name="PleaseEnterUserName" xml:space="preserve">
+    <value>يرحى إدخال اسم المستخدم.</value>
+  </data>
+  <data name="pleaseentervalidCustomer" xml:space="preserve">
+    <value>يرجى إدخال عميل صحيح</value>
+  </data>
+  <data name="pleaseentervalidemail" xml:space="preserve">
+    <value>يرجى إدخال بريد إلكتروني صحيح</value>
+  </data>
+  <data name="PleaseEnterValidSelectStatement" xml:space="preserve">
+    <value>يرجى إدخال كشف تحديد صحيح</value>
+  </data>
+  <data name="PleaseEnterValidSelectStatementandProfile" xml:space="preserve">
+    <value>يرجى إدخال كشف تحديد صالح والملف التعريفي</value>
+  </data>
+  <data name="pleaseentervalidUser" xml:space="preserve">
+    <value>يرجى إدخال مستخدم صحيح</value>
+  </data>
+  <data name="PleaseenterValue" xml:space="preserve">
+    <value>يرجى إدخال قيمة</value>
+  </data>
+  <data name="PleaseEnterWinner" xml:space="preserve">
+    <value>يُرجى إدخال الفائز</value>
+  </data>
+  <data name="PleaseEnterWinnerName" xml:space="preserve">
+    <value>يرجى إدخال اسم الفائز</value>
+  </data>
+  <data name="PleaseEnterWinners" xml:space="preserve">
+    <value>يرجى إدخال الرابحين</value>
+  </data>
+  <data name="Pleaseenteryouremail" xml:space="preserve">
+    <value>يرجى إدخال البريد الإلكتروني الخاص بك</value>
+  </data>
+  <data name="PleasemapatleastoneCustommessagefield" xml:space="preserve">
+    <value>يرجى تعيين حقل رسالة مخصص واحد على الأقل</value>
+  </data>
+  <data name="PleaseSelectaFiletoImport" xml:space="preserve">
+    <value>يرجى اختيار ملف للاستيراد</value>
+  </data>
+  <data name="PleaseSelectAllowedSpecialCharacters" xml:space="preserve">
+    <value>يرجى تحديد السماح باستخدام عناصر خاصة</value>
+  </data>
+  <data name="Pleaseselectanyoneformat" xml:space="preserve">
+    <value>يُرجى تحديد أي تنسيق واحد</value>
+  </data>
+  <data name="Pleaseselectatleastonecampign" xml:space="preserve">
+    <value>يرجى اختيار حملة واحدة على الأقل</value>
+  </data>
+  <data name="PleaseSelectAtleastOneFormat" xml:space="preserve">
+    <value>من فضلك اختر تنسيق واحد على الأقل</value>
+  </data>
+  <data name="PleaseselectatleastoneRecipienttoSubmitaQuickSMS" xml:space="preserve">
+    <value>يرجى اختيار مُستلم واحد على الأقل لإرسال رسالة سريعة</value>
+  </data>
+  <data name="PleaseSelectAtleastOneUserType" xml:space="preserve">
+    <value>يرجى تحديد نوع مستخدم واحد على الأقل</value>
+  </data>
+  <data name="Pleaseselectautoconn" xml:space="preserve">
+    <value>يرجى اختيار الاتصال التلقائي</value>
+  </data>
+  <data name="PleaseselectavalidFTPpath" xml:space="preserve">
+    <value>يرجى تحديد أي مسار نروتوكول نقل الملفات فعال.</value>
+  </data>
+  <data name="PleaseSelectBusinessRule" xml:space="preserve">
+    <value>يرجى تحديد قواعد الأعمال</value>
+  </data>
+  <data name="PleaseSelectCampaign" xml:space="preserve">
+    <value>يرجى اختيار الحملة</value>
+  </data>
+  <data name="PleaseSelectCampaignStatus" xml:space="preserve">
+    <value>يرجى تحديد حالة الحملة</value>
+  </data>
+  <data name="PleaseSelectCampaignType" xml:space="preserve">
+    <value>يرجى اختيار نوع الحملة</value>
+  </data>
+  <data name="PleaseSelectChangePasswordonFirstLogin" xml:space="preserve">
+    <value>يرجى تحديد تغيير كلمة السر عند تسجيل الدخول لأول مرة</value>
+  </data>
+  <data name="Pleaseselectcharset" xml:space="preserve">
+    <value>يرجى تحديد فئة العناصر</value>
+  </data>
+  <data name="pleaseselectcontactsfile" xml:space="preserve">
+    <value>يرجى اختيار ملف جهات الاتصال</value>
+  </data>
+  <data name="PleaseselectcorrectlanguageforErrorMessage" xml:space="preserve">
+    <value>يرجى اختيار اللغة الصحيحة لرسالة الخطأ</value>
+  </data>
+  <data name="PleaseselectcorrectlanguageforReplyMessage" xml:space="preserve">
+    <value>يرجى اختيار اللغة الصحيحة لرسالة الرد</value>
+  </data>
+  <data name="PleaseselectCountry" xml:space="preserve">
+    <value>يرجى تحديد الدولة</value>
+  </data>
+  <data name="pleaseselectcountryandoperator" xml:space="preserve">
+    <value>يرجى تحديد الدولة والمشغل</value>
+  </data>
+  <data name="PleaseSelectCreditType" xml:space="preserve">
+    <value>يرجى تحديد نوع الائتمان</value>
+  </data>
+  <data name="pleaseselectCurrency" xml:space="preserve">
+    <value>يرجى اختيار العملة</value>
+  </data>
+  <data name="PleaseSelectCustomer" xml:space="preserve">
+    <value>يرجى تحديد العميل</value>
+  </data>
+  <data name="PleaseselectDatabaseName" xml:space="preserve">
+    <value>يرجى اختيار اسم قاعدة البيانات.</value>
+  </data>
+  <data name="PleaseSelectDate" xml:space="preserve">
+    <value>يرجى تحديد التاريخ</value>
+  </data>
+  <data name="PleaseSelectDayslefttoExpiry" xml:space="preserve">
+    <value>يرجى تحديد عدد الأيام المتبقية قبل الانتهاء</value>
+  </data>
+  <data name="PleaseselectdBtype" xml:space="preserve">
+    <value>يرجى تحديد نوع dB</value>
+  </data>
+  <data name="PleaseselectDCSValue" xml:space="preserve">
+    <value>يرجى اختيار قيمة مجموعة جامع البيانات (DCS)</value>
+  </data>
+  <data name="PleaseselectDestNpi" xml:space="preserve">
+    <value>يرجى تحديد DestNpi</value>
+  </data>
+  <data name="PleaseselectDispatchSenderId" xml:space="preserve">
+    <value>يرجى تحديد إرسال معرِّف المرسل</value>
+  </data>
+  <data name="PleaseselectDisplayShortCode" xml:space="preserve">
+    <value>يرجى اختيار عرض الرمز المختصر</value>
+  </data>
+  <data name="PleaseselectDLR" xml:space="preserve">
+    <value>يرجى اختيار DLR</value>
+  </data>
+  <data name="PleaseSelectEncryptionType" xml:space="preserve">
+    <value>يُرجى تحديد نوع الشفرة</value>
+  </data>
+  <data name="PleaseSelectEndDate" xml:space="preserve">
+    <value>يرجى اختيار تاريخ الانتهاء</value>
+  </data>
+  <data name="pleaseselectfile" xml:space="preserve">
+    <value>يرجى اختيار ملف.</value>
+  </data>
+  <data name="PleaseSelectFilterByRecords" xml:space="preserve">
+    <value>يرجى تحديد الفلترة حسب السجلات</value>
+  </data>
+  <data name="pleaseselectFilterword" xml:space="preserve">
+    <value>يرجى تحديد كلمة التصفية</value>
+  </data>
+  <data name="Pleaseselectformat" xml:space="preserve">
+    <value>يرجى تحديد التنسيق</value>
+  </data>
+  <data name="pleaseselectgroup" xml:space="preserve">
+    <value>يرجى تحديد المجموعة.</value>
+  </data>
+  <data name="pleaseselectGroups" xml:space="preserve">
+    <value>يرجى اختيار مجموعات.</value>
+  </data>
+  <data name="pleaseselectHours" xml:space="preserve">
+    <value>يرجى تحديد الساعات.</value>
+  </data>
+  <data name="PleaseSelectKeyword" xml:space="preserve">
+    <value>يرجى تحديد الكلمة الرئيسية</value>
+  </data>
+  <data name="Pleaseselectlogon" xml:space="preserve">
+    <value>يرجى اختيار تسجيل الدخول</value>
+  </data>
+  <data name="PleaseSelectMaximumLength" xml:space="preserve">
+    <value>يرجى تحديد الحد الأقصى</value>
+  </data>
+  <data name="PleaseSelectMinimumNumberofCapitalAlphabets" xml:space="preserve">
+    <value>يرجى تحديد الحد الأدنى من عدد الحروف الكبيرة</value>
+  </data>
+  <data name="PleaseSelectMinimumNumberofDigits" xml:space="preserve">
+    <value>يرجى تحديد الحد الأدنى من عدد الأرقام</value>
+  </data>
+  <data name="pleaseselectminutes" xml:space="preserve">
+    <value>يرجى تحديد الدقائق.</value>
+  </data>
+  <data name="PleaseSelectMobilenNoFiled" xml:space="preserve">
+    <value>يرجى اختيار حقل  رقم الهاتف</value>
+  </data>
+  <data name="pleaseSelectMobileNoField" xml:space="preserve">
+    <value>يرجى تحديد حقل رقم الجوال</value>
+  </data>
+  <data name="pleaseselectmobilenumberfield" xml:space="preserve">
+    <value>يرجى اختيار حقل رقم الجوال.</value>
+  </data>
+  <data name="pleaseselectmobilenumbers" xml:space="preserve">
+    <value>يرجى اختيار رقم (أرقام) الهاتف</value>
+  </data>
+  <data name="pleaseSelectMOCampaign" xml:space="preserve">
+    <value>يرجى اختيار الرسالة المكتوبة على الجوال.</value>
+  </data>
+  <data name="pleaseselectmonth" xml:space="preserve">
+    <value>يرجى اختيار الشهر</value>
+  </data>
+  <data name="PleaseselectMOShortCode" xml:space="preserve">
+    <value>يرجى تحديد رمز الجوال المختصر</value>
+  </data>
+  <data name="pleaseselectMsgID" xml:space="preserve">
+    <value>يرجى تحديد معرِّف الرسالة (MsgID)</value>
+  </data>
+  <data name="pleaseselectMSISDN" xml:space="preserve">
+    <value>يرجى تحديد رقم دليل المشترك الدولي في خدمة الهواتف (MSISDN)</value>
+  </data>
+  <data name="Pleaseselectonecampignonly" xml:space="preserve">
+    <value>يرجى تحديد رسالة واحدة فقط..</value>
+  </data>
+  <data name="Pleaseselectoneormoreitemstodelete" xml:space="preserve">
+    <value>يرجى اختيار عنصر أو أكثر لحذفه.</value>
+  </data>
+  <data name="PleaseselectOperator" xml:space="preserve">
+    <value>يرجى تحديد المشغل</value>
+  </data>
+  <data name="PleaseSelectOriginator" xml:space="preserve">
+    <value>يرجى اختيار المنشأ</value>
+  </data>
+  <data name="PleaseSelectOutboundSender" xml:space="preserve">
+    <value>يرجى تحديد مرسل الصادر</value>
+  </data>
+  <data name="PleaseSelectPasswordMinimumLength" xml:space="preserve">
+    <value>يرجى تحديد الحد الأدنى لطول كلمة السر</value>
+  </data>
+  <data name="PleaseSelectPasswordRepeat" xml:space="preserve">
+    <value>يرجى تحديد تكرار كلمة السر</value>
+  </data>
+  <data name="PleaseSelectPreferredRoute" xml:space="preserve">
+    <value>يرجى تحديد المسار المفضل</value>
+  </data>
+  <data name="PleaseselectProfile" xml:space="preserve">
+    <value>يرجى تحديد الملف التعريفي</value>
+  </data>
+  <data name="PleaseSelectProtocol" xml:space="preserve">
+    <value>يرجى تحديد البروتوكول</value>
+  </data>
+  <data name="Pleaseselectprotocolversion" xml:space="preserve">
+    <value>يرجى تحديد نسخة البروتوكول</value>
+  </data>
+  <data name="pleaseselectRate" xml:space="preserve">
+    <value>يرجى اختيار السعر</value>
+  </data>
+  <data name="PleaseSelectRecipientDetails" xml:space="preserve">
+    <value>يرجى تحديد تفاصيل المستلم</value>
+  </data>
+  <data name="pleaseselectReplaceWith" xml:space="preserve">
+    <value>يرجى استبدال العنصر بـ</value>
+  </data>
+  <data name="PleaseSelectRetryLimit" xml:space="preserve">
+    <value>يرجى تحديد حد إعادة المحاولة</value>
+  </data>
+  <data name="PleaseEnterTimeIntervalSeconds" xml:space="preserve">
+    <value>الرجاء إدخال الفاصل الزمني (بالثواني)</value>
+  </data>
+  <data name="PleaseSelectRole" xml:space="preserve">
+    <value>يرجى تحديد الدور</value>
+  </data>
+  <data name="PleaseSelectRoleFeatures" xml:space="preserve">
+    <value>يرجى تحديد خصائص الدور</value>
+  </data>
+  <data name="Pleaseselectroute" xml:space="preserve">
+    <value>يرجى تحديد المسار</value>
+  </data>
+  <data name="PleaseSelectSender" xml:space="preserve">
+    <value>يرجى تحديد راسل</value>
+  </data>
+  <data name="PleaseEnterSenderId" xml:space="preserve">
+    <value>الرجاء إدخال المرسل</value>
+  </data>
+  <data name="PleaseselectSenderType" xml:space="preserve">
+    <value>يرجى تحديد نوع المرسل</value>
+  </data>
+  <data name="pleaseSelectServer" xml:space="preserve">
+    <value>يرجى تحديد الخادم</value>
+  </data>
+  <data name="PleaseSelectServerInstance" xml:space="preserve">
+    <value>يرجى تحديد الخادم/المثيل</value>
+  </data>
+  <data name="PleaseselectServiceName" xml:space="preserve">
+    <value>يرجى اختيار اسم الخدمة.</value>
+  </data>
+  <data name="pleaseselectSheet" xml:space="preserve">
+    <value>يرجى اختيار ورقة.</value>
+  </data>
+  <data name="PleaseSelectShortcode" xml:space="preserve">
+    <value>يرجى تحديد الرمز المختصر</value>
+  </data>
+  <data name="PleaseSelectShortcodeType" xml:space="preserve">
+    <value>يرجى اختيار نوع الرمز المختصر</value>
+  </data>
+  <data name="PleaseSelectsingleSMSCatthetimeofUpdatingaRoute" xml:space="preserve">
+    <value>يرجى تحديد مركز الرسائل المنفرد في وقت تحديث المسار</value>
+  </data>
+  <data name="PleaseSelectSMPPID" xml:space="preserve">
+    <value>يرجى تحديد هوية الرسائل النصية القصيرة من النظير للنظير</value>
+  </data>
+  <data name="PleaseSelectSMSC" xml:space="preserve">
+    <value>يرجى تحديد الرسالة</value>
+  </data>
+  <data name="PleaseselectSourceNpi" xml:space="preserve">
+    <value>يرجى تحديد معرِّف مقدم الخدمة الوطني الأصلي</value>
+  </data>
+  <data name="PleaseselectSourceTon" xml:space="preserve">
+    <value>يرجى اختيار تشغيل T الأصلي</value>
+  </data>
+  <data name="PleaseSelectStartDate" xml:space="preserve">
+    <value>يرجى اختيار تاريخ البدء</value>
+  </data>
+  <data name="PleaseSelectStatus" xml:space="preserve">
+    <value>يرجى اختيار الحالة</value>
+  </data>
+  <data name="PleaseSelectSubKeyword" xml:space="preserve">
+    <value>يرجى تحديد كلمة أساسية فرعية</value>
+  </data>
+  <data name="PleaseselectTemplate" xml:space="preserve">
+    <value>يرجى اختيار نموذج</value>
+  </data>
+  <data name="pleaseselectTextExcelfile" xml:space="preserve">
+    <value>يرجى تحديد ملف نص/اكسيل..</value>
+  </data>
+  <data name="PleaseSelectthedates" xml:space="preserve">
+    <value>يرجى اختيار التواريخ</value>
+  </data>
+  <data name="PleaseSelectTimeInterval" xml:space="preserve">
+    <value>يرجى تحديد الفاصل الزمني</value>
+  </data>
+  <data name="PleaseSelectTimeIntervalSeconds" xml:space="preserve">
+    <value>يرجى اختيار الفاصل الزمني (ثوانٍ)</value>
+  </data>
+  <data name="PleaseselectTransactionType" xml:space="preserve">
+    <value>يرجى تحديد نوع المعاملة</value>
+  </data>
+  <data name="PleaseSelectUser" xml:space="preserve">
+    <value>يرجى تحديد المستخدم</value>
+  </data>
+  <data name="PleaseselectUserType" xml:space="preserve">
+    <value>يرجى تحديد نوع المستخدم</value>
+  </data>
+  <data name="Pleaseselectvalidcolumn" xml:space="preserve">
+    <value>يرجى إدخال عمود صحيح</value>
+  </data>
+  <data name="PleaseSelectVendor" xml:space="preserve">
+    <value>يرجى تحديد البائع.</value>
+  </data>
+  <data name="PleaseSelectVendorName" xml:space="preserve">
+    <value>برجاء تحديد اسم البائع.</value>
+  </data>
+  <data name="PleaseSelectVersion" xml:space="preserve">
+    <value>يرجى تحديد الإصدار</value>
+  </data>
+  <data name="PleaseSelectWinnerSettingsName" xml:space="preserve">
+    <value>يرجى اختيار اسم إعدادات الفائز</value>
+  </data>
+  <data name="PleaseSelectWinnertype" xml:space="preserve">
+    <value>يُرجى تحديد نوع الفائز</value>
+  </data>
+  <data name="Pleaseselectxlsxlsxfile" xml:space="preserve">
+    <value>يرجى اختيار ملف بصيغة 0xls أو 0xlsx</value>
+  </data>
+  <data name="PleaseUploadtheValidFile" xml:space="preserve">
+    <value>يرجى تحميل الملف الصحيح</value>
+  </data>
+  <data name="Pleseentermorethan3characters" xml:space="preserve">
+    <value>يرجى إدخال أكثر من 3 عناصر</value>
+  </data>
+  <data name="POP3" xml:space="preserve">
+    <value>بروتوكول مكتب البريد 3 (POP3)</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>المنفذ</value>
+  </data>
+  <data name="POSTPAID" xml:space="preserve">
+    <value>فاتورة</value>
+  </data>
+  <data name="PreferedRoute" xml:space="preserve">
+    <value>المسار المفضل</value>
+  </data>
+  <data name="PreferredRoute" xml:space="preserve">
+    <value>المسار المفضل</value>
+  </data>
+  <data name="PreferredRoutealreadyExists" xml:space="preserve">
+    <value>المسار المفضل موجود بالفعل.</value>
+  </data>
+  <data name="PreferredRouteView" xml:space="preserve">
+    <value>عرض الطريق المفضل</value>
+  </data>
+  <data name="Premium" xml:space="preserve">
+    <value>متميز</value>
+  </data>
+  <data name="PreProcessIntervalTime" xml:space="preserve">
+    <value>المعالجة المسبقة لمهلة الفاصل الزمني</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>عرض</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>السابق</value>
+  </data>
+  <data name="Proceed" xml:space="preserve">
+    <value>تقدم</value>
+  </data>
+  <data name="ProcessemailswhenSmtpToSMSserviceisdown" xml:space="preserve">
+    <value>معالجة رسائل البريد الإلكتروني عندما تتعطل خدمة بروتوكول إرسال البريد البسيط إلى خدمة الرسائل القصيرة</value>
+  </data>
+  <data name="ProcessingTime" xml:space="preserve">
+    <value>وقت المعالجة</value>
+  </data>
+  <data name="ProcessTime" xml:space="preserve">
+    <value>وقت العملية</value>
+  </data>
+  <data name="ProductlogoshouldbereplacedwithCustomerLogo" xml:space="preserve">
+    <value>ينبغي استبدال شعار المنتج بشعار العميل</value>
+  </data>
+  <data name="ProfilealreadyExists" xml:space="preserve">
+    <value>ملف التعريف موجود بالفعل.</value>
+  </data>
+  <data name="ProfileCreation" xml:space="preserve">
+    <value>إنشاء ملف شخصي</value>
+  </data>
+  <data name="ProfileCreationView" xml:space="preserve">
+    <value>عرض إنشاء ملف التعريف</value>
+  </data>
+  <data name="ProfileName" xml:space="preserve">
+    <value>اسم ملف التعريف</value>
+  </data>
+  <data name="Profiles" xml:space="preserve">
+    <value>ملفات تعريف</value>
+  </data>
+  <data name="Progress" xml:space="preserve">
+    <value>التقدم</value>
+  </data>
+  <data name="Protocol" xml:space="preserve">
+    <value>البروتوكول</value>
+  </data>
+  <data name="ProtocolVersion" xml:space="preserve">
+    <value>نسخة البروتوكول</value>
+  </data>
+  <data name="QuickSMSUpdatedSuccessfully" xml:space="preserve">
+    <value>تم تحديث الرسائل السريعة بنجاح</value>
+  </data>
+  <data name="Rate" xml:space="preserve">
+    <value>سعر</value>
+  </data>
+  <data name="RateCard" xml:space="preserve">
+    <value>بطاقة السعر</value>
+  </data>
+  <data name="Ratecardalreadyexists" xml:space="preserve">
+    <value>بطاقة الأسعار موجودة بالفعل</value>
+  </data>
+  <data name="RateCardView" xml:space="preserve">
+    <value>عرض بطاقة المعدل</value>
+  </data>
+  <data name="ReceivedDate" xml:space="preserve">
+    <value>تاريخ الاستلام</value>
+  </data>
+  <data name="ReceivedTime" xml:space="preserve">
+    <value>وقت الاستلام</value>
+  </data>
+  <data name="Receiver" xml:space="preserve">
+    <value>المستلم</value>
+  </data>
+  <data name="RecentActivities" xml:space="preserve">
+    <value>الأنشطة الحالية</value>
+  </data>
+  <data name="RecipientS" xml:space="preserve">
+    <value>المستلم (المستلمين)</value>
+  </data>
+  <data name="RecipientsFileshouldbeNotepadCSVXLSorXLSX" xml:space="preserve">
+    <value>المستلمون يجب أن يكون الملف  Notepad/CSV/XLS أو XLSX</value>
+  </data>
+  <data name="RecipientType" xml:space="preserve">
+    <value>نوع المستلم</value>
+  </data>
+  <data name="Recommendedthatthefirstrowisheaderasshownbelow" xml:space="preserve">
+    <value>يوصى بأن يكون الصف الأول عنوان رأسي كما هو موضح أدناه.</value>
+  </data>
+  <data name="RecordnotSavedContactsystemAdmin" xml:space="preserve">
+    <value>لم يتم حفظ السجل مسؤول نظام الاتصال</value>
+  </data>
+  <data name="RecordUpdated" xml:space="preserve">
+    <value>تم تحديد السجل</value>
+  </data>
+  <data name="Remarks" xml:space="preserve">
+    <value>ملاحظات</value>
+  </data>
+  <data name="ReplaceWith" xml:space="preserve">
+    <value>استبدال بـ</value>
+  </data>
+  <data name="Replay" xml:space="preserve">
+    <value>إعادة التشغيل</value>
+  </data>
+  <data name="Reply" xml:space="preserve">
+    <value>رد</value>
+  </data>
+  <data name="ReplyMessage" xml:space="preserve">
+    <value>رسالة الرد</value>
+  </data>
+  <data name="ReplyText" xml:space="preserve">
+    <value>نص الرد</value>
+  </data>
+  <data name="ReplyType" xml:space="preserve">
+    <value>نوع الرد</value>
+  </data>
+  <data name="ReportFor" xml:space="preserve">
+    <value>تقرير لـ</value>
+  </data>
+  <data name="ReportOnCreditsConsumed" xml:space="preserve">
+    <value>تقرير عن الائتمانات المستهلكة</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>التقارير</value>
+  </data>
+  <data name="RequiredMobileLength" xml:space="preserve">
+    <value>المطلوب: طول النقال</value>
+  </data>
+  <data name="RequiredSMPPForward" xml:space="preserve">
+    <value>مطلوب إعادة توجيه SMPP</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>إعادة تعيين</value>
+  </data>
+  <data name="ResetForm" xml:space="preserve">
+    <value>إعادة ضبط من</value>
+  </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>إعادة تعيين كلمة السر</value>
+  </data>
+  <data name="ResetPasswordView" xml:space="preserve">
+    <value>عرض إعادة تعيين كلمة المرور</value>
+  </data>
+  <data name="ResponseEmailAddressBCC" xml:space="preserve">
+    <value>الرد على البريد الإلكتروني بنسخة مخفية BCC</value>
+  </data>
+  <data name="ResponseEmailAddressCC" xml:space="preserve">
+    <value>الرد على البريد الإلكتروني بنسخة CC</value>
+  </data>
+  <data name="ResponseEmailAddressTo" xml:space="preserve">
+    <value>رد البريد الإلكتروني إلى</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>إعادة البدء</value>
+  </data>
+  <data name="RetryAttempts" xml:space="preserve">
+    <value>محاولات إعادة المحاولة</value>
+  </data>
+  <data name="RetryInterval" xml:space="preserve">
+    <value>فواصل إعادة المحاولة</value>
+  </data>
+  <data name="RetryLimit" xml:space="preserve">
+    <value>حد إعادة المحاولة</value>
+  </data>
+  <data name="RetryLimitAttempts" xml:space="preserve">
+    <value>حد إعادة المحاولة (محاولات)</value>
+  </data>
+  <data name="RetryType" xml:space="preserve">
+    <value>نوع إعادة المحاولة</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>الدور</value>
+  </data>
+  <data name="RoleAddedSuccessfully" xml:space="preserve">
+    <value>تم إضافة الدور بنجاح.</value>
+  </data>
+  <data name="Rolealreadyexistedindb" xml:space="preserve">
+    <value>الدور موجود بالفعل في قاعدة الباينات.</value>
+  </data>
+  <data name="RoleCreation" xml:space="preserve">
+    <value>إنشاء الدور</value>
+  </data>
+  <data name="Roleexistedindbwithgivenname" xml:space="preserve">
+    <value>الدور موجود في قاعدة الباينات مع اسم معين.</value>
+  </data>
+  <data name="RoleName" xml:space="preserve">
+    <value>اسم الدور</value>
+  </data>
+  <data name="RoleNotAddedErrorinAddingRole" xml:space="preserve">
+    <value>لم يتم إضافة الدور، خطأ في إضافة الدور.</value>
+  </data>
+  <data name="RoleNotAddedRoleNameAlreadyExist" xml:space="preserve">
+    <value>لم يتم إضافة الدور، اسم الدور موجود بالفعل.</value>
+  </data>
+  <data name="RoleNotUpdatedErrorinUpdatingRole" xml:space="preserve">
+    <value>لم يتم تحديث دور، خطأ في تحديث الدور.</value>
+  </data>
+  <data name="RoleNotUpdatedRoleNameAlreadyExist" xml:space="preserve">
+    <value>لم يتم تحديث الدور، اسم الدور موجود بالفعل.</value>
+  </data>
+  <data name="RolePrivileges" xml:space="preserve">
+    <value>امتيازات الدور</value>
+  </data>
+  <data name="RolePrivilegesSetup" xml:space="preserve">
+    <value>إعداد امتيازات الدور</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>الأدوار</value>
+  </data>
+  <data name="RoleUpdatedSuccessfully" xml:space="preserve">
+    <value>تم تحديث الدور بنجاح.</value>
+  </data>
+  <data name="RoleView" xml:space="preserve">
+    <value>عرض الدور</value>
+  </data>
+  <data name="Route" xml:space="preserve">
+    <value>المسار</value>
+  </data>
+  <data name="RouteMaster" xml:space="preserve">
+    <value>الخط الرئيسي للمسار</value>
+  </data>
+  <data name="RouteMasterView" xml:space="preserve">
+    <value>عرضالطرق الرئيسي</value>
+  </data>
+  <data name="RouteName" xml:space="preserve">
+    <value>اسم الطريق</value>
+  </data>
+  <data name="Routenameshouldnotbeempty" xml:space="preserve">
+    <value>لا يجب أن يكون خانة اسم المسار فارغة</value>
+  </data>
+  <data name="Routes" xml:space="preserve">
+    <value>المسار (المسارات)</value>
+  </data>
+  <data name="Routesalreadyexistswiththisname" xml:space="preserve">
+    <value>المشار (المسارات) موجود (ة) بالفعل بهذا الاسم.</value>
+  </data>
+  <data name="RouteWise" xml:space="preserve">
+    <value>بالنسبة لاتجاه الإرسال</value>
+  </data>
+  <data name="RuleType" xml:space="preserve">
+    <value>نوع القاعدة</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>حفظ</value>
+  </data>
+  <data name="SaveMappings" xml:space="preserve">
+    <value>حفظ التعيينات</value>
+  </data>
+  <data name="Schduled" xml:space="preserve">
+    <value>مقرر</value>
+  </data>
+  <data name="SchduleDate" xml:space="preserve">
+    <value>تاريخ الجدول الزمني</value>
+  </data>
+  <data name="Schedule" xml:space="preserve">
+    <value>الجدول الزمني</value>
+  </data>
+  <data name="ScheduleDate" xml:space="preserve">
+    <value>تاريخ الجدول الزمني</value>
+  </data>
+  <data name="ScheduleInterval" xml:space="preserve">
+    <value>حدِّد الفاصل الزمني</value>
+  </data>
+  <data name="ScheduleLater" xml:space="preserve">
+    <value>الجدول الزمني لاحقًا</value>
+  </data>
+  <data name="ScheduleOn" xml:space="preserve">
+    <value>رتب موعداً في</value>
+  </data>
+  <data name="ScheduleTime" xml:space="preserve">
+    <value>وقت الجدول الزمني</value>
+  </data>
+  <data name="Scheduletimeshouldbegreaterthancurrentdatetime" xml:space="preserve">
+    <value>يجب أن يكون الجدول الزمني أكبر من الوقت والتاريخ الحاليين</value>
+  </data>
+  <data name="ScheduletimeshouldbegreatherthancurrentdatetimeincludingPreProcessTime" xml:space="preserve">
+    <value>يجب أن يكون زمن الجدول أكبر من التاريخ والوقت المحددين حاليًّا بما في ذلك زمن المعالجة الأولية</value>
+  </data>
+  <data name="ScheduletimeshouldnotbeLessthancurrentDateTime" xml:space="preserve">
+    <value>لا يجب أن يكون وقت الجدول الزمني أقل من التاريخ والوقت الحالي.</value>
+  </data>
+  <data name="ScreenLock" xml:space="preserve">
+    <value>قفل الشاشة</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>البحث</value>
+  </data>
+  <data name="Searchby" xml:space="preserve">
+    <value>البحث بواسطة</value>
+  </data>
+  <data name="SearchCountry" xml:space="preserve">
+    <value>ابحث عن البلد</value>
+  </data>
+  <data name="SearchGroup" xml:space="preserve">
+    <value>ابحث عن مجموعة</value>
+  </data>
+  <data name="SearchonMobileNumberorResponse" xml:space="preserve">
+    <value>البحث بواسطة رقم الهاتف الجوال أو الرد</value>
+  </data>
+  <data name="SearchResult" xml:space="preserve">
+    <value>نتيجة البحث</value>
+  </data>
+  <data name="Seconds" xml:space="preserve">
+    <value>ثوان</value>
+  </data>
+  <data name="SecoundPrize" xml:space="preserve">
+    <value>الجائزة الثانية</value>
+  </data>
+  <data name="Secounds" xml:space="preserve">
+    <value>الثواني</value>
+  </data>
+  <data name="Security" xml:space="preserve">
+    <value>الأمان</value>
+  </data>
+  <data name="SecurityManagement" xml:space="preserve">
+    <value>إدارة الأمن</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>حدد</value>
+  </data>
+  <data name="SelectAccountManager" xml:space="preserve">
+    <value>--حدِّد مدير الحساب--</value>
+  </data>
+  <data name="Selectatleastonegroup" xml:space="preserve">
+    <value>اختر مجموعة واحدة على الأقل</value>
+  </data>
+  <data name="SelectBusinessRule" xml:space="preserve">
+    <value>--حدِّد قواعد الأعمال--</value>
+  </data>
+  <data name="SelectCampaignType" xml:space="preserve">
+    <value>حدِّد نوع الرسالة</value>
+  </data>
+  <data name="SelectCountry" xml:space="preserve">
+    <value>--حدِّد البلد--</value>
+  </data>
+  <data name="SelectCustomer" xml:space="preserve">
+    <value>حدد عميلًا</value>
+  </data>
+  <data name="SelectCustomeri" xml:space="preserve">
+    <value>--حدِّد العميل--</value>
+  </data>
+  <data name="SelectCustomers" xml:space="preserve">
+    <value>حدد العملاء</value>
+  </data>
+  <data name="SelectCustomerType" xml:space="preserve">
+    <value>حدد نوع العميل</value>
+  </data>
+  <data name="SelectedCountryHasNoOperators" xml:space="preserve">
+    <value>لا تحتوي الدولة المحددة على برامج تشغيل</value>
+  </data>
+  <data name="selectedfileformatisinvalid" xml:space="preserve">
+    <value>تنسيق الملف المختار غير صالح</value>
+  </data>
+  <data name="SelectEmailTemplate" xml:space="preserve">
+    <value>حدد قالب البريد الإلكتروني</value>
+  </data>
+  <data name="SelectExcelFile" xml:space="preserve">
+    <value>حدد ملف إكسيل</value>
+  </data>
+  <data name="SelectFile" xml:space="preserve">
+    <value>حدد ملف</value>
+  </data>
+  <data name="SelectGroupFile" xml:space="preserve">
+    <value>تحديد ملف المجموعة</value>
+  </data>
+  <data name="SelectGroups" xml:space="preserve">
+    <value>تحديد المجموعات</value>
+  </data>
+  <data name="SelectInterval" xml:space="preserve">
+    <value>حدد الفاصل الزمني</value>
+  </data>
+  <data name="SelectMailbox" xml:space="preserve">
+    <value>اختر صندوق البريد</value>
+  </data>
+  <data name="SelectMessageField" xml:space="preserve">
+    <value>حدد حقل الرسالة</value>
+  </data>
+  <data name="SelectMobileNumberField" xml:space="preserve">
+    <value>حدد حقل رقم المحمول</value>
+  </data>
+  <data name="SelectMOCampaign" xml:space="preserve">
+    <value>حدد حملة الرسالة الصادرة من الهاتف النقال إلى تطبيق</value>
+  </data>
+  <data name="SelectProfile" xml:space="preserve">
+    <value>حدد الملف التعريفي</value>
+  </data>
+  <data name="SelectRole" xml:space="preserve">
+    <value>حدد الدور</value>
+  </data>
+  <data name="SelectRoute" xml:space="preserve">
+    <value>--حدِّد المسار--</value>
+  </data>
+  <data name="SelectSender" xml:space="preserve">
+    <value>--حدِّد المرسل--</value>
+  </data>
+  <data name="SelectSenderID" xml:space="preserve">
+    <value>حدد هوية المرسل</value>
+  </data>
+  <data name="SelectSheet" xml:space="preserve">
+    <value>حدد صفحة</value>
+  </data>
+  <data name="SelectShortcode" xml:space="preserve">
+    <value>--حدِّد الرمز المختصر--</value>
+  </data>
+  <data name="SelectSMPPUser" xml:space="preserve">
+    <value>--حدِّد مستخدم SMPP--</value>
+  </data>
+  <data name="SelectStatement" xml:space="preserve">
+    <value>حدد كشفًا</value>
+  </data>
+  <data name="SelectSubKeyword" xml:space="preserve">
+    <value>--حدِّد الكلمة الفرعية--</value>
+  </data>
+  <data name="SelectSurvey" xml:space="preserve">
+    <value>--حدِّد الاستقصاء--</value>
+  </data>
+  <data name="SelectTable" xml:space="preserve">
+    <value>حدِّد الجدول</value>
+  </data>
+  <data name="SelectTextExcelFile" xml:space="preserve">
+    <value>حدد ملف إكسيل/ نص</value>
+  </data>
+  <data name="SelecttheRoletoassignprivileges" xml:space="preserve">
+    <value>حدد دور لتعيين الامتيازات</value>
+  </data>
+  <data name="SelectUser" xml:space="preserve">
+    <value>--حدِّد المستخدم--</value>
+  </data>
+  <data name="SelectVendor" xml:space="preserve">
+    <value>--حدِّد البائع--</value>
+  </data>
+  <data name="SelectVendorName" xml:space="preserve">
+    <value>--حدِّد اسم المورد--</value>
+  </data>
+  <data name="SelectViewByCustomer" xml:space="preserve">
+    <value>حدد مشاهدة بواسطة العميل</value>
+  </data>
+  <data name="SendDate" xml:space="preserve">
+    <value>تاريخ الإرسال</value>
+  </data>
+  <data name="Sender" xml:space="preserve">
+    <value>المرسل</value>
+  </data>
+  <data name="SenderID" xml:space="preserve">
+    <value>مُعرف المُرسل</value>
+  </data>
+  <data name="SenderIdAddedSuccessfully" xml:space="preserve">
+    <value>تم إضافة هوية الراسل بنجاح.</value>
+  </data>
+  <data name="SenderIdShortCode" xml:space="preserve">
+    <value>معرف المرسل/  الرمز المختصر</value>
+  </data>
+  <data name="SenderIDShortCodeAddedSuccessfully" xml:space="preserve">
+    <value>هوية الراسل/ تمت إضافة الرمز المختصر بنجاح.</value>
+  </data>
+  <data name="SenderIDShortCodeFailedtoAdd" xml:space="preserve">
+    <value>هوية الراسل/ فشل في إضافة الرمز المختصر.</value>
+  </data>
+  <data name="SenderIDShortCodeFailedtoAddContactyourSystemAdmin" xml:space="preserve">
+    <value>هوية الراسل/ فشل في إضافة الرمز المختصر. اتصل بمسؤول النظام الخاص بك.</value>
+  </data>
+  <data name="SenderIdShortcodeView" xml:space="preserve">
+    <value>سيندريد عرض الرمز القصير</value>
+  </data>
+  <data name="SenderIdUpdatedSuccessfully" xml:space="preserve">
+    <value>تم تحديث هوية الراسل بنجاح.</value>
+  </data>
+  <data name="SenderIdwiseReport" xml:space="preserve">
+    <value>تقرير مُعرف المُرسل الشامل</value>
+  </data>
+  <data name="SenderIdwithtag" xml:space="preserve">
+    <value>معرّف المرسل ذو علامة</value>
+  </data>
+  <data name="senderIdwithtagMessagewithtag" xml:space="preserve">
+    <value>معرّف المرسل ذو علامة، الرسالة ذات علامة</value>
+  </data>
+  <data name="SenderMessageTagsareShouldnotbesame" xml:space="preserve">
+    <value>يجب أن تختلف علامات المرسل عن علامات الرسالة</value>
+  </data>
+  <data name="Sendertag" xml:space="preserve">
+    <value>وسم المُرسل</value>
+  </data>
+  <data name="SenderTagInvalidFormatExFormat" xml:space="preserve">
+    <value>مرسل علامة غير صالحة تنسيق، التنسيق السابق: </value>
+  </data>
+  <data name="SenderWise" xml:space="preserve">
+    <value>بالنسبة للمرسل</value>
+  </data>
+  <data name="SenderWiseLoadLast48hours" xml:space="preserve">
+    <value>تحميل المرسل (يدوم 48 ساعة)</value>
+  </data>
+  <data name="SenderwiseReport" xml:space="preserve">
+    <value>تقرير المُرسل الشامل</value>
+  </data>
+  <data name="SendNow" xml:space="preserve">
+    <value>أرسل الآن</value>
+  </data>
+  <data name="SendSMSServicemaynotbeupandrunningCampaignwillbesentoncetheservicestarts" xml:space="preserve">
+    <value>خدمة إرسال الرسائل الصغيرة قد لا تكون قيد التشغيل، سوف يتم إرسال الرسالة بمجرد تشغيل الخدمة.</value>
+  </data>
+  <data name="SendSMSServicemaynotbeupandrunningMessageswillbesentoncetheservicestarts" xml:space="preserve">
+    <value>خدمة إرسال الرسائل الصغيرة قد لا تكون قيد التشغيل، سوف يتم إرسال الرسائل بمجرد تشغيل الخدمة.</value>
+  </data>
+  <data name="SendSMSServicemaynotbeupandrunningMOSurveywillbesentoncetheservicestarts" xml:space="preserve">
+    <value>إرسال خدمة الرسائل القصيرة قد لا يكون قيد التشغيل، سيُرسل مسح الرسالة الصادرة من الهاتف النقال إلى تطبيق بعد بدء الحملة</value>
+  </data>
+  <data name="SentDate" xml:space="preserve">
+    <value>مرسلةتاريخ</value>
+  </data>
+  <data name="Series" xml:space="preserve">
+    <value>تسلسل</value>
+  </data>
+  <data name="SeriesalreadyExists" xml:space="preserve">
+    <value>السلسلة موجودة بالفعل.</value>
+  </data>
+  <data name="SeriesNotFound" xml:space="preserve">
+    <value>لم يتم العثور على المتسلسلة</value>
+  </data>
+  <data name="Server" xml:space="preserve">
+    <value>الخادم</value>
+  </data>
+  <data name="ServerInstance" xml:space="preserve">
+    <value>الخادم/المثيل</value>
+  </data>
+  <data name="ServerName" xml:space="preserve">
+    <value>اسم الخادم</value>
+  </data>
+  <data name="ServerTimeout" xml:space="preserve">
+    <value>نفاذ مهلة الخادم</value>
+  </data>
+  <data name="ServerType" xml:space="preserve">
+    <value>نوع المرسل</value>
+  </data>
+  <data name="ServiceName" xml:space="preserve">
+    <value>اسم الخدمة</value>
+  </data>
+  <data name="Session" xml:space="preserve">
+    <value>الجلسة</value>
+  </data>
+  <data name="SessionCountExceeded" xml:space="preserve">
+    <value>تم تجاوز عدد جلسات العمل</value>
+  </data>
+  <data name="Sessions" xml:space="preserve">
+    <value>الجلسات</value>
+  </data>
+  <data name="SetTime" xml:space="preserve">
+    <value>اضبط الوقت</value>
+  </data>
+  <data name="ShortCode" xml:space="preserve">
+    <value>الرمز المختصر</value>
+  </data>
+  <data name="ShortCodeAnalytic" xml:space="preserve">
+    <value>تحليل الرمز المختصر</value>
+  </data>
+  <data name="ShortcodeType" xml:space="preserve">
+    <value>نوع الرمز المختصر</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>عرض</value>
+  </data>
+  <data name="Showing0to0of0entries" xml:space="preserve">
+    <value>عرض 0 من 0 من 0 من المدخلات</value>
+  </data>
+  <data name="SimpleSMS" xml:space="preserve">
+    <value>خدمة الرسائل القصيرة البسيطة</value>
+  </data>
+  <data name="SimpleSMSPreview" xml:space="preserve">
+    <value>عرض SMSP بسيط</value>
+  </data>
+  <data name="SimpleSMSView" xml:space="preserve">
+    <value>عرض رسالة نصية بسيطة</value>
+  </data>
+  <data name="SingleUser" xml:space="preserve">
+    <value>مستخدم واحد</value>
+  </data>
+  <data name="SMPP" xml:space="preserve">
+    <value>الرسائل النصية القصيرة من النظير للنظير</value>
+  </data>
+  <data name="SMPPAccount" xml:space="preserve">
+    <value>حساب  الرسائل النصية القصيرة من النظير للنظير</value>
+  </data>
+  <data name="SMPPID" xml:space="preserve">
+    <value>مُعرف الرسائل النصية القصيرة من النظير للنظير</value>
+  </data>
+  <data name="SMPPIPAllocation" xml:space="preserve">
+    <value>تخصيص بروتوكول الإنترنت للرسائل النصية القصيرة من النظير للنظير</value>
+  </data>
+  <data name="SMPPMaster" xml:space="preserve">
+    <value>الخط الرئيسي للرسائل النصية القصيرة من النظير للنظير</value>
+  </data>
+  <data name="SMPPMasterView" xml:space="preserve">
+    <value>عرض SMPP الرئيسية</value>
+  </data>
+  <data name="SMPPURL" xml:space="preserve">
+    <value>محدد المصدر الموحد للرسائل النصية القصيرة من النظير للنظير</value>
+  </data>
+  <data name="SMPPuseralreadyexists" xml:space="preserve">
+    <value>الرسائل النصية القصيرة من النظير للنظير موجودة بالفعل</value>
+  </data>
+  <data name="SMPPVersion" xml:space="preserve">
+    <value>نسخة الرسائل النصية القصيرة من النظير للنظير</value>
+  </data>
+  <data name="SMSC" xml:space="preserve">
+    <value>مركز خدمة الرسائل القصيرة</value>
+  </data>
+  <data name="SMSCalreadyExists" xml:space="preserve">
+    <value>مركز الرسائل موجود بالفعل.</value>
+  </data>
+  <data name="SMSCMaster" xml:space="preserve">
+    <value>الخط الرئيسي للرسائل النصيةSMSC</value>
+  </data>
+  <data name="SMSCName" xml:space="preserve">
+    <value>اسم مركز خدمة الرسائل القصيرة</value>
+  </data>
+  <data name="SMSCSettings" xml:space="preserve">
+    <value>إعدادات مركز خدمة الرسائل القصيرة</value>
+  </data>
+  <data name="SMSMessage" xml:space="preserve">
+    <value>رسالة SMS</value>
+  </data>
+  <data name="SMSMessages" xml:space="preserve">
+    <value>عرض رسالة (رسائل) SMS</value>
+  </data>
+  <data name="SMSMO" xml:space="preserve">
+    <value>الرسالة القصيرة الصادرة من الهاتف النقال إلى تطبيق</value>
+  </data>
+  <data name="SMSMT" xml:space="preserve">
+    <value>الرسالة القصيرة الواردة من تطبيق إلى جهاز محمول</value>
+  </data>
+  <data name="SMSPreview" xml:space="preserve">
+    <value>سمز معاينة</value>
+  </data>
+  <data name="SMSSent" xml:space="preserve">
+    <value>الرسالة القصيرة المرسلة</value>
+  </data>
+  <data name="SMSToEmail" xml:space="preserve">
+    <value>خدمة الرسائل القصيرة إلى البريد الإلكتروني</value>
+  </data>
+  <data name="SMSToEmailView" xml:space="preserve">
+    <value>عرض إرسال الرسالة النصية إلى البريد الإلكتروني</value>
+  </data>
+  <data name="SMSTracking" xml:space="preserve">
+    <value>تتبع خدمة الرسائل القصيرة</value>
+  </data>
+  <data name="SMSType" xml:space="preserve">
+    <value>نوع رسالة SMS</value>
+  </data>
+  <data name="SMTP" xml:space="preserve">
+    <value>بروتوكول إرسال البريد البسيط</value>
+  </data>
+  <data name="SorryYourtriggerlimit" xml:space="preserve">
+    <value>معذرة!!! حد المشغل الخاص بك.</value>
+  </data>
+  <data name="SourceAddress" xml:space="preserve">
+    <value>عنوان المصدر</value>
+  </data>
+  <data name="SourceNPI" xml:space="preserve">
+    <value>تحديد خطة ترقيم المصدر</value>
+  </data>
+  <data name="SourceTon" xml:space="preserve">
+    <value>نوع رقم المصدر</value>
+  </data>
+  <data name="Specialcharactersarenotallowed" xml:space="preserve">
+    <value>غير مسموح بكتابة حروف خاصة.</value>
+  </data>
+  <data name="SqlConnectionnotestablishedInvalidHOST" xml:space="preserve">
+    <value>لم يتم إنشاء اتصال Sql: المضيف غير صحيح</value>
+  </data>
+  <data name="SqlConnectionnotestablishedLoginFailforincorrectusernameandpassword" xml:space="preserve">
+    <value>لم يتم إنشاء اتصال Sql: تعذر الدخول لأن اسم الدخول ورقم السر غير صحيحين</value>
+  </data>
+  <data name="SqlConnectionnotestablishedTheserverwasnotfoundorwasnotaccessible" xml:space="preserve">
+    <value>لم يتم إنشاء اتصال Sql: لم يتم العثور على الخادم أو تعذر الوصول إليه</value>
+  </data>
+  <data name="SrvcError" xml:space="preserve">
+    <value>خطأ في الخدمة.</value>
+  </data>
+  <data name="Stage" xml:space="preserve">
+    <value>المرحلة</value>
+  </data>
+  <data name="Standard" xml:space="preserve">
+    <value>قياسي</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>البدء</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>تاريخ البدء</value>
+  </data>
+  <data name="Starttag" xml:space="preserve">
+    <value>وسم البدء</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>الوضع</value>
+  </data>
+  <data name="StatusColumn" xml:space="preserve">
+    <value>عمود الحالة</value>
+  </data>
+  <data name="StatusRate" xml:space="preserve">
+    <value>معدل الحالة</value>
+  </data>
+  <data name="StatusUpdateIsRequired" xml:space="preserve">
+    <value>يجب تحديث الحالة</value>
+  </data>
+  <data name="SubCustomer" xml:space="preserve">
+    <value>العميل الفرعي</value>
+  </data>
+  <data name="Subject" xml:space="preserve">
+    <value>الموضوع</value>
+  </data>
+  <data name="SubKeyword" xml:space="preserve">
+    <value>الكلمة الرئيسية الفرعية</value>
+  </data>
+  <data name="SubKeywordAlreadyExisted" xml:space="preserve">
+    <value>الكلمة الأساسية الفرعية موجودة بالفعل.</value>
+  </data>
+  <data name="SubmissionType" xml:space="preserve">
+    <value>نوع التقديم</value>
+  </data>
+  <data name="Submissiontypemustsenderid" xml:space="preserve">
+    <value>يجب أن يكون نوع التقديم بهوية الراسل</value>
+  </data>
+  <data name="SubmissiontypemustShortcode" xml:space="preserve">
+    <value>يجب أن يكون نوع التقديم بكود مختصر</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>قدم</value>
+  </data>
+  <data name="SubmitDate" xml:space="preserve">
+    <value>تاريخ التقديم</value>
+  </data>
+  <data name="Submitted" xml:space="preserve">
+    <value>تم الإرسال</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>نجاح</value>
+  </data>
+  <data name="SuccessfullUpdated" xml:space="preserve">
+    <value>تم التحديث بنجاح.</value>
+  </data>
+  <data name="Successfully" xml:space="preserve">
+    <value>بنجاح</value>
+  </data>
+  <data name="SuccessfullycustomerCreated" xml:space="preserve">
+    <value>تم إنشاء حساب العميل بنجاح.</value>
+  </data>
+  <data name="SuccessfullycustomerUpdated" xml:space="preserve">
+    <value>تم تحديث حساب العميل بنجاح.</value>
+  </data>
+  <data name="SuccessfullySynapseUserCreated" xml:space="preserve">
+    <value>تم إنشاء مستخدم سينابس بنجاح</value>
+  </data>
+  <data name="SuccessfullySynapseUserUpdated" xml:space="preserve">
+    <value>تم تحديث مستخدم سينابس بنجاح</value>
+  </data>
+  <data name="SuccessfullytoUpdateyourrequest" xml:space="preserve">
+    <value>تم تحديث طلبك بنجاح</value>
+  </data>
+  <data name="Successfullyuploadedthefile" xml:space="preserve">
+    <value>تم تحميل الملف بنجاح</value>
+  </data>
+  <data name="SuccessRecords" xml:space="preserve">
+    <value>سجلات النجاح</value>
+  </data>
+  <data name="SuccessResponse" xml:space="preserve">
+    <value>نجاح الرد</value>
+  </data>
+  <data name="Summary" xml:space="preserve">
+    <value>ملخص</value>
+  </data>
+  <data name="Support" xml:space="preserve">
+    <value>الدعم</value>
+  </data>
+  <data name="Survey" xml:space="preserve">
+    <value>المسح</value>
+  </data>
+  <data name="SurveyAnalytic" xml:space="preserve">
+    <value>تحليل المسح</value>
+  </data>
+  <data name="SurveyAnalytics" xml:space="preserve">
+    <value>تحليلات الاستطلاع</value>
+  </data>
+  <data name="SurveyEndDate" xml:space="preserve">
+    <value>تاريخ نهاية المسح</value>
+  </data>
+  <data name="Surveyexistedindbwithgivenname" xml:space="preserve">
+    <value>المسح موجود في قاعدة الباينات مع اسم معين.</value>
+  </data>
+  <data name="SurveyName" xml:space="preserve">
+    <value>اسم المسح</value>
+  </data>
+  <data name="SurveyNamealreadyExists" xml:space="preserve">
+    <value>اسم هذا الاستقصاء موجود بالفعل.</value>
+  </data>
+  <data name="SurveyQuestions" xml:space="preserve">
+    <value>أسئلة المسح</value>
+  </data>
+  <data name="SurveyReports" xml:space="preserve">
+    <value>تقارير الاستقصاء</value>
+  </data>
+  <data name="SurveyStartDate" xml:space="preserve">
+    <value>تاريخ بدء المسح</value>
+  </data>
+  <data name="SuspendAllCampaignsIncludingTodays" xml:space="preserve">
+    <value>تعليق جميع الرسائل بما في ذلك رسائل اليوم</value>
+  </data>
+  <data name="Suspended" xml:space="preserve">
+    <value>معلق</value>
+  </data>
+  <data name="SynapseApplication" xml:space="preserve">
+    <value>تطبيق Synapse</value>
+  </data>
+  <data name="SynapseCampaignswillnotbesendatthistimeslot" xml:space="preserve">
+    <value>لن ترسل رسائل Synapse خلال هذه الفترة الزمنية.</value>
+  </data>
+  <data name="SynapseMISReport" xml:space="preserve">
+    <value>تقرير اتصال MIS</value>
+  </data>
+  <data name="SystemID" xml:space="preserve">
+    <value>مُعرف النظام</value>
+  </data>
+  <data name="SystemMode" xml:space="preserve">
+    <value>وضع النظام</value>
+  </data>
+  <data name="SystemType" xml:space="preserve">
+    <value>نوع النظام</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>وسم</value>
+  </data>
+  <data name="TagFormats" xml:space="preserve">
+    <value>تنسيقات العلامة</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>العلامات</value>
+  </data>
+  <data name="Technical" xml:space="preserve">
+    <value>الفني</value>
+  </data>
+  <data name="TechnicalEmail" xml:space="preserve">
+    <value>البريد الإلكتروني الفني</value>
+  </data>
+  <data name="TechnicalPhone" xml:space="preserve">
+    <value>الفنيالهاتف</value>
+  </data>
+  <data name="Template" xml:space="preserve">
+    <value>القالب</value>
+  </data>
+  <data name="Template1" xml:space="preserve">
+    <value>قالب 1</value>
+  </data>
+  <data name="Template2" xml:space="preserve">
+    <value>قالب 2</value>
+  </data>
+  <data name="Template3" xml:space="preserve">
+    <value>القالب 3</value>
+  </data>
+  <data name="Template4" xml:space="preserve">
+    <value>القالب 4</value>
+  </data>
+  <data name="Template5" xml:space="preserve">
+    <value>القالب 5</value>
+  </data>
+  <data name="Template5A" xml:space="preserve">
+    <value>القالب 5-أ</value>
+  </data>
+  <data name="TemplatealreadyexistedinDB" xml:space="preserve">
+    <value>القالب موجود بالفعل في قاعدة البيانات</value>
+  </data>
+  <data name="TemplateareadyExists" xml:space="preserve">
+    <value>القالب موجود بالفعل.</value>
+  </data>
+  <data name="TemplateCreation" xml:space="preserve">
+    <value>إنشاء قالب</value>
+  </data>
+  <data name="Templateexistedindbwithgivenname" xml:space="preserve">
+    <value>القالب موجود في قاعدة البيانات بالأسماء المذكورة</value>
+  </data>
+  <data name="TemplateFormats" xml:space="preserve">
+    <value>تنسيقات القالب</value>
+  </data>
+  <data name="TemplateInformationVerified" xml:space="preserve">
+    <value>تم التحقق من صحة معلومات القالب.</value>
+  </data>
+  <data name="TemplateMessageFields" xml:space="preserve">
+    <value>حقول رسالة القالب</value>
+  </data>
+  <data name="Templatenameshouldnotbeempty" xml:space="preserve">
+    <value>يجب ألا يكون اسم النموذج فارغا</value>
+  </data>
+  <data name="Templates" xml:space="preserve">
+    <value>النماذج</value>
+  </data>
+  <data name="TemplateView" xml:space="preserve">
+    <value>عرض نموذج</value>
+  </data>
+  <data name="Test" xml:space="preserve">
+    <value>اختبار</value>
+  </data>
+  <data name="TestResult" xml:space="preserve">
+    <value>نتائج الاختبار</value>
+  </data>
+  <data name="TestSMS" xml:space="preserve">
+    <value>رسالة قصيرة تجريبية</value>
+  </data>
+  <data name="TestSMSC" xml:space="preserve">
+    <value>اختبار مركز خدمة الرسائل القصيرة</value>
+  </data>
+  <data name="TestSMSCView" xml:space="preserve">
+    <value>عرض SMSC الاختبار</value>
+  </data>
+  <data name="TestSMSsubmittedsuccessfully" xml:space="preserve">
+    <value>تم تقديم رسائل الاختبار بنجاح</value>
+  </data>
+  <data name="TestUser1" xml:space="preserve">
+    <value>مستخدم تجريبي 1</value>
+  </data>
+  <data name="TestUser2" xml:space="preserve">
+    <value>مستخدم تجريبي 2</value>
+  </data>
+  <data name="TestUser3" xml:space="preserve">
+    <value>مستخدم تجريبي 3</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>النص</value>
+  </data>
+  <data name="Thankyou" xml:space="preserve">
+    <value>شكرًا لك</value>
+  </data>
+  <data name="ThankyouforconfirmingyouremailPlease" xml:space="preserve">
+    <value>شكرًا لك على تأكيد البريد الإلكتروني. يرجى</value>
+  </data>
+  <data name="Thewaitoperationtimedout" xml:space="preserve">
+    <value>انتهت مهلة عملية الانتظار</value>
+  </data>
+  <data name="Thisaccounthasbeenlockedoutpleasetryagainlater" xml:space="preserve">
+    <value>تم قفل هذا الحساب، يرجى المحاولة مرة أخرى لاحقًا</value>
+  </data>
+  <data name="ThiscustomerbelongsanotheraccountmanagerDoyouwantproceed" xml:space="preserve">
+    <value>ينتمي هذا العميل إلى كدير حساب آخر. هل تريد المتابعة؟</value>
+  </data>
+  <data name="Thisistheitemdescription" xml:space="preserve">
+    <value>هذا هو وصف العنصر</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>الوقت</value>
+  </data>
+  <data name="TimeInterval" xml:space="preserve">
+    <value>فاصل زمني</value>
+  </data>
+  <data name="TimeIntervalSeconds" xml:space="preserve">
+    <value>الفاصل الزمني (بالثواني)</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>إلى</value>
+  </data>
+  <data name="toaddmobilelength" xml:space="preserve">
+    <value>طول النقالضاف</value>
+  </data>
+  <data name="ToaddresscontainsmailboxsubjectlineshouldcontainmobilenumbersandbodyshouldcontainSMSmessagewithEndofMessaagetag" xml:space="preserve">
+    <value>بالنسبة للعوان الذي يحتوي على صندوق البريد، يجب أن يحتوي سطر الموضوع على أرقام المحمول، ويجب أن يحتوي الجسم على رسالة SMS ذات علامة [نهاية الرسالة]</value>
+  </data>
+  <data name="ToaddresscontainsmobilenumbersasshownsubjectlinecanbeanyandbodyshouldcontainSMSmessagewithEndofMessaagetag" xml:space="preserve">
+    <value>بالنسبة للعنوان الذي على أرقام محمول  كما هو مبين، يجب أن يحتوي سطر الموضوع على أيهم، ويجب أن يحتوي الجسم على رسالة SMS ذات علامة [نهاية الرسالة]</value>
+  </data>
+  <data name="ToaddressshouldcontainsmailboxMobilenumbersshouldbeinattachedfiletxtorcsvwithSMSmessageinbodytosendbulkSMS" xml:space="preserve">
+    <value>بالنسبة للعنوان الذي يجب أن يحتوي على صندوق بريد، يجب أن تكون أرقام الهواتف المجمولة مرفقة في ملف (txt أو csv) ورسالة SMS في الجسم لإرسال رسائل SMS جماعية</value>
+  </data>
+  <data name="toaddRoute" xml:space="preserve">
+    <value>لإضافة مسار</value>
+  </data>
+  <data name="toaddSMPPIPDetails" xml:space="preserve">
+    <value>لإضافة تفاصيل SMPP IP</value>
+  </data>
+  <data name="ToDate" xml:space="preserve">
+    <value>إلى تاريخ</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>الإجمالي</value>
+  </data>
+  <data name="TotalCount" xml:space="preserve">
+    <value>إجمالي العدد</value>
+  </data>
+  <data name="TotalCreadits" xml:space="preserve">
+    <value>إجمالي الائتمان</value>
+  </data>
+  <data name="TotalCredits" xml:space="preserve">
+    <value>إجمالي الائتمانات</value>
+  </data>
+  <data name="TotalCreditsUsed" xml:space="preserve">
+    <value>إجمالي الائتمانات المستخدمة</value>
+  </data>
+  <data name="TotalFileCount" xml:space="preserve">
+    <value>إجمالي عدد الملفات</value>
+  </data>
+  <data name="TotalSMS" xml:space="preserve">
+    <value>إجمالي الرسائل القصيرة</value>
+  </data>
+  <data name="TotalSMSPushed" xml:space="preserve">
+    <value>إجمالي الرسائل القصيرة المدفوعة</value>
+  </data>
+  <data name="TotalSMSSent" xml:space="preserve">
+    <value>إجمالي عدد الرسائل القصيرة المرسلة</value>
+  </data>
+  <data name="TPS" xml:space="preserve">
+    <value>خدمة تفضيل الهاتف</value>
+  </data>
+  <data name="TransactionalCampaigns" xml:space="preserve">
+    <value>حملات المعاملات</value>
+  </data>
+  <data name="TransactionCredits" xml:space="preserve">
+    <value>ائتمانات المعاملة</value>
+  </data>
+  <data name="TransactionCreditsshouldnotbeempty" xml:space="preserve">
+    <value>لا يجب أن تكون خانة ائتمانات المعاملة فارغة</value>
+  </data>
+  <data name="TransactioncreditsShouldnotbemorethanCurrentBalanceforRollbackType" xml:space="preserve">
+    <value>لا يجب أن تكون ائتمانات المعاملة أكثر من الرصيد الحالي لنوع التراجع</value>
+  </data>
+  <data name="TransactioncreditsShouldnotbezero" xml:space="preserve">
+    <value>لا يجب أن تكون خانة ائتمانات المعاملة صفرًا</value>
+  </data>
+  <data name="TransactionType" xml:space="preserve">
+    <value>نوع المعاملة</value>
+  </data>
+  <data name="Transciever" xml:space="preserve">
+    <value>جهاز الإرسال والاستقبال</value>
+  </data>
+  <data name="Transmitter" xml:space="preserve">
+    <value>المرسل</value>
+  </data>
+  <data name="TriggerClientConfig" xml:space="preserve">
+    <value>تهيئة عميل تريجر</value>
+  </data>
+  <data name="TriggerGroupofXML" xml:space="preserve">
+    <value>مجموعة تريجر لــ XML</value>
+  </data>
+  <data name="TriggerServerConfig" xml:space="preserve">
+    <value>تهيئة خادم تريجر</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>نوع الطريق</value>
+  </data>
+  <data name="UnableProcessPleasecontactadmin" xml:space="preserve">
+    <value>عملية غير ممكنة، يرجى الاتصال بالمسؤول</value>
+  </data>
+  <data name="Unbind" xml:space="preserve">
+    <value>غير مقيد</value>
+  </data>
+  <data name="UniqueIDColumn" xml:space="preserve">
+    <value>عمود المعرِّف الفريد</value>
+  </data>
+  <data name="UNITEDARABEMIRATES971" xml:space="preserve">
+    <value>الإمارات العربية المتحدة (971)</value>
+  </data>
+  <data name="UNLIMITED" xml:space="preserve">
+    <value>غير محدد</value>
+  </data>
+  <data name="UnLockUser" xml:space="preserve">
+    <value>إلغاء قفل المستخدم</value>
+  </data>
+  <data name="UnlockUserView" xml:space="preserve">
+    <value>إلغاء قفل عرض المستخدم</value>
+  </data>
+  <data name="Unsuccessfulloginwithservice" xml:space="preserve">
+    <value>محاولة تسجيل دخول غير ناجحة بالخدمة.</value>
+  </data>
+  <data name="Updated" xml:space="preserve">
+    <value>محدث</value>
+  </data>
+  <data name="UpdatedSuccessfully" xml:space="preserve">
+    <value>تم التحديث بنجاح</value>
+  </data>
+  <data name="UpdateError" xml:space="preserve">
+    <value>خطأ في التحديث.</value>
+  </data>
+  <data name="UpdateValue" xml:space="preserve">
+    <value>قيمة التحديث</value>
+  </data>
+  <data name="UpdatingfailedtoCustomerCustomernotexistedindb" xml:space="preserve">
+    <value>فشل في تحديث العميل. العميل لا يوجد في قاعدة البيانات</value>
+  </data>
+  <data name="Updatingfailedtoinformation" xml:space="preserve">
+    <value>فشل في تحديث المعلومات.</value>
+  </data>
+  <data name="UploadCSVTextFileforMultipleNumberLookup" xml:space="preserve">
+    <value>رفع ملف قيم مفصولة بفواصل/ نص للبحث عن عدد متعدد</value>
+  </data>
+  <data name="UploadedfiledoesthavingmatchedcountrycodesforselectedsenderID" xml:space="preserve">
+    <value>لم يتطابق الملف المحمل مع هوية المرسل المحددة</value>
+  </data>
+  <data name="Uploadfile" xml:space="preserve">
+    <value>رفع ملف</value>
+  </data>
+  <data name="UploadFileshouldcontainheaderinformation" xml:space="preserve">
+    <value>يجب أن يحتوى الملف المحمل على معلومات رأسية</value>
+  </data>
+  <data name="URL" xml:space="preserve">
+    <value>محدد المصدر الموحد</value>
+  </data>
+  <data name="URLTemplateText" xml:space="preserve">
+    <value>قالب محدد المصادر الموحد (نص)</value>
+  </data>
+  <data name="URLTemplateUnicode" xml:space="preserve">
+    <value>قالب محدد المصادر الموحد (رمز موحد)</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>المستخدم</value>
+  </data>
+  <data name="Useralreadyexistedindb" xml:space="preserve">
+    <value>المستخدم موجود بالفعل في قاعدة البيانات.</value>
+  </data>
+  <data name="UserCreation" xml:space="preserve">
+    <value>إنشاء مستخدم</value>
+  </data>
+  <data name="UserDashboard" xml:space="preserve">
+    <value>لوحة معلومات المستخدم</value>
+  </data>
+  <data name="UserDisplay" xml:space="preserve">
+    <value>عرض المستخدم</value>
+  </data>
+  <data name="Userdoesntexistedinactivedirectory" xml:space="preserve">
+    <value>العميل غير موجود في الدليل النشط.</value>
+  </data>
+  <data name="UserisalreadymappedwithaGenericSenderID" xml:space="preserve">
+    <value>المستخدم معين بالفعل بـ "هوية المرسل العامة"</value>
+  </data>
+  <data name="UserisalreadymappedwithaOpenSenderIDANY" xml:space="preserve">
+    <value>المستخدم معين بالفعل بـ "هوية المرسل المفتوحة (ANY)"</value>
+  </data>
+  <data name="UserManagement" xml:space="preserve">
+    <value>إدارة المستخدم</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>اسم المستخدم</value>
+  </data>
+  <data name="UserNameAlreadyExisted" xml:space="preserve">
+    <value>اسم المستخدم موجود بالفعل.</value>
+  </data>
+  <data name="UserNotAuthorizedtoAccessWebApp" xml:space="preserve">
+    <value>غير مسموح للمستخدم بالوصول إلى تطبيق الويب.</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>المستخدمين</value>
+  </data>
+  <data name="UserSessionExceeded" xml:space="preserve">
+    <value>تم تجاوز مدة جلسة المستخدم.</value>
+  </data>
+  <data name="UserType" xml:space="preserve">
+    <value>نوع المستخدم</value>
+  </data>
+  <data name="UserView" xml:space="preserve">
+    <value>عرض المستخدم</value>
+  </data>
+  <data name="UserWise" xml:space="preserve">
+    <value>بالنسبة للمستخدم</value>
+  </data>
+  <data name="UseTemplate" xml:space="preserve">
+    <value>استخدم النموذج</value>
+  </data>
+  <data name="Valid" xml:space="preserve">
+    <value>صحيح</value>
+  </data>
+  <data name="ValidateCount" xml:space="preserve">
+    <value>التحقق من صحة العدد</value>
+  </data>
+  <data name="ValidFrom" xml:space="preserve">
+    <value>صالح من</value>
+  </data>
+  <data name="ValidityPeriodDays" xml:space="preserve">
+    <value>مدة الصلاحية (أيام)</value>
+  </data>
+  <data name="Validpassword" xml:space="preserve">
+    <value>كلمة سر صالحة.</value>
+  </data>
+  <data name="ValidRecipients" xml:space="preserve">
+    <value>المستلمين الصالحين</value>
+  </data>
+  <data name="ValidTo" xml:space="preserve">
+    <value>صالح إلى</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>القيمة</value>
+  </data>
+  <data name="ValueAlreadyExisted" xml:space="preserve">
+    <value>القيمة موجودة بالفعل.</value>
+  </data>
+  <data name="VECTRAMIND" xml:space="preserve">
+    <value>VECTRAMIND</value>
+  </data>
+  <data name="VectramindCorporation" xml:space="preserve">
+    <value>شركة Vectramind</value>
+  </data>
+  <data name="Vendor" xml:space="preserve">
+    <value>المُورد</value>
+  </data>
+  <data name="VendordetailsnotaddedContactSystemAdmin" xml:space="preserve">
+    <value>في حال عدم إدخال البيانات، اتصل بمسؤول النظام</value>
+  </data>
+  <data name="VendorMaster" xml:space="preserve">
+    <value>الخط الرئيسي للمُورد</value>
+  </data>
+  <data name="VendorMasterView" xml:space="preserve">
+    <value>عرض البائع الرئيسي</value>
+  </data>
+  <data name="VendorName" xml:space="preserve">
+    <value>اسم المُورد</value>
+  </data>
+  <data name="Vendornamealreadyexisted" xml:space="preserve">
+    <value>اسم البائع موجود بالفعل.</value>
+  </data>
+  <data name="VendorView" xml:space="preserve">
+    <value>مشاهدة المُورد</value>
+  </data>
+  <data name="Verify" xml:space="preserve">
+    <value>التحقق من صحة</value>
+  </data>
+  <data name="ViewLog" xml:space="preserve">
+    <value>اعرض السجل</value>
+  </data>
+  <data name="W" xml:space="preserve">
+    <value>1 أسبوع</value>
+  </data>
+  <data name="WEB" xml:space="preserve">
+    <value>الشبكة العنكبوتية العالمية</value>
+  </data>
+  <data name="Winner" xml:space="preserve">
+    <value>الفائز</value>
+  </data>
+  <data name="WinnerReport" xml:space="preserve">
+    <value>تقرير الفائز</value>
+  </data>
+  <data name="Winners" xml:space="preserve">
+    <value>الفائزين</value>
+  </data>
+  <data name="WinnersCampaign" xml:space="preserve">
+    <value>حملة الفائزين</value>
+  </data>
+  <data name="WinnerSettingName" xml:space="preserve">
+    <value>اسم إعدادات الفائز</value>
+  </data>
+  <data name="WinnerSettingsName" xml:space="preserve">
+    <value>اسم إعدادات الفائزين</value>
+  </data>
+  <data name="WinnersList" xml:space="preserve">
+    <value>قائمة الحملة</value>
+  </data>
+  <data name="WinnersReport" xml:space="preserve">
+    <value>تقرير الفائزين</value>
+  </data>
+  <data name="WinnersSelectionEndDate" xml:space="preserve">
+    <value>آخر ميعاد لاختيار الفائزين</value>
+  </data>
+  <data name="WinnersSelectionStartDate" xml:space="preserve">
+    <value>تاريخ بدء اختيار الفائزين</value>
+  </data>
+  <data name="WinnerStartDate" xml:space="preserve">
+    <value>تاريخ بدء الفائز</value>
+  </data>
+  <data name="WinnersView" xml:space="preserve">
+    <value>عرض الفائزين</value>
+  </data>
+  <data name="WinnerType" xml:space="preserve">
+    <value>نوع الفائز</value>
+  </data>
+  <data name="XMLGenaration" xml:space="preserve">
+    <value>إنشاء XML</value>
+  </data>
+  <data name="XMLTrigger" xml:space="preserve">
+    <value>تريجرXML</value>
+  </data>
+  <data name="Y" xml:space="preserve">
+    <value>تعم</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>العام</value>
+  </data>
+  <data name="Yearwisestatistics" xml:space="preserve">
+    <value>الإحصاء السنوي</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>نعم</value>
+  </data>
+  <data name="YoucannotedittheCampaignthekickofftimewascompleted" xml:space="preserve">
+    <value>لا يمكنك تعديل الحمل، تم الانتهاء من وقت الانطلاق.</value>
+  </data>
+  <data name="youcannotuseatthefirstorlastcharacteroftextbox" xml:space="preserve">
+    <value>لا يمكنك استخدام '-' '_' في العنصر الأول أو العنصر الأخير لمربع النص</value>
+  </data>
+  <data name="Youcantdoanyoperationwiththeselectedcampaign" xml:space="preserve">
+    <value>لا يمكنك إجراء العملية مع الحملة المحددة</value>
+  </data>
+  <data name="YouhaveenteredaninvalidIPaddress" xml:space="preserve">
+    <value>لقد أدخلت عنوان IP غير صحيح</value>
+  </data>
+  <data name="Yourapplicationdescriptionpage" xml:space="preserve">
+    <value>صفحة صوف التطبيق الخاص بك.</value>
+  </data>
+  <data name="Yourcontactpage" xml:space="preserve">
+    <value>صفحة جهة الاتصال الخاصة بك.</value>
+  </data>
+  <data name="Yourcustomercreationhasbeensubmittedsuccessfully" xml:space="preserve">
+    <value>تم إدخال العميل الذي أنشأته بنجاح.</value>
+  </data>
+  <data name="YourpasswordhasbeenresetPlease" xml:space="preserve">
+    <value>تم إعادة ضبط كلمة السر الخاصة بك. يرجى</value>
+  </data>
+  <data name="yoursessionhasbeenexpired" xml:space="preserve">
+    <value>لقد انتهى الوقت المسموح للصفحة المفتوحة</value>
+  </data>
+  <data name="YourSurveyhasbeensubmitedsuccessfully" xml:space="preserve">
+    <value>تم إرسال الاستقصاء الخاص بك بنجاح.</value>
+  </data>
+  <data name="YourTestSMSChasbeensubmittedsuccessfully" xml:space="preserve">
+    <value>تم إرسال SMSC الاختبار الخاص بك بنجاح.</value>
+  </data>
+  <data name="Youvesuccessfullyauthenticatedwith" xml:space="preserve">
+    <value>لقد تمت المصادقة عليك بنجاح مع</value>
+  </data>
+  <data name="YouwillreceiveonEmailonceLookupProccessiscompleted" xml:space="preserve">
+    <value>ستتلقى بريد إلكتروني بمجرد اكتمال عملية البحث</value>
+  </data>
+  <data name="ÈmailTemplateView" xml:space="preserve">
+    <value>عرض قالب البريد الإلكتروني</value>
+  </data>
+  <data name="AddHLRLookup" xml:space="preserve">
+    <value>إضافة بحث مسجل الموقع المحلي (HLR)</value>
+  </data>
+  <data name="AlertDescription" xml:space="preserve">
+    <value>وصف التنبيه</value>
+  </data>
+  <data name="ApplicationConfiguration" xml:space="preserve">
+    <value>تكوين التطبيق</value>
+  </data>
+  <data name="Areyousure" xml:space="preserve">
+    <value>هل أنت متأكد</value>
+  </data>
+  <data name="Areyousureyouwanttodeleteexistingrecordsforsamecustomeranduser" xml:space="preserve">
+    <value>هل أنت متأكد من أنك تريد حذف السجلات الموجودة لنفس المستخدم والعميل!</value>
+  </data>
+  <data name="Areyousureyouwanttoproceedwithselectednumbers" xml:space="preserve">
+    <value>هل أنت متأكد من انك تريد المتابعة باستخدام الأرقام المحددة</value>
+  </data>
+  <data name="AuditLogs" xml:space="preserve">
+    <value>سجلات التدقيق</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>إغلاق</value>
+  </data>
+  <data name="Contactsareactiveinthisgroup" xml:space="preserve">
+    <value>جهات الاتصال نشطة في هذه المجموعة</value>
+  </data>
+  <data name="CreateOfflineAlerts" xml:space="preserve">
+    <value>إنشاء تنبيهات أثناء عدم الاتصال</value>
+  </data>
+  <data name="CreateOnlineAlerts" xml:space="preserve">
+    <value>إنشاء تنبيهات أثناء الاتصال</value>
+  </data>
+  <data name="CreateTemplate" xml:space="preserve">
+    <value>إنشاء قالب</value>
+  </data>
+  <data name="DeliveryRequired" xml:space="preserve">
+    <value>التسليم مطلوب</value>
+  </data>
+  <data name="DisableLookUp" xml:space="preserve">
+    <value>تعطيل البحث</value>
+  </data>
+  <data name="DisableRow" xml:space="preserve">
+    <value>تعطيل صف</value>
+  </data>
+  <data name="EnableLookUp" xml:space="preserve">
+    <value>تمكين البحث</value>
+  </data>
+  <data name="FailedToInactiveContactsAreActiveInThisGroup" xml:space="preserve">
+    <value>فشل التنشيط، جهات الاتصال نشطة في هذه المجموعة</value>
+  </data>
+  <data name="FeaturesNotAvailableForSelectedCustomers" xml:space="preserve">
+    <value>الميزات غير متاحة للعملاء المحددين.</value>
+  </data>
+  <data name="FilterWordsView" xml:space="preserve">
+    <value>عرض كلمات التصفية</value>
+  </data>
+  <data name="HLRLookupView" xml:space="preserve">
+    <value>عرض بحث مسجل الموقع المحلي (HLR)</value>
+  </data>
+  <data name="HlrView" xml:space="preserve">
+    <value>عرض مسجل الموقع المحلي (Hlr)</value>
+  </data>
+  <data name="InValidseries" xml:space="preserve">
+    <value>تسلسل غير صحيح</value>
+  </data>
+  <data name="LastExecutionDate" xml:space="preserve">
+    <value>تاريخ آخر تنفيذ</value>
+  </data>
+  <data name="LdapUser" xml:space="preserve">
+    <value>مستخدم Ldap</value>
+  </data>
+  <data name="LookUpEnabledForAlerts" xml:space="preserve">
+    <value>تمكين البحث في التنبيهات</value>
+  </data>
+  <data name="LookUpEnabledForCampaigns" xml:space="preserve">
+    <value>تمكين البحث في الرسائل</value>
+  </data>
+  <data name="LookupShouldbeAttemptedafterdays" xml:space="preserve">
+    <value>يجب محاولة البحث بعد أيام</value>
+  </data>
+  <data name="MinimumPeriod" xml:space="preserve">
+    <value>الفترة الدنيا</value>
+  </data>
+  <data name="MinimumPeriodtoHoldSMS" xml:space="preserve">
+    <value>الفترة الدنيا للاحتفاظ بالرسالة</value>
+  </data>
+  <data name="ModulewiseReports" xml:space="preserve">
+    <value>تقارير الوحدة النمطية</value>
+  </data>
+  <data name="MsgSubmittedToChecker" xml:space="preserve">
+    <value>تم إرسال الرسالة إلى المدقق</value>
+  </data>
+  <data name="NoCampaignsSelected" xml:space="preserve">
+    <value>لم يتم تحديد رسالة</value>
+  </data>
+  <data name="OFF" xml:space="preserve">
+    <value>إيقاف</value>
+  </data>
+  <data name="OfflineAlertsView" xml:space="preserve">
+    <value>عرض التنبيهات أثناء عدم الاتصال</value>
+  </data>
+  <data name="ON" xml:space="preserve">
+    <value>تشغيل</value>
+  </data>
+  <data name="OnlineAlertsView" xml:space="preserve">
+    <value>عرض التنبيهات أثناء الاتصال</value>
+  </data>
+  <data name="PauseEnable" xml:space="preserve">
+    <value>تمكين التوقف</value>
+  </data>
+  <data name="Periodofstartenddatesshouldntbenull" xml:space="preserve">
+    <value>تواريخ فترة البدء/ الانتهاء، يجب أن تكون سارية</value>
+  </data>
+  <data name="pleaseenterlookupdays" xml:space="preserve">
+    <value>يرجى إدخال أيام البحث</value>
+  </data>
+  <data name="Pleaseenterminimum5digits" xml:space="preserve">
+    <value>يرجى إدخال 5 أرقام على الأقل</value>
+  </data>
+  <data name="pleaseenterminimumperiodtoholdsms" xml:space="preserve">
+    <value>يردى إدخال الفترة الدنيا لحفظ الرسائل</value>
+  </data>
+  <data name="Pleaseenterrole" xml:space="preserve">
+    <value>يرجى ادخال الدور.</value>
+  </data>
+  <data name="PleaseEnterValuedData" xml:space="preserve">
+    <value>يرجى إدخال بيانات القيم</value>
+  </data>
+  <data name="PleaseEnterValueInMSISDNOrMSGID" xml:space="preserve">
+    <value>يرجى إدخال القيمة باستخدام معرف الرسالة (MSGID) أو MSISDN</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>ملف التعريف</value>
+  </data>
+  <data name="record" xml:space="preserve">
+    <value>تسجيل!</value>
+  </data>
+  <data name="ResumeEnable" xml:space="preserve">
+    <value>تمكين الاستئناف</value>
+  </data>
+  <data name="SendQuery" xml:space="preserve">
+    <value>إرسال استعلام</value>
+  </data>
+  <data name="SendSMSinRoaming" xml:space="preserve">
+    <value>إرسال رسالة أثناء التجوال</value>
+  </data>
+  <data name="SMS" xml:space="preserve">
+    <value>SMS</value>
+  </data>
+  <data name="Successfullyuploadcompleted" xml:space="preserve">
+    <value>تم التحميل بنجاح</value>
+  </data>
+  <data name="SynapseUser" xml:space="preserve">
+    <value>مستخدم Synapse</value>
+  </data>
+  <data name="TemplateUserMapareadyExists" xml:space="preserve">
+    <value>قالب تعيين المستخدم موجود بالفعل</value>
+  </data>
+  <data name="TestMail" xml:space="preserve">
+    <value>بريد اختبار</value>
+  </data>
+  <data name="ThisisfortestingSMTPmail" xml:space="preserve">
+    <value>هذا لاختبار البريد الذي يعمل ببروتوكول إرسال البريد البسيط (SMTP)</value>
+  </data>
+  <data name="TotalRecipientCount" xml:space="preserve">
+    <value>إجمالي عدد المستلمين</value>
+  </data>
+  <data name="Uploadfilecontainsdotsinfilename" xml:space="preserve">
+    <value>تحميل ملف يحتوي على نقاط في اسم الملف</value>
+  </data>
+  <data name="UserMappingView" xml:space="preserve">
+    <value>عرض تعيين المستخدم</value>
+  </data>
+  <data name="Dynamic" xml:space="preserve">
+    <value>ديناميكي</value>
+  </data>
+  <data name="PleaseEnterCount" xml:space="preserve">
+    <value>الرجاء إدخال العد</value>
+  </data>
+  <data name="PleaseEnterHostName" xml:space="preserve">
+    <value>الرجاء إدخال اسم المضيف</value>
+  </data>
+  <data name="PleaseenterOperator" xml:space="preserve">
+    <value>الرجاء إدخال المشغل</value>
+  </data>
+  <data name="PleaseEnterRetryLimitAttempts" xml:space="preserve">
+    <value>الرجاء إدخال إعادة المحاولة (عدد المحاولات)</value>
+  </data>
+  <data name="PleaseEnterVendorName" xml:space="preserve">
+    <value>الرجاء إدخال اسم البائع</value>
+  </data>
+  <data name="PleaseSelectSenderId" xml:space="preserve">
+    <value>يرجى تحديد المرسل</value>
+  </data>
+  <data name="Static" xml:space="preserve">
+    <value>ثابتة</value>
+  </data>
+  <data name="ClientConfigCreatedSuccessfully" xml:space="preserve">
+    <value>تم إنشاء تكوين العميل بنجاح</value>
+  </data>
+  <data name="Ex971XXXXXXX" xml:space="preserve">
+    <value>على سبيل المثال: 971XXXXXXX</value>
+  </data>
+  <data name="FeatureList" xml:space="preserve">
+    <value>قائمة الميزات</value>
+  </data>
+  <data name="MobileNumberwithISDcode" xml:space="preserve">
+    <value>رقم الهاتف المحمول مع رمز الاتصال الدولي المشترك (ISD)</value>
+  </data>
+  <data name="MODetailedRC" xml:space="preserve">
+    <value>تفاصيل المكالمات البعيدة الناشئة من الهاتف المحمول</value>
+  </data>
+  <data name="MODetailedRCReport" xml:space="preserve">
+    <value>التقرير المفصل للمكالمات البعيدة الناشئة من الهاتف المحمول</value>
+  </data>
+  <data name="PleaseaddatleastoneIPorcheckAnyIPAddress" xml:space="preserve">
+    <value>يرجى إضافة عنوان IP واحد على الأقل أو اختيار أي عنوان IP</value>
+  </data>
+  <data name="PleaseSelectemailtemplate" xml:space="preserve">
+    <value>الرجاء تحديد نموذج البريد الإلكتروني</value>
+  </data>
+  <data name="PleaseSelectInterval" xml:space="preserve">
+    <value>الرجاء تحديد الفاصل الزمني</value>
+  </data>
+  <data name="PleaseSelectMailbox" xml:space="preserve">
+    <value>الرجاء تحديد صندوق البريد</value>
+  </data>
+  <data name="SNO" xml:space="preserve">
+    <value>التحسين الاستراتيجي للشبكة (SNO)</value>
+  </data>
+  <data name="SyncConfigurations" xml:space="preserve">
+    <value>مزامنة التكوينات</value>
+  </data>
+  <data name="SyncSMSCconfigurations" xml:space="preserve">
+    <value>مزامنة تكوينات مركز خدمة الرسائل القصيرة (SMSC)</value>
+  </data>
+  <data name="SyncUserconfigurations" xml:space="preserve">
+    <value>مزامنة تكوينات المستخدم</value>
+  </data>
+  <data name="ValidateSSLTSL" xml:space="preserve">
+    <value>مصادقة SSL/TSL</value>
+  </data>
+  <data name="WW" xml:space="preserve">
+    <value>2 أسبوع</value>
+  </data>
+  <data name="PleaseSelectCustomerType" xml:space="preserve">
+    <value>يرجى تحديد نوع العميل</value>
+  </data>
+  <data name="InvalidInputParameters" xml:space="preserve">
+    <value>معلمات الإدخال غير صالحة</value>
+  </data>
+  <data name="AlertsManager" xml:space="preserve">
+    <value>مدير التنبيهات</value>
+  </data>
+  <data name="AlertUpdatedSuccessfully" xml:space="preserve">
+    <value>تم تحديث التنبيه بنجاح</value>
+  </data>
+  <data name="CreateDBAlerts" xml:space="preserve">
+    <value>إنشاء تنبيهات لقاعدة البيانات</value>
+  </data>
+  <data name="CreateFileAlerts" xml:space="preserve">
+    <value>إنشاء تنبيهات للملفات</value>
+  </data>
+  <data name="DBAlertalreadyexists" xml:space="preserve">
+    <value>تنبيه قاعدة البيانات موجود بالفعل</value>
+  </data>
+  <data name="DBAlerts" xml:space="preserve">
+    <value>تنبيهات قاعدة البيانات</value>
+  </data>
+  <data name="DBAlertsavedSuccessfully" xml:space="preserve">
+    <value>تم حفظ تنبيهات قاعدة البيانات بنجاح</value>
+  </data>
+  <data name="DBAlertsView" xml:space="preserve">
+    <value>مشاهدة تنبيهات قاعدة البيانات</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>تحرير</value>
+  </data>
+  <data name="FileAlertalreadyexists" xml:space="preserve">
+    <value>تنبيه الملفات موجود بالفعل</value>
+  </data>
+  <data name="FileAlerts" xml:space="preserve">
+    <value>متغيرات الإدخال غير صحيحة</value>
+  </data>
+  <data name="FileAlertsavedSuccessfully" xml:space="preserve">
+    <value>تم حفظ تنبيهات الملفات بنجاح</value>
+  </data>
+  <data name="FileAlertsView" xml:space="preserve">
+    <value>مشاهدة تنبيهات الملفات</value>
+  </data>
+  <data name="Invalidcampaigncount" xml:space="preserve">
+    <value>عدد الحملات غير صحيح</value>
+  </data>
+  <data name="NoContactsinSelectedGroup" xml:space="preserve">
+    <value>لا توجد جهات اتصال بالمجموعات المختارة</value>
+  </data>
+  <data name="PleasseEnterName" xml:space="preserve">
+    <value>الرجاء إدخال الاسم</value>
+  </data>
+  <data name="SearchCampaigns" xml:space="preserve">
+    <value>البحث في الحملات</value>
+  </data>
+  <data name="ServiceNameSID" xml:space="preserve">
+    <value>اسم الخدمة (معرِّف الأمن)</value>
+  </data>
+  <data name="SuccessfullyActived" xml:space="preserve">
+    <value>تم التفعيل بنجاح</value>
+  </data>
+  <data name="SuccessfullyInactived" xml:space="preserve">
+    <value>تم التعطيل بنجاح</value>
+  </data>
+  <data name="UsageAnalysis" xml:space="preserve">
+    <value>تحليلات الاستخدام</value>
+  </data>
+  <data name="youcannotsubmitthecampaignWith0credits" xml:space="preserve">
+    <value>لا يمكنك إرسال الحملة بنقاط تساوي صفر</value>
+  </data>
+  <data name="AppRegistration" xml:space="preserve">
+    <value>التسجيل فى التطبيق</value>
+  </data>
+  <data name="BusinessRuleStatistics" xml:space="preserve">
+    <value>احصائيات قواعد العمل</value>
+  </data>
+  <data name="CampaigncreatedSuccessfully" xml:space="preserve">
+    <value>تم إنشاءالحملة بنجاح</value>
+  </data>
+  <data name="ComposeEmailCampaign" xml:space="preserve">
+    <value>تأليف حملة البريد الإلكتروني</value>
+  </data>
+  <data name="ComposePushNotificationCampaign" xml:space="preserve">
+    <value>تأليف حملة الاخطار بالأحداث الجديدة</value>
+  </data>
+  <data name="DateRange" xml:space="preserve">
+    <value>نطاق الموعد</value>
+  </data>
+  <data name="Detailed" xml:space="preserve">
+    <value>التفاصيل</value>
+  </data>
+  <data name="DeviceIds" xml:space="preserve">
+    <value>الرقم التعريفي للجهاز</value>
+  </data>
+  <data name="EmailAnalysis" xml:space="preserve">
+    <value>تحليل البريد الإلكتروني</value>
+  </data>
+  <data name="EmailCampaign" xml:space="preserve">
+    <value>حملة البريد الإلكتروني</value>
+  </data>
+  <data name="EmailCampaigns" xml:space="preserve">
+    <value>حملات البريد الالكتروني</value>
+  </data>
+  <data name="EnterName" xml:space="preserve">
+    <value>ادخل الاسم</value>
+  </data>
+  <data name="FailedtoActiveContactsAreActiveinThisGroup" xml:space="preserve">
+    <value>فشل في تفعيل ، جهات الاتصال النشطة في هذه المجموعة</value>
+  </data>
+  <data name="FailedtoSubmitTestMail" xml:space="preserve">
+    <value>فشل فى تقديم البريد الالكتروني</value>
+  </data>
+  <data name="Fatalerror" xml:space="preserve">
+    <value>خطأ فادح</value>
+  </data>
+  <data name="Fromemailshouldnotempty" xml:space="preserve">
+    <value>من البريد الإلكتروني لا ينبغي أن يكون فارغا</value>
+  </data>
+  <data name="FromMailID" xml:space="preserve">
+    <value>من الرقم التعريفي للبريد الالكتروني</value>
+  </data>
+  <data name="InvalidDeviceidscount" xml:space="preserve">
+    <value>رقم تعريف الجهاز غير صالح</value>
+  </data>
+  <data name="Invalidparammetervalue" xml:space="preserve">
+    <value>معايير قيمة غير صالحة</value>
+  </data>
+  <data name="KeyLabel" xml:space="preserve">
+    <value>ملصق المفتاح</value>
+  </data>
+  <data name="Mailidscountshouldnotbemorethan50" xml:space="preserve">
+    <value>يجب الا يتعدى عدد الرقم التعريفي البريد الالكتروني 50</value>
+  </data>
+  <data name="MapEmail" xml:space="preserve">
+    <value>خريطة البريد الإلكتروني</value>
+  </data>
+  <data name="MappingAlreayExistedinDb" xml:space="preserve">
+    <value>التخطيط موجود بالفعل فى قاعدة البيانات</value>
+  </data>
+  <data name="Mappings" xml:space="preserve">
+    <value>التعيينات</value>
+  </data>
+  <data name="MessageBody" xml:space="preserve">
+    <value>نص الرسالة</value>
+  </data>
+  <data name="MessageType" xml:space="preserve">
+    <value>نوع الرسالة</value>
+  </data>
+  <data name="Module" xml:space="preserve">
+    <value>النموذج</value>
+  </data>
+  <data name="NoOfActiveContacts" xml:space="preserve">
+    <value>عدد جهات الاتصال النشطة</value>
+  </data>
+  <data name="NotePleaseenterCommaseperatedemailswithoutspace" xml:space="preserve">
+    <value>ملاحظة: إدخال رسائل بريد إلكتروني مفصولة بفواصل بدون مساحة</value>
+  </data>
+  <data name="NotificationAnalysis" xml:space="preserve">
+    <value>تحليل الإخطار</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>قيد الانتظار</value>
+  </data>
+  <data name="PhoneType" xml:space="preserve">
+    <value>نوع الهاتف</value>
+  </data>
+  <data name="PleaseEnterFromMail" xml:space="preserve">
+    <value>برجاء الادخال من البريد الالكتروني</value>
+  </data>
+  <data name="PleaseEnterMessageBody" xml:space="preserve">
+    <value>برجاء ادخال نص الرسالة</value>
+  </data>
+  <data name="PleaseEnterSecretKey" xml:space="preserve">
+    <value>برجاء ادخال المفتاح السري</value>
+  </data>
+  <data name="PleaseEnterSecretKeyLabel" xml:space="preserve">
+    <value>برجاء ادخال ملصق المفتاح السري</value>
+  </data>
+  <data name="PleaseSelectFromMail" xml:space="preserve">
+    <value>برجاء الاختيار من البريد الالكتروني</value>
+  </data>
+  <data name="PleaseSelectMessageType" xml:space="preserve">
+    <value>برجاء اختيار نوع البريد الالكتروني</value>
+  </data>
+  <data name="PleaseSelectPhoneType" xml:space="preserve">
+    <value>برجاء اختيار نوع الهاتف</value>
+  </data>
+  <data name="Pleaseselectrequiredfields" xml:space="preserve">
+    <value>البريد الالكتروني يجب الا يكون فارغا</value>
+  </data>
+  <data name="PushNotification" xml:space="preserve">
+    <value>اخطار بالأحداث الجديدة</value>
+  </data>
+  <data name="PushNotificationCampaign" xml:space="preserve">
+    <value>حملة الاخطار بالأحداث الجديدة</value>
+  </data>
+  <data name="Query" xml:space="preserve">
+    <value>سؤال</value>
+  </data>
+  <data name="RecipientCount" xml:space="preserve">
+    <value>عدد المستلمين</value>
+  </data>
+  <data name="RegisteredEmails" xml:space="preserve">
+    <value>البريد الالكتروني المسجل</value>
+  </data>
+  <data name="RegisterEmail" xml:space="preserve">
+    <value>البريد الالكتروني للتسجيل</value>
+  </data>
+  <data name="RegisterEmailAddress" xml:space="preserve">
+    <value>البريد الإلكتروني للتسجيل</value>
+  </data>
+  <data name="Registration" xml:space="preserve">
+    <value>التسجيل</value>
+  </data>
+  <data name="Registrations" xml:space="preserve">
+    <value>التسجيلات</value>
+  </data>
+  <data name="SearchCampaign" xml:space="preserve">
+    <value>حملة البحث</value>
+  </data>
+  <data name="SecretKey" xml:space="preserve">
+    <value>مفتاح سري</value>
+  </data>
+  <data name="SecretKeyLabel" xml:space="preserve">
+    <value>ملصق المفتاح السري</value>
+  </data>
+  <data name="SelectedContactnumbercannotbeactivatedasgroupisinInactivestatus" xml:space="preserve">
+    <value>لا يمكن تنشيط العدد المختار الاتصال كمجموعة وهي في حالة غير نشطة</value>
+  </data>
+  <data name="SenderConfiguration" xml:space="preserve">
+    <value>تكوين المرسل</value>
+  </data>
+  <data name="SN" xml:space="preserve">
+    <value>رقم مسلسل</value>
+  </data>
+  <data name="Statistics" xml:space="preserve">
+    <value>احصائيات</value>
+  </data>
+  <data name="SuccessfullyFromEmailCreated" xml:space="preserve">
+    <value>تم تكوين البريد الالكتروني بنجاح</value>
+  </data>
+  <data name="SuccessfullyFromEmailMapped" xml:space="preserve">
+    <value>تم تخطيط البريد الالكتروني بنجاح</value>
+  </data>
+  <data name="SuccessfullyFromEmailMappingupdated" xml:space="preserve">
+    <value>تم تحديث تخطيط البريد الالكتروني بنجاح</value>
+  </data>
+  <data name="TestEmail" xml:space="preserve">
+    <value>البريد الالكتروني للاختبار</value>
+  </data>
+  <data name="TestMailSubmittedsuccessfully" xml:space="preserve">
+    <value>تم اختبار البريد المقدم بنجاح</value>
+  </data>
+  <data name="TestNotification" xml:space="preserve">
+    <value>اخطار الاختبار</value>
+  </data>
+  <data name="TestPushNotification" xml:space="preserve">
+    <value>اختبار الاخطار بالأحداث الجديدة</value>
+  </data>
+  <data name="Theirisnovalidemailspleasechecktheenteredemailids" xml:space="preserve">
+    <value>لا يوجد بريد إلكتروني صالح. يرجى التحقق من معرفات البريد الإلكتروني المدخلة</value>
+  </data>
+  <data name="Today" xml:space="preserve">
+    <value>اليوم</value>
+  </data>
+  <data name="TotalContactsCount" xml:space="preserve">
+    <value>اجمالي عدد جهات الاتصال</value>
+  </data>
+  <data name="TotalEmailCount" xml:space="preserve">
+    <value>اجمالي عدد المستلمين</value>
+  </data>
+  <data name="TotalPNCount" xml:space="preserve">
+    <value>اجمالي عدد السندات الاذنية</value>
+  </data>
+  <data name="UnabletoactivateasMailSettingsareinactive" xml:space="preserve">
+    <value>غير قادر على التنشيط حيث أن إعدادات البريد غير نشطة</value>
+  </data>
+  <data name="Unabletoupdateactivemappingsfound" xml:space="preserve">
+    <value>غير قادر على تحديث، ايجاد التعيينات النشطة</value>
+  </data>
+  <data name="Undelivered" xml:space="preserve">
+    <value>غير مُسلم</value>
+  </data>
+  <data name="Updatedsuccessfullyfoundsomewaitingscheduledcampaingns" xml:space="preserve">
+    <value>تم التحديث بنجاح ، ووجد بعض الحملات المجدولة قيد الانتظار</value>
+  </data>
+  <data name="UserList" xml:space="preserve">
+    <value>قائمة المستخدم</value>
+  </data>
+  <data name="PleaseselectAccountManager" xml:space="preserve">
+    <value>الرجاء حدِّد مدير الحساب</value>
+  </data>
+  <data name="SenderConfigurationView" xml:space="preserve">
+    <value>عرض تكوين المرسل</value>
+  </data>
+  <data name="AppType" xml:space="preserve">
+    <value>App Type</value>
+  </data>
+  <data name="IPWhitelist" xml:space="preserve">
+    <value>القائمة البيضاء لعنوان IP</value>
+  </data>
+  <data name="IPWhitelistView" xml:space="preserve">
+    <value>عرض القائمة البيضاء لعنوان IP</value>
+  </data>
+  <data name="Youruseraccountdoesnthavetemplatespleasecontactadministrator" xml:space="preserve">
+    <value>Your user account doesn't have templates,please contact administrator</value>
+  </data>
+  <data name="SummaryReport" xml:space="preserve">
+    <value>تقرير ملخص</value>
+  </data>
+  <data name="FunctionalStatus" xml:space="preserve">
+    <value>الحالة الوظيفية</value>
+  </data>
+  <data name="LandingCostInAED" xml:space="preserve">
+    <value>تكلفة الهبوط بالدرهم الإماراتي</value>
+  </data>
+  <data name="PriceUpdateHistory" xml:space="preserve">
+    <value>تاريخ تحديث السعر</value>
+  </data>
+  <data name="Sender_Type" xml:space="preserve">
+    <value>نوع المرسل</value>
+  </data>
+  <data name="WholeCountryRate" xml:space="preserve">
+    <value>معدل البلد كله</value>
+  </data>
+  <data name="WholeVendorRate" xml:space="preserve">
+    <value>معدل البائع الكامل</value>
+  </data>
+  <data name="GetData" xml:space="preserve">
+    <value>احصل على البيانات</value>
+  </data>
+  <data name="NewRate" xml:space="preserve">
+    <value>معدل جديد</value>
+  </data>
+  <data name="OldRate" xml:space="preserve">
+    <value>السعر القديم</value>
+  </data>
+  <data name="UpdatedOn" xml:space="preserve">
+    <value>تحديث في</value>
+  </data>
+  <data name="PleaseEnterLandingCost" xml:space="preserve">
+    <value>الرجاء إدخال تكلفة الهبوط</value>
+  </data>
+  <data name="OperatorId" xml:space="preserve">
+    <value>معرف المشغل</value>
+  </data>
+  <data name="SMSCId" xml:space="preserve">
+    <value>معرف SMSC</value>
+  </data>
+  <data name="VendorId" xml:space="preserve">
+    <value>رقم المورد</value>
+  </data>
+  <data name="OperatorNotExist" xml:space="preserve">
+    <value>المشغل غير موجود للبلد المحدد</value>
+  </data>
+  <data name="SMSCNotExist" xml:space="preserve">
+    <value>لم يتم العثور على رسائل SMSC للمورد المحدد، يرجى تحديد البائع بالكامل للمتابعة.</value>
+  </data>
+  <data name="CheckHLR" xml:space="preserve">
+    <value>تحقق من HLR</value>
+  </data>
+</root>

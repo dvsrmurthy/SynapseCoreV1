@@ -1,0 +1,221 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Synapse Messaging Platform</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="@Url.Content("~/IntroPagesContent/css/main.css")">
+    <style>
+        .support-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: auto;
+            padding-top: 50px;
+        }
+
+        .left-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4vw;
+        }
+
+            .left-panel h1 {
+                font-size: 3rem;
+                margin: 0 0 0.5rem 0;
+                font-weight: 900;
+                line-height: 1.1;
+            }
+
+                .left-panel h1 strong {
+                    color: #e21a2c;
+                    font-weight: 900;
+                }
+
+        .desc {
+            margin-bottom: 2rem;
+            margin-top: 1em;
+            font-size: 1.18rem;
+            color: #555;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+            .form-group input,
+            .query-field {
+                background: #fff;
+                border-radius: 0.6rem;
+                padding: 1rem;
+                font-size: 14px;
+                font-family: "Inter Regular";
+                border: 1px solid #eee;
+                outline: none;
+                flex: 1 1 180px;
+                min-width: 160px;
+                box-sizing: border-box;
+                margin-bottom: 0.75rem;
+            }
+
+
+
+        .query-field {
+            width: 100%;
+            min-height: 64px;
+            resize: vertical;
+            font-size: 14px;
+            font-family: "Inter Regular";
+        }
+
+        .recaptcha {
+            margin-bottom: 1rem;
+            min-width: 180px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 0.99rem;
+        }
+
+        .submit-btn {
+            width: 50%;
+            background: #bcbecb;
+            display: block;
+            color: #fff;
+            border: none;
+            border-radius: 1.3rem;
+            font-size: 1.2rem;
+            font-weight: 500;
+            padding: 0.9rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin: 30px auto;
+        }
+
+            .submit-btn:hover {
+                background: #e21a2c;
+            }
+
+        .checkbox-group label {
+            font-size: 14px;
+            padding-left: 15px;
+        }
+
+        /* Right panel image styling */
+        .right-panel {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+            .right-panel img {
+                max-width: 75%;
+                max-height: 85vh;
+                object-fit: cover;
+                border-radius: 0.8rem;
+                box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+                margin: auto;
+                display: block;
+            }
+
+        @@media (max-width: 900px) {
+            .support-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .right-panel {
+                display: none;
+            }
+
+            .left-panel {
+                padding: 6vw 3vw;
+            }
+        }
+
+        @@media (max-width: 600px) {
+            .left-panel h1 {
+                font-size: 2.1rem;
+            }
+
+            .desc {
+                font-size: 1rem;
+            }
+
+            .form-group input,
+            .query-field {
+                font-size: 0.97rem;
+                padding: 0.74rem;
+            }
+
+            .submit-btn {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="@Url.Action("About", "Home")">  <img src="@Url.Content("~/IntroPagesContent/images/synapselogo.svg")" alt=""> </a>
+        </div>
+        <nav class="desktop-nav">
+            <a href="@Url.Action("About", "Home")">About company</a>
+            <a href="@Url.Action("complaince", "Home")">Compliance</a>
+            <a href="@Url.Action("services", "Home")">Services</a>
+            <a href="@Url.Action("Contact", "Home")">Contact</a>
+            <a class="sign-in-btn" href="@Url.Action("Login", "Account")">Sign in</a>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <div class="support-wrapper">
+                <!-- LEFT PANEL: Support Content and Form -->
+                <div class="left-panel">
+                    <h1>
+                        Need <strong>help?</strong><br>
+                        We've got you!
+                    </h1>
+                    <div class="desc">
+                        Access expert support for all Vectramind products. Here you'll find guides, solutions, and contact information to help you succeed.
+                    </div>
+                    <form>
+                        <!-- <div class="recaptcha">
+
+                          <input type="checkbox" id="not-robot" name="not-robot">
+                          <label for="not-robot">I'm not a robot</label>
+                        </div> -->
+                        <div class="form-group">
+                            <input type="email" placeholder="Enter your email id" required>
+                            <input type="tel" placeholder="Enter your mobile number" required>
+                        </div>
+                        <textarea class="query-field" placeholder="Enter your query" required></textarea>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="terms" name="terms" required>
+                            <label for="terms">I agree to receive messages via WhatsApp, RCS, and SMS from Vectramind Corporation.</label>
+                        </div>
+                        <button class="submit-btn" type="submit" id="btnSubmit" disabled>Submit</button>
+                    </form>
+                </div>
+                <!-- RIGHT PANEL: Image -->
+                <div class="right-panel">
+                    <img src="@Url.Content("~/IntroPagesContent/images/support_girl.jpg")" alt="Support agent">
+                </div>
+            </div>
+        </section>
+    </main>
+    <script>
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,638 @@
+﻿@using Core.Models.Dtos.CommonDtos
+@using Core.Models.Extensions
+@using Synapse.Web.Helpers.SecureAccess
+@using Synapse.Web.Models
+@using Synapse.Web.Helpers
+@inject IConfiguration Configuration;
+@inject IHttpContextAccessor HttpContextAccessor;
+
+@{
+    var lz = SessionExtensions.GetItem<LocalizationResponse>(HttpContextAccessor.HttpContext.Session);
+    var MenuItems = HttpContextAccessor.HttpContext.Session.GetItem<List<MenuItem>>();
+    var synlogo = "~/css/images/logo.svg";
+    var clilogo = "~/css/images/client-logo.png";
+    dynamic u = null;
+    dynamic extendedUser = null;
+    var ln = HttpContextAccessor.HttpContext.Session.GetString("ln") == null ? "en" : HttpContextAccessor.HttpContext.Session.GetString("ln");
+    var lngClass = ln == "en" ? "lnEnglish" : "lngArbic";
+    var lngdir = ln == "en" ? "ltr" : "rtl";
+    var IsAuth = User.Identity.IsAuthenticated;
+    var pTitle = string.Empty;
+    if (User.Identity.IsAuthenticated)
+    {
+        extendedUser = SessionExtensions.GetItem<Core.Models.Extensions.CustomeUser>(HttpContextAccessor.HttpContext.Session);
+        if (@ViewBag.verifymessage == "Failed" || @ViewBag.Message == "1")
+        {
+            extendedUser = null;
+        }
+        if (extendedUser != null)
+        {
+            u = extendedUser.LogOnRespons;
+            var pitems = new List<SubMenuItems>();
+            if (MenuItems != null)
+            {
+                foreach (var it in MenuItems)
+                {
+                    pitems.AddRange(it.ChildMenuItems);
+                }
+                var pgtitle = pitems.FirstOrDefault(f => f.Name.Equals(ViewBag.Title, StringComparison.OrdinalIgnoreCase));
+                if (pgtitle != null)
+                {
+                    pTitle = ln == "en" ? pgtitle.Name : pgtitle.ArabicName;
+                }
+            }
+        }
+    }
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title - Synapse Application</title>
+    <link href="~/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/css/bootstrap-multiselect.css" rel="stylesheet" />
+    <link href="~/css/pe-icon-7-stroke.css" rel="stylesheet" />
+    <link href="~/css/nifty-demo-icons.css" rel="stylesheet" />
+    <link href="~/css/morris.css" rel="stylesheet" />
+    <link href="~/css/magic-check.min.css" rel="stylesheet" />
+    <link href="~/css/theme-light.css" rel="stylesheet" />
+    <link href="~/css/jquery-ui.css" rel="stylesheet" />
+    <link href="~/css/select2.min.css" rel="stylesheet" />
+    <link href="~/css/bootstrap-timepicker.min.css" rel="stylesheet" />
+    <link href="~/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+    <link href="~/css/jquery.filer.css" rel="stylesheet" />
+    <link href="~/css/themes/jquery.filer-dragdropbox-theme.css" rel="stylesheet" />
+    <link href="~/css/chosen.min.css" rel="stylesheet" />
+    <link href="~/css/bootstrapValidator.min.css" rel="stylesheet" />
+    <link href="~/css/plugins/summernote/summernote.min.css" rel="stylesheet" />
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+    <link rel='shortcut icon' type='image/x-icon' href='' />
+    @if (@ln == "en")
+    {
+        <link rel="stylesheet" href="~/css/nifty.css" type="text/css" />
+    }
+    else
+    {
+        <link rel="stylesheet" href="~/css/nifty_right.css" type="text/css" />
+    }
+    <style type="text/css">
+        .popover {
+            max-width: 420px;
+        }
+
+        .chosen-container-multi .chosen-choices {
+            min-height: 34px;
+            line-height: 1.42857143;
+        }
+
+        .search-field {
+            width: 131px !important;
+        }
+
+        .jFiler-items ul {
+            margin-left: -40px;
+        }
+
+        .jFiler-items-default .jFiler-item {
+            padding: 10px;
+        }
+
+        .wz-steps {
+            display: flex;
+        }
+
+            .wz-steps li {
+                align-items: stretch;
+            }
+
+        .input-group .form-control {
+            height: 32px;
+        }
+    </style>
+
+</head>
+<body body class="@lngClass">
+    @if (u != null && (User.Identity.IsAuthenticated))
+    {
+        <script>
+                var Q = '@Configuration["ScKey"]';
+                var key = CryptoJS.enc.Utf8.parse(Q);
+                var iv = CryptoJS.enc.Utf8.parse(Q);
+            function updateCredits() {
+                var CustomerId = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse('@u.CustomerId'), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                var CreditType = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse('@u.CreditType'), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                var RoleId = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse('@u.RoleId'), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                $.ajax({
+                    type: 'Post',
+                    url: '@Url.Action("GetCredits", "Account", new { Area = string.Empty })',
+                    data: { cid: CustomerId, cttyp: CreditType, rid: RoleId },
+                    global: false,
+                    success: function (d) {
+                        if (d == "ADMIN") {
+                        }
+                        if (d == "UNLIMITED") {
+                            $('.availCredits').html('UNLIMITED');
+                        } else {
+                            $('.availCredits').html(d);
+                        }
+
+                    }
+                });
+            }
+            updateCredits();
+        </script>
+    }
+    @if (u != null && (User.Identity.IsAuthenticated))
+    {
+    }
+    else
+    {
+        <div class="texture-overlay"></div>
+        <div id="bg-overlay" class="bg-img"></div>
+    }
+    <div id="qLoverlay">
+        <div id="qLbar">
+        </div>
+    </div>
+
+    <div id="container" class="chosen-container-multi effect aside-float aside-bright mainnav-lg navbar-fixed mainnav-fixed">
+        @if (u != null && (User.Identity.IsAuthenticated))
+        {
+            <header id="navbar">
+                <div id="navbar-container" class="boxed">                   
+                    <div class="navbar-header">                      
+                        @if (u != null && (User.Identity.IsAuthenticated))
+                        {
+                            if (u?.RoleId == 1 || u?.RoleId == 13 || u?.RoleId == 15 || u?.RoleId == 16 || u?.RoleId == 23)
+                            {
+                                <a href="@Url.Action("Index", "Home", new { Area = "DashBoard" })" class="navbar-brand">
+                                    <img src="~/Content/images/home-logo.svg" />
+                                </a>
+                            }
+
+                            else
+                            {
+                                if (u?.ProductLogoReplacedWithCLogo == true)
+                                {
+
+                                    <a href="@Url.Action("Index", "Home", new { Area = "DashBoard" })" class="navbar-brand">
+                                        <img src='@Url.Content(u.Logo == null ? synlogo : u.Logo)' style="top:0px; height:50px;" />
+                                    </a>
+                                }
+                                else
+                                {
+
+                                    <a href="@Url.Action("Index", "Home", new { Area = "DashBoard" })" class="navbar-brand">
+                                        <img src="~/Content/images/home-logo.svg" style="top:0px;" />
+                                    </a>
+                                }
+                            }
+
+                        }
+                        else
+                        {
+
+                            <a href="@Url.Action("Index", "Home", new { Area = "DashBoard" })" class="navbar-brand">
+                                <img src="~/Content/images/home-logo.svg" />
+                            </a>
+                        }
+                    </div>                   
+                    <div class="navbar-content clearfix">
+                        <ul class="nav navbar-top-links pull-left">                          
+                            @if (u != null && (User.Identity.IsAuthenticated))
+                            {
+                                <li class="tgl-menu-btn" style="display:none;">
+                                    <a class="mainnav-toggle" href="#">
+                                        <i class="demo-pli-view-list"></i>
+                                    </a>
+                                </li>                                
+                            }
+                        </ul>
+                        <ul class="nav navbar-top-links pull-right">
+                                <li class="dropdown hide">
+                                    <a title="Language" id="demo-lang-switch" class="lang-selector dropdown-toggle" href="#" data-toggle="dropdown">
+                                        <span class="lang-selected">
+                                            <i class="fa fa-globe fa-2x" title="Language"></i>
+                                        </span>
+                                    </a>
+
+                                    <!--Language selector menu-->
+                                    <ul class="head-list dropdown-menu dropdown-menu-md dropdown-menu-right">
+                                        <li>
+                                            <!--English-->
+                                            <a onclick="langSelection(this.id)" id="en-lan" class="btn btn-primary">English</a>
+                                        </li>
+                                        <li>
+                                            <!--Arabic-->
+                                            <a onclick="langSelection(this.id)" id="ar-lan" class="btn btn-primary">العربية</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                if (@lngClass == "lnEnglish")
+                                {
+                                    <li id="english" style="display:none;">
+                                        <a onclick=" langSelection(this.id)" id="en-lan" class="btn btn-white">English</a>
+                                    </li>
+
+                                    <li id="arabic">
+                                        <a onclick="langSelection(this.id)" id="ar-lan" title="العربية" class="btn btn-white">العربية</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li id="english">
+                                        <a onclick=" langSelection(this.id)" id="en-lan" title="English" class="btn btn-white">English</a>
+                                    </li>
+
+                                    <li id="arabic" style="display:none;">
+                                        <a onclick="langSelection(this.id)" id="ar-lan" class="btn btn-white">العربية</a>
+                                    </li>
+                                }
+                            @if (u != null && (User.Identity.IsAuthenticated))
+                            {
+                                <li id="dropdown-user" class="dropdown text-right">
+                                    <a href="#" data-toggle="dropdown" class="dropdown-toggle text-right">
+                                        <span class="pull-right">
+                                            <!--<img class="img-circle img-user media-object" src="~/Content/images/profile-photos/1.png" alt="Profile Picture">-->
+                                            <i class="demo-pli-male ic-user"></i>
+
+                                        </span>
+                                        <div class="username hidden-xs">@u.UserName  <i class="fa fa-angle-down" aria-hidden="true"></i> </div>
+                                    </a>
+
+
+                                    <div class="dropdown-menu dropdown-menu-md dropdown-menu-right panel-default">
+
+                                        <!-- Dropdown heading  -->
+                                        <div class="pad-all bord-btm">                                            
+                                            <p class="text-left" style="font-weight:bold;">
+                                                <span class="fa fa-user-o"> </span> @u.CustomerName
+                                            </p>
+                                            @if (@u.RoleId == 1 || @u.RoleId == 2 || @u.RoleId == 13 || @u.RoleId == 23)
+                                            {
+                                            }
+                                            else
+                                            {
+                                                <p class="text-left">Balance Credits : &nbsp; <span class="badge badge-success pull-right availCredits" id="availableCredits"> </span></p> @*ID Added by murty*@                                                
+                                            }
+                                        </div>
+                                        <ul class="head-list text-left">
+                                            <li>
+                                                <a data-toggle="modal" data-target="#profile" style="cursor:pointer;" title="My Profile"><i class="fa fa-user" style="padding-left: 4px; "></i>     My Profile </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("AdminOperationsPlugin", "AdminOperationsPlugin", new { Area = string.Empty })" title="Change Password">
+                                                    <i class="fa fa-cog icon-lg icon-fw"></i>@lz.ChangePassword
+                                                </a>
+                                            </li>
+                                        </ul>
+
+                                        <!-- Dropdown footer -->
+                                        <div class="pad-all text-right">
+                                            <a href="@Url.Action("LogOff", "Account", new { Area = string.Empty })" class="btn btn-primary btn-sm logoutbtn" alt="Logout" title="Logout">
+                                                <i class="demo-pli-unlock"></i> @lz.Logout
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                            }                            
+                        </ul>
+                    </div>
+                </div>
+            </header>
+        }
+        else
+        { }
+        <div class="boxed">            
+            @if (u != null && (User.Identity.IsAuthenticated))
+            {
+                <div id="content-container">                    
+                    <div id="page-content">
+                        @RenderBody()
+                    </div>
+                </div>
+            }
+            else
+            {
+                @RenderBody()
+            }
+
+            @if (MenuItems != null && MenuItems.Any() && u != null && (User.Identity.IsAuthenticated))
+            {
+                <nav id="mainnav-container">
+                    <div id="mainnav">                      
+                        <div id="mainnav-menu-wrap" style="@((u?.uIsFirstLogin != null && u?.uIsFirstLogin == 1) ? "pointer-events:none" : "")">
+                            <div class="nano  has-scrollbar">
+                                <div class="nano-content" id="mainnav-menu">
+                                    <ul>
+                                        @foreach (var item in MenuItems)
+                                        {
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa @item.MenuIcon"></i> <span class="menu-title">@(ln.Equals("en") ? item.Name : item.ArabicName)</span> <i class="arrow"></i>
+                                                </a>
+                                                <ul class="collapse">
+                                                    @foreach (var citem in item.ChildMenuItems)
+                                                    {
+                                                        if (citem.ActionName == "RateCard")
+                                                        {
+                                                            if (citem.RateCardRoleId == citem.UserRole && citem.ParentCustomerId == 1)
+                                                            {
+                                                                <li>
+                                                                    <a href="@Url.Action(citem.ActionName, citem.ControllerName, new { Area = citem.AreaName }) " title="@(ln.Equals("en") ? citem.Name : citem.ArabicName)"><i class="fa @item.MenuIcon  "></i>  <span class="menu-title">@(ln.Equals("en") ? citem.Name : citem.ArabicName)</span> </a>
+                                                                </li>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <li>
+                                                                <a href="@Url.Action(citem.ActionName, citem.ControllerName, new { Area = citem.AreaName }) " title="@(ln.Equals("en") ? citem.Name : citem.ArabicName)"><i class="fa @item.MenuIcon  "></i>  <span class="menu-title">@(ln.Equals("en") ? citem.Name : citem.ArabicName)</span> </a>
+                                                            </li>
+                                                        }
+                                                    }
+                                                </ul>
+                                            </li>
+                                        }
+                                    </ul>
+                                    <div style="min-height:400px"></div>
+                                </div>
+                            </div>
+                        </div>             
+                    </div>
+                </nav>
+            }            
+        </div>
+
+    </div>
+
+    @if (u != null && (User.Identity.IsAuthenticated))
+    {
+        <footer id="footer">
+            <span style="margin-left:15px;"> &copy; 2020 @lz.VectramindCorporation</span>            
+            <div class="show-fixed pull-right">
+                You have <a href="#" class="text-bold text-main"><span class="label label-danger">3</span> pending action.</a>
+            </div>
+            <div class="hide-fixed pull-right pad-rgt">                
+            </div>
+            <p class="pad-lft" style="float:right;">
+                @if (u != null && (User.Identity.IsAuthenticated))
+                {
+                    @Html.Raw(u.FooterNotes)
+                }
+                else
+                {
+                    
+                }
+            </p>
+        </footer>
+    }
+    <button class="scroll-top btn">
+        <i class="pci-chevron chevron-up"></i>
+    </button>
+    <input type="hidden" id="clvalue" value="" />
+    <input type="hidden" id="rvalue" value="" />
+    @if (u != null)
+    {
+        <input type="hidden" id="csttype" value="@u.CustomerType" />
+        <input type="hidden" id="smscdash" value="@u.RoleId" />
+        <input type="hidden" id="hdnLang" value="@lngClass" />
+    }
+
+    @if (u != null && (User.Identity.IsAuthenticated))
+    {
+        if (u.CustomerId == 1 && u.UserName == "admin")
+        {
+            <div id="profile" class="modal fade" tabindex="-1">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                            <h4 class="modal-title" id="myLargeModalLabel">My Profile</h4>
+                        </div>
+                        <div class="modal-body">
+                            <table class='table table-striped table-bordered'>
+                                <tbody>
+                                    <tr><td>User Name</td><td>@u.UserName</td></tr>
+                                    <tr><td>First Name</td><td>@u.FirstName</td></tr>
+                                    <tr><td>Last Name</td><td>@u.LastName</td></tr>
+                                    <tr><td>Mobile Number</td><td>@u.MobileNo</td></tr>
+                                    <tr><td>Email Address</td><td>@u.Mail</td></tr>
+                                    <tr><td>Account Type</td><td>@u.AccountType</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div id="profile" class="modal fade" tabindex="-1">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                            <h4 class="modal-title" id="myLargeModalLabel">My Profile</h4>
+                        </div>
+                        <div class="modal-body">
+                            <table class='table table-striped table-bordered'>
+                                <tbody>
+                                    <tr><td>User Name</td><td>@u.UserName</td></tr>
+                                    <tr><td>First Name</td><td>@u.FirstName</td></tr>
+                                    <tr><td>Last Name</td><td>@u.LastName</td></tr>
+                                    <tr><td>Mobile Number</td><td>@u.MobileNo</td></tr>
+                                    <tr><td>Email Address</td><td>@u.Mail</td></tr>
+                                    <tr>
+                                        <td>Balance Credits</td>
+                                        <td>
+                                            <span class="availCredits"> </span>                                            
+                                        </td>
+                                    </tr>
+                                    <tr><td>Account Type</td><td>@u.AccountType</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+    <script src="~/js/jquery-3.7.1.js"></script>
+    <script src="~/js/jquery.validate-vsdoc.js"></script>
+    <script src="~/js/jquery.validate.js"></script>
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/modernizr-2.6.2.js"></script>
+    <script src="~/js/bootstrap.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/css/plugins/summernote/summernote.js"></script>
+    <script src="~/css/plugins/summernote/summernote.min.js"></script>
+    <script src="~/js/other.js"></script>
+    <script src="~/js/nifty.js"></script>
+    <script src="~/js/d3.v3.min.js"></script>
+    <script src="~/js/topojson.v1.min.js"></script>
+    <script src="~/js/jquery.filer.js"></script>
+    <script src="~/js/fileuploader.js"></script>
+    <script src="~/js/panels.js"></script>
+    <script src="~/js/jquery.datatables.js"></script>
+    <script src="~/js/datatables.bootstrap.js"></script>
+    <script src="~/js/datatables.responsive.min.js"></script>
+    <script src="~/js/jquery.bootstrap.wizard.js"></script>
+    <script src="~/js/bootstrapvalidator.min.js"></script>
+    <script src="~/js/form-wizard.js"></script>
+    <script src="~/js/form-component.js"></script>
+    <script src="~/js/bootstrap-multiselect.js"></script>
+    <script src="~/js/bootstrap-timepicker.min.js"></script>
+    <script src="~/js/chosen.jquery.min.js"></script>
+    <script src="~/js/select2.min.js"></script>
+    <script src="~/js/jquery-ui.js"></script>
+    <script src="~/js/sitecommon.js"></script>
+    <script src="~/js/aes.js"></script>
+    <script src="~/js/linq.js"></script>
+
+    <script type="text/javascript">
+        var Q = '@Configuration["ScKey"]';
+        var key = CryptoJS.enc.Utf8.parse(Q);
+        var iv = CryptoJS.enc.Utf8.parse(Q);
+        $(window).on('resizeEnd', function () {
+            if ($(window).width() >= 320 && $(window).width() <= 992) {
+                $("#content-container, input").on("click focus", function () {
+                    if ($('#container').hasClass("mainnav-lg") === true) {
+                        $(".mainnav-toggle").trigger("click");
+                    }
+                });
+            }
+        });
+
+        window.addEventListener("load", function (event) {
+            if ($(window).width() >= 320 && $(window).width() <= 992) {
+                $("#content-container, input").on("click focus", function () {
+                    if ($('#container').hasClass("mainnav-lg") === true) {
+                        $(".mainnav-toggle").trigger("click");
+                    }
+                });
+            }
+            $(document).ajaxStart(function () {
+                $("#qLoverlay").css('background', 'rgba(187, 187, 187, 0.5)').fadeIn(700);
+                $("#qLbar").fadeIn(700);
+            });
+            $(document).ajaxComplete(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("ajaxSession", "Account", new { Area = string.Empty })',
+                    data: { key_leave: "" },
+                    global: false,
+                    success: function (d) {
+                        if (d != "") {
+                            // location.reload();
+                            location.href = "@Url.Action("LogOff", "Account", new { Area = string.Empty })";
+                        }
+                    }
+                });
+                $("#qLoverlay").fadeOut(700);
+                $("#qLbar").fadeOut(700);
+            });
+            $(document).on("contextmenu", function (e) {
+                if ($(e.target).is(".allowrc")) {
+                    return true;
+                }
+                if ($(e.target).is(".form-control")) {
+                    if ($(window).width() < 1024) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            });
+            $('.form-controls').bind('drag drop', function (e) {
+                e.preventDefault();
+            });
+
+            // Disable part of page
+            $('.form-control').bind('drag drop', function (e) {
+                e.preventDefault();
+            });
+            $('.form-control.allowrc').on("contextmenu", function (e) {
+                return true;
+            });
+            if ($("#smscdash").val() != 1) {
+                $('.smsclists').remove()
+                $('.smsclists').hide()
+            }
+            //dashboard session
+            var curPath = window.location.href;
+            var rDir = curPath.search("/Account/Log");
+            if ($('input[type=hidden]#csttype').length < 1 && rDir == -1) {
+                setTimeout(function () {
+                    location.href = "@Url.Action("LogOff", "Account", new { Area = string.Empty })";
+                }, 300);
+            }
+        });
+
+        window.close = function () {            
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("LogOff", "Account", new { Area = string.Empty })',
+                async: false,
+                data: { key_leave: "" }
+            });
+        }
+        $('.boxed > .text-danger').parent().addClass('errorpage');
+        var baseurl = "@Url.Content("~/")";
+        var synlogo = "Content/images/logo.svg";
+        var clilogo = "~/Content/images/client-logo.png";
+        $('.errorpage').append('<p class=""><a class="btn  btn-info " href="@Url.Action("Login", "Account", new { Area = string.Empty })"> Login</a></p>');        
+        $('.errorpage > h1').html('<p><img style="margin:0 auto;" src="' + baseurl + '/' + synlogo + '" width="150px" /></p>');
+        $('.errorpagetwo > h1').html('<p><img style="margin:0 auto;" src="' + baseurl + '/' + synlogo + '" width="150px" /></p>');
+        $('.errorpage > h2').html('<i class="fa fa-clock-o"></i> @(HttpContextAccessor.HttpContext.Session.GetString("internalmessage") == null ? "Your session has been expired." : HttpContextAccessor.HttpContext.Session.GetString("internalmessage"))');
+
+        var antiForgeryToken = $('input[name="__RequestVerificationToken"]').val();
+        var headers = {};
+        headers['__RequestVerificationToken'] = antiForgeryToken;
+
+
+        function clng(l) {
+            if (l != '') {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("LChange", "Account")',
+                    headers: headers,
+                    data: { lng: l },
+                    datatype: 'application/json',
+                    success: function (d) {
+                        location.reload(false);
+                    },
+                    error: function (xhr, error, status) {
+                        console.log(xhr);
+                    }
+                });
+            }
+        }
+
+
+        function langSelection(lang) {
+            if (lang != '') {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("LChange", "Account", new { Area = string.Empty })',
+                    headers: headers,
+                    data: { lng: lang },
+                    datatype: 'application/json',
+                    success: function (d) {
+                        location.reload(false);
+                    },
+                    error: function (xhr, error, status) {
+                        console.log(xhr);
+                    }
+                });
+            }
+        }
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,277 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Synapse Messaging Platform</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="@Url.Content("~/IntroPagesContent/css/main.css")">
+    <style>
+
+        /*! CSS Used from: https://vectramind.com/assets/css/bootstrap.min.css */
+
+        h3, h6 {
+            margin-top: 0;
+            margin-bottom: .5rem;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        h3 {
+            font-size: calc(1.3rem + .6vw);
+        }
+
+        @@media (min-width:1200px) {
+            h3 {
+                font-size: 1.75rem;
+            }
+        }
+
+        h6 {
+            font-size: 1rem;
+        }
+
+        ul {
+            padding-left: 2rem;
+        }
+
+        ul {
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+        .img-fluid {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        @@media (min-width:576px) {
+            .col-sm-6 {
+                flex: 0 0 auto;
+                width: 50%;
+            }
+        }
+
+        .align-items-center {
+            align-items: center !important;
+        }
+
+        .mx-auto {
+            margin-right: auto !important;
+            margin-left: auto !important;
+        }
+
+        .fw-bold {
+            font-weight: 700 !important;
+        }
+
+        /*! CSS Used from: https://vectramind.com/assets/css/styles.css */
+        /*! @@import https://vectramind.com/assets/css/synapsepage.css */
+        .section-full {
+            width: 100%;
+            margin: 128px auto;
+        }
+
+            .section-full h6 {
+                font-size: 1.22vw;
+                font-weight: 300;
+            }
+
+            .section-full h3 {
+                margin-bottom: 16px;
+            }
+
+            .section-full ul {
+                color: #666666;
+                font-size: 0.88vw;
+                margin-top: 23px;
+                padding-left: 1rem;
+            }
+
+                .section-full ul li {
+                    margin-bottom: 20px;
+                }
+        /*! end @@import */
+        /*! @@import https://vectramind.com/assets/css/blog.css */
+        @@media (min-width: 375px) and (max-width: 700px) {
+            .w-80 {
+                width: 100% !important;
+            }
+        }
+        /*! end @@import */
+        /*! @@import https://vectramind.com/assets/css/allblogs.css */
+        @@media (width <= 800px) {
+            ul li {
+                line-height: 30px !important;
+            }
+        }
+        /*! end @@import */
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cccccc;
+            border-radius: 10px;
+            opacity: 0.5;
+        }
+
+        .w-80 {
+            width: 80%;
+        }
+
+        .highlight-info {
+            color: #e22526;
+        }
+
+        .fw-600 {
+            font-weight: 600;
+        }
+
+        .section-heading {
+            font-size: 2.22vw;
+            font-weight: normal;
+        }
+
+        @@media screen and (max-width: 576px) {
+            .section-full {
+                margin: 60px auto 0px auto;
+            }
+
+                .section-full.bg-white h3.section-heading {
+                    font-size: 6.5vw;
+                }
+
+                .section-full.bg-white h6 {
+                    font-size: 4vw;
+                }
+
+                .section-full.bg-white ul {
+                    font-size: 3vw;
+                }
+
+            .w-80 {
+                width: 95%;
+            }
+        }
+
+        @@media screen and (min-width: 577px) and (max-width: 1023px) {
+            .section-full .section-heading {
+                font-size: 5vw;
+            }
+
+            .section-full .col-sm-6 {
+                width: 100%;
+            }
+
+            .section-full h6 {
+                font-size: 4vw;
+            }
+
+            .section-full ul {
+                font-size: 3vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="@Url.Action("About", "Home")">  
+                <img src="@Url.Content("~/IntroPagesContent/images/synapselogo.svg")" alt=""> 
+            </a>
+        </div>
+        <nav class="desktop-nav">
+            <a href="@Url.Action("About", "Home")">About company</a>
+            <a href="@Url.Action("complaince", "Home")">Compliance</a>
+            <a href="@Url.Action("services", "Home")">Services</a>
+            <a href="@Url.Action("Contact", "Home")">Contact</a>
+            <a class="sign-in-btn" href="@Url.Action("Login", "Account")">Sign in</a>
+        </nav>
+    </header>
+    <main>
+        <section class="section-full bg-white">
+            <div class="row w-80 mx-auto align-items-center">
+                <div class="col-sm-6">
+                    <div class="left">
+                        <h1>
+                            Send <strong>SMS, Whatsapp</strong><br>
+                            Messages Efficiently<br>
+                            and Professionally
+                        </h1>
+                        <div class="slide-text" id="slideText">
+                            We guarantee fast delivery, real-time reporting, and coverage across all networks.
+                        </div>
+                        <div class="slider-dots" id="sliderDots">
+                            <span class="slider-dot active"></span>
+                            <span class="slider-dot"></span>
+                            <span class="slider-dot"></span>
+                        </div>
+                        <form class="input-row">
+                            <input type="email" placeholder="Enter your email id" required>
+                            <button type="submit" disabled>Contact Sales</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <img src="@Url.Content("~/IntroPagesContent/images/whatsp.svg")" class="img-fluid" alt="WhatsApp" width="80%">
+                </div>
+            </div>
+        </section>
+        <section class="section-full bg-white">
+            <div class="row w-80 mx-auto align-items-center">
+                <div class="col-sm-6">
+                    <h3 class="section-heading">You can choose Mess.<br> Or message <span class="highlight-info fw-bold">right.</span></h3>
+                    <h6>Customer engagement management begins with better messaging management!</h6>
+                    <ul>
+                        <li>
+                            <span class="fw-600">Define priority messaging</span> for better optimization of messages in
+                            queue
+                        </li>
+                        <li>
+                            <span class="fw-600">Gain better customer relationships</span>, time efficiencies and low costs
+                        </li>
+                        <li><span class="fw-600">Create, store and configure reusable message templates</span></li>
+                        <li><span class="fw-600">Integrate with any database</span> to trigger different messages</li>
+                    </ul>
+                </div>
+                <div class="col-sm-6">
+                    <img src="@Url.Content("~/IntroPagesContent/images/group-people.png")" class="img-fluid" alt="People with callouts" width="80%">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const slideTexts = [
+            "We guarantee fast delivery, real-time reporting, and coverage across all networks.",
+            "Scale your communications with powerful APIs and seamless integration.",
+            "Track message performance with advanced analytics and real-time dashboards."
+        ];
+        const dots = document.querySelectorAll('.slider-dot');
+        const slideTextEl = document.getElementById('slideText');
+
+        dots.forEach((dot, idx) => {
+            dot.addEventListener('click', () => {
+                dots.forEach(d => d.classList.remove('active'));
+                dot.classList.add('active');
+                slideTextEl.style.opacity = 0;
+                setTimeout(() => {
+                    slideTextEl.textContent = slideTexts[idx];
+                    slideTextEl.style.opacity = 1;
+                }, 220);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,898 @@
+{
+    "took": 492,
+    "timed_out": false,
+    "_shards": {
+        "total": 5,
+        "successful": 3,
+        "failed": 0
+    },
+    "hits": {
+        "total": 30111166,
+        "max_score": 0,
+        "hits": [ ]
+    },
+    "aggregations": {
+        "world_map": {
+            "doc_count_error_upper_bound": 0,
+            "sum_other_doc_count": 0,
+            "buckets": [
+
+                {
+                    "key": "USA",
+                    "doc_count": 4231922,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "CAN",
+                    "doc_count": 817866,
+                    "delivery_rate": 98
+                },
+                {
+                    "key": "GBR",
+                    "doc_count": 213736,
+                    "delivery_rate": 93
+                },
+                {
+                    "key": "MOZ",
+                    "doc_count": 76607,
+                    "delivery_rate": 96
+                },
+                {
+                    "key": "TUR",
+                    "doc_count": 72724,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "KEN",
+                    "doc_count": 64413,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "BEL",
+                    "doc_count": 54416,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "QAT",
+                    "doc_count": 4231922,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "KWT",
+                    "doc_count": 4231922,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "FRA",
+                    "doc_count": 50738,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "NLD",
+                    "doc_count": 42092,
+                    "delivery_rate": 96
+                },
+                {
+                    "key": "ZAF",
+                    "doc_count": 33714,
+                    "delivery_rate": 96
+                },
+
+                {
+                    "key": "ARG",
+                    "doc_count": 23539,
+                    "delivery_rate": 98
+                },
+                {
+                    "key": "SWE",
+                    "doc_count": 23145,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "ESP",
+                    "doc_count": 22365,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "HKG",
+                    "doc_count": 14383,
+                    "delivery_rate": 96
+                },
+
+                {
+                    "key": "COL",
+                    "doc_count": 13908,
+                    "delivery_rate": 96
+                },
+                {
+                    "key": "DEU",
+                    "doc_count": 5985,
+                    "delivery_rate": 96
+                },
+                {
+                    "key": "MEX",
+                    "doc_count": 5396,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "TTO",
+                    "doc_count": 5138,
+                    "delivery_rate": 98
+                },
+                {
+                    "key": "CHN",
+                    "doc_count": 3478,
+                    "delivery_rate": 97
+                },
+                {
+                    "key": "CHL",
+                    "doc_count": 3450,
+                    "delivery_rate": 92
+                },
+                {
+                    "key": "KAZ",
+                    "doc_count": 2666,
+                    "delivery_rate": 93
+                },
+                {
+                    "key": "PER",
+                    "doc_count": 2005,
+                    "delivery_rate": 92
+                },
+                {
+                    "key": "IRN",
+                    "doc_count": 1586,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "BGR",
+                    "doc_count": 1552,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "POL",
+                    "doc_count": 1539,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "UKR",
+                    "doc_count": 1444,
+                    "delivery_rate": 96
+                },
+                {
+                    "key": "SGP",
+                    "doc_count": 1386,
+                    "delivery_rate": 93
+                },
+                {
+                    "key": "JPN",
+                    "doc_count": 1371,
+                    "delivery_rate": 94
+                },
+                {
+                    "key": "CZE",
+                    "doc_count": 1295,
+                    "delivery_rate": 97
+                },
+                {
+                    "key": "IND",
+                    "doc_count": 1126,
+                    "delivery_rate": 99
+                },
+                {
+                    "key": "ITA",
+                    "doc_count": 1077,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "JAM",
+                    "doc_count": 1014,
+                    "delivery_rate": 94
+                },
+                {
+                    "key": "ROU",
+                    "doc_count": 1011,
+                    "delivery_rate": 96
+                },
+
+                {
+                    "key": "EU",
+                    "doc_count": 979,
+                    "delivery_rate": 92
+                },
+                {
+                    "key": "SRB",
+                    "doc_count": 957,
+                    "delivery_rate": 93
+                },
+                {
+                    "key": "ECU",
+                    "doc_count": 851,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "ISR",
+                    "doc_count": 848,
+                    "delivery_rate": 96
+                },
+                {
+                    "key": "KOR",
+                    "doc_count": 835,
+                    "delivery_rate": 96
+                },
+                {
+                    "key": "ARE",
+                    "doc_count": 631,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "NCL",
+                    "doc_count": 598,
+                    "delivery_rate": 93
+                },
+                {
+                    "key": "PRT",
+                    "doc_count": 487,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "GRC",
+                    "doc_count": 423,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "URY",
+                    "doc_count": 416,
+                    "delivery_rate": 98
+                },
+                {
+                    "key": "BLR",
+                    "doc_count": 392,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "HUN",
+                    "doc_count": 368,
+                    "delivery_rate": 94
+                },
+                {
+                    "key": "HRV",
+                    "doc_count": 355,
+                    "delivery_rate": 91
+                },
+                {
+                    "key": "GTM",
+                    "doc_count": 312,
+                    "delivery_rate": 92
+                },
+                {
+                    "key": "BOL",
+                    "doc_count": 308,
+                    "delivery_rate": 93
+                },
+                {
+                    "key": "THA",
+                    "doc_count": 294,
+                    "delivery_rate": 99
+                },
+                {
+                    "key": "CHE",
+                    "doc_count": 291,
+                    "delivery_rate": 99
+                },
+                {
+                    "key": "AUT",
+                    "doc_count": 284,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "MDA",
+                    "doc_count": 249,
+                    "delivery_rate": 93
+                },
+                {
+                    "key": "VNM",
+                    "doc_count": 236,
+                    "delivery_rate": 92
+                },
+                {
+                    "key": "VEN",
+                    "doc_count": 228,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "NGA",
+                    "doc_count": 216,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "IRL",
+                    "doc_count": 190,
+                    "delivery_rate": 93
+                },
+                {
+                    "key": "PSE",
+                    "doc_count": 188,
+                    "delivery_rate": 94
+                },
+                {
+                    "key": "NOR",
+                    "doc_count": 184,
+                    "delivery_rate": 96
+                },
+                {
+                    "key": "AFG",
+                    "doc_count": 181,
+                    "delivery_rate": 97
+                },
+                {
+                    "key": "LVA",
+                    "doc_count": 177,
+                    "delivery_rate": 97
+                },
+                {
+                    "key": "CRI",
+                    "doc_count": 175,
+                    "delivery_rate": 98
+                },
+                {
+                    "key": "MAR",
+                    "doc_count": 172,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "SEN",
+                    "doc_count": 162,
+                    "delivery_rate": 96
+                },
+                {
+                    "key": "RWA",
+                    "doc_count": 156,
+                    "delivery_rate": 91
+                },
+                {
+                    "key": "GEO",
+                    "doc_count": 151,
+                    "delivery_rate": 99
+                },
+                {
+                    "key": "KGZ",
+                    "doc_count": 149,
+                    "delivery_rate": 93
+                },
+                {
+                    "key": "BWA",
+                    "doc_count": 146,
+                    "delivery_rate": 91
+                },
+                {
+                    "key": "PHL",
+                    "doc_count": 144,
+                    "delivery_rate": 92
+                },
+                {
+                    "key": "SDN",
+                    "doc_count": 137,
+                    "delivery_rate": 93
+                },
+                {
+                    "key": "GLP",
+                    "doc_count": 98,
+                    "delivery_rate": 96
+                },
+                {
+                    "key": "DOM",
+                    "doc_count": 93,
+                    "delivery_rate": 96
+                },
+                {
+                    "key": "ALB",
+                    "doc_count": 90,
+                    "delivery_rate": 94
+                },
+                {
+                    "key": "MNE",
+                    "doc_count": 88,
+                    "delivery_rate": 94
+                },
+                {
+                    "key": "ARM",
+                    "doc_count": 83,
+                    "delivery_rate": 94
+                },
+                {
+                    "key": "DNK",
+                    "doc_count": 80,
+                    "delivery_rate": 94
+                },
+                {
+                    "key": "UZB",
+                    "doc_count": 69,
+                    "delivery_rate": 96
+                },
+                {
+                    "key": "NZL",
+                    "doc_count": 56,
+                    "delivery_rate": 96
+                },
+                {
+                    "key": "LBN",
+                    "doc_count": 52,
+                    "delivery_rate": 97
+                },
+                {
+                    "key": "TUN",
+                    "doc_count": 28,
+                    "delivery_rate": 99
+                },
+                {
+                    "key": "GHA",
+                    "doc_count": 27,
+                    "delivery_rate": 94
+                },
+                {
+                    "key": "ZWE",
+                    "doc_count": 24,
+                    "delivery_rate": 94
+                },
+                {
+                    "key": "DZA",
+                    "doc_count": 23,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "JEY",
+                    "doc_count": 18,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "TWN",
+                    "doc_count": 12,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "GRD",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "GRL",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "RUS",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "FIN",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "ISL",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "AUS",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "IDN",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "PNG",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "BRN",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "MYS",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "KHM",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "LAO",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "MDG",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "PRK",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "MNG",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "TJK",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "LTU",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "TKM",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "MMR",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "BTN",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "NPL",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "PAK",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "AZE",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "EST",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "SVK",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "OMN",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "SAU",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "YEM",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "LBR",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "ATF",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "SWZ",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "LSO",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "FLK",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "CUB",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "BRA",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "PRY",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "GUY",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "GUF",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "SUR",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "PAN",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "HND",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "PRI",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "HTI",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "CUB",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "SLV",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "NIC",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "BHS",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "NAM",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "SVN",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "-99",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "BIH",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "MKD",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "MKD",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "SYR",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "EGY",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "ZMB",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "MWI",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "SOM",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "ETH",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "TCD",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "NER",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "LBY",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "JOR",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "IRQ",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "MRT",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "AGO",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "MLI",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "MRT",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "GIN",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "SLE",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "ESH",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "TGO",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "CIV",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "GNB",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "BGD",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "TZA",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "COD",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "SSD",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "BEN",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "CMR",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "COG",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "UGA",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "ERI",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "CAF",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "BDI",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "GAB",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "GNQ",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                },
+                {
+                    "key": "BFA",
+                    "doc_count": 7,
+                    "delivery_rate": 95
+                }
+            ]
+
+        }
+    }
+}
+        

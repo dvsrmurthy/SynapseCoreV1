@@ -1,0 +1,336 @@
+﻿.channels {
+    width: 80%;
+    margin: 128px auto 0 auto;
+}
+
+.channels h2 {
+    font-size: 2.20vw;
+    font-weight: 800;
+    width: 60%;
+}
+
+.channel {
+    -webkit-box-shadow: 0px 9px 30px 0px #0000001A;
+    -moz-box-shadow: 0px 9px 30px 0px #0000001A;
+    box-shadow: 0px 9px 30px 0px #0000001A;
+    background: #ffffff;
+    border-radius: 15px;
+    width: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1vw;
+    font-weight: 500;
+    text-align: center;
+    padding: 2.94vw 0;
+    transition: all 1s;
+}
+
+    .channel i {
+        font-size: 2.94rem;
+        margin-bottom: 1.12rem;
+    }
+
+    .channel:hover {
+        background-color: #3C7DBF;
+        color: #ffffff;
+    }
+
+        .channel:hover i {
+            animation: 2s bounce linear infinite;
+        }
+
+.channels-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: space-between;
+    margin-top: 50px;
+}
+
+@font-face {
+    font-family: 'icon_vectra';
+    src: url('../fonts/icon_vectra.eot?9yrr7e');
+    src: url('../fonts/icon_vectra.eot?9yrr7e#iefix') format('embedded-opentype'), url('../fonts/icon_vectra.ttf?9yrr7e') format('truetype'), url('../fonts/icon_vectra.woff?9yrr7e') format('woff'), url('../fonts/icon_vectra.svg?9yrr7e#icon_vectra') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+[class^="icon_vectra_"], [class*=" icon_vectra_"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icon_vectra' !important;
+    speak: never;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon_vectra_instagram:before {
+    content: "\e913";
+}
+
+.icon_vectra_apple-messanger:before {
+    content: "\e900";
+}
+
+.icon_vectra_chat-bot:before {
+    content: "\e902";
+}
+
+.icon_vectra_email-open:before {
+    content: "\e906";
+}
+
+.icon_vectra_messenger:before {
+    content: "\e908";
+}
+
+.icon_vectra_push-notifications:before {
+    content: "\e909";
+}
+
+.icon_vectra_rcs:before {
+    content: "\e90a";
+}
+
+.icon_vectra_sms:before {
+    content: "\e90c";
+}
+
+.icon_vectra_viber:before {
+    content: "\e90f";
+}
+
+.icon_vectra_web-notifications:before {
+    content: "\e910";
+}
+
+.icon_vectra_wechat:before {
+    content: "\e911";
+}
+
+.icon_vectra_whatsapp:before {
+    content: "\e912";
+}
+
+
+
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+
+h3 {
+    margin-top: 0;
+    margin-bottom: .5rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+h3 {
+    font-size: calc(1.3rem + .6vw);
+}
+
+@media (min-width:1200px) {
+    h3 {
+        font-size: 1.75rem;
+    }
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+/* .row{--bs-gutter-x:1.5rem;--bs-gutter-y:0;display:flex;flex-wrap:wrap;margin-top:calc(var(--bs-gutter-y) * -1);margin-right:calc(var(--bs-gutter-x) * -.5);margin-left:calc(var(--bs-gutter-x) * -.5);}
+        .row>*{flex-shrink:0;width:100%;max-width:100%;padding-right:calc(var(--bs-gutter-x) * .5);padding-left:calc(var(--bs-gutter-x) * .5);margin-top:var(--bs-gutter-y);} */
+@media (min-width:576px) {
+    .col-sm-6 {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+}
+
+.align-items-center {
+    align-items: center !important;
+}
+
+.pe-5 {
+    padding-right: 3rem !important;
+}
+
+.fw-bold {
+    font-weight: 700 !important;
+}
+
+.text-start {
+    text-align: left !important;
+}
+
+.happier-conversations {
+    width: 80%;
+    margin: 100px auto;
+    text-align: center;
+    font-size: 14px;
+    overflow: hidden;
+    padding: 15px;
+}
+
+    .happier-conversations h3 {
+        font-size: 2.2vw;
+    }
+
+    .happier-conversations p {
+        line-height: 1.61vw;
+        color: #666666;
+    }
+
+.sub-heading {
+    font-size: 18px;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.sub-heading-big {
+    font-size: 100%;
+    font-weight: bold;
+}
+
+.mt-60 {
+    margin-top: 60px;
+}
+
+@media (min-width: 768px) and (max-width: 1000px) {
+    p {
+        font-size: 1.9vw !important;
+    }
+}
+
+@media only screen and (width <= 1024px) and (orientation: landscape) {
+    p {
+        line-height: normal;
+        font-size: medium;
+    }
+
+    p {
+        line-height: normal !important;
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .pe-5 {
+        padding-right: 1rem !important;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cccccc;
+    border-radius: 10px;
+    opacity: 0.5;
+}
+
+.mt-104 {
+    margin-top: 104px;
+}
+
+.pb-100 {
+    padding-bottom: 100px;
+}
+
+@media screen and (max-width: 576px) {
+    .happier-conversations {
+        margin: 60px auto 0px auto;
+    }
+
+        .happier-conversations h3 {
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        .happier-conversations .sub-heading {
+            font-size: 5vw;
+        }
+
+        .happier-conversations p {
+            font-size: 2.5vw;
+            line-height: 3.5vw;
+        }
+
+        .happier-conversations .row:nth-child(even) {
+            flex-direction: column-reverse;
+        }
+
+        .happier-conversations .row img {
+            max-width: 85%;
+            margin-bottom: 35px;
+        }
+
+    .happier-conversations {
+        width: 80% !important;
+    }
+
+        .happier-conversations h3 {
+            font-size: 7vw;
+        }
+
+    p {
+        font-size: 3.5vw !important;
+        line-height: normal !important;
+    }
+}
+
+@media screen and (min-width: 577px) and (max-width: 1023px) {
+    .pe-5 {
+        padding-right: 2rem !important;
+    }
+
+    p {
+        font-size: 1.9vw !important;
+    }
+
+    .happier-conversations {
+        width: 85%;
+        margin: 60px auto 0 auto;
+    }
+
+        .happier-conversations p {
+            line-height: 1.5;
+        }
+
+    .sub-heading {
+        font-size: 3vw;
+    }
+}
+
+@media screen and (max-width: 820px) {
+    .sub-heading-big {
+        font-size: 6.5vw;
+    }
+}
+
+@media screen and (min-width: 576px) and (max-width: 576px) {
+    .happier-conversations .col-sm-6 {
+        width: 100%;
+    }
+}

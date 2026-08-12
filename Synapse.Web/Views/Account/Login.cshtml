@@ -1,0 +1,1171 @@
+﻿@using Core.Models.Dtos.CommonDtos
+@using Synapse.Web.Helpers.SecureAccess
+@using Synapse.Web.Models
+@inject IConfiguration Configuration;
+@inject IHttpContextAccessor HttpContextAccessor;
+
+@model LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+    var Lan = HttpContextAccessor.HttpContext.Session.GetItem<AppLocalization>() ?? new AppLocalization { Language = "en" };
+    var data = @ViewBag.Message == null ? "0" : @ViewBag.Message;
+    var isIpWhitelistScreen = @ViewBag.isIpWhitelistScreen == null ? "0" : @ViewBag.isIpWhitelistScreen;
+
+    var d = @ViewBag.verifymessage == "Failed" ? (data = "3") : "";
+
+    var sendmobile = @ViewBag.Mobile;
+    var sendemail = @ViewBag.Email;
+    var ppword = @ViewBag.Pword;
+    //var senderid = @ViewBag.SenderId;
+    //var sendername = @ViewBag.SenderName;
+    var mess = @ViewBag.otpmessage;
+    var captch = @ViewBag.Captch;
+    //var ran = @ViewBag.randomno;
+    var rvalue = @ViewBag.RandValue;
+    var ran = HttpContextAccessor.HttpContext.Session.GetString("OTPCode");
+    var otime = @ViewBag.OTPTime;
+    string loggedUsername = HttpContextAccessor.HttpContext.Session.GetString("abc");
+    var OTPSCREEN = @ViewBag.Qresult;
+    int noofTimes = HttpContextAccessor.HttpContext.Session.GetInt32("nooftimes") != null ? Convert.ToInt32(HttpContextAccessor.HttpContext.Session.GetInt32("nooftimes")) : 0;
+    string errorList = string.Empty;
+    if (!ViewData.ModelState.IsValid)
+    {
+        var errors = ViewData.ModelState.Values
+                           .SelectMany(v => v.Errors)
+                           .Select(e => e.ErrorMessage)
+                           .ToList();
+        foreach (var error in errors)
+        {
+            errorList = errorList + "</br>";
+        }
+
+    }
+}
+<div class="cls-content" style="z-index: 5; max-height: 600px; display: flex; align-items: center; @(data != "10" && isIpWhitelistScreen == "0" ? "display:block" : "display:none")" id="login">
+    <div class="cls-content-sm panel">
+        <div class="panel-body">
+            <div class="mar-ver pad-btm">
+                <p class="text-center"><a href="@Url.Action("Index", "Home")"><img id="logoimgs" class="imglogin" src="~/Content/images/logo.svg" /></a></p>
+                <h3 class="h4 mar-no text-center login-ct"><span>Account Login</span> </h3>
+            </div>
+            @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-horizontal", onsubmit = "validateTagInput()", @autocomplete = "off", @onload = "RefreshcaptchaLogin()" }))
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div style="@(data == "0" ? "display:block" : "display:none")" id="firstgrid">
+                    <div class="form-group">                        
+                        <div class="col-md-12">
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @autocomplete = "off", @placeholder = "Username", @maxlength = "25" })
+                            <span class="icon16 icomoon-icon-user right gray marginR10"></span>                            
+                        </div>
+                    </div>
+                    <div class="form-group">                        
+                        <div class="col-md-12">
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", @autocomplete = "off", @maxlength = "25" })
+                            <span class="icon16 icomoon-icon-lock right gray marginR10"></span>
+                            @Html.HiddenFor(m => m.ActionVerificationId)
+                            @Html.HiddenFor(m => m.VerifiedToken)                           
+                        </div>
+                    </div>
+                    <div class="form-group" oncopy="return false" onpaste="return false">
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(x => x.loginCaptcha, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Captcha", @ct = "text", @rc = "y", Maxlength = "6", Minlength = "6", @errormsg = "Please Enter Captcha", @onclick = "removeerrorstylectrolfocus(this)", @onchange = "removeerrorstylectrolfocus(this)", @onkeypress = "return blockSpecialChar(event,this)" })
+                        </div>
+                        <div class="col-md-6">
+                            <span id="capidLogin" style="font-weight:bold;font-style:italic;background:url('../Content/images/capchabg.png') no-repeat;padding: 6px 0;text-align: center;font-size: 15px;width: 95px;margin-left: 2px;">@ViewBag.LoginCaptcha</span>&nbsp;
+                            <button type="button" onclick="RefreshcaptchaLogin()" class="btn btn-default glyphicon glyphicon-refresh" />
+                        </div>
+                    </div>
+                    <input type="hidden" name="forgotForm" value="0" />
+                    
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <input type="checkbox" id="chkTerms" />&nbsp; I Agree <a href="@Url.Content("~/IntroPagesContent/pdf/terms_conditions.pdf")" style="text-decoration:underline;color:blue" target="_blank">terms and conditions.</a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label id="lblInvalid" style="color:red;display:none;"></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-12 clearfix form-actions">
+                            <button type="submit" onclick="OnLoginClick()" class="btn btn-info right btn-block" id="loginBtn"><span class="icon16 icomoon-icon-enter white"></span> Login</button>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-lg-12 clearfix form-actions">
+                            <a id="lnkForgotPassword" href="javascript:void(0);" style="text-decoration:underline">Forgot My Password</a>
+                        </div>
+                        @{
+                            var errors = ViewData.ModelState.Values.SelectMany(v => v.Errors);
+                        }
+                        @foreach (var item in errors)
+                        {
+                            if (item.ErrorMessage.Contains("Please whitelist your IP"))
+                            {
+                                <div class="col-lg-12 clearfix form-actions">
+                                    <a id="lnkIPWhitelist" href="#" style="text-decoration:underline">IP Whitelist</a>
+                                </div>
+                            }
+                        }
+                        <div><span style="color:red" id="viewbagmsg">&nbsp;@ViewBag.msg</span></div>
+                    </div>
+                    @Html.HiddenFor(s => s.forgotForm, new { @Value = "0" })
+                    @if (Configuration["onPremise"] == "true" || Configuration["onPremise"] == "")
+                    {
+                        <div style="float:left;padding-left:5px;" class="client-logoimg"><img src="../Content/images/et-logo.png" style="display: none" onload="this.style.display=''" /></div>
+                        <div style="float:right; padding-right:5px;" class="client-logoimg"><img src="../Content/images/synapse-logo.png" /></div>
+                    }                    
+                </div>
+
+                <div style="@(data == "1" ? "display:block" : "display:none")" id="secoundgrid">
+                    <div class="form-group">
+
+                        <div class="form-group" style="color:white">
+                            @Html.LabelFor(x => x.Labelname, new { id = "LabelId" })
+                        </div>
+                        <div class="col-md-12">
+                            <h5><b>Select any one of the options to receive OTP</b></h5>
+                        </div>
+                        <div class="col-md-12">
+                            @*@Html.CheckBoxFor(x => x.MNumberEmailID, true)  <span style="margin-top: -6px;">Mobile Number & EmailID</span>*@
+                            @Html.RadioButtonFor(x => x.radiocheck, "1", new { @type = "radio", @ct = "radio", @class = "both", @onclick = "removeerrorstylectrolfocus(this)", @onchange = "lngchk(this),getmobemail()" }) Mobile Number & EmailID
+                        </div>
+                        @*<div class="col-md-12">
+                                @Html.TextBoxFor(x => x.mobile, new { @class = "form-control", @autocomplete = "off" })
+                            </div>*@
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @*@Html.CheckBoxFor(x => x.MNumber, true)  <span style="margin-top: -6px;">Mobile Number</span>*@
+                            @Html.RadioButtonFor(x => x.radiocheck, "2", new { @type = "radio", @ct = "radio", @class = "mobile", @onclick = "removeerrorstylectrolfocus(this)", @onchange = "lngchk(this),getmobemail(this)" }) Mobile Number
+                        </div>
+                        @*<div class="col-md-12">
+                                @Html.TextBoxFor(x => x.eemail, new { @class = "form-control", @autocomplete = "off" })
+                            </div>*@
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @*@Html.CheckBoxFor(x => x.EmailID, true)  <span style="margin-top: -6px;">EmailID</span>*@
+                            @Html.RadioButtonFor(x => x.radiocheck, "3", new { @type = "radio", @ct = "radio", @class = "email", @onclick = "removeerrorstylectrolfocus(this)", @onchange = "lngchk(this),getmobemail(this)" }) EmailID
+                        </div>
+                        @*<div class="col-md-12">
+                                @Html.TextBoxFor(x => x.eemail, new { @class = "form-control", @autocomplete = "off" })
+                            </div>*@
+                    </div>
+
+                    <div class="form-group" style="display:none" id="Melabelonload">
+                        <div class="col-md-12">
+                            @Html.LabelFor(x => x.Mename, new { id = "Melabel" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-lg-12 clearfix form-actions">
+                            <button type="button" onclick="Sendotp(1)" class="btn btn-info right btn-block" id="Sendid"><span class="icon16 icomoon-icon-enter white"></span> Send OTP</button>
+
+                            @*<button type="button" name="command" id="Sendotp" class="btn btn-primary btn-sm pad-ho text-semibold" value="Save">Send</button>*@
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div style="@(data == "3" ? "display:block" : "display:none")" id="otpcheck">
+                    <div class="add-field" id="ADDForm">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.LabelFor(x => x.sixdigits, new { id = "sixdigitslabel" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(x => x.Otp, new { @class = "form-control", @ct = "text", @rc = "y", @placeholder = "Enter OTP", Maxlength = "6", @autocomplete = "off", Minlength = "6", @errormsg = "Please Enter OTP", @onclick = "removeerrorstylectrolfocus(this)", @onchange = "removeerrorstylectrolfocus(this)", @onkeypress = "return isNumberKey(event)" })
+                            </div>
+                            <div class="col-md-6">
+                                <span id="timeid" style="text-align:center;color:#58b4ca;font-weight:bold;display:block;margin-bottom:6px">Time left <span id="TimeLabelId">@ViewBag.OTPTime + 'm' + ':' + '00s'</span></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group" oncopy="return false" onpaste="return false">
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(x => x.randomcapt, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Captcha", @ct = "text", @rc = "y", Maxlength = "6", Minlength = "6", @errormsg = "Please Enter Captcha", @onclick = "removeerrorstylectrolfocus(this)", @onchange = "removeerrorstylectrolfocus(this)", @onkeypress = "return blockSpecialChar(event,this)" })
+                            </div>
+                            <div class="col-md-6">
+                                <span id="capid" style="font-weight:bold;font-style:italic;background:url('../Content/images/capchabg.png') no-repeat;padding: 6px 0;text-align: center;font-size: 15px;width: 95px;margin-left: 2px;">@ViewBag.Captch</span>&nbsp;
+                                <button type="button" onclick="Refreshcaptcha()" class="btn btn-default glyphicon glyphicon-refresh" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-6 clearfix form-actions">
+                                <button type="submit" class="btn btn-info right btn-block" id="verifyBtn"><span class="icon16 icomoon-icon-enter white"></span> Verify</button>
+                            </div>
+                            <div class="col-md-6 clearfix form-actions">
+                                <button type="button" onclick="Sendotp(2)" class="btn btn-info right btn-block" id="Resendid"><span class="icon16 icomoon-icon-enter white"></span> Resend OTP</button>
+                                @*<button type="submit" onclick="Verify()" class="btn btn-info right btn-lg btn-block" id=""><span class="icon16 icomoon-icon-enter white"></span> Verify</button>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="visibility:hidden">
+                    <input type="hidden" name="Kvl" id="Kvl" value="@(Configuration["ScKey"])" />                    
+                    <input type="hidden" name="LoginCaptchaValue" value="0" class="form-control" />
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="cls-content" style="z-index:5; max-height: 600px; display:flex; align-items:center;@(data == "10" && isIpWhitelistScreen == "0" ? "display:block" : "display:none")"
+     id="loginForgot">
+    <div class="cls-content-sm panel">
+        <div class="panel-body">
+            <div class="mar-ver pad-btm">
+                <p class="text-center"><a href="@Url.Action("Index", "Home")"><img id="logoimgs" class="imglogin" src="~/Content/images/logo.svg" /></a></p>
+                <h3 class="h4 mar-no text-center login-ct"><span>Forgot Password</span> </h3>
+            </div>
+            @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-horizontal", onsubmit = "validateTagInput()", @autocomplete = "off" }))
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <div class="col-md-12">
+                        User Name
+                        @Html.TextBoxFor(m => m.forgotPasswordUsername, new { @class = "form-control", @autocomplete = "off", @placeholder = "Username", @maxlength = "25" })
+                        <span class="icon16 icomoon-icon-user right gray marginR10" style="color:red" id="forgotpasswordusererror"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        Registered E-Mail
+                        @Html.TextBoxFor(m => m.forgotPasswordEmail, new { @class = "form-control", @autocomplete = "off", @placeholder = "Registered Email", @maxlength = "100" })
+                        <span class="icon16 icomoon-icon-user right gray marginR10" style="color:red" id="forgotpasswordusererror"></span>
+                    </div>
+                </div>
+                <div class="form-group" oncopy="return false" onpaste="return false">
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(x => x.forgotPasswordrandomcapt, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Captcha", @ct = "text", @rc = "y", Maxlength = "6", Minlength = "6", @errormsg = "Please Enter Captcha", @onclick = "removeerrorstylectrolfocus(this)", @onchange = "removeerrorstylectrolfocus(this)", @onkeypress = "return blockSpecialChar(event,this)" })
+                    </div>
+                    <div class="col-md-6">
+                        <span id="capidforgotpassword" style="font-weight:bold;font-style:italic;background:url('../Content/images/capchabg.png') no-repeat;padding: 6px 0;text-align: center;font-size: 15px;width: 95px;margin-left: 2px;">@ViewBag.Captch</span>&nbsp;
+                        <button type="button" onclick="RefreshcaptchaForgotPassword()" class="btn btn-default glyphicon glyphicon-refresh" />
+                        <span class="icon16 icomoon-icon-user right gray marginR10" style="color:red" id="forgotpasswordinvalidCatcha"></span>
+                    </div>
+                </div>
+                <div class="form-group">&nbsp;</div>
+                <div class="form-group">
+                    <div class="col-lg-12 clearfix form-actions">
+                        <button type="submit" class="btn btn-info right btn-block" id="forgotPasswordStep1Validate"><span class="icon16 icomoon-icon-enter white"></span>Reset Password</button>
+                    </div>
+                </div>
+                <div style="visibility:hidden">
+                    @Html.HiddenFor(x => x.Hidlabel, new { id = "Kvl", @Value = (Configuration["ScKey"]) })
+                    @Html.HiddenFor(x => x.ForgotPasswordCaptchaValue, new { id = "ForgotPasswordCaptchaValue", @Value = "0", @class = "form-control" })
+                </div>
+                @Html.HiddenFor(s => s.forgotForm, new { @Value = "1" })
+                <div class="form-group">
+                    @if (Model != null)
+                    {
+                        if (Model.forgotReturnMessage != null)
+                        {
+                            if (Model.forgotReturnMessage.Contains("Invalid") || Model.forgotReturnMessage.Contains("contact admin"))
+                            {
+                                <span style="color: red;" id="forgotError" class="col-lg-12 clearfix form-actions">@Html.Raw(Model.forgotReturnMessage)</span>
+                            }
+                            else
+                            {
+                                <span style="color: #0dcaf0;" id="forgotError" class="col-lg-12 clearfix form-actions">@Html.Raw(Model.forgotReturnMessage)</span>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <span style="color: #0dcaf0;" id="forgotError" class="col-lg-12 clearfix form-actions"></span>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="cls-content" style="z-index:5; max-height: 600px; display:flex; align-items:center;@(data == "100" ? "display:block" : "display:none")"
+     id="ipWhiteList">
+    <div class="cls-content-sm panel">
+        <div class="panel-body">
+            <div class="mar-ver pad-btm">
+                <p class="text-center"><a href="@Url.Action("Index", "Home")"><img id="logoimgs" class="imglogin" src="~/Content/images/logo.svg" /></a></p>
+                <h3 class="h4 mar-no text-center login-ct"><span>IP Whitelist</span> </h3>
+            </div>
+            @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-horizontal", onsubmit = "validateTagInput()", @autocomplete = "off", @onload = "RefreshcaptchaIpWhiteList()" }))
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <div class="col-md-12">
+                        User Name
+                        @Html.TextBoxFor(m => m.ipwhitelistUserName, new { @class = "form-control", @autocomplete = "off", @placeholder = "Username", @maxlength = "25", @readonly = "true", @Value = @ViewBag.Uname })
+                        <span class="icon16 icomoon-icon-user right gray marginR10" style="color:red" id="ipwhitelistusererror"></span>
+                    </div>
+                </div>
+                <div class="form-group" oncopy="return false" onpaste="return false" style="@(OTPSCREEN == "OTPSCREEN" ? "display:block" : "display:none")">
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(x => x.ipwhitelistRandomcapt, new
+                        {
+                            @class = "form-control",
+                                        @autocomplete = "off",
+                                        @placeholder = "Enter Captcha",
+                                        @ct = "text",
+                                        @rc = "y",
+                                        Maxlength = "6",
+                                        Minlength = "6",
+                                        @errormsg = "Please Enter Captcha",
+                                        @onclick = "removeerrorstylectrolfocus(this)",
+                                        @onchange = "removeerrorstylectrolfocus(this)",
+                                        @onkeypress = "return blockSpecialChar(event,this)"
+                                        })
+                </div>
+                <div class="col-md-6">
+                    <span id="ipwhitelistMobile" style="font-weight:bold;font-style:italic;background:url('../Content/images/capchabg.png') no-repeat;padding: 6px 0;text-align: center;font-size: 15px;width: 95px;margin-left: 2px;">@ViewBag.Captch</span>&nbsp;
+                    <button type="button" onclick="RefreshcaptchaIpWhiteList()" class="btn btn-default glyphicon glyphicon-refresh" />
+                    <span class="icon16 icomoon-icon-user right gray marginR10" style="color:red" id="ipwhitelistedvalidCapcha"></span>
+                </div>
+            </div>
+            <div id="divIpWhitelistMobileOtp">
+                <div class="form-group" style="@(OTPSCREEN == null ? "display:block" : "display:none")">
+                    <span style="color:red">An OTP will be send to your registered mobile number.@ViewBag.MobileNo to whitelist your IP </span>
+                    <button id="btnIpWhitelistOTPSCREEN" class="btn btn-warning">Do you want to send the otp?</button>
+                </div>
+                <div style="@(OTPSCREEN == "OTPSCREEN" ? "display:block" : "display:none")">
+                    <div class="form-group">
+                        <span style="color:red">OTP sent to your registered mobile number.@ViewBag.MobileNo </span>
+                    </div>
+                    <div class="form-group" oncopy="return false" onpaste="return false" style="@(isIpWhitelistScreen == "1" ? "display:block" : "display:none")">
+                        <div class="col-md-6">
+                            Mobile OTP
+                            @Html.TextBoxFor(x => x.ipwhitelistMobileOTP, new
+                                                        {
+                                    @class = "form-control",
+                                                        @autocomplete = "off",
+                                                        @placeholder = "OTP",
+                                                        @ct = "text",
+                                                        @rc = "y",
+                                                        Maxlength = "6",
+                                                        Minlength = "6",
+                                                        @errormsg = "Please Enter OTP",
+                                                        @onclick = "removeerrorstylectrolfocus(this)",
+                                                        @onchange = "removeerrorstylectrolfocus(this)",
+                                                        @onkeypress = "return isNumberKey(event)"
+                                                        })
+                        </div>
+                        <div class="col-md-6" style="padding-top:18px;">
+                            @if (noofTimes > 1)
+                                {
+                                    <button type="button" class="btn btn-info" id="resendWhiteListOtp">
+                                        <span class="icon16 icomoon-icon-enter white"></span>Resend OTP
+                                    </button>
+                                }
+                                else
+                                {
+
+                                    <button type="button" class="btn btn-info" id="resendWhiteListOtp" onclick="return whitelistIPOTPResend()">
+                                        <span class="icon16 icomoon-icon-enter white"></span>Resend OTP
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                        @*<div class="col-md-6">
+                                <span id="timeidWhitelistIp" style="text-align:center;color:#58b4ca;font-weight:bold;display:block;margin-bottom:6px">Time left <span id="TimeLabelId2">@ViewBag.OTPTime + 'm' + ':' + '00s'</span></span>
+                            </div>*@
+                    </div>
+                    <div class="form-group" style="@(OTPSCREEN == "OTPSCREEN" ? "display:block" : "display:none")">
+                        <div class="col-lg-12 clearfix form-actions">
+                            <button type="submit" class="btn btn-info right btn-block" id="ipwhitelistStep1Validate">
+                                <span class="icon16 icomoon-icon-enter white"></span>Whitelist My IP
+                            </button>
+                        </div>
+                        <div><span style="color:red">&nbsp;@ViewBag.msg</span></div>
+                    </div>
+                    @Html.HiddenFor(i => i.forgotForm, new { @Value = "2" })
+                    <div style="visibility:hidden">
+                        @Html.HiddenFor(x => x.Hidlabel, new { id = "Kvl", @Value = (Configuration["ScKey"]) })
+                        @Html.HiddenFor(x => x.WhiteListIPCaptchaValue, new { id = "WhiteListIPCaptchaValue", @Value = "0", @class = "form-control" })
+                    </div>
+                    <span style="color: red;" id="ipWhitelistError"></span>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+<input type="hidden" id="hdnLang" value="" />
+<input type="hidden" id="emailotp" value="" />
+<input type="hidden" id="forgotCapcha" value="" />
+<input type="hidden" id="time" value="" />
+@section Scripts {
+    <script type="text/javascript">
+        var antiForgeryToken = $('input[name="__RequestVerificationToken"]').val();
+        var headers = {};
+        headers['__RequestVerificationToken'] = antiForgeryToken;
+
+        $("#btnIpWhitelistOTPSCREEN").on('click', function () {
+            if (confirm("Are you sure you want to send otp to registered mobile no?")) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+
+            $("#lnkIPWhitelist").on('click', function () {               
+                RefreshcaptchaIpWhiteList();
+                $("#ipWhiteList").css('display', 'block');
+                $("#ipwhitelistMobile").css('display', 'block')
+                $("#login").css('display', 'none');
+            });
+
+            $("#lnkForgotPassword").on('click', function () {
+                $('.validation-summary-errors').remove();
+                RefreshcaptchaForgotPassword();
+                $("#forgotPasswordUsername").val('');
+                $("#forgotPasswordrandomcapt").val('');
+                $("#loginForgot").css('display', 'block');
+                $("#login").css('display', 'none');
+            });
+
+            $("#ipwhitelistStep1Validate").on('click', function (event) {
+                if ($("#ipwhitelistUserName").val().length == 0) {
+                    $("#ipWhitelistError").html("Invalid Username !!");
+                    alert("Invalid Username !!");
+                    $("#ipwhitelistUserName").focus();
+                    return false;
+                }
+                else if ($("#ipwhitelistRandomcapt").val().length == 0) {
+                    $("#ipWhitelistError").html("Invalid Captcha !!");
+                    alert("Invalid Captcha !!");
+                    $("#ipwhitelistRandomcapt").focus();
+                    return false;
+                }
+                else if ($("#ipwhitelistMobileOTP").val().length == 0) {
+                    $("#ipWhitelistError").html("OTP is required to complete the process. !!");
+                    alert("OTP is required to complete the process. !!");
+                    $("#ipwhitelistMobileOTP").focus();
+                    return false;
+                }
+                else if ($("#ipwhitelistMobileOTP").val().length < 6) {
+                    $("#ipWhitelistError").html("Please enter a 6-digit OTP !!");
+                    alert("Please enter a 6-digit OTP !!");
+                    $("#ipwhitelistMobileOTP").focus();
+                    return false;
+                }
+                else {
+                    var generatedCaptcha = $("#ipwhitelistMobile").text().trim();
+                    var enteredCaptcha = $("#ipwhitelistRandomcapt").val().trim();
+                    var d =
+                    {
+                        UserName: $("#ipwhitelistUserName").val()
+                    };
+                    if (enteredCaptcha === generatedCaptcha) {
+                        return true;
+                    } else {
+                        alert("Captcha incorrect");
+                        return false;
+                    }
+                }
+            });
+
+            $("#forgotPasswordStep1Validate").on('click', function (event) {
+                if ($("#forgotPasswordUsername").val().length == 0) {
+                    $("#forgotError").html("Please enter username !!");
+                    $("#forgotPasswordUsername").focus();
+                    return false;
+                }
+                else if ($("#forgotPasswordEmail").val().length == 0) {
+                    $("#forgotError").html("Please enter Email !!");
+                    $("#forgotPasswordEmail").focus();
+                    return false;
+                }
+                else if ($("#forgotPasswordrandomcapt").val().length == 0) {
+                    $("#forgotError").html("Invalid Captcha !!");
+                    $("#forgotPasswordrandomcapt").focus();
+                    return false;
+                }
+                else {
+                    var generatedCaptcha = $("#capidforgotpassword").text().trim();
+                    var enteredCaptcha = $("#forgotPasswordrandomcapt").val().trim();
+                    var d =
+                    {
+                        UserName: $("#forgotPasswordUsername").val(),
+                        useremail: $("#forgotPasswordEmail").val()
+                    };
+                    if (enteredCaptcha === generatedCaptcha) {
+
+                       
+                        return true;
+                    } else {
+                        alert("Captcha incorrect");
+                        return false;
+                    }
+                }
+            });
+
+        function validateTagInput() {
+            var IsValid = validateAjaxclick('#ADDForm');
+            if (IsValid) {
+                var j = $("#emailotp").val("@ViewBag.Captch");
+
+                if (j == j) {
+                    var h = $("#capid").text();
+                    $("#emailotp").val(h);
+                }
+
+                var capt = $("#randomcapt").val();
+                if ($("#emailotp").val() == "") {
+                    $("#emailotp").val(capt);
+                }
+                if ($("#emailotp").val() == $("#randomcapt").val()) {
+                    OnLoginClick1();
+                }
+                else {
+                    $("#randomcapt").val('').focus();
+                    if ($("#randomcapt").val() == "") {
+                        $('#randomcapt').parent().find(".error").html("");
+                        $('#randomcapt').parent().find(".error").remove();
+                        $("#randomcapt").attr("style", "border: 1px solid red !important");
+                        $('#randomcapt').parent().append('<div class="error" style="color: red; height:10px !important;">' + $('#randomcapt').attr("errormsg") + ' </div>');
+                        $("#randomcapt").attr("required", "required");                        
+                    }
+                }                
+            }
+            else {
+                if ($("#randomcapt").val() == "") {
+                    $('#randomcapt').parent().find(".error").html("");
+                    $('#randomcapt').parent().find(".error").remove();
+                    $("#randomcapt").attr("style", "border: 1px solid red !important");
+                    $('#randomcapt').parent().append('<div class="error" style="color: red; height:10px !important;">' + $('#randomcapt').attr("errormsg") + ' </div>');
+                    $("#randomcapt").attr("required", "required");                   
+                }
+
+                if ($("#Otp").val() == "") {
+                    $('#Otp').parent().find(".error").html("");
+                    $('#Otp').parent().find(".error").remove();
+                    $("#Otp").attr("style", "border: 1px solid red !important");
+                    $('#Otp').parent().append('<div class="error" style="color: red; height:10px !important;">' + $('#Otp').attr("errormsg") + ' </div>');
+                    $("#Otp").attr("required", "required");                    
+                }                
+            }
+        }
+
+        function OnLoginClick1() {       
+            $('#verifyBtn').click(function () {
+                $("#verifyBtn").attr('disabled', 'disabled');
+            });
+            $("#ActionVerificationId").val(CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($("#Email").val()), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }));
+            $("#VerifiedToken").val(CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse("@ViewBag.Pword"), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }));
+            $("#Password").val('********');
+
+        }
+
+        function OnLoginClick() {            
+            $("#ActionVerificationId").val(CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($("#Email").val()), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }));
+            $("#VerifiedToken").val(CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($("#Password").val()), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }));
+            $("#otpcheck").hide();
+
+            if ($("#Email").val().length <= 1) {
+                $("#lblInvalid").show();
+                $("#lblInvalid").text("Invalid Username");
+                $("#Email").focus();
+                event.preventDefault();
+            }
+            else if ($("#Password").val().length <= 1) {
+                $("#lblInvalid").show();
+                $("#lblInvalid").text("Invalid Password");
+                $("#Password").focus();
+                event.preventDefault();
+            }
+            else if ($("#loginCaptcha").val().length < 6)
+            {
+                $("#lblInvalid").show();
+                $("#lblInvalid").text("Please enter CAPTCHA. CAPTCHA must be 6 characters long.");
+                $("#loginCaptcha").focus();
+                event.preventDefault();
+            }
+            else if ($("#chkTerms").prop("checked") == false) {
+                $("#lblInvalid").show();
+                $("#lblInvalid").text("Please check terms & conditions");
+                event.preventDefault();
+            }
+            else {
+                var generatedCaptchaL = $("#capidLogin").text().trim();               
+                var enteredCaptchaL = $("#loginCaptcha").val().trim();                
+                if (generatedCaptchaL === enteredCaptchaL) {
+
+                }
+                else {
+                    $("#lblInvalid").show();
+                    $("#lblInvalid").text("Invalid Captcha");
+                    $("#loginCaptcha").focus();
+                    event.preventDefault();
+                }
+            }
+        }
+
+        $('#Email').change(function () {
+            $('#Email').parent().find('.field-validation-error').html("");
+            $('.validation-summary-errors').remove();
+        });
+        $('#Password').change(function () {
+            $('#Password').parent().find('.field-validation-error').html("");
+            $('.validation-summary-errors').remove();
+        });
+
+        $('#Password,#Email').keydown(function (event) {
+            $('.validation-summary-errors').remove();         
+            if (event.keyCode === 188 || event.keyCode === 190) {
+                return false;
+                event.preventDefault();
+            }
+            return true;
+
+        });
+
+        $(".client-logoimg img").on('error', function () {
+            $(this).hide();
+        });
+        window.onload = function () {
+       
+            $("#forgotPasswordUsername").val('');
+            $("#loginCaptcha").val('');
+            $("#forgotPasswordrandomcapt").val('');
+            $("#forgotPasswordEmail").val('');
+            $("#LabelId").hide();
+            $("#Melabelonload").show();
+            $("#Melabel").hide();
+            $("#timeid").hide();           
+            $("#Sendid").attr('disabled', true);
+            $('#sixdigitslabel').hide();//hide
+            var cap = $("#randomcapt").val();
+            $("#ipwhitelistRandomcapt").val('');
+            $("#ipwhitelistMobileOTP").val('');        
+            var msg = $("#viewbagmsg").text().trim().toLowerCase();
+            if (msg.indexOf("frozen") !== -1) {
+                $("#capidLogin").html("@ViewBag.Captch");
+            }
+            $("#capidforgotpassword").html("@ViewBag.Captch");
+            $("#forgotCapcha").val("@ViewBag.Captch");
+            var code = "@ViewBag.Captch";
+
+            $("#LoginCaptchaValue").val(CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(code), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString());
+            $("#ForgotPasswordCaptchaValue").val(CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(code), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString());
+            $("#WhiteListIPCaptchaValue").val(CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(code), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString());
+
+            var qresult = '@ViewBag.Qresult';
+            if (cap != "") {             
+                $("#capid").html("@ViewBag.Captch");
+                $("#randomcapt").val('');
+                $("#Otp").val('');
+            }
+            var otperrmes = '@ViewBag.msg';
+
+            var subvalue = "Invalid OTP.Please try again.";
+            $('.validation-summary-errors').remove();
+            if (otperrmes != "" && subvalue === otperrmes.substring(0, 29)) {
+                $(".validation-summary-errors").text('');
+                $("#secoundgrid").show();
+                $(".mobile").attr('checked', false);
+                $(".both").attr('disabled', true);
+                $(".mobile").attr('disabled', true);
+                $(".email").attr('disabled', true);
+                $("#Melabelonload").show();
+                $("#Melabel").css("color", "gray");
+                var s = $("#Sendid").text();
+                if (s == "Resend OTP") {
+                    $("#Resendid").hide();
+                }
+                $("#Sendid").attr('disabled', true);
+                $("#otpcheck").show();
+                $("#viewbagmsg").html('');
+                $('#sixdigitslabel').show();
+                $('#sixdigitslabel').css("color", "red");
+                $('#sixdigitslabel').html('@ViewBag.msg');
+                $("#Resendid").attr('disabled', false);
+                $("#timeid").show();
+                countdown(@ViewBag.OTPTime);
+            }           
+        }
+
+        window.onkeydown = function (e) {
+            if (e.keyCode == 8 && e.target == document.body)
+                e.preventDefault();
+        }
+       
+        function disableF5(e) { if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 37 || (e.which || e.keyCode) == 39) e.preventDefault(); };
+
+        $(document).ready(function () {
+            $(document).on("keydown", disableF5);
+            $(document).bind("contextmenu", function (e) {
+                return false;
+            });
+        });
+
+        var timeoutHandle;
+        function countdown(minutes) {           
+            var seconds = 60;
+            var mins = minutes
+            function tick() {
+                var counter = document.getElementById("TimeLabelId");                
+                var current_minutes = mins - 1
+                seconds--;
+                counter.innerHTML =
+                    current_minutes.toString() + "m" + ":" + (seconds < 10 ? "0" : "") + String(seconds) + "s";
+                if (seconds > 0) {
+                    timeoutHandle = setTimeout(tick, 1000);
+                } else {
+                    if (mins > 1) {
+                        setTimeout(function () { countdown(mins - 1); }, 1000);
+                    }
+                    else {
+                        $("#otpcheck").hide();
+                        $("#secoundgrid").show();
+                        $(".both").attr('disabled', false);
+                        $(".mobile").attr('disabled', false);
+                        $(".email").attr('disabled', false);
+                        $(".both").attr('checked', false);
+                        $(".mobile").attr('checked', false);
+                        $(".email").attr('checked', false);
+                        $("#Melabelonload").show();
+                        $("#Melabel").hide();
+                        $("#verifyBtn").attr('disabled', false);
+                    }
+                }
+            }
+            tick();
+        }
+
+        var nrid = 0;
+        function lngchk(ctrl) {
+            if ($('.both').prop('checked') == true) {
+                $('#radiocheck').val(1);
+                nrid = 1;
+            }
+            else if ($('.mobile').prop('checked') == true) {
+                $('#radiocheck').val(2);
+                nrid = 2;
+            }
+            else {
+                $('#radiocheck').val(3);
+                nrid = 3;
+            }
+        }
+
+
+        function getmobemail() {
+            var mobemail = nrid;
+            var Medata = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(mobemail), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("RadioData", "Home")',
+                headers: headers,
+                data: {
+                    Medata: Medata
+                },
+                datatype: 'application/json',
+                success: function (d) {                    
+                    var first = d.split('&')[0];  //MobileNo
+                    var secound = d.split('&')[1];  //Email
+                    var third = d.split('$')[0];
+                    var fourth = d.split('$')[1];
+                    if (d != "") {
+                        if (first != (null || undefined) && fourth == "2") {
+                            $('#LabelId').html("");
+                            $("#Melabelonload").show();
+                            $('#Melabel').show();
+                            $('#Melabel').css("color", "red");
+                            $('#Melabel').html(third);
+                            $('#sixdigitslabel').show();
+                            $('#sixdigitslabel').css("color", "red");
+                            $('#sixdigitslabel').html('Enter the 6 digits OTP,send to you as a SMS');
+                        }
+                        else if (first != (null || undefined) && secound != (null || undefined) && fourth == "1") {
+                            $('#LabelId').html("");
+                            $("#Melabelonload").show();
+                            $('#Melabel').show();
+                            $('#Melabel').css("color", "red");
+                            $('#Melabel').html(first + " & " + secound.split('$')[0]);
+                            $('#sixdigitslabel').show();
+                            $('#sixdigitslabel').css("color", "red");
+                            $('#sixdigitslabel').html('Enter the 6 digits OTP,send to you as a SMS and Email');
+                        }
+                        else {
+                            $('#LabelId').html("");
+                            $("#Melabelonload").show()
+                            $('#Melabel').show();
+                            $('#Melabel').css("color", "red");
+                            $('#Melabel').html(first);
+                            $('#sixdigitslabel').show();
+                            $('#sixdigitslabel').css("color", "red");
+                            $('#sixdigitslabel').html('Enter the 6 digits OTP,send to you as a Email');
+                        }
+                        $("#Sendid").attr('disabled', false);
+                    }
+                    else {
+                        $("#Melabelonload").show();
+                        $('#Melabel').html("");
+                        $('#LabelId').show();
+                        $('#LabelId').css("color", "red");
+                        $('#LabelId').html("No Registered Email/MobileNo");
+                    }
+                },
+                error: function (xhr, error, status) {
+                    var err = xhr;
+                    console.log("Status:", xhr.status);
+                    console.log("Error:", error);
+                    console.log("Response:", xhr.responseText);
+                }
+            });
+        }
+
+            function Refreshcaptchaold() {
+                var alpha = new Array('A', 'C', 'E', 'F', 'G', 'H', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'W', 'X', 'Z',
+                    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'h', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+                    '0', '1', '2', '3', '4', '5', '6', '7', '9');
+
+                var i;
+                for (i = 0; i < 6; i++) {
+                    var a = alpha[Math.floor(Math.random() * alpha.length)];
+                    var b = alpha[Math.floor(Math.random() * alpha.length)];
+                    var c = alpha[Math.floor(Math.random() * alpha.length)];
+                    var d = alpha[Math.floor(Math.random() * alpha.length)];
+                    var e = alpha[Math.floor(Math.random() * alpha.length)];
+                    var f = alpha[Math.floor(Math.random() * alpha.length)];
+                }
+                var code = a + b + c + d + e + f;
+                $("#capid").val('');
+                //alert();
+                $("#capid").html(code);
+                $("#emailotp").val(code);             
+            }
+            function Refreshcaptcha() {
+                
+                var alpha = new Array('A', 'C', 'E', 'F', 'G', 'H', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'W', 'X', 'Z',
+                    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'h', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+                    '0', '1', '2', '3', '4', '5', '6', '7', '9');
+
+                var i;
+                for (i = 0; i < 6; i++) {
+                    var a = alpha[Math.floor(Math.random() * alpha.length)];
+                    var b = alpha[Math.floor(Math.random() * alpha.length)];
+                    var c = alpha[Math.floor(Math.random() * alpha.length)];
+                    var d = alpha[Math.floor(Math.random() * alpha.length)];
+                    var e = alpha[Math.floor(Math.random() * alpha.length)];
+                    var f = alpha[Math.floor(Math.random() * alpha.length)];
+                }
+                var code = a + b + c + d + e + f;
+                $("#capid").html('');
+                $("#capid").html(code);
+                $("#emailotp").val(code);
+                $("#LoginCaptchaValue").val(CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(code), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString());
+            }
+        
+
+        function RefreshcaptchaForgotPassword() {
+            var alpha = new Array('A', 'C', 'E', 'F', 'G', 'H', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'W', 'X', 'Z',
+                'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'h', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+                '0', '1', '2', '3', '4', '5', '6', '7', '9');
+
+            var i;
+            for (i = 0; i < 6; i++) {
+                var a = alpha[Math.floor(Math.random() * alpha.length)];
+                var b = alpha[Math.floor(Math.random() * alpha.length)];
+                var c = alpha[Math.floor(Math.random() * alpha.length)];
+                var d = alpha[Math.floor(Math.random() * alpha.length)];
+                var e = alpha[Math.floor(Math.random() * alpha.length)];
+                var f = alpha[Math.floor(Math.random() * alpha.length)];
+            }
+            var code = a + b + c + d + e + f;
+            $("#capidforgotpassword").html('');
+            $("#capidforgotpassword").html(code);
+
+            $("#ForgotPasswordCaptchaValue").val(CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(code), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString());
+        }
+        function RefreshcaptchaLogin() {
+       
+            var alpha = new Array('A', 'C', 'E', 'F', 'G', 'H', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'W', 'X', 'Z',
+                'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'h', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+                '0', '1', '2', '3', '4', '5', '6', '7', '9');
+
+            var i;
+            for (i = 0; i < 6; i++) {
+                var a = alpha[Math.floor(Math.random() * alpha.length)];
+                var b = alpha[Math.floor(Math.random() * alpha.length)];
+                var c = alpha[Math.floor(Math.random() * alpha.length)];
+                var d = alpha[Math.floor(Math.random() * alpha.length)];
+                var e = alpha[Math.floor(Math.random() * alpha.length)];
+                var f = alpha[Math.floor(Math.random() * alpha.length)];
+            }
+            var code = a + b + c + d + e + f;
+            $("#capidLogin").html('');
+            $("#capidLogin").html(code);
+
+            $("#LoginCaptchaValue").val(CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(code), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString());
+        }
+        function RefreshcaptchaIpWhiteList() {
+            
+            var alpha = new Array('A', 'C', 'E', 'F', 'G', 'H', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'W', 'X', 'Z',
+                'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'h', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+                '0', '1', '2', '3', '4', '5', '6', '7', '9');
+
+            var i;
+            for (i = 0; i < 6; i++) {
+                var a = alpha[Math.floor(Math.random() * alpha.length)];
+                var b = alpha[Math.floor(Math.random() * alpha.length)];
+                var c = alpha[Math.floor(Math.random() * alpha.length)];
+                var d = alpha[Math.floor(Math.random() * alpha.length)];
+                var e = alpha[Math.floor(Math.random() * alpha.length)];
+                var f = alpha[Math.floor(Math.random() * alpha.length)];
+            }
+            var code = a + b + c + d + e + f;
+            $("#ipwhitelistMobile").html('');
+            $("#ipwhitelistMobile").html(code);
+
+            $("#WhiteListIPCaptchaValue").val(CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(code), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString());
+
+        }
+
+        function whitelistIPOTPResend() {
+            var message = "Your OTP for Whitelist IP Address : ";
+            var QSMSID = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(0), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var SenderID = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(@Configuration["OTPintSenderId"]), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var LangID = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(1), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var Message = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(message), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var DLR = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(1), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var SenderName = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse("@Configuration["OTPSenderName"]"), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var MobileNos = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(@ViewBag.Mobile), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var CharCount = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(38), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var Credits = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(1), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var MbcID = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(1), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var Module = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse("QSMS"), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var ModuleID = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(0), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var RADIO = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($("#radiocheck").val()), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var EMAIL = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse("@ViewBag.Email"), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var Sendtime = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Sendtime), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("OTPSMSForWhitelist", "Home")',
+                data: {
+                    QSMSID: QSMSID,
+                    SenderID: SenderID,
+                    LangID: LangID,
+                    Message: Message,
+                    DLR: DLR,
+                    SenderName: SenderName,
+                    MobileNos: MobileNos,
+                    CharCount: CharCount,
+                    Credits: Credits,
+                    MbcID: MbcID,
+                    Module: Module,
+                    ModuleID: ModuleID,
+                    RADIO: RADIO,
+                    EMAIL: EMAIL,
+                    Sendtime: Sendtime
+                },
+                headers: headers,
+                datatype: 'application/json',
+                success: function (d) {
+                    if (d == "MsgSubmitSuccess") {
+                        alert("OTP Sent Successfully !!");
+                        $("#resendWhiteListOtp").attr("disabled", true);
+                        return false;
+                    }
+                    if (d.includes("maximum OTP attempts")) {
+                        alert("You have exceeded the maximum OTP attempts. Please try again later. !!");
+                        $("#resendWhiteListOtp").attr("disabled", true);
+                        return false;
+                    }
+                },
+                error: function (xhr, error, status) {
+                    var err = xhr;
+                }
+            });
+        }
+
+        function Sendotp(check) {
+            var Sendtime = (check == 1) ? 0 : 1;
+            //$('.validation-summary-errors').remove();
+            if (check == 2) {
+                confirm("Are you sure you want to Resend OTP?");
+                $("#Resendid").hide();
+                $(".both").attr('disabled', false);
+                $(".mobile").attr('disabled', false);
+                $(".email").attr('disabled', false);
+                //$("#resendCheck").val('1');
+
+                $(".both").attr('checked', false);
+                $(".mobile").attr('checked', false);
+                $(".email").attr('checked', false);
+
+                $("#Melabelonload").show();
+                $("#Melabel").hide();
+                $("#Sendid").attr('disabled', false);
+                $("#Sendid").text("Resend OTP");
+                $("#otpcheck").hide();
+                clearTimeout(timeoutHandle);
+                return;
+            }
+            var resendtime;
+            if (Sendtime == 1) {
+                resendtime = Sendtime;
+                //$("#TimeLabelId").text('03mm:00sec');
+                $('#Otp').val('');
+            }
+
+            $('#Sendid').click(function () {
+                $("#Sendid").attr('disabled', 'disabled');
+            });
+
+            $('#Resendid').click(function () {
+                $("#Resendid").attr('disabled', 'disabled');
+            });
+
+            $('#randomcapt').parent().find(".error").html("");
+            $('#randomcapt').removeAttr('style');
+            $('#Otp').parent().find(".error").html("");
+            $('#Otp').removeAttr('style');
+
+            var message = "Your OTP for Vectramind login : ";
+            var QSMSID = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(0), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var SenderID = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(@Configuration["OTPintSenderId"]), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var LangID = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(1), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var Message = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(message), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var DLR = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(1), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var SenderName = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse("@Configuration["OTPSenderName"]"), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var MobileNos = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(@ViewBag.Mobile), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var CharCount = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(38), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var Credits = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(1), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var MbcID = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(1), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var Module = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse("QSMS"), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var ModuleID = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(0), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var RADIO = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($("#radiocheck").val()), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var EMAIL = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse("@ViewBag.Email"), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var Sendtime = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Sendtime), CryptoJS.enc.Utf8.parse($("#Kvl").val()), { keySize: 128 / 8, iv: CryptoJS.enc.Utf8.parse($("#Kvl").val()), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            //event.preventDefault();
+
+            //if (resendmobile != null || undefined) {
+            //    var re = resendmobile;
+            //}
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("OTPSMS", "Home")',
+                headers: headers,
+                data: {
+                    QSMSID: QSMSID, SenderID: SenderID, LangID: LangID, Message: Message, DLR: DLR, SenderName: SenderName, MobileNos: MobileNos,
+                    CharCount: CharCount, Credits: Credits, MbcID: MbcID, Module: Module, ModuleID: ModuleID, RADIO: RADIO, EMAIL: EMAIL, Sendtime: Sendtime
+                },
+                datatype: 'application/json',
+                success: function (d) {                 
+                    if (d == "MsgSubmitSuccess") {
+                        //d.preventDefault();
+                        //$("#firstgrid").hide();
+                        $("#secoundgrid").show();
+                        $(".both").attr('disabled', true);
+                        $(".mobile").attr('disabled', true);
+                        $(".email").attr('disabled', true);
+                        $("#Melabelonload").show();
+                        $("#Melabel").css("color", "gray");
+
+                        var s = $("#Sendid").text();
+                        if (s == "Resend OTP") {
+                            $("#Resendid").hide();
+                            $('#sixdigitslabel').hide();//hide
+                            Refreshcaptcha();
+                            $("#Otp").val('');
+                            $("#randomcapt").val('');
+                        }
+                        $("#Sendid").attr('disabled', true);
+                        $("#otpcheck").show();
+                        $("#timeid").show();
+                        if (resendtime == 1) {
+                            clearTimeout(timeoutHandle);
+                        }                       
+                        countdown(3);
+                    }
+
+                    else if (d == "InValidseries") {                        
+                        $('#LabelId').show();
+                        $('#LabelId').css("color", "red");
+                        $('#LabelId').html("Registered Mobileno is not valid");
+                        setTimeout(function () {
+                            $("#firstgrid").show();
+                            $(".both").attr('checked', false);
+                            $(".mobile").attr('checked', false);
+                            $(".email").attr('checked', false);
+                            $("#secoundgrid").hide();
+                        }, 4000);
+                    }
+
+                    else if (d == "MobileNoChanged") {
+                        $('#LabelId').show();
+                        $('#LabelId').css("color", "red");
+                        $('#LabelId').html("MobileNo Changed");
+                        setTimeout(function () {
+                            $("#firstgrid").show();
+                            $(".both").attr('checked', false);
+                            $(".mobile").attr('checked', false);
+                            $(".email").attr('checked', false);
+                            $("#secoundgrid").hide();
+                            $("#otpcheck").hide();
+                        }, 4000);
+
+                    }
+                    else if (d.includes("maximum OTP attempts")) {
+                        $('#LabelId').show();
+                        $('#LabelId').css("color", "red");
+                        $('#LabelId').html("You have exceeded the maximum OTP attempts. Please try again later.");
+                        setTimeout(function () {
+                            $("#firstgrid").show();
+                            $(".both").attr('checked', false);
+                            $(".mobile").attr('checked', false);
+                            $(".email").attr('checked', false);
+                            $("#secoundgrid").hide();
+                            $("#otpcheck").hide();
+                        }, 4000);
+
+                    }
+                    else if (d == "SenderInactive") {                       
+                        $('#LabelId').show();
+                        $('#LabelId').css("color", "red");
+                        $('#LabelId').html("No Register SenderId");
+                        setTimeout(function () {
+                            $("#firstgrid").show();
+                            $(".both").attr('checked', false);
+                            $(".mobile").attr('checked', false);
+                            $(".email").attr('checked', false);
+                            $("#secoundgrid").hide();
+                        }, 4000);
+                    }
+                    $("#qLoverlay").css({ 'display': 'none', 'opacity': '0' }).fadeOut(0).hide();
+                },
+                error: function (xhr, error, status) {
+                    var err = xhr;
+                }
+            });         
+        }
+    </script>
+    
+}
