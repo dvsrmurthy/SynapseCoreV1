@@ -17,7 +17,7 @@ namespace Core.Models.Dtos.Responses.Synapse.SecurityManagement
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         public List<SubFeatureResponse> SubFeatures { get; set; }
     }
@@ -26,9 +26,9 @@ namespace Core.Models.Dtos.Responses.Synapse.SecurityManagement
     {
         public int SubFeatureId { get; set; }
 
-        public string SubFeatureName { get; set; }
+        public string? SubFeatureName { get; set; }
 
-        public string PageType { get; set; }
+        public string? PageType { get; set; }
 
         public bool IsChecked { get; set; }
     }

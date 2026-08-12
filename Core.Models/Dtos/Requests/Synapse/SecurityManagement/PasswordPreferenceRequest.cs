@@ -8,9 +8,9 @@ namespace Core.Models.Dtos.Requests.Synapse.SecurityManagement
 {
     public class GetPasswordPreferenceRequest
     {
-        //public string propertyname { get; set; }
-        public string custid { get; set; }
-        public string UserIp { get; set; }
+        //public string? propertyname { get; set; }
+        public string? custid { get; set; }
+        public string? UserIp { get; set; }
     }
 
     public class PasswordPreferenceRequest
@@ -23,18 +23,18 @@ namespace Core.Models.Dtos.Requests.Synapse.SecurityManagement
         public int nExpiry { get; set; }
         public int nAttempts { get; set; }
         public int nHistory { get; set; }
-        public string strStopChars { get; set; }
+        public string? strStopChars { get; set; }
         public int pwdminlength { get; set; }
         public int userid { get; set; }
         public int nStatus { get; set; }
         public int FstLgn { get; set; }
-        public string command { get; set; }
+        public string? command { get; set; }
         public int CurrentStatus { get; set; }
         public int Returnvalue { get; set; }
-        public string UserIp { get; set; }
-        public string Noofattempts { get; set; }
-        public string Otpexpiry { get; set; }
-        public string Freezetime { get; set; }
+        public string? UserIp { get; set; }
+        public string? Noofattempts { get; set; }
+        public string? Otpexpiry { get; set; }
+        public string? Freezetime { get; set; }
        // public int updatedby { get; set; }
     }
 
@@ -42,7 +42,7 @@ namespace Core.Models.Dtos.Requests.Synapse.SecurityManagement
     {
         public int Id { get; set; }
         public int CurrentStatus { get; set; }
-        public string RejectNote { get; set; }
+        public string? RejectNote { get; set; }
         public int UpdatedBy { get; set; }
         public int ReturnValue { get; set; }
     

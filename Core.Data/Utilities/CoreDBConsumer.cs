@@ -25,19 +25,25 @@ namespace Core.Data.Utilities
             _configuration = configuration
                 ?? throw new ArgumentNullException(nameof(configuration));
         }
+        public static string GetConfiguration(string param)
+        {
+            var configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory()) // Sets look-up folder to application directory
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .Build();
+            return configuration[param].ToString();
+        }
         public async Task<T> DbConsumer<T>(string spName, SqlEventTypes sqlEvent,
             Dictionary<string, object> parameters = null, bool IsCustome = false, DBs dbName = DBs.Synapse) where T : new()
         {
-            //To Fix Warning:'System.Configuration.ConfigurationSettings.AppSettings' is obsolete: 'This method is obsolete, it has been replaced by System.Configuration!_configuration'
-            //ConfigurationSettings changed to ConfigurationManager on 13JAN2020
             try
-            {                
+            {
                 Logger.InfoFormat("DbConsumer :: {0}", "Going to call DB consumer {1} :: {2}", DateTime.Now.ToString("dd/MM/yyyy hh.mm.ss.fff"), spName);
                 using (
                     var dbManager =
                         new DBManager(
                             IEnumerableExtension.ParseEnum<DataProvider>(
-                                _configuration["ADOProvider"]))
+                                GetConfiguration("ADOProvider")))
                         {
                             ConnectionString = BuildConnection(dbName)//ConfigurationSettings.AppSettings["ConnectionString"]
                         })
@@ -52,31 +58,31 @@ namespace Core.Data.Utilities
                     }
 
 
-                    dbManager.Parameters = _configuration["ADOProvider"] == "Npgsql"
+                    dbManager.Parameters = GetConfiguration("ADOProvider") == "Npgsql"
                         ? buildNPGParameters(dbManager, parameters)
                         : buildParameters(dbManager, parameters, IsCustome);
                     switch (sqlEvent)
                     {
                         case SqlEventTypes.Insert:
                         case SqlEventTypes.Delete:
-                        case SqlEventTypes.Update:                            
+                        case SqlEventTypes.Update:
                             var eResult = dbManager.ExecuteNonQuery(CommandType.StoredProcedure, spName);
                             return (T)Convert.ChangeType(eResult, typeof(T));
-                        case SqlEventTypes.Select:                            
+                        case SqlEventTypes.Select:
                             var ds = dbManager.ExecuteDataSet(CommandType.StoredProcedure, spName);
                             if (ds != null && ds.Tables[0] != null)
-                            {                               
+                            {
                                 try
-                                {                                    
+                                {
                                     var result = ds.Tables[0].ToList<T>();
                                     if (result != null && result.Any())
                                         return (T)Convert.ChangeType(result.FirstOrDefault(), typeof(T));
                                 }
-                                catch(Exception ex)
+                                catch (Exception ex)
                                 {
                                     Logger.InfoFormat("Exception to convert ds to list {0} - DateTime:: {1}", ex.Message, DateTime.Now.ToString("dd/MM/yyyy hh.mm.ss.fff"));
                                 }
-                                
+
                             }
                             break;
                         default:
@@ -90,7 +96,7 @@ namespace Core.Data.Utilities
                 var prop = item.GetType().GetProperty("ReturnValue");
                 prop.SetValue(item, 5, null);
                 Logger.ErrorFormat("Authenticate User :: DB  Error - {0} & {1}", exDb.ToString(), exDb.StackTrace);
-                return (T)Convert.ChangeType(item, typeof(T));                
+                return (T)Convert.ChangeType(item, typeof(T));
             }
             catch (Exception ex)
             {
@@ -101,22 +107,22 @@ namespace Core.Data.Utilities
         }
 
         // Method written on 3-May-2023
-        public async Task<T> DbConsumerSelectQuery<T>(string selectQuery, SqlEventTypes sqlEvent,DBs dbName = DBs.Synapse) where T : new()
+        public async Task<T> DbConsumerSelectQuery<T>(string selectQuery, SqlEventTypes sqlEvent, DBs dbName = DBs.Synapse) where T : new()
         {
             try
-            {                
+            {
                 using (
                     var dbManager =
                         new DBManager(
                             IEnumerableExtension.ParseEnum<DataProvider>(
-                                _configuration["ADOProvider"]))
+                                GetConfiguration("ADOProvider")))
                         {
                             ConnectionString = BuildConnection(dbName)
                         })
                 {
                     try
                     {
-                        dbManager.Open(sqlEvent);                        
+                        dbManager.Open(sqlEvent);
                     }
                     catch (Exception ex)
                     {
@@ -127,12 +133,12 @@ namespace Core.Data.Utilities
                     {
                         case SqlEventTypes.Insert:
                         case SqlEventTypes.Delete:
-                        case SqlEventTypes.Update:                           
+                        case SqlEventTypes.Update:
                         case SqlEventTypes.Select:
                             var ds = dbManager.ExecuteDataSet(CommandType.Text, selectQuery);
 
                             if (ds != null && ds.Tables[0] != null)
-                            {                            
+                            {
                                 try
                                 {
                                     var result = ds.Tables[0].ToList<T>();
@@ -145,7 +151,7 @@ namespace Core.Data.Utilities
                                     Logger.InfoFormat("Exception to convert ds to list {0} - DateTime:: {1}", ex.Message, DateTime.Now.ToString("dd/MM/yyyy hh.mm.ss.fff"));
                                 }
                             }
-                            
+
                             break;
                         default:
                             break;
@@ -177,7 +183,7 @@ namespace Core.Data.Utilities
                     var dbManager =
                         new DBManager(
                             IEnumerableExtension.ParseEnum<DataProvider>(
-                                _configuration["ADOProvider"]))
+                                GetConfiguration("ADOProvider")))
                         {
                             ConnectionString = BuildConnection(dbName)//ConfigurationSettings.AppSettings["ConnectionString"].ToString()
                         })
@@ -211,7 +217,7 @@ namespace Core.Data.Utilities
             if (parameters != null && parameters.Any())
             {
                 switch ((DataProvider)
-                    System.Enum.Parse(typeof(DataProvider), _configuration["ADOProvider"],
+                    System.Enum.Parse(typeof(DataProvider), GetConfiguration("ADOProvider"),
                         true))
                 {
                     case DataProvider.Npgsql:
@@ -294,7 +300,7 @@ namespace Core.Data.Utilities
             if (parameters != null && parameters.Any())
             {
                 switch ((DataProvider)
-                    System.Enum.Parse(typeof(DataProvider), _configuration["ADOProvider"], true))
+                    System.Enum.Parse(typeof(DataProvider), GetConfiguration("ADOProvider"), true))
                 {
                     case DataProvider.Npgsql:
                         var pgParams = parameters.ToDictionary(item => "_" + item.Key.Replace("@", ""),
@@ -346,30 +352,30 @@ namespace Core.Data.Utilities
         {
             switch (dbName)
             {
-                case DBs.ReportsEngine:                    
-                    return AppInternalEncKey.Decrypt(_configuration["ReportsConnectionString"].ToString(), false);                
-                case DBs.DND:                    
-                    return AppInternalEncKey.Decrypt(_configuration["DNDConnectionString"].ToString(), false);
-                case DBs.ExternalDB:                    
-                    return AppInternalEncKey.Decrypt(_configuration["ExternalDBConnectionString"].ToString(), false);
+                case DBs.ReportsEngine:
+                    return AppInternalEncKey.Decrypt(GetConfiguration("ReportsConnectionString").ToString(), false);
+                case DBs.DND:
+                    return AppInternalEncKey.Decrypt(GetConfiguration("DNDConnectionString").ToString(), false);
+                case DBs.ExternalDB:
+                    return AppInternalEncKey.Decrypt(GetConfiguration("ExternalDBConnectionString").ToString(), false);
                 default:
-                    return AppInternalEncKey.Decrypt(_configuration["ConnectionString"].ToString(), false);                    
+                    return AppInternalEncKey.Decrypt(GetConfiguration("ConnectionString").ToString(), false);
             }
         }
 
-        public string GetConnectioString(bool IsCustome = false, DBs dbName = DBs.Synapse)
-        {            
+        public string? GetConnectioString(bool IsCustome = false, DBs dbName = DBs.Synapse)
+        {
             try
             {
                 var dbManager =
                     new DBManager(
                         IEnumerableExtension.ParseEnum<DataProvider>(
-                            _configuration["ADOProvider"]))
+                            GetConfiguration("ADOProvider")))
                     {
                         ConnectionString = BuildConnection(dbName)
                     };
                 return dbManager.ConnectionString;
-                
+
             }
             catch (Exception ex)
             {

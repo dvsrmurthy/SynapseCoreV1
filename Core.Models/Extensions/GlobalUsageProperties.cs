@@ -76,9 +76,9 @@ namespace Core.Models.Extensions
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public bool IsReseller { get; set; }
 
@@ -88,7 +88,7 @@ namespace Core.Models.Extensions
 
         public int CreatedBy { get; set; }
 
-        public string CreatedOn { get; set; }
+        public string? CreatedOn { get; set; }
 
         public int Level { get; set; }
     }
@@ -97,20 +97,20 @@ namespace Core.Models.Extensions
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }        
+        public string? Name { get; set; }        
     }
 
     public class CustomerPrefList
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 
     public class AdminResellers
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
    
 
@@ -118,7 +118,7 @@ namespace Core.Models.Extensions
     {
         public int Id { get; set; }
 
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
         public int ParentId { get; set; }
 
 
@@ -126,26 +126,26 @@ namespace Core.Models.Extensions
     public class SubCustomerList
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 
     public class OperatorList
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 
     public class SendersList
     {
         public int Id { get; set; }
-        public string Code { get; set; }
+        public string? Code { get; set; }
         public int Type { get; set; }
     }
 
     public class CountryGlobalTable
     {
         public int CountryID { get; set; }
-        public string CountryName { get; set; }
+        public string? CountryName { get; set; }
         public int CountryCode { get; set; }
     }
 
@@ -153,19 +153,19 @@ namespace Core.Models.Extensions
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public bool Status { get; set; }
   
         public int CreatedBy { get; set; }
 
-        public string CreatedOn { get; set; }
+        public string? CreatedOn { get; set; }
 
         public int UpdatedBy { get; set; }
 
-        public string UpdatedOn { get; set; }
+        public string? UpdatedOn { get; set; }
     }
 
     public class CustomeUser
@@ -177,26 +177,26 @@ namespace Core.Models.Extensions
 
     public class MenuItem
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-        public string ArabicName { get; set; }
+        public string? ArabicName { get; set; }
 
-        public string MenuIcon { get; set; }
+        public string? MenuIcon { get; set; }
 
         public List<SubMenuItems> ChildMenuItems { get; set; }
     }
 
     public class SubMenuItems
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-        public string ArabicName { get; set; }
+        public string? ArabicName { get; set; }
 
-        public string ActionName { get; set; }
+        public string? ActionName { get; set; }
 
-        public string ControllerName { get; set; }
+        public string? ControllerName { get; set; }
 
-        public string AreaName { get; set; }
+        public string? AreaName { get; set; }
 
         public bool IsCheckerRequired { get; set; }
         public int UserRole { get; set; }
@@ -207,79 +207,79 @@ namespace Core.Models.Extensions
     public class CCredits
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 
     public class PreferedList
     {
         //public int Id { get; set; }
-        public string CodeName { get; set; }
-        public string IdwithSeriesid { get; set; }
+        public string? CodeName { get; set; }
+        public string? IdwithSeriesid { get; set; }
         public int CoountryCode { get; set; }
     }
 
     public class PreferedCountryList
     {
         public int Countrycode { get; set; }
-        public string CountryName { get; set; }
+        public string? CountryName { get; set; }
         
     }
 
     public class CampaignsTable
     {
         public int CampId { get; set; }
-        public string CampName { get; set; }
+        public string? CampName { get; set; }
     }
 
     public class ContactsTable
     {
         public int ListId { get; set; }
-        public string ListName { get; set; }
+        public string? ListName { get; set; }
     }
 
     public class VendorsNameList
     {
 
         public int Id { get; set; }
-        public string VendorName { get; set; }
+        public string? VendorName { get; set; }
     }
     public class OperatorListRate
     {
         public int OPRID { get; set; }
-        public string OPRNAME { get; set; }
+        public string? OPRNAME { get; set; }
         public int CNTID { get; set; }
-        public string CNTNAME { get; set; } 
+        public string? CNTNAME { get; set; } 
         public int OPRCNTRY { get; set; }        
     }
     //Added for AccountManagerMap
     public class AccountManagerList
     {
         public int Id { get; set; }
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
     }
     public class CustomerAccountList
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string AcmId { get; set; }
+        public string? Name { get; set; }
+        public string? AcmId { get; set; }
         public bool IsAssigned { get; set; }
     }
     public class PackageList {
         public int Id { get; set; }
-        public string PackageDetails { get; set; }
+        public string? PackageDetails { get; set; }
     }
 
     public class MailList
     {
         public int Id { get; set; }
-        public string Mailbox { get; set; }
+        public string? Mailbox { get; set; }
     }
 
 
     public class CustomerViewlist
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         public int ParentId { get;set; }
 
@@ -289,151 +289,151 @@ namespace Core.Models.Extensions
     public class VendorViewlist
     {
         public int Id { get; set; }
-        public string VendorName { get; set; }
+        public string? VendorName { get; set; }
     }
     //vendor
 
     public class  Vendorlist
     {
         public int UserId { get; set; }
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
     }
     public class MobilityList
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
     }
     public class ModuleList
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
     public class StagesList
     {
-        public string NAME { get; set; }
+        public string? NAME { get; set; }
     }
     public class SMPPIDList
     {
         public int UserId { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
     public class OutboundSenderList
     {
         public int AutoId { get; set; }
-        public string OutboundSender { get; set; }
+        public string? OutboundSender { get; set; }
     }
     public class ShortCodeList
     {
         public int Id { get; set; }
-        public string Code { get; set; }
+        public string? Code { get; set; }
     }
 
     public class MOShortCodeList
     {
         public int Id { get; set; }
-        public string Code { get; set; }
+        public string? Code { get; set; }
     }
 
     public class CampList
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
+        public string? Id { get; set; }
+        public string? Name { get; set; }
     }
 
     public class MOCampList
     {
-        public string Id { get; set; }
-        public string CampaignName { get; set; }
-        public string WinnerSettingName { get; set; }
+        public string? Id { get; set; }
+        public string? CampaignName { get; set; }
+        public string? WinnerSettingName { get; set; }
     }
 
     public class SenderList
     {
         public int Id { get; set; }
-        public string Code { get; set; }
+        public string? Code { get; set; }
     }
 
     public class ShortcodeMO 
     {
-        public string Id { get; set; }
-        public string Shortcode { get; set; }
-        public string CampaignName { get; set; }
+        public string? Id { get; set; }
+        public string? Shortcode { get; set; }
+        public string? CampaignName { get; set; }
     }
     public class KeywordMO
     {
-        public string KeyWordId { get; set; }
-        public string Name { get; set; }
-        public string CampaignName { get; set; }
+        public string? KeyWordId { get; set; }
+        public string? Name { get; set; }
+        public string? CampaignName { get; set; }
     }
 
     public class CampaignsList
     {
         public int Id { get; set; }
-        public string CampaignName { get; set; }
+        public string? CampaignName { get; set; }
     }
     public class SurveyMO
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
+        public string? Id { get; set; }
+        public string? Name { get; set; }
     }
 
     public class KeywordList
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 
     public class SmscList
     {
-        public string SmscName { get; set; }
+        public string? SmscName { get; set; }
     }
 
     public class MoCampaignsList
     {
         public int Id { get; set; }
-        public string CampaignName { get; set; }
+        public string? CampaignName { get; set; }
     }
 
     public class GroupList
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public int Count { get; set; }
     }
 
     public class SMPPUserList
     {
         public int Id { get; set; }
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
     }
     public class PriviligeList
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 
     public class BankCardBinList
     {
         public int Id { get; set; }
-        public string CardBinNo { get; set; }
+        public string? CardBinNo { get; set; }
     }
 
     public class ConnectionList
     {
         public int Id { get; set; }
-        public string SmscName { get; set; }
+        public string? SmscName { get; set; }
     }
     public class ConnectionListRate
     {
         public int Id { get; set; }
-        public string SmscName { get; set; }
+        public string? SmscName { get; set; }
         public int VendorId { get; set; }
     }
     public class TemplateList
     {
         public int TempID { get; set; }
-        public string TemplateName { get; set; }
+        public string? TemplateName { get; set; }
         //public int UserId { get; set; }
     }
 }

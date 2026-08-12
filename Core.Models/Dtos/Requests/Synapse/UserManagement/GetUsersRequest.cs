@@ -12,8 +12,8 @@ namespace Core.Models.Dtos.Requests.Synapse.UserManagement
         public int NSTATUS { get; set; }
         public int NCUSTID { get; set; }
         public int NCREATEDBY { get; set; }
-        public string RequestPage { get; set; }
-        public string UserIp { get; set; }
+        public string? RequestPage { get; set; }
+        public string? UserIp { get; set; }
         public int PName { get; set; }
     }
 
@@ -27,37 +27,37 @@ namespace Core.Models.Dtos.Requests.Synapse.UserManagement
         /// <summary>
         /// 
         /// </summary>
-        public string FirstName { get; set; }
+        public string? FirstName { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string MiddleName { get; set; }
+        public string? MiddleName { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string Mail { get; set; }
+        public string? Mail { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string MobileNo { get; set; }
+        public string? MobileNo { get; set; }
 
         /// <summary>
         /// 
@@ -117,7 +117,7 @@ namespace Core.Models.Dtos.Requests.Synapse.UserManagement
         /// <summary>
         /// 
         /// </summary>
-        public string command { get; set; }
+        public string? command { get; set; }
 
         /// <summary>
         /// 
@@ -127,7 +127,7 @@ namespace Core.Models.Dtos.Requests.Synapse.UserManagement
         /// <summary>
         /// 
         /// </summary>
-        public string Hashkey { get; set; }
+        public string? Hashkey { get; set; }
 
         /// <summary>
         /// EVENT TYPES :- 1 - ADD || 2 - EDIT || 3 - APPROVE || 4 - REJECT
@@ -139,10 +139,10 @@ namespace Core.Models.Dtos.Requests.Synapse.UserManagement
         /// </summary>
         public int UpdatedBy { get; set; }
 
-        public string RejectNote { get; set; }
+        public string? RejectNote { get; set; }
         public bool IsDefaultCustomer { get; set; }
         public int CreateToCustomerCount { get; set; }
-        public string UserIp { get; set; }
+        public string? UserIp { get; set; }
         public bool IsTwoFactor { get; set; }
         public bool IsPromotional { get; set; }
         public bool IsService { get; set; }

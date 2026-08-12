@@ -10,8 +10,8 @@
 
         public int TotalLength { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-        public string series { get; set; }
+        public string? series { get; set; }
     }
 }

@@ -5100,4 +5100,7 @@
   <data name="CheckHLR" xml:space="preserve">
     <value>تحقق من HLR</value>
   </data>
+  <data name="InvalidrequestNeedtoIncludeLowerCharacters" xml:space="preserve">
+    <value>طلب غير صالح؛ يجب تضمين أحرف صغيرة.</value>
+  </data>
 </root>

@@ -19,10 +19,10 @@ namespace Core.Models.Dtos.Requests.Synapse.MailBox
         public int NSENDERID { get; set; }
         public int NLANG { get; set; }
         public int NMAILBOXID { get; set; }
-        public string STRFORMATIDS { get; set; }
+        public string? STRFORMATIDS { get; set; }
         public int NAUTHREQUIRED { get; set; }
-        public string STRUSERNAME { get; set; }
-        public string STRPASSWORD { get; set; }
+        public string? STRUSERNAME { get; set; }
+        public string? STRPASSWORD { get; set; }
         public int NDLRREQUIRED { get; set; }
         public int NLIMITCREDITS { get; set; }
         public int NMAXCREDITS { get; set; }
@@ -33,13 +33,13 @@ namespace Core.Models.Dtos.Requests.Synapse.MailBox
         public int NNOTIFYDURATION { get; set; }
         public int NNOOFRETRIES { get; set; }
         public bool NUSETAGS { get; set; }
-        public string STRSTARTTAG { get; set; }
-        public string STRENDTAG { get; set; }
+        public string? STRSTARTTAG { get; set; }
+        public string? STRENDTAG { get; set; }
         public int NADDEDBY { get; set; }
         public int NUPDATEDBY { get; set; }
         public int NUSERMAILBOXMAPPINGID { get; set; }
         public int NRETVAL { get; set; }
-        public string command { get; set; }
+        public string? command { get; set; }
     }
 
     public class UserbyCustomerIdReq

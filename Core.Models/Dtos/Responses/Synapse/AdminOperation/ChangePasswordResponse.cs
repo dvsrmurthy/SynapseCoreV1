@@ -10,7 +10,7 @@ namespace Core.Models.Dtos.Responses.Synapse.AdminOperation
     {
         public int AlphabetCount { get; set; }
         public int DigitCount { get; set; }
-        public string StopCharacters { get; set; }
+        public string? StopCharacters { get; set; }
         public int MinLength { get; set; }
         public int Length { get; set; }
     }

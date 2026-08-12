@@ -10,9 +10,9 @@ namespace Core.Models.Dtos.Requests.Synapse.AlertsManager
     {
         public int NID { get; set; }
         public int BankId { get; set; }
-        public string CardBinNo { get; set; }
+        public string? CardBinNo { get; set; }
         public int Status { get; set; }
-        public string RejectNote { get; set; }
+        public string? RejectNote { get; set; }
         public int CurrentStatus { get; set; }
         public int NCREATEDBY { get; set; }
         public int NUpdatedBY { get; set; }
@@ -26,7 +26,7 @@ namespace Core.Models.Dtos.Requests.Synapse.AlertsManager
         public int CreatedBy { get; set; }
         public int NUPDATEDBY { get; set; }
         public int Return { get; set; }
-        public string RequestPage { get; set; }
+        public string? RequestPage { get; set; }
         public int CurrentStatus { get; set; }
     }
 
@@ -35,7 +35,7 @@ namespace Core.Models.Dtos.Requests.Synapse.AlertsManager
         public int cardBinId { get; set; }
         public int CURRENTSTATUS { get; set; }
         public int UpdatedBy { get; set; }
-        public string Rejectreason { get; set; }
+        public string? Rejectreason { get; set; }
         public int ReturnValue { get; set; }
     }
 }

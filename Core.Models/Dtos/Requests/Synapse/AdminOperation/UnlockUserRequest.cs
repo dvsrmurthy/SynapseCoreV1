@@ -10,7 +10,7 @@ namespace Core.Models.Dtos.Requests.Synapse.AdminOperation
     {
         public int USERID { get; set; }
         public int UPDATEDBY { get; set; }
-        public string UserIp { get; set; }
+        public string? UserIp { get; set; }
     }
     public class UpdateLockStatus
     {
@@ -18,10 +18,10 @@ namespace Core.Models.Dtos.Requests.Synapse.AdminOperation
         public int UserId { get; set; }
         public int UpdatedBy { get; set; }
         public int EventType { get; set; }
-        public string RejectNote { get; set; }
+        public string? RejectNote { get; set; }
         public int ReturnValue { get; set; }
-        public string UserIp { get; set; }
-        public string command { get; set; }
+        public string? UserIp { get; set; }
+        public string? command { get; set; }
         public bool status { get; set; }
         public int Functionalstatus { get; set; }
     }

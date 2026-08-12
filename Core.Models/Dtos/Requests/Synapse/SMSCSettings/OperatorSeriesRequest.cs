@@ -22,7 +22,7 @@ namespace Core.Models.Dtos.Requests.Synapse.SMSCSettings
     public class OperatorSeries
     {
         public int opid { get; set; }
-        public string series { get; set; }
+        public string? series { get; set; }
         public int mlength { get; set; }
 
     }

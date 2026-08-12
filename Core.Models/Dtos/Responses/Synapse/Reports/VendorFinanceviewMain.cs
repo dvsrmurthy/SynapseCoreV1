@@ -14,18 +14,18 @@ namespace Core.Models.Dtos.Responses.Synapse.Reports
 
     public class VendorFinanceManageReportView
     {
-        public string Vendor { get; set; }
+        public string? Vendor { get; set; }
 
-        public string SMSMT { get; set; }
+        public string? SMSMT { get; set; }
     }
 
     public class VendorFinanceCountryOperatorTotalSms
     {
-        public string Country { get; set; }
+        public string? Country { get; set; }
 
-        public string Operator { get; set; }
-        public string Vendor { get; set; }
+        public string? Operator { get; set; }
+        public string? Vendor { get; set; }
 
-        public string TotalSMSPushed { get; set; }
+        public string? TotalSMSPushed { get; set; }
     }
 }

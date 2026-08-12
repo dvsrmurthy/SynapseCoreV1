@@ -11,6 +11,6 @@ namespace Core.Models.Dtos.Requests.Synapse.Customers
        public int NDIVID   {get; set;}
        public int nCreatedby  {get; set;}
        public int NSTATUS { get; set; }
-       public string RequestPage { get; set; }
+       public string? RequestPage { get; set; }
     }
 }

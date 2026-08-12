@@ -6,7 +6,7 @@ namespace Core.Utilities.Helpers
 {    
     public class PHashSecurity256 : IPHashSecurity256
     {
-        public string HashPassword(string password, string username)
+        public string? HashPassword(string password, string username)
         {
             var sha1CryptService = new SHA256Managed();
             var passwordBytes = Encoding.Unicode.GetBytes(password);

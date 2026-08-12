@@ -16,7 +16,7 @@ namespace Core.Models.Dtos.Requests.Synapse.Analytics
 
         public int Day { get; set; }
 
-        public string Text { get; set; }
+        public string? Text { get; set; }
 
         public int UserId { get; set; }
     }
@@ -30,10 +30,10 @@ namespace Core.Models.Dtos.Requests.Synapse.Analytics
 
         public int Day { get; set; }
 
-        public string Text { get; set; }
+        public string? Text { get; set; }
 
         public int UserId { get; set; }
-        public string Shortcode { get; set; }
+        public string? Shortcode { get; set; }
     }
 
 

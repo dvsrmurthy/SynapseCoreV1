@@ -14,37 +14,37 @@ namespace Core.Models.Dtos.CommonDtos
         /// <summary>
         /// 
         /// </summary>
-        public string FirstName { get; set; }
+        public string? FirstName { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string MiddleName { get; set; }
+        public string? MiddleName { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string Mail { get; set; }
+        public string? Mail { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string MobileNo { get; set; }
+        public string? MobileNo { get; set; }
 
         /// <summary>
         /// 
@@ -91,7 +91,7 @@ namespace Core.Models.Dtos.CommonDtos
         /// <summary>
         /// 
         /// </summary>
-        public string CreatedOn { get; set; }
+        public string? CreatedOn { get; set; }
 
         /// <summary>
         /// 
@@ -101,7 +101,7 @@ namespace Core.Models.Dtos.CommonDtos
         /// <summary>
         /// 
         /// </summary>
-        public string UpdatedOn { get; set; }
+        public string? UpdatedOn { get; set; }
 
         /// <summary>
         /// 
@@ -111,17 +111,17 @@ namespace Core.Models.Dtos.CommonDtos
         /// <summary>
         /// 
         /// </summary>
-        public string RoleName { get; set; }
+        public string? RoleName { get; set; }
         
         /// <summary>
         /// 
         /// </summary>
-        public string CustomerName { get; set; }
+        public string? CustomerName { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string DivisionName { get; set; }
+        public string? DivisionName { get; set; }
 
         /// <summary>
         /// 
@@ -131,7 +131,7 @@ namespace Core.Models.Dtos.CommonDtos
         /// <summary>
         /// 
         /// </summary>
-        public string MobilityName { get; set; }
+        public string? MobilityName { get; set; }
 
         /// <summary>
         /// 
@@ -150,17 +150,17 @@ namespace Core.Models.Dtos.CommonDtos
         /// <summary>
         /// 
         /// </summary>
-        public string Server { get; set; }
+        public string? Server { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string MBCONSTRING { get; set; }
+        public string? MBCONSTRING { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string Logo { get; set; }
+        public string? Logo { get; set; }
 
         /// <summary>
         /// 
@@ -170,12 +170,12 @@ namespace Core.Models.Dtos.CommonDtos
         /// <summary>
         /// 
         /// </summary>
-        public string FooterNotes { get; set; }
+        public string? FooterNotes { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string ExpiryDate { get; set; }
+        public string? ExpiryDate { get; set; }
 
         /// <summary>
         /// 
@@ -204,7 +204,7 @@ namespace Core.Models.Dtos.CommonDtos
         /// <summary>
         /// 
         /// </summary>
-        public string HashKey { get; set; }
+        public string? HashKey { get; set; }
 
         /// <summary>
         /// 
@@ -232,12 +232,12 @@ namespace Core.Models.Dtos.CommonDtos
         public bool IsDefaultCustomer { get; set; }
         public int AvailableCredits { get; set; }
         public int CreditType { get; set; }
-        public string GetIPAddress { get; set; }
+        public string? GetIPAddress { get; set; }
 
-        public string SenderId { get; set; }
-        public string SenderName { get; set; }
+        public string? SenderId { get; set; }
+        public string? SenderName { get; set; }
 
-        public string AccountType { get; set; }
+        public string? AccountType { get; set; }
 
         public int FreezeTimeMinutes { get; set; }
 

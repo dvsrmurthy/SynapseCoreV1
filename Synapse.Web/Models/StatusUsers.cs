@@ -16,16 +16,16 @@ namespace Synapse.Web.Models
     public class StatusUsers
     {
         public int Userid { get; set; } = 0;
-        public string UserName { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
+        public string? UserName { get; set; } = string.Empty;
+        public string? Password { get; set; } = string.Empty;
         public bool status { get; set; } = false;
-        public string Customer { get; set; } = string.Empty;
-        public string ParentCustomer { get; set; } = string.Empty;
+        public string? Customer { get; set; } = string.Empty;
+        public string? ParentCustomer { get; set; } = string.Empty;
         public bool http { get; set; } = false;
         public bool web { get; set; } = false;
         public bool smpp { get; set; } = false;
         public bool smtp { get; set; } = false;
-        public string CreatedOn { get; set; } = string.Empty;
+        public string? CreatedOn { get; set; } = string.Empty;
         public List<StatusUsers> buildmodel(int userId, string UserIp, bool status, string searchStr)
         {
             using (var clientAcces = new AuthenticateSecurityClient())

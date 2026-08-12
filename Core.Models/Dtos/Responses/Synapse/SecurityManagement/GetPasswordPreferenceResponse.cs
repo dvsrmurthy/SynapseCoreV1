@@ -14,15 +14,15 @@ namespace Core.Models.Dtos.Responses.Synapse.SecurityManagement
         public int DigitCount { get; set; }
         public int Expiry { get; set; }
         public int History { get; set; }
-        public string StopCharacters { get; set; }
+        public string? StopCharacters { get; set; }
         public int MinLength { get; set; }
         public int Length { get; set; }
         public int UnsuccessfullLoginAttempts { get; set; }
         public bool ChangeOnFirstLogin { get; set; }
 
 
-        public string NoOfAttempts { get; set; }
-        public string OTPExpiryMinutes { get; set; }
-        public string FreezeTimeMinutes { get; set; }
+        public string? NoOfAttempts { get; set; }
+        public string? OTPExpiryMinutes { get; set; }
+        public string? FreezeTimeMinutes { get; set; }
     }
 }

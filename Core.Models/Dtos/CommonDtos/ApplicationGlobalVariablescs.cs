@@ -20,19 +20,19 @@ namespace Core.Models.Dtos.CommonDtos
 
         public int CustomerExpiryDateMargin { get; set; }
 
-        public string CustomerToMailAddress { get; set; }
+        public string? CustomerToMailAddress { get; set; }
 
-        public string CustomerCcMailAddress { get; set; }
+        public string? CustomerCcMailAddress { get; set; }
 
         public bool SusperndMessage { get; set; }
     }
 
     public class AdDetails
     {
-        public string ServerName { get; set; }
+        public string? ServerName { get; set; }
 
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
 
-        public string Password { get; set; }
+        public string? Password { get; set; }
     }
 }

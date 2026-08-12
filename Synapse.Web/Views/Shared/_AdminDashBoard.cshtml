@@ -1,0 +1,405 @@
+﻿@using Synapse.Web.Models;
+@using Synapse.Web.Helpers.SecureAccess
+@using Core.Models.Dtos.CommonDtos
+@using Synapse.Web.Helpers
+@using Core.Models.Extensions
+@inject IConfiguration Configuration;
+@inject IHttpContextAccessor HttpContextAccessor;
+
+@{
+    var extendedUser = SessionExtensions.GetItem<Core.Models.Extensions.CustomeUser>(HttpContextAccessor.HttpContext.Session);
+    var utype = HttpContextAccessor.HttpContext.Session.GetItem<Core.Models.Extensions.GlobalUsageProperties>() ?? new Core.Models.Extensions.GlobalUsageProperties();
+
+    var lz = SessionExtensions.GetItem<LocalizationResponse>(HttpContextAccessor.HttpContext.Session);
+}
+<h1 class="page-header cdash rightar" style="width:100%;"><i class="fa fa-envelope-o rightarchk"></i>@lz.Dashboard</h1>
+<p></p>
+<div class="row">
+    <div class="col-lg-12">
+        <ul class="nav nav-tabs hom-tbs">
+            @if (extendedUser != null && extendedUser.LogOnRespons != null)
+            {
+                if (utype.UserType == 1)
+                {
+                    <li class="active"><a data-toggle="tab" href="#smsmttab" class="mttab"><strong><i class="fa fa-envelope-o"></i>&nbsp; @lz.SMSMT </strong></a></li>
+                    <li><a data-toggle="tab" href="#smsmotab" class="motab"><strong><i class="fa fa-mobile"></i>&nbsp; @lz.SMSMO </strong></a></li>
+                }
+                if (utype.UserType == 2)
+                {
+                    <li class="active"><a data-toggle="tab" href="#smsmttab" class="mttab"><strong><i class="fa fa-envelope-o"></i>&nbsp;  @lz.SMSMT </strong></a></li>
+                }
+                if (utype.UserType == 3)
+                {
+                    <li class="active"><a data-toggle="tab" href="#smsmotab" class="motab"><strong><i class="fa fa-mobile"></i>&nbsp; @lz.SMSMO </strong></a></li>
+                }
+            }
+        </ul>
+        <div class="tab-content">
+
+            <!--SMS MT Start-->
+            <div id="smsmttab" class="tab-pane fade  in @if(utype.UserType == 1  || utype.UserType == 2) {
+            <text>active</text>
+                                                                                                                                                                                                }
+">
+                <div id="demo-panel-network" class="">
+                    <div class="panel-heading panel" style="margin-bottom:0;">
+                        <div class="panel-control">
+                            <button id="demo-panel-network-refresh" data-toggle="panel-overlay" data-target="#demo-panel-network" class="btn"><i class="fa fa-refresh icon-lg"></i></button>
+
+                            <button class="btn btn-default" data-target="#grapharea" data-toggle="collapse"><i class="fa fa-angle-down" style="font-size:20px;"></i></button>
+
+                        </div>
+                        <h3 class="panel-title">@lz.Analytics</h3>
+                    </div>
+
+
+                    <div id="grapharea" class="collapse in">
+                        <!--Morris line chart placeholder-->
+                        <div id="maparea" class="grpnl panel" style="margin-bottom:0; border:none;"></div>
+
+                        <div id="morris-chart-network" class="morris-full-content" style="display:none;"></div>
+                        <div class="clearfix"></div>
+
+                        <div class="panel" style="overflow:hidden;">
+                            <div class="col-sm-6" style="padding: 10px; text-align:left;">
+                                @if (extendedUser != null && extendedUser.LogOnRespons != null)
+                                {
+                                                if (Configuration["IndianSynapse"] == "true" || Configuration["IndianSynapse"] == "")
+                                                {
+                                                                if (extendedUser.LogOnRespons.CustomerType != 1)
+                                                                {
+                                                                                <h4>@lz.TotalSMSSent : <span class="badge badge-info" id="smscount"></span></h4>
+                                                                }
+                                                }
+                                                else
+                                                {
+                                                                if (extendedUser.LogOnRespons.Id != 1)
+                                                                {
+                                                                                <h4>@lz.TotalSMSSent : <span class="badge badge-info" id="smscount"></span></h4>
+                                                                }
+                                                }
+                                }
+                            </div>
+                            <div class="col-sm-6" style="padding: 10px; text-align:right;">
+                                <button class="btn btn-primary btn-sm gls btnday" name="mapday">@lz.D</button>
+                                <button class="btn btn-primary btn-sm gls btnweek" name="mapweek">@lz.W</button>
+                                <button class="btn btn-primary btn-sm gls btntwoweek" name="maptwoweek">@lz.WW</button>
+                                <button class="btn btn-primary btn-sm gls btnmonth" name="mapmonth">@lz.M</button>
+                            </div>
+                        </div>
+                        @if (extendedUser != null && extendedUser.LogOnRespons != null)
+                        {
+                                                if (Configuration["IndianSynapse"] == "true" || Configuration["IndianSynapse"] == "")
+                                        {
+                                                        if (extendedUser.LogOnRespons.CustomerType == 1)
+                                                        {
+                                                                        <div class="row">
+                                                                            <div class="col-sm-4 col-md-4 col-lg-4">
+                                                                                <!--Sparkline Area Chart-->
+                                                                                <div class="panel panel-success panel-colorful" style="height: 125px">
+                                                                                    <div class="pad-hor pad-top col-sm-12">
+                                                                                        <span class="text-lg text-semibold">@lz.SMSSent</span>
+                                                                                        <i class="pull-right mar-no pe-7s-mail fa-3x icon-fw"></i>
+                                                                                    </div>
+                                                                                    <div class="clearfix"></div>
+                                                                                    <div class="pad-all col-sm-12">
+                                                                                        <h2 class="pull-right mar-no text-thin light-color" id="smscount"></h2>
+                                                                                        <!--Submitted-->
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-4 col-md-4 col-lg-4">
+                                                                                <!--Sparkline Line Chart-->
+                                                                                <div class="panel panel-info panel-colorful" style="height: 125px">
+                                                                                    <div class="pad-hor pad-top col-sm-12">
+                                                                                        <span class="text-lg text-semibold">@lz.DeliveryRate</span>
+                                                                                        <i class="pull-right mar-no pe-7s-graph1 fa-3x icon-fw"></i>
+                                                                                    </div>
+                                                                                    <div class="clearfix"></div>
+                                                                                    <div class="pad-all col-sm-12">
+                                                                                        <h2 class="pull-right mar-no text-thin light-color" id="successratio"></h2>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-sm-4 col-md-4 col-lg-4">
+                                                                                <!--Sparkline pie chart -->
+                                                                                <div class="panel panel-warning panel-colorful" style="height: 125px">
+                                                                                    <div class="pad-hor pad-top col-sm-12">
+                                                                                        <span class="text-lg text-semibold"> @lz.AverageTPS</span>
+                                                                                        <img class="pull-right" src="~/Content/images/meter.svg" height="40">
+                                                                                        <!--<i class="pull-right mar-no pe-7s-timer fa-3x icon-fw"></i>-->
+                                                                                    </div>
+                                                                                    <div class="clearfix"></div>
+                                                                                    <div class="pad-all col-sm-12">
+                                                                                        <h2 class="pull-right mar-no text-thin light-color light-color" id="tppersecond"></h2>
+                                                                                        <!--Average-->
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                        }
+                                        }
+                                        else
+                                        {
+                                                        if (extendedUser.LogOnRespons.Id == 1)
+                                                        {
+                                                                        <div class="row">
+
+                                                                            <div class="col-sm-4 col-md-4 col-lg-4">
+
+                                                                                <!--Sparkline Area Chart-->
+                                                                                <div class="panel panel-success panel-colorful" style="height: 125px">
+                                                                                    <div class="pad-hor pad-top col-sm-12">
+                                                                                        <span class="text-lg text-semibold">@lz.SMSSent</span>
+                                                                                        <i class="pull-right mar-no pe-7s-mail fa-3x icon-fw"></i>
+                                                                                    </div>
+                                                                                    <div class="clearfix"></div>
+                                                                                    <div class="pad-all col-sm-12">
+                                                                                        <h2 class="pull-right mar-no text-thin light-color" id="smscount"></h2>
+                                                                                        <!--Submitted-->
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+
+                                                                            <div class="col-sm-4 col-md-4 col-lg-4">
+
+                                                                                <!--Sparkline Line Chart-->
+                                                                                <div class="panel panel-info panel-colorful" style="height: 125px">
+                                                                                    <div class="pad-hor pad-top col-sm-12">
+                                                                                        <span class="text-lg text-semibold">@lz.DeliveryRate</span>
+                                                                                        <i class="pull-right mar-no pe-7s-graph1 fa-3x icon-fw"></i>
+                                                                                    </div>
+                                                                                    <div class="clearfix"></div>
+                                                                                    <div class="pad-all col-sm-12">
+                                                                                        <h2 class="pull-right mar-no text-thin light-color" id="successratio"></h2>
+                                                                                        <!--<div class="progress progress-lg"><div style="width: 85%;" class="progress-bar progress-bar-warning">85%</div>	-->
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-sm-4 col-md-4 col-lg-4">
+                                                                                <!--Sparkline pie chart -->
+                                                                                <div class="panel panel-warning panel-colorful" style="height: 125px">
+                                                                                    <div class="pad-hor pad-top col-sm-12">
+                                                                                        <span class="text-lg text-semibold"> @lz.AverageTPS</span>
+                                                                                        <img class="pull-right" src="~/Content/images/meter.svg" height="40">
+                                                                                        <!--<i class="pull-right mar-no pe-7s-timer fa-3x icon-fw"></i>-->
+                                                                                    </div>
+                                                                                    <div class="clearfix"></div>
+                                                                                    <div class="pad-all col-sm-12">
+                                                                                        <h2 class="pull-right mar-no text-thin light-color light-color" id="tppersecond"></h2>
+                                                                                        <!--Average-->
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                        }
+
+                                        }
+                        }
+                    </div>
+                    <div id="DashLoad" class="panel-overlay" style="display:none;">
+                        <div class="panel-overlay-content pad-all unselectable">
+                            <span class="panel-overlay-icon text-dark">
+                                <i class="fa fa-refresh fa-spin fa-2x"></i>
+                            </span>
+                            <h4 class="panel-overlay-title"></h4>
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <!-- Map Section-->
+
+                <div class="row" style="margin-top:15px;">
+
+                    <div class="col-sm-12">
+                        <div class="panel" style="margin-bottom:0px;">
+                            <div class="panel-heading">
+                                <div class="panel-control">
+                                    <button class="btn btn-default" data-target="#worldmaparea" data-toggle="collapse" aria-expanded="true"><i class="fa fa-angle-down" style="font-size:20px;"></i></button>
+                                </div>
+                                <h3 class="panel-title">@lz.MessageStatistics</h3>
+                            </div>
+                            <div id="worldmaparea" class="collapse in" style="padding-top:15px;  border:1px solid #ffffff; overflow:hidden; border-top:none;">
+                                <div class="col-sm-12">
+                                    <div id="mappad" class="col-sm-12" style="position: relative">
+                                        <button id="zoom_in" class="btn btn-sm btn-primary">+</button>
+                                        <button id="zoom_out" class="btn btn-sm btn-primary">-</button>
+                                        <div class="details"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:30px;">
+                    <div class="col-xs-12">
+
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <div class="panel-control">
+                                    <button class="btn btn-default" data-target="#Campaignresults" data-toggle="collapse"><i class="fa fa-angle-down" style="font-size:20px;"></i></button>
+                                </div>
+                                <h3 class="panel-title">@lz.CampaignActivity</h3>
+                            </div>
+
+                            <div class="panel-body collapse in table-responsive" id="Campaignresults">
+                                <table class="table table-striped table-bordered" width="100%" id="tblcampactivity">
+                                    <thead>
+                                        <tr>
+                                            <th>@lz.CampaignName</th>
+                                            <th>@lz.User</th>
+                                            <th>@lz.ScheduleDate</th>
+                                            <th>@lz.CampaignType</th>
+                                            <th class="text-center">@lz.Progress</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- End Map Section-->
+                <div class="clearfix"></div>
+                @if (Configuration["onPremiseCloud"] == "true" || Configuration["onPremiseCloud"] == "")
+                {
+                                <div class="row smsclists hide" style="margin-top:15px; display:none">
+                                    <div class="col-xs-12">
+                                        <div id="message"></div>
+                                        <div class="panel">
+
+                                            <div class="panel-heading">
+                                                <div class="panel-control">
+                                                    <button class="btn btn-default" data-target="#smscresults" data-toggle="collapse"><i class="fa fa-angle-down" style="font-size:20px;"></i></button>
+
+                                                </div>
+                                                <h3 class="panel-title">@lz.SMSC</h3>
+                                            </div>
+
+                                            <div class="panel-body collapse in" id="smscresults">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-bordered" width="100%" id="tblsmsc">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>@lz.SMSCName</th>
+                                                                <th>@lz.Status</th>
+                                                                <th>@lz.Progress</th>
+                                                                <th>@lz.BindStatus</th>
+                                                                <th>@lz.Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                }
+                else
+                {
+
+                                <div class="row smsclists" style="margin-top:15px;">
+                                    <div class="col-xs-12">
+                                        <div id="message"></div>
+                                        <div class="panel">
+
+                                            <div class="panel-heading">
+                                                <div class="panel-control">
+                                                    <button class="btn btn-default" data-target="#smscresults" data-toggle="collapse"><i class="fa fa-angle-down" style="font-size:20px;"></i></button>
+
+                                                </div>
+                                                <h3 class="panel-title">@lz.SMSC</h3>
+                                            </div>
+
+                                            <div class="panel-body collapse in" id="smscresults">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-bordered" width="100%" id="tblsmsc">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>@lz.SMSCName</th>
+                                                                <th>@lz.Status</th>
+                                                                <th>@lz.Progress</th>
+                                                                <th>@lz.BindStatus</th>
+                                                                <th>@lz.Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                }
+            </div>
+            <!--SMS MT End-->
+            <!--SMS MO start-->
+            <div id="smsmotab" class="tab-pane fade @if(utype.UserType == 3) {
+            <text>active in</text>
+                                                                                                                                                                                                }
+">
+                <div class="row">
+                    <div class="col-sm-9">
+                        <div id="demo-panel-ref" class="panel">
+                            <!--Panel heading-->
+                            <div class="panel-heading">
+                                <div class="panel-control">
+                                    <div class="pull-right" style="margin-top:3px">
+                                        <select id="Shortcodes" onchange="LoadMochartScode()">
+                                            <option value="0" selected>-select-</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <h3 class="panel-title">@lz.Analytics</h3>
+                            </div>
+
+                            <!--Panel body-->
+                            <div class="panel-body">
+                                <div id="MoChartArea" class="grpnl panel" style="margin-bottom:0; border:none;"></div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="panel-footer" style="overflow:hidden;">
+                                <div class="col-sm-6" style="">
+                                </div>
+                                <div class="col-sm-6" style="text-align:right">
+                                    <button class="btn btn-primary btn-sm gls btnday" name="motab">@lz.D</button>
+                                    <button class="btn btn-primary btn-sm gls btnweek" name="motab">@lz.W</button>
+                                    <button class="btn btn-primary btn-sm gls btntwoweek" name="motab">@lz.WW</button>
+                                    <button class="btn btn-primary btn-sm gls btnmonth" name="motab">@lz.M</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"> @lz.ShortCode</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <div class="table-responsive">
+                                        <table id="minuteWisetbl" class="table table-bordered table-striped" border="0" cellspacing="1" cellpadding="5"></table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--SMS MO End-->
+        </div>
+    </div>
+</div>

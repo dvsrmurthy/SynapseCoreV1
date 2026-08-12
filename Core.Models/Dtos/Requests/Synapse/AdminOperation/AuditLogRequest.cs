@@ -10,9 +10,9 @@ namespace Core.Models.Dtos.Requests.Synapse.AdminOperation
     {
         public int CustomerID { get; set; }
         public int UserID { get; set; }
-        public string FeatureName { get; set; }
-        public string StartDate { get; set; }
-        public string EndDate { get; set; }
+        public string? FeatureName { get; set; }
+        public string? StartDate { get; set; }
+        public string? EndDate { get; set; }
         public int RcdId { get; set; }
     }
 }

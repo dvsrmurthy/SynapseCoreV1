@@ -31,9 +31,9 @@ namespace Synapse.Web.Models
 
     public class StatusDLRPercentage
     {
-        public string fromDate { get; set; }
-        public string toDate { get; set; }
-        public string sender { get; set; }
+        public string? fromDate { get; set; }
+        public string? toDate { get; set; }
+        public string? sender { get; set; }
        
         public StatusDLRPercentageMain buildmodel(string fromDate, string toDate, string sender, int DLRCountryOperator)
         {

@@ -14,9 +14,9 @@
 //        public int DelayRequest = 10;
 //        // The Error Message that will be displayed in case of 
 //        // excessive Requests
-//        public string ErrorMessage = "Excessive Request Attempts Detected.";
+//        public string? ErrorMessage = "Excessive Request Attempts Detected.";
 //        // This will store the URL to Redirect errors to
-//        public string RedirectURL;
+//        public string? RedirectURL;
 
 //        public override void OnActionExecuting(ActionExecutingContext filterContext)
 //        {
@@ -76,7 +76,7 @@ namespace Synapse.Web.Helpers.CustomAttributes
         public int DelayRequest { get; set; } = 10;
 
         // The Error Message that will be displayed in case of excessive Requests
-        public string ErrorMessage { get; set; } = "Excessive Request Attempts Detected.";
+        public string? ErrorMessage { get; set; } = "Excessive Request Attempts Detected.";
 
         // This will store the URL to Redirect errors to
         public string? RedirectURL { get; set; }

@@ -27,7 +27,7 @@ namespace Synapse.Web.Helpers.SecureAccess
         {
             _configuration = AppConfiguration.Configuration;
         }        
-        public string BaseServiceHostUrl
+        public string? BaseServiceHostUrl
         {
             get
             {
@@ -47,7 +47,8 @@ namespace Synapse.Web.Helpers.SecureAccess
             var uriBuilder = GetUriBuilderForServiceMethod("AuthenticateUser");
             var factory = new RestClientFactory();
             var client = factory.GetJsonRestRequest(uriBuilder);
-            return client.Post<LogOnRequest, LogOnRespons>(request);
+            var response = client.Post<LogOnRequest, LogOnRespons>(request);
+            return response;
         }
         public LogOnRespons AuthenticateUserForgotPassword(LogOnRequest request)
         {
@@ -514,7 +515,7 @@ namespace Synapse.Web.Helpers.SecureAccess
             var client = factory.GetJsonRestRequest(uriBuilder);
             return client.Post<DLRPercentageSearch, CountryResponse>(request);
         }
-        public string GetConnectionString(DLRPercentageSearch request)
+        public string? GetConnectionString(DLRPercentageSearch request)
         {
             var uriBuilder = GetUriBuilderForServiceMethod("GetConnectionString");
             var factory = new RestClientFactory();

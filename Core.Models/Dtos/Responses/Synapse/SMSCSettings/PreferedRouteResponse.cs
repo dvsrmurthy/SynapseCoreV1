@@ -10,10 +10,10 @@ namespace Core.Models.Dtos.Responses.Synapse.SMSCSettings
     {
         public int Id { get; set; }
         public int RouteId { get; set; }
-        public string Name { get; set; }//customer
-        public string UserName { get; set; }
-        public string Operator { get; set; }//operator
-        public string CountryName { get; set; }
+        public string? Name { get; set; }//customer
+        public string? UserName { get; set; }
+        public string? Operator { get; set; }//operator
+        public string? CountryName { get; set; }
         public int CreatedBy { get; set; }
         public bool Status { get; set; }
 
@@ -29,17 +29,17 @@ namespace Core.Models.Dtos.Responses.Synapse.SMSCSettings
         public int SeriesId { get; set; }
         public int VendorId { get; set; }
         public int SMSCId { get; set; }
-        public string SMSCName { get; set; }
+        public string? SMSCName { get; set; }
         public bool DefaultStatus { get; set; }
-        public string RouteName { get; set; }
+        public string? RouteName { get; set; }
 
         public int CurrentStatus { get; set; }
         public int Fstatus { get; set; }
 
-        public string requestedby { get; set; }
-        public string Rejectnote { get; set; }
+        public string? requestedby { get; set; }
+        public string? Rejectnote { get; set; }
 
-        public string VendorName { get; set; }
+        public string? VendorName { get; set; }
     }
 }
     

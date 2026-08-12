@@ -5097,4 +5097,7 @@
   <data name="CheckHLR" xml:space="preserve">
     <value>Check HLR</value>
   </data>
+  <data name="InvalidrequestNeedtoIncludeLowerCharacters" xml:space="preserve">
+    <value>Invalid request need to Include Lower Characters</value>
+  </data>
 </root>

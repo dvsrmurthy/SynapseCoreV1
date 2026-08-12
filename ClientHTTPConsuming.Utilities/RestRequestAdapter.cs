@@ -31,12 +31,12 @@ namespace ClientHTTPConsuming.Utilities
             var uri = (parameters == null) ? _uriBuilder.GetUri() : _uriBuilder.GetUriFor(parameters);
             return _restRequest.Get<TResponse>(uri);
         }        
-        public string Post<TRequest>(TRequest data)
+        public string? Post<TRequest>(TRequest data)
         {
             return Post(data, null);
         }
 
-        public string Post<TRequest>(TRequest data, object parameters)
+        public string? Post<TRequest>(TRequest data, object parameters)
         {
             var uri = (parameters == null) ? _uriBuilder.GetUri() : _uriBuilder.GetUriFor(parameters);
             return _restRequest.Post(data, uri);

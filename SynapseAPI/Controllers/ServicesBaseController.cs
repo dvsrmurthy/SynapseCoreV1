@@ -18,7 +18,7 @@ namespace SynapseAPI.Controllers
         public IAccountCoreData _contextAccountCore { get; set; }       
         public ISynapseCoreData _contextSynapseCore { get; set; }
 
-        public string HL7FileLocation = null;
+        public string? HL7FileLocation = null;
 
         public ServicesBaseController()
         {

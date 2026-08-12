@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Synapse.Web.Helpers;
 using Synapse.Web.Helpers.SecureAccess;
@@ -26,10 +27,11 @@ using System.Net.Mail;
 using System.Net.NetworkInformation;
 using System.Security.Claims;
 using System.Text;
+using static RasterEdge.Imaging.MSOffice.Spreadsheet.XlsFileFormat.Records.Chart3DBarShape;
 using SessionExtensions = Synapse.Web.Helpers.SecureAccess.SessionExtensions;
 
 namespace Synapse.Web.Controllers
-{    
+{
     public class AccountController : Controller
     {
         ILog Logger = LogManager.GetLogger(typeof(AccountController));
@@ -39,11 +41,27 @@ namespace Synapse.Web.Controllers
 
         private IHttpContextAccessor _httpContextAccessor;
         private IConfiguration _configuration;
+
         public AccountController(IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
         {
             _httpContextAccessor = httpContextAccessor;
-            _configuration = configuration;            
-        }   
+            _configuration = configuration;
+        }
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+            try
+            {
+                ExtendedUser = _httpContextAccessor.HttpContext?.Session?.GetItem<Core.Models.Extensions.CustomeUser>();
+                UserActions = _httpContextAccessor.HttpContext?.Session?.GetItem<List<UserActions>>();
+                lz = _httpContextAccessor.HttpContext?.Session?.GetItem<LocalizationResponse>();
+            }
+            catch
+            {
+                ExtendedUser = null;
+                UserActions = null;
+            }
+        }
         public IActionResult Index()
         {
             ViewBag.Message = "0";
@@ -53,11 +71,11 @@ namespace Synapse.Web.Controllers
             HttpContext.Session.SetString("rancatpch", string.Empty);
             if (ExtendedUser != null && ExtendedUser.LogOnRespons != null && !string.IsNullOrWhiteSpace(ExtendedUser.LogOnRespons.UserName))
             {
-                return null; 
+                return null;
             }
             var randomCaptcha = GetRandomCaptcha(); //Forgot password captcha
             ViewBag.Captch = randomCaptcha;
-            ViewBag.LoginCaptcha = randomCaptcha;            
+            ViewBag.LoginCaptcha = randomCaptcha;
             HttpContext.Session.SetString("CaptchaCode", randomCaptcha);
             return View();
         }
@@ -81,7 +99,7 @@ namespace Synapse.Web.Controllers
         }
         [AllowAnonymous]
 
-        
+
         private string GetRandomCaptcha()
         {
             StringBuilder randomText = new StringBuilder();
@@ -97,7 +115,7 @@ namespace Synapse.Web.Controllers
             return randomText.ToString();
         }
 
-        public string ipWhitelistOTPSCREEN(int userid, int customerId)
+        public string? ipWhitelistOTPSCREEN(int userid, int customerId)
         {
             LogOnRespons result = new LogOnRespons();
             if (HttpContext.Session.GetString("result") != null)
@@ -420,7 +438,9 @@ namespace Synapse.Web.Controllers
                                     ?? HttpContext.Connection.RemoteIpAddress?.ToString(), false),
                         UserSessionId =
                             AppInternalEncKey.Encrypt(HttpContext.Session.Id, false),
-                        IsWebRequest = true
+                        IsWebRequest = true,
+                        useremail = model.Email,
+                        UserId = 0
                     });
                 result.UserName = model.Email;
                 HttpContext.Session.AddItem(result);
@@ -504,6 +524,7 @@ namespace Synapse.Web.Controllers
                             {
                                 LogOnRespons = LogOnRespons
                             });
+                            ExtendedUser = _httpContextAccessor.HttpContext?.Session?.GetItem<Core.Models.Extensions.CustomeUser>();
                             SessionExtensions.AddItem<GlobalUsageProperties>(HttpContext.Session,
                                 new GlobalUsageProperties
                                 {
@@ -565,7 +586,7 @@ namespace Synapse.Web.Controllers
                                             var key_value = _item.FirstOrDefault(f => f.Name.Equals(w_item, StringComparison.OrdinalIgnoreCase));
                                             if (key_value != null)
                                             {
-                                                _item.Remove(key_value);                                                
+                                                _item.Remove(key_value);
                                             }
                                         }
                                     }
@@ -646,7 +667,7 @@ namespace Synapse.Web.Controllers
                                     }
                                 }
                             }
-                            return RedirectToAction("Index", "Home", new { Area = "DashBoard" });
+                            return RedirectToAction("Index", "DashBoard");
                         case ActionStatus.Locked:
                             Logger.Info("Login Action :: End");
                             ModelState.AddModelError("", "Account has been locked please try after some time.");
@@ -1205,7 +1226,8 @@ namespace Synapse.Web.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing) {
+            if (disposing)
+            {
                 base.Dispose(disposing);
             }
         }
