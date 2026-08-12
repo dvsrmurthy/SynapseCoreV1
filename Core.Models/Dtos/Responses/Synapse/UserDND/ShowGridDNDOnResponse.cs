@@ -13,10 +13,10 @@ namespace Core.Models.Dtos.Responses.Synapse.UserDND
         public int DND_INT_USERID{get;set;}
         public int DND_INT_SENDERID{get;set;}
         public int DND_INT_SHORTCODEID{get;set;}
-        public string DND_VAR_MOBILE{get;set;}
-        public string DND_VAR_NAME{get;set;}
+        public string? DND_VAR_MOBILE{get;set;}
+        public string? DND_VAR_NAME{get;set;}
         public int DND_SINT_STATUS{get;set;}
-        public string DND_DTM_ADDEDON{get;set;}
-        public string SENDERNAME{get;set;}
+        public string? DND_DTM_ADDEDON{get;set;}
+        public string? SENDERNAME{get;set;}
     }
 }

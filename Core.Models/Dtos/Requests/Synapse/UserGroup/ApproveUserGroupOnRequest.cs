@@ -12,6 +12,6 @@ namespace Core.Models.Dtos.Requests.Synapse.UserGroup
         public int GroupId { get; set; }
         public int CurrentStatus { get; set; }
         public int GroupUpdatedBy { get; set; }
-        public string RejectionReason { get; set; }
+        public string? RejectionReason { get; set; }
     }
 }

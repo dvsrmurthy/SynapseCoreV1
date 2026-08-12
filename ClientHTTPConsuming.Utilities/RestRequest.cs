@@ -1,35 +1,42 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Configuration;
 using System.IO;
 using System.Net;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 
 namespace ClientHTTPConsuming.Utilities
 {
     public class RestRequest : IRestRequest
     {
         private readonly ISerializer _serializer;
-
         public RestRequest(ISerializer serializer)
         {
             if (serializer == null) throw new ArgumentNullException("serializer");
-            _serializer = serializer;
+            _serializer = serializer;            
         }
 
         public bool IsAuthenticated()
         {
             throw new NotImplementedException();
         }
+        public string? GetConfiguration(string param)
+        {
+            var configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory()) // Sets look-up folder to application directory
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .Build();
+            return configuration[param].ToString(); 
+        }   
 
         public TResponse Post<TRequest, TResponse>(TRequest request, Uri uri)
         {
-            var webRequest = (HttpWebRequest)WebRequest.Create(uri);
-            //webRequest.ProtocolVersion = HttpVersion.Version10;
-            //webRequest.ServicePoint.Expect100Continue = false;
-            var webexetime = System.Configuration.ConfigurationManager.AppSettings["WebReqExeTime"] == null ? "300000" : System.Configuration.ConfigurationManager.AppSettings["WebReqExeTime"];
+            var webRequest = (HttpWebRequest)WebRequest.Create(uri);           
+            var webexetime = GetConfiguration("WebReqExeTime") == null ? "300000" : GetConfiguration("WebReqExeTime");
             webRequest.Timeout = Convert.ToInt32(webexetime);
             webRequest.Method = "POST";
-            webRequest.Headers.Add("Authorization", System.Configuration.ConfigurationManager.AppSettings["accsToken"]);
+            webRequest.Headers.Add("Authorization", GetConfiguration("accsToken"));
             webRequest.ContentType = _serializer.ContentType;
             webRequest.KeepAlive = true;
 
@@ -47,7 +54,7 @@ namespace ClientHTTPConsuming.Utilities
             }
         }
 
-        public string Post<TRequest>(TRequest request, Uri uri)
+        public string? Post<TRequest>(TRequest request, Uri uri)
         {
             var webRequest = (HttpWebRequest)WebRequest.Create(uri);
             webRequest.Method = "POST";
@@ -105,11 +112,18 @@ namespace ClientHTTPConsuming.Utilities
                     return _serializer.Desearialize<TResponse>(response.GetResponseStream());
                 }
             }
-            catch (Exception ex)
+            catch (System.Net.WebException ex)
             {
-                throw new Exception(String.Format(
-                            "Server error URL : {0} --- Exception {1}",
-                            webRequest.Address.AbsolutePath, ex.Message));
+                if (ex.Response is HttpWebResponse errorResponse)
+                {
+                    using (var reader = new StreamReader(errorResponse.GetResponseStream()))
+                    {
+                        string errorBody = reader.ReadToEnd();
+                        // Include errorBody in your exception message to see what went wrong!
+                        throw new Exception($"Remote server returned (400) Bad Request. Details: {errorBody}", ex);
+                    }
+                }
+                throw;
             }
         }
     }

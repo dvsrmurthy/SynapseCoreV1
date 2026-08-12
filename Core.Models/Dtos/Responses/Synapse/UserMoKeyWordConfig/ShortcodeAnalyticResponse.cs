@@ -12,13 +12,13 @@ namespace Core.Models.Dtos.Responses.Synapse.UserMoKeyWordConfig
     }
     public class ShortcodeAnalyticsGraph
     {
-        public string Hour { get; set; }
+        public string? Hour { get; set; }
 
-        public string Day { get; set; }
+        public string? Day { get; set; }
 
-        public string Count { get; set; }
+        public string? Count { get; set; }
 
-        public string Letter { get; set; }
+        public string? Letter { get; set; }
         public int Freq { get; set; }
     }
 }

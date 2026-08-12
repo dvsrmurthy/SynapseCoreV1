@@ -12,7 +12,7 @@ namespace Core.Models.Dtos.Responses.Synapse.Customers
         public int Id { get; set; }
 
         public int CustomerId { get; set; }
-        public string CustomerName { get; set; }
+        public string? CustomerName { get; set; }
 
         public int NumberOfGroups { get; set; }
 
@@ -34,9 +34,9 @@ namespace Core.Models.Dtos.Responses.Synapse.Customers
 
         public int CustomerExpiryDateMargin { get; set; }
 
-        public string ToEmail { get; set; }
+        public string? ToEmail { get; set; }
 
-        public string CcEmail { get; set; }
+        public string? CcEmail { get; set; }
 
         public int FilterByColumn { get; set; }
 
@@ -46,15 +46,15 @@ namespace Core.Models.Dtos.Responses.Synapse.Customers
 
         public int CurrentStatus { get; set; }
 
-        public string RejectNotes { get; set; }
+        public string? RejectNotes { get; set; }
 
         public int CreatedBy { get; set; }
 
-        public string CreatedOn { get; set; }
+        public string? CreatedOn { get; set; }
 
         public bool ReplaceFilterword { get; set; }
 
-        public string UserIp { get; set; }
+        public string? UserIp { get; set; }
     }
 
 

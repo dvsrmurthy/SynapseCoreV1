@@ -8,6 +8,6 @@ namespace Core.Models.Dtos.Requests.Synapse.AdminOperation
 {
     public class ChangePasswordRequest
     {
-        public string CustId { get; set; }
+        public string? CustId { get; set; }
     }
 }

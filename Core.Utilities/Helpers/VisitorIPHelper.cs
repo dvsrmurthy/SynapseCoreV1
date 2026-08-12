@@ -14,7 +14,7 @@ namespace Core.Utilities.Helpers
         {
             _httpContextAccessor = httpContextAccessor;
         }
-        public string RequesterBrowserInfo { get; set; }
+        public string? RequesterBrowserInfo { get; set; }
         public VisitorIPHelperFactory()
         {
             var httpContext = _httpContextAccessor.HttpContext;
@@ -52,7 +52,7 @@ namespace Core.Utilities.Helpers
             //}
             #endregion
         }
-        public string GetBrowserType()
+        public string? GetBrowserType()
         {
             // 1. Get the current HttpContext safely
             var context = _httpContextAccessor.HttpContext;
@@ -73,12 +73,12 @@ namespace Core.Utilities.Helpers
             return userAgent; // Or return a truncated version/type
         }
 
-        public string GetSubstringByString(string a, string b, string c)
+        public string? GetSubstringByString(string a, string b, string c)
         {
             return c.Substring((c.IndexOf(a) + a.Length), (c.IndexOf(b) - c.IndexOf(a) - a.Length));
         }
 
-        public string BuildXMLDocument(string browserInfo)
+        public string? BuildXMLDocument(string browserInfo)
         {
             try
             {

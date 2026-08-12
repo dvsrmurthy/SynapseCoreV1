@@ -10,7 +10,7 @@ namespace Core.Models.Dtos.Requests.Synapse.EmailAndPushNotifications
     {
         public int Id { get; set; }
 
-        public string FromEmail { get; set; }
+        public string? FromEmail { get; set; }
 
         public int Status { get; set; }
 
@@ -18,9 +18,9 @@ namespace Core.Models.Dtos.Requests.Synapse.EmailAndPushNotifications
 
         public int CurrentStatus { get; set; }
 
-        public string RejectReason { get; set; }
+        public string? RejectReason { get; set; }
 
-        public string UserIp { get; set; }
+        public string? UserIp { get; set; }
 
         public int IsStatusUpdate { get; set; }
     }
@@ -43,9 +43,9 @@ namespace Core.Models.Dtos.Requests.Synapse.EmailAndPushNotifications
 
         public int CurrentStatus { get; set; }
 
-        public string RejectReason { get; set; }
+        public string? RejectReason { get; set; }
 
-        public string UserIp { get; set; }
+        public string? UserIp { get; set; }
 
         public int IsStatusUpdate { get; set; }
     }
@@ -54,41 +54,41 @@ namespace Core.Models.Dtos.Requests.Synapse.EmailAndPushNotifications
     {
         public int Id { get; set; }
 
-        public string CampaignName { get; set; }
+        public string? CampaignName { get; set; }
 
         public int RecipientType { get; set; }
 
-        public string FileName { get; set; }
+        public string? FileName { get; set; }
 
-        public string ActualFileName { get; set; }
+        public string? ActualFileName { get; set; }
 
-        public string Group { get; set; }
+        public string? Group { get; set; }
 
         public int SecretKey { get; set; }
 
-        public string FromMailId { get; set; }
+        public string? FromMailId { get; set; }
 
-        public string FromMail { get; set; }
+        public string? FromMail { get; set; }
 
-        public string EmailSubject { get; set; }
+        public string? EmailSubject { get; set; }
 
         public int MessageType { get; set; }
 
-        public string MessageBody { get; set; }
+        public string? MessageBody { get; set; }
 
         public int ScheduleType { get; set; }
 
-        public string StartDate { get; set; }
+        public string? StartDate { get; set; }
 
-        public string EndDate { get; set; }
+        public string? EndDate { get; set; }
 
-        public string StartTime { get; set; }
+        public string? StartTime { get; set; }
 
-        public string StartMinutes { get; set; }
+        public string? StartMinutes { get; set; }
 
-        public string RecipientName { get; set; }
+        public string? RecipientName { get; set; }
 
-        public string Date { get; set; }
+        public string? Date { get; set; }
 
         public int Status { get; set; }
 
@@ -96,7 +96,7 @@ namespace Core.Models.Dtos.Requests.Synapse.EmailAndPushNotifications
 
         public int CurrentStatus { get; set; }
 
-        public string RejectReason { get; set; }
+        public string? RejectReason { get; set; }
 
         public int CreatedBy { get; set; }
 
@@ -104,7 +104,7 @@ namespace Core.Models.Dtos.Requests.Synapse.EmailAndPushNotifications
 
         public int UserId { get; set; }
 
-        public string UserIp { get; set; }
+        public string? UserIp { get; set; }
 
         public int TotalCount { get; set; }
 
@@ -114,7 +114,7 @@ namespace Core.Models.Dtos.Requests.Synapse.EmailAndPushNotifications
 
         public int DuplicateCount { get; set; }
 
-        public string ColumnName { get; set; }
+        public string? ColumnName { get; set; }
 
         public int PhoneType { get; set; }
 
@@ -127,15 +127,15 @@ namespace Core.Models.Dtos.Requests.Synapse.EmailAndPushNotifications
 
         public int AddedBy { get; set; }
 
-        public string CampaignName { get; set; }
+        public string? CampaignName { get; set; }
 
-        public string EmailFrom { get; set; }
+        public string? EmailFrom { get; set; }
 
-        public string EmailTo { get; set; }
+        public string? EmailTo { get; set; }
 
         public int ChannelType { get; set; }
 
-        public string UserIp { get; set; }
+        public string? UserIp { get; set; }
 
         public int nReturn { get; set; }
     }

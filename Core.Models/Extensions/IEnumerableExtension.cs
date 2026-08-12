@@ -2363,7 +2363,7 @@ namespace Core.Models.Extensions
             {
                 var err = ex.StackTrace;
                 var extension = Path.GetExtension(filePath);
-                Logger.Error("CSV File Process Error @: " + colrowArrayForLog);                
+                Logger.Error("CSV File Process Error @: " + colrowArrayForLog);
                 var result = new DataSet();
                 extension = extension.Equals(".xls") ? ".xlsx" : ".xls";
                 if (extension.Equals(".xls") || extension.Equals(".xlsx"))
@@ -2473,7 +2473,7 @@ namespace Core.Models.Extensions
                     foreach (var propety in responseProperties)
                     {
                         var firstprop = enproperties.FirstOrDefault(f => f.Name.Equals(propety.Name));
-                        var tvalue = firstprop.GetValue(target, null);
+                        var tvalue = firstprop != null ? firstprop.GetValue(target, null) : string.Empty;
                         propety.SetValue(response, tvalue, null);
                     }
                     break;
@@ -2483,10 +2483,8 @@ namespace Core.Models.Extensions
                     foreach (var propety in responseProperties)
                     {
                         var firstprop = abproperties.FirstOrDefault(f => f.Name.Equals(propety.Name));
-                        var tvalue = firstprop.GetValue(targetab, null);
-
+                        var tvalue = firstprop != null ? firstprop.GetValue(targetab, null) : string.Empty;
                         propety.SetValue(response, tvalue, null);
-
                     }
                     break;
             }

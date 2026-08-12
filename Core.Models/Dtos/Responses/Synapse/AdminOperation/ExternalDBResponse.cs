@@ -8,10 +8,10 @@ namespace Core.Models.Dtos.Responses.Synapse.AdminOperation
 {
     public class ExternalDBResponse
     {
-        public string MobileNo { get; set; }
-        public string Gender { get; set; }
-        public string Nationality { get; set; }
-        public string IncomeGroup { get; set; }
-        public string CityofResidence { get; set; }
+        public string? MobileNo { get; set; }
+        public string? Gender { get; set; }
+        public string? Nationality { get; set; }
+        public string? IncomeGroup { get; set; }
+        public string? CityofResidence { get; set; }
     }
 }

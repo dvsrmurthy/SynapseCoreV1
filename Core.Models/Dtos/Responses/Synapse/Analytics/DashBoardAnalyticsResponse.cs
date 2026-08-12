@@ -30,17 +30,17 @@ namespace Core.Models.Dtos.Responses.Synapse.Analytics
 
     public class AnalyticsGraph
     {
-        public string Hour { get; set; }
+        public string? Hour { get; set; }
 
-        public string Day { get; set; }
+        public string? Day { get; set; }
 
-        public string Count { get; set; }
+        public string? Count { get; set; }
     }
     public class SMSMOAnalyticsResponse
     {
-        //public string Hour { get; set; }
-        public string Day { get; set; }
-        public string Count { get; set; }
+        //public string? Hour { get; set; }
+        public string? Day { get; set; }
+        public string? Count { get; set; }
     }
     public class SMSMOMinuteResponse
     {
@@ -50,9 +50,9 @@ namespace Core.Models.Dtos.Responses.Synapse.Analytics
 
     public class ModulesCollection
     {
-        public string Count { get; set; }
+        public string? Count { get; set; }
 
-        public string Module { get; set; }
+        public string? Module { get; set; }
     }
 
     public class Modules
@@ -66,11 +66,11 @@ namespace Core.Models.Dtos.Responses.Synapse.Analytics
     
     public class PullSms
     {
-        public string Hour { get; set; }
+        public string? Hour { get; set; }
 
-        public string Day { get; set; }
+        public string? Day { get; set; }
 
-        public string Count { get; set; }
+        public string? Count { get; set; }
 
         public decimal ProcessTime { get; set; }
 
@@ -83,22 +83,22 @@ namespace Core.Models.Dtos.Responses.Synapse.Analytics
     {
         public int Id { get; set; }
 
-        public string SmscName { get; set; }
+        public string? SmscName { get; set; }
 
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
-        public string Progress { get; set; }
+        public string? Progress { get; set; }
 
-        public string Tps { get; set; }
+        public string? Tps { get; set; }
         
-        public string Action { get; set; }
+        public string? Action { get; set; }
     }
 
     public class SucessRatioCollection
     {
-        public string Count { get; set; }
+        public string? Count { get; set; }
 
-        public string DlrStatus { get; set; }
+        public string? DlrStatus { get; set; }
     }
 
     public class SuccessRatio
@@ -112,34 +112,34 @@ namespace Core.Models.Dtos.Responses.Synapse.Analytics
 
     public class Tps
     {
-        public string Hour { get; set; }
+        public string? Hour { get; set; }
 
-        public string Day { get; set; }
+        public string? Day { get; set; }
 
-        public string Tp { get; set; }
+        public string? Tp { get; set; }
     }
 
     public class CampaignActivity
     {
-        public string CampName { get; set; }
+        public string? CampName { get; set; }
 
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
 
-        public string ScheduleDate { get; set; }
+        public string? ScheduleDate { get; set; }
 
-        public string CampaignType { get; set; }
+        public string? CampaignType { get; set; }
         
-        public string Progress { get; set; }
+        public string? Progress { get; set; }
 
-        public string Percentage { get; set; }
+        public string? Percentage { get; set; }
     }
     
     public class WorldMap
     {
         public int Id { get; set; }
-        public string key { get; set; }
+        public string? key { get; set; }
         public int doc_count { get; set; }
-        public string delivery_rate { get; set; }
+        public string? delivery_rate { get; set; }
     }
 
     public class WorldMapMock
@@ -189,10 +189,10 @@ namespace Core.Models.Dtos.Responses.Synapse.Analytics
 
     public class buckets
     {
-        public string key { get; set; }
+        public string? key { get; set; }
 
         public int doc_count { get; set; }
 
-        public string delivery_rate { get; set; }
+        public string? delivery_rate { get; set; }
     }
 }

@@ -23,7 +23,7 @@ namespace Core.Data.Data.Services
         /// <returns></returns>
         /// 
 
-        public string PushAlertNotif(string userid, string alertid, string actionName)
+        public string? PushAlertNotif(string userid, string alertid, string actionName)
         {
             var retVal = "";
 

@@ -9,6 +9,6 @@ namespace Core.Models.Dtos.Responses.Synapse.SecurityManagement
     public class PasswordPreferenceResponse
     {
         public int Type { get; set; }
-        public string Code { get; set; }
+        public string? Code { get; set; }
     }
 }

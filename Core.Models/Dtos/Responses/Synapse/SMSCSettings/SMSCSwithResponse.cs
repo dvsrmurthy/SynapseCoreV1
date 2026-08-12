@@ -14,13 +14,13 @@ namespace Core.Models.Dtos.Responses.Synapse.SMSCSettings
         public List<SMSCRouteResponse> SMSCRouteResponse { get; set; }
 
         public int Id { get; set; }
-        public string SMSCName { get; set; }
-        public string FromSMSC { get; set; }
-        public string ToSMSC { get; set; }
+        public string? SMSCName { get; set; }
+        public string? FromSMSC { get; set; }
+        public string? ToSMSC { get; set; }
         public int UserId { get; set; }
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
         public int Countrycode { get; set; }
-        public string Country { get; set; }
+        public string? Country { get; set; }
         public int Sender { get; set; }
         public bool Status { get; set; }
         public int CreatedBy { get; set; }
@@ -28,23 +28,23 @@ namespace Core.Models.Dtos.Responses.Synapse.SMSCSettings
     }
     public class SMSCCountryResponse
     {
-        public string CountryName { get; set; }
+        public string? CountryName { get; set; }
         public int CountryCode { get; set; }
     }
     public class SMSCUserResponse
     {
         public int UserId { get; set; }
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
     }
     public class SMSCSenderResponse
     {
         public int SenderId { get; set; }
-        public string DisplaySender { get; set; }
+        public string? DisplaySender { get; set; }
     }
 
     public class SMSCRouteResponse
     {
         public int Id { get; set; }
-        public string RouteName { get; set; }
+        public string? RouteName { get; set; }
     }
 }

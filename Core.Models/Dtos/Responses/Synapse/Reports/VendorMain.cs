@@ -20,31 +20,31 @@ namespace Core.Models.Dtos.Responses.Synapse.Reports
 
   public class vendorstrip
   {
-      public string TotalSMS { get; set; }
-      public string Delivered { get; set; }
-      public string Submitted { get; set; }
-      public string Failed { get; set; }
-      public string PeakThroughput { get; set; }
+      public string? TotalSMS { get; set; }
+      public string? Delivered { get; set; }
+      public string? Submitted { get; set; }
+      public string? Failed { get; set; }
+      public string? PeakThroughput { get; set; }
   }
 
   public class VendorSmsTrafficDaysOfMonthResponse
   {
-      public string Letter { get; set; }
+      public string? Letter { get; set; }
 
       public int Freq { get; set; }
   }
   public class VendorCountryOperatorTotalSms
   {
-      public string Country { get; set; }
+      public string? Country { get; set; }
 
-      public string Operator { get; set; }
+      public string? Operator { get; set; }
 
-      public string TOTALSMS { get; set; }
+      public string? TOTALSMS { get; set; }
   }
 
     public class VendorRep
     {
-        public string Day { get; set; }
+        public string? Day { get; set; }
 
         public int MT { get; set; }
 
@@ -53,7 +53,7 @@ namespace Core.Models.Dtos.Responses.Synapse.Reports
 
     public class VendorReportView
     {
-        public string Date { get; set; }
+        public string? Date { get; set; }
 
         public int MT { get; set; }
 

@@ -9,12 +9,12 @@ namespace Core.Models.Dtos.Responses.Synapse.AdminOperation
     public class WhitelistResponse
     {
         public int Id { get; set; }
-        public string MobileNo { get; set; }
+        public string? MobileNo { get; set; }
         public bool Status { get; set; }
     }
 
     public class ExportWhitelistResponse
     {
-        public string MobileNumber { get; set; }
+        public string? MobileNumber { get; set; }
     }
 }

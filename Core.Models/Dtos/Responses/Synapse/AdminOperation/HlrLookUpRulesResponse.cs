@@ -6,11 +6,11 @@
 
         public int CustomerId { get; set; } 
 
-        public string CustomerName { get; set; }
+        public string? CustomerName { get; set; }
 
         public int UserId { get; set; }
 
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
 
         public int SenderId { get; set; }
 
@@ -28,26 +28,26 @@
 
         public int CurrentStatus { get; set; }
 
-        public string CreatedOn { get; set; }
+        public string? CreatedOn { get; set; }
 
         public int CreatedBy { get; set; }
 
-        public string RejectNote { get; set; }
+        public string? RejectNote { get; set; }
 
-        public string Code { get; set; }
+        public string? Code { get; set; }
     }
 
     public class UserLookup
     {
         public int Id { get; set; }
 
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
     }
 
     public class SnderLookUp
     {
         public int Id { get; set; }
 
-        public string Code { get; set; }
+        public string? Code { get; set; }
     }
 }

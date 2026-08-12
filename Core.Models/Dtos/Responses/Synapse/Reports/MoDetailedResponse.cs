@@ -11,14 +11,14 @@ namespace Core.Models.Dtos.Responses.Synapse.Reports
     }
     public class MoDetailedResponse
     {
-        public string Name { get; set; }
-        public string Keyword { get; set; }
-        public string MobileNo { get; set; }
-        public string Message { get; set; }
-        public string ReceivedDate { get; set; }
-        public string Credits { get; set; }
-        public string Charges { get; set; }
-        public string ShortCode { get; set; }
-        public string Status { get; set; }
+        public string? Name { get; set; }
+        public string? Keyword { get; set; }
+        public string? MobileNo { get; set; }
+        public string? Message { get; set; }
+        public string? ReceivedDate { get; set; }
+        public string? Credits { get; set; }
+        public string? Charges { get; set; }
+        public string? ShortCode { get; set; }
+        public string? Status { get; set; }
     }
 }

@@ -10,10 +10,10 @@ namespace Core.Models.Dtos.Responses.Synapse.AlertsManager
     {
         public int Id { get; set; }
         public int BankId { get; set; }
-        public string BankName { get; set; }
-        public string CardBinNo { get; set; }
+        public string? BankName { get; set; }
+        public string? CardBinNo { get; set; }
         public int Status { get; set; }
-        public string RejectNote { get; set; }
+        public string? RejectNote { get; set; }
         public int CurrentStatus { get; set; }
         public int CreatedBy { get; set; }
         public int UpdatedBY { get; set; }
@@ -24,10 +24,10 @@ namespace Core.Models.Dtos.Responses.Synapse.AlertsManager
     {
         public int Id { get; set; }
         public int BankId { get; set; }
-        public string BankName { get; set; }
-        public string CardBinNo { get; set; }
+        public string? BankName { get; set; }
+        public string? CardBinNo { get; set; }
         public int Status { get; set; }
-        public string RejectNote { get; set; }
+        public string? RejectNote { get; set; }
         public int CurrentStatus { get; set; }
         public int CreatedBy { get; set; }
         public int UpdatedBY { get; set; }

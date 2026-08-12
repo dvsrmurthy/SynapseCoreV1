@@ -16,13 +16,13 @@ namespace Synapse.Web.Models
     public class StatusCustomer
     {
         public int CustomerId { get; set; } = 0;
-        public string Customer { get; set; } = string.Empty;
-        public string AccountManager { get; set; } = string.Empty;
-        public string Status { get; set; } = string.Empty;
-        public string CreditType { get; set; } = string.Empty;
-        public string AvailableCredits { get; set; } = string.Empty;
-        public string CreatedOn { get; set; } = string.Empty;
-        public string ParentCustomer { get; set; } = string.Empty;        
+        public string? Customer { get; set; } = string.Empty;
+        public string? AccountManager { get; set; } = string.Empty;
+        public string? Status { get; set; } = string.Empty;
+        public string? CreditType { get; set; } = string.Empty;
+        public string? AvailableCredits { get; set; } = string.Empty;
+        public string? CreatedOn { get; set; } = string.Empty;
+        public string? ParentCustomer { get; set; } = string.Empty;        
         public List<StatusCustomer> buildmodel(int userId, string UserIp, bool status, string searchStr)
         {
             using (var clientAcces = new AuthenticateSecurityClient())

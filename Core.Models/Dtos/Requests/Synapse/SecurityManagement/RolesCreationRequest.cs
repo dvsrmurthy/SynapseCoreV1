@@ -15,7 +15,7 @@ namespace Core.Models.Dtos.Requests.Synapse.SecurityManagement
         //public int nCreatedBy { get; set;}
         public int UserId { get; set; }
         public int CustomerId { get; set; }
-        public string UserIp { get; set; }
+        public string? UserIp { get; set; }
 
     }
 
@@ -24,9 +24,9 @@ namespace Core.Models.Dtos.Requests.Synapse.SecurityManagement
     {
         public int RoleId { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public bool Status { get; set; }
 
@@ -38,14 +38,14 @@ namespace Core.Models.Dtos.Requests.Synapse.SecurityManagement
 
         public int CreatedBy { get; set; }
 
-        public string command { get; set; }
+        public string? command { get; set; }
         
         public int EventType { get; set; }
 
-        public string RejectNote { get; set; }
+        public string? RejectNote { get; set; }
 
         public int UpdatedBy { get; set; }
 
-        public string UserIp { get; set; }
+        public string? UserIp { get; set; }
     }
 }

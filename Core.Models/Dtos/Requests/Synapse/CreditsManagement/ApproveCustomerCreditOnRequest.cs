@@ -12,6 +12,6 @@ namespace Core.Models.Dtos.Requests.Synapse.CreditsManagement
         public int CurrentStatus { get; set; }
         public int UpdatedBy { get; set; }
         //public bool Status { get; set; }
-        public string RejectionReason { get; set; }
+        public string? RejectionReason { get; set; }
     }
 }

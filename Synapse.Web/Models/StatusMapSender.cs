@@ -14,25 +14,25 @@ namespace Synapse.Web.Models
     }
     public class StatusMapSender
     {
-        public string CustomerName { get; set; }
-        public string UserName { get; set; }
-        public string DisplaySender { get; set; }
-        public string DespatchType { get; set; }
-        public string countryName { get; set; }
-        public string DNSBypass { get; set; }
-        public string DNDBypass { get; set; }
-        public string smscid { get; set; }
-        public string SMSCName { get; set; }
-        public string status { get; set; }
-        public string Operator { get; set; }
-        public string Vendor { get; set; }
-        public string RouteId { get; set; }
-        public string CustomerId { get; set; }
-        public string UserId { get; set; }
-        public string CreatedOn { get; set; }
-        public string UpdatedOn { get; set; }
-        public string CreatedBy { get; set; }
-        public string UpdatedBy { get; set; }
+        public string? CustomerName { get; set; }
+        public string? UserName { get; set; }
+        public string? DisplaySender { get; set; }
+        public string? DespatchType { get; set; }
+        public string? countryName { get; set; }
+        public string? DNSBypass { get; set; }
+        public string? DNDBypass { get; set; }
+        public string? smscid { get; set; }
+        public string? SMSCName { get; set; }
+        public string? status { get; set; }
+        public string? Operator { get; set; }
+        public string? Vendor { get; set; }
+        public string? RouteId { get; set; }
+        public string? CustomerId { get; set; }
+        public string? UserId { get; set; }
+        public string? CreatedOn { get; set; }
+        public string? UpdatedOn { get; set; }
+        public string? CreatedBy { get; set; }
+        public string? UpdatedBy { get; set; }
         public List<StatusMapSender> buildmodel(int UserId, string UserIp, bool status, string searchStr, 
             bool dnsbypass, bool dndbypass)
         {

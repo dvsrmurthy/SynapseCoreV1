@@ -14,21 +14,21 @@ namespace Synapse.Web.Models
     }
     public class StatusServerTransactionRpt
     {
-        public string StartDate { get; set; }
-        public string EndDate { get; set; } 
-        public string Customer { get; set; }
-        public string UserId { get; set; }        
-        public string Sender { get; set; }
-        public string MobileNo { get; set; }        
-        public string UserIp { get; set; }
-        public string UserName { get; set; }
-        public string ReceivedDate { get; set; }
-        public string Credits { get; set; }
-        public string DataCode { get; set; }
-        public string CharCount { get; set; }
-        public string ModuleName { get; set; }
-        public string ClientPrId { get; set; }
-        public string Message { get; set; }
+        public string? StartDate { get; set; }
+        public string? EndDate { get; set; } 
+        public string? Customer { get; set; }
+        public string? UserId { get; set; }        
+        public string? Sender { get; set; }
+        public string? MobileNo { get; set; }        
+        public string? UserIp { get; set; }
+        public string? UserName { get; set; }
+        public string? ReceivedDate { get; set; }
+        public string? Credits { get; set; }
+        public string? DataCode { get; set; }
+        public string? CharCount { get; set; }
+        public string? ModuleName { get; set; }
+        public string? ClientPrId { get; set; }
+        public string? Message { get; set; }
         public int IncomingUserId { get; set; }
         public List<StatusServerTransactionRpt> buildmodel(string UserId, 
             string UserIp, string startDate, string endDate, string sender, string mobileno)

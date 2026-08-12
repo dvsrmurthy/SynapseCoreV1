@@ -8,8 +8,8 @@ namespace Core.Models.Dtos.Responses.Synapse.SMSCSettings
 {
     class HttpConfigResponse
     {
-        public string Id { get; set; }
-        public string PushUrl { get; set; }
-        public string DlrUrl { get; set; }
+        public string? Id { get; set; }
+        public string? PushUrl { get; set; }
+        public string? DlrUrl { get; set; }
     }
 }

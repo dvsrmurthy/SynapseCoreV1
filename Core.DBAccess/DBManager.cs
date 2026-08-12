@@ -70,7 +70,7 @@ namespace Core.DBAccess
             }
         }
 
-        public string ConnectionString
+        public string? ConnectionString
         {
             get
             {

@@ -10,6 +10,6 @@
 
         public int UpdatedBy { get; set; }
 
-        public string RejectionReason { get; set; }
+        public string? RejectionReason { get; set; }
     }
 }

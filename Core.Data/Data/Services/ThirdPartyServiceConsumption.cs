@@ -25,7 +25,7 @@ namespace Core.Data.Data.Services
 {
     public class ThirdPartyServiceConsumption
     {        
-        public string BaseServiceHostUrl
+        public string? BaseServiceHostUrl
         {
             get
             {
@@ -45,7 +45,7 @@ namespace Core.Data.Data.Services
         /// </summary>        
         /// <param name="param"></param>
         /// <returns></returns>
-        public string GenerateCacheXmlCallOne(string param)
+        public string? GenerateCacheXmlCallOne(string param)
         {
             //BaseAddress = new Uri("http://localhost/VitisRefreshAppApi/")
             var resString = "";
@@ -77,7 +77,7 @@ namespace Core.Data.Data.Services
 
         }
 
-        public string DNDNotification(string action, string tableName, string[] contacts)
+        public string? DNDNotification(string action, string tableName, string[] contacts)
         {
             //BaseAddress = new Uri("http://localhost/store/api/all/")
             Logger.InfoFormat("DNDNotification :: start ", action, tableName, contacts);
@@ -115,7 +115,7 @@ namespace Core.Data.Data.Services
         /// </summary>        
         /// <param name="param"></param>
         /// <returns></returns>
-        public string AdminNotificationCallOne(string param)
+        public string? AdminNotificationCallOne(string param)
         {
             //BaseAddress = new Uri("http://localhost/VitisRefreshAppApi/")
 
@@ -192,7 +192,7 @@ namespace Core.Data.Data.Services
         /// <param name="param"></param>
         /// <param name="smscid"></param>
         /// <returns></returns>
-        public string AdminNotificationCallTwo(string param, string smscid, string groupname)
+        public string? AdminNotificationCallTwo(string param, string smscid, string groupname)
         {
             //BaseAddress = new Uri("http://localhost/VitisRefreshAppApi/")
 
@@ -366,16 +366,16 @@ namespace Core.Data.Data.Services
         /// <summary>
         /// Add | Remove
         /// </summary>
-        public string action { get; set; }
+        public string? action { get; set; }
 
         /// <summary>
         /// DND | DNS | VIP
         /// </summary>
-        public string tableName { get; set; }
+        public string? tableName { get; set; }
 
         /// <summary>
         /// ["xxxxxxxxxxxx","xxxxxxxxxxxx","xxxxxxxxxxxx"]
         /// </summary>
-        public string[] msisdns { get; set; }
+        public string?[] msisdns { get; set; }
     }
 }

@@ -14,6 +14,6 @@ namespace Core.Models.Dtos.Requests.Synapse.Customers
         public int NSTATUS { get; set; }
         public int NCUSTID { get; set; }
         public int nCreatedby { get; set; }
-        public string RequestPage { get; set; }
+        public string? RequestPage { get; set; }
     }
 }

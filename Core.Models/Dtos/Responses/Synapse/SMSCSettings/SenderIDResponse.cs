@@ -12,15 +12,15 @@ namespace Core.Models.Dtos.Responses.Synapse.SMSCSettings
 
         public int Type {get; set;}
 
-        public string Code {get; set;}
+        public string? Code {get; set;}
 
-        public string Description {get; set;}
+        public string? Description {get; set;}
 
         public bool Status {get; set;}
 
-        public string DispatchSenderId {get; set;}
+        public string? DispatchSenderId {get; set;}
 
-        public string DisplaySenderId {get; set;}
+        public string? DisplaySenderId {get; set;}
         
         public int SenderType { get; set; }
 
@@ -32,7 +32,7 @@ namespace Core.Models.Dtos.Responses.Synapse.SMSCSettings
 
         public int Fstatus { get; set; }
 
-        public string RejectReason { get; set; }
+        public string? RejectReason { get; set; }
         
     }
 }

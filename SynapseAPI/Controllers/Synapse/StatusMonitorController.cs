@@ -74,7 +74,7 @@ namespace SynapseAPI.Controllers
         }
         [HttpPost]
         [Route("GetConnectionString")]
-        public string GetConnectionString([FromBody] DLRPercentageSearch request)
+        public string? GetConnectionString([FromBody] DLRPercentageSearch request)
         {
             var response = _contextSynapseCore.GetConnectionString();
             return response;

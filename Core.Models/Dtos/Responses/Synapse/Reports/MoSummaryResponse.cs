@@ -12,11 +12,11 @@ namespace Core.Models.Dtos.Responses.Synapse.Reports
     }
     public class MoSummaryResponse
     {
-        public string Shortcode { get; set; }
-        public string Name { get; set; }
-        public string Keyword { get; set; }
-        public string ReceivedDate { get; set; }
-        public string Credits { get; set; }
-        public string TotalCredits { get; set; }
+        public string? Shortcode { get; set; }
+        public string? Name { get; set; }
+        public string? Keyword { get; set; }
+        public string? ReceivedDate { get; set; }
+        public string? Credits { get; set; }
+        public string? TotalCredits { get; set; }
     }
 }

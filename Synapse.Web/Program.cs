@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.StaticFiles;
 using Newtonsoft.Json;
 using Synapse.Web.Helpers;
 using Synapse.Web.Helpers.SecureAccess;
-using SynapseAPI.Controllers.Account;
+using SynapseAPI.Controllers;
 using SynapseAPI.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,10 +18,16 @@ var builder = WebApplication.CreateBuilder(args);
 AESEncrytDecry.Initialize(builder.Configuration);
 AppInternalEncKey.Initialize(builder.Configuration);
 AppConfiguration.Initialize(builder.Configuration);
+var synapseApiBaseUrl = builder.Configuration["BaseServiceHostUrl"];
+builder.Services.AddScoped<ISerializer, ClientHTTPConsuming.Utilities.Serializers.JsonSerializer>();
+builder.Services.AddScoped<IRestRequest, RestRequest>();
 
 builder.Services
     .AddControllersWithViews()
-    .AddApplicationPart(typeof(SynapseAPI.Controllers.Account.AccountController).Assembly);
+    .AddApplicationPart(typeof(AccountController).Assembly);
+builder.Services
+    .AddControllersWithViews()
+    .AddApplicationPart(typeof(SynapseAPI.Controllers.DivisionsController).Assembly);
 
 
 // Add services to the container.

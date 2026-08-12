@@ -1,0 +1,1 @@
+alter table userhistory alter column SESSIONID nvarchar(100)

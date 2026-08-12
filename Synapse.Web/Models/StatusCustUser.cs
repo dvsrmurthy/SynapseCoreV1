@@ -14,15 +14,15 @@ namespace Synapse.Web.Models
     }
     public class StatusCustUser
     {
-        public string Date { get; set; }
-        public string Customer { get; set; }
+        public string? Date { get; set; }
+        public string? Customer { get; set; }
         public int IncomingUserId { get; set; }
-        public string UserId { get; set; }
-        public string UserName { get; set; }
-        public string Sender { get; set; }
+        public string? UserId { get; set; }
+        public string? UserName { get; set; }
+        public string? Sender { get; set; }
         public int ReceivedCount { get; set; }
         public int SentCount { get; set; }
-        public string ModuleName { get; set; }
+        public string? ModuleName { get; set; }
         public List<StatusCustUser> buildmodel(int loggedUserId, string UserIp, string DateCreated, string customer, string user, string sender)
         {
             using (var clientAcces = new AuthenticateSecurityClient())

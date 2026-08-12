@@ -22,7 +22,7 @@ namespace Core.Models.Extensions
 
         public IMessageProducer Producer { get; private set; }
 
-        public string DestinationName { get; private set; }
+        public string? DestinationName { get; private set; }
 
         public void SendMessage(string message)
         {

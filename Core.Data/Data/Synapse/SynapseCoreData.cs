@@ -89,8 +89,8 @@ namespace Core.Data.Data.Synapse
 {
     public class SynapseCoreData : ThirdPartyServiceConsumption, ISynapseCoreData
     {
-        static int conCode = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CountryCode"]); //countrycode
-        static int conMobLength = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CountryMobileLength"]); //mobilelength   
+        static int conCode = Convert.ToInt32(GetConfiguration("CountryCode")); //countrycode
+        static int conMobLength = Convert.ToInt32(GetConfiguration("CountryMobileLength")); //mobilelength   
 
         ILog Logger = LogManager.GetLogger(typeof(SynapseCoreData));
 
@@ -98,14 +98,24 @@ namespace Core.Data.Data.Synapse
         private IConnectionFactory connectionFactory;
         private ISession session;
 
-        private string TOPIC_NAME = System.Configuration.ConfigurationManager.AppSettings["TOPIC_NAME"];
-        private string BROKER = System.Configuration.ConfigurationManager.AppSettings["BROKER"];
-        private string CLIENT_ID = System.Configuration.ConfigurationManager.AppSettings["CLIENT_ID"];        
-        private string _filePath = System.Configuration.ConfigurationManager.AppSettings["FILE_PATH"];
+        private string TOPIC_NAME = string.Empty;
+        private string BROKER = string.Empty;
+        private string CLIENT_ID = string.Empty;        
+        private string _filePath = GetConfiguration("FILE_PATH");
 
+        public static string GetConfiguration(string param)
+        {
+            var configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory()) // Sets look-up folder to application directory
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .Build();
+            return configuration[param].ToString();
+        }
         private void _SynapseCoreData()
         {
             Logger.InfoFormat("Connection statred");
+            BROKER = GetConfiguration("BROKER");
+            CLIENT_ID = GetConfiguration("CLIENT_ID");
             if (connectionFactory == null)
             {
                 connectionFactory = new ConnectionFactory(BROKER, CLIENT_ID);
@@ -126,12 +136,13 @@ namespace Core.Data.Data.Synapse
             catch (Exception ex)
             {
                 var exp = ex;
+                BROKER = GetConfiguration("BROKER");
                 Logger.Info(exp);
                 Logger.InfoFormat("connection factory exception - BROKER :: {0}", BROKER);
             }
         }
 
-        public string Getdata()
+        public string? Getdata()
         {
             var info = GetThirdPartyServiceInfo();
             return info.ToString();
@@ -474,17 +485,17 @@ namespace Core.Data.Data.Synapse
                             dbconsumer.DbConsumer<bool>("VM_DashBoard_bind", SqlEventTypes.Update,
                                 new Dictionary<string, object> { { "@smid", request.SmsId }, { "@bind", request.Bound } }, false, DBs.ReportsEngine);
 
-                    if (System.Configuration.ConfigurationManager.AppSettings["onPremise"] == "true" || System.Configuration.ConfigurationManager.AppSettings["onPremise"] == "")
+                    if (GetConfiguration("onPremise") == "true" || GetConfiguration("onPremise") == "")
                     {
                         switch (request.Bound)
                         {
                             case 0:                                
-                                res = await BuildConfigurationData("Unbind", request.SmsId.ToString(), request.GroupName);
-                                Logger.InfoFormat("Unbind :: SmsId :: {0} & GroupName :: {1}", request.SmsId.ToString(), request.GroupName);
+                                res = await BuildConfigurationData("Unbind", request.SmsId.ToString(), request.groupname);
+                                Logger.InfoFormat("Unbind :: SmsId :: {0} & GroupName :: {1}", request.SmsId.ToString(), request.groupname);
                                 break;
                             case 1:
-                                res = await BuildConfigurationData("Bind", request.SmsId.ToString(), request.GroupName);
-                                Logger.InfoFormat("Bind :: SmsId :: {0} & GroupName :: {1}", request.SmsId.ToString(), request.GroupName);
+                                res = await BuildConfigurationData("Bind", request.SmsId.ToString(), request.groupname);
+                                Logger.InfoFormat("Bind :: SmsId :: {0} & GroupName :: {1}", request.SmsId.ToString(), request.groupname);
                                 break;                               
                         }
 
@@ -494,10 +505,10 @@ namespace Core.Data.Data.Synapse
                         switch (request.Bound)
                         {
                             case 0:
-                                AdminNotificationCallTwo("Unbind", request.SmsId.ToString(), request.GroupName);
+                                AdminNotificationCallTwo("Unbind", request.SmsId.ToString(), request.groupname);
                                 break;
                             case 1:
-                                AdminNotificationCallTwo("Bind", request.SmsId.ToString(), request.GroupName);
+                                AdminNotificationCallTwo("Bind", request.SmsId.ToString(), request.groupname);
                                 break;                              
                         }
                     }
@@ -767,7 +778,7 @@ namespace Core.Data.Data.Synapse
                     {"@UserIp",request.UserIp}
                     });
 
-                    //if (System.Configuration.ConfigurationManager.AppSettings["IndianSynapse"] == "false" || System.Configuration.ConfigurationManager.AppSettings["IndianSynapse"] == "" || System.Configuration.ConfigurationManager.AppSettings["IndianSynapse"] == null)
+                    //if (GetConfiguration("IndianSynapse"] == "false" || GetConfiguration("IndianSynapse"] == "" || GetConfiguration("IndianSynapse"] == null)
                     //{
                     //    if (response.nId > 0)
                     //    {
@@ -794,7 +805,7 @@ namespace Core.Data.Data.Synapse
                     //         "' language='" + ((LangID)) + "' message='" + WebUtility.HtmlEncode(request.Message).Replace("\n", "&#10;") +
                     //                "' mobile=''><mobile>" + request.MobileNos + "</mobile></sendsms></root>";
                     //        var fPath = Path.Combine(
-                    //                (System.Configuration.ConfigurationManager.AppSettings["CampaintPath"] + "QuickSMS"),
+                    //                (GetConfiguration("CampaintPath"] + "QuickSMS"),
                     //                fileName);// + ".xml");
                     //        if (!Directory.Exists(fPath))
                     //        {
@@ -1136,8 +1147,8 @@ namespace Core.Data.Data.Synapse
                         //        item["Mobileno"] = "91" + item["Mobileno"];
                         //    }
                         //}
-                        if (System.Configuration.ConfigurationManager.AppSettings["IndianSynapse"] == "true" && !Regex.IsMatch(TRequest.Sender, @"^[a-zA-Z]+$") ||
-                        (System.Configuration.ConfigurationManager.AppSettings["IndianSynapse"] == "true" && Regex.IsMatch(TRequest.Sender, @"^[a-zA-Z]+$") && TRequest.CampaignType == "Promotional"))
+                        if (GetConfiguration("IndianSynapse") == "true" && !Regex.IsMatch(TRequest.Sender, @"^[a-zA-Z]+$") ||
+                        (GetConfiguration("IndianSynapse") == "true" && Regex.IsMatch(TRequest.Sender, @"^[a-zA-Z]+$") && TRequest.CampaignType == "Promotional"))
                         {
                             xmlContent = "<root iscustome='" + iscustomtf + "' priority='5'>";
                             foreach (var item in mobs)
@@ -1189,7 +1200,7 @@ namespace Core.Data.Data.Synapse
 
                             if (str.Split(',').Count() > 0 && str != "")
                             {
-                                if (System.Configuration.ConfigurationManager.AppSettings["IndianSynapse"] == "true")
+                                if (GetConfiguration("IndianSynapse") == "true")
                                 {
                                     foreach (string m in str.TrimEnd(',').Split(','))
                                     {
@@ -1290,7 +1301,7 @@ namespace Core.Data.Data.Synapse
                                     }
                                 }
                                 xmlContent += "</root>";
-                                var fPath = Path.Combine((System.Configuration.ConfigurationManager.AppSettings["CampaintPath"] + "QuickSMS"), fileName);
+                                var fPath = Path.Combine((GetConfiguration("CampaintPath") + "QuickSMS"), fileName);
                                 if (!Directory.Exists(fPath))
                                 {
                                     Directory.CreateDirectory(fPath);
@@ -1306,7 +1317,7 @@ namespace Core.Data.Data.Synapse
                             xmlContent1 = "<root iscustome='" + iscustomtf + "' priority='5'>";
                             foreach (var m in mobs)
                             {
-                                if (System.Configuration.ConfigurationManager.AppSettings["IndianSynapse"] == "true")
+                                if (GetConfiguration("IndianSynapse") == "true")
                                 {
                                     var row = dt.Rows.Cast<DataRow>().FirstOrDefault(w => w[TRequest.MobileColumn].ToString().Equals(m.Substring(2, 10)));
                                     var message = string.Empty;//WebUtility.HtmlEncode(TRequest.msgtemptext);
@@ -1398,7 +1409,7 @@ namespace Core.Data.Data.Synapse
                                 xmlContent1 += "</root>";
 
                                 var fPath1 = Path.Combine(
-                                     (System.Configuration.ConfigurationManager.AppSettings["CampaintPath"] + "QuickSMS"),
+                                     (GetConfiguration("CampaintPath") + "QuickSMS"),
                                      fileName);// + ".xml");
                                 if (!Directory.Exists(fPath1))
                                 {
@@ -1415,8 +1426,8 @@ namespace Core.Data.Data.Synapse
                         fileName = DateTime.Now.ToString("ddMMyyyyhhmmss") + randNo;
                         mobs = TRequest.MobileNo.Split(',').Where(w => !string.IsNullOrWhiteSpace(w)).Select(s => s).Select(s => s).Distinct().ToList();
 
-                        if (System.Configuration.ConfigurationManager.AppSettings["IndianSynapse"] == "true" && !Regex.IsMatch(TRequest.Sender, @"^[a-zA-Z]+$") ||
-                        (System.Configuration.ConfigurationManager.AppSettings["IndianSynapse"] == "true" && Regex.IsMatch(TRequest.Sender, @"^[a-zA-Z]+$") && TRequest.CampaignType == "Promotional"))
+                        if (GetConfiguration("IndianSynapse") == "true" && !Regex.IsMatch(TRequest.Sender, @"^[a-zA-Z]+$") ||
+                        (GetConfiguration("IndianSynapse") == "true" && Regex.IsMatch(TRequest.Sender, @"^[a-zA-Z]+$") && TRequest.CampaignType == "Promotional"))
                         {
                             xmlContent = "<root iscustome='" + iscustomtf + "' priority='5'>";
                             foreach (var item in mobs)
@@ -1496,7 +1507,7 @@ namespace Core.Data.Data.Synapse
                                 }
                                 xmlContent += "</root>";
                                 var fPath1 = Path.Combine(
-                                     (System.Configuration.ConfigurationManager.AppSettings["CampaintPath"] + "QuickSMS"),
+                                     (GetConfiguration("CampaintPath") + "QuickSMS"),
                                      fileName);// + ".xml");
                                 if (!Directory.Exists(fPath1))
                                 {
@@ -1542,7 +1553,7 @@ namespace Core.Data.Data.Synapse
                                 }
                                 xmlContent += "</root>";
                                 var fPath1 = Path.Combine(
-                                     (System.Configuration.ConfigurationManager.AppSettings["CampaintPath"] + "QuickSMS"),
+                                     (GetConfiguration("CampaintPath") + "QuickSMS"),
                                      fileName);// + ".xml");
                                 if (!Directory.Exists(fPath1))
                                 {
@@ -1566,7 +1577,7 @@ namespace Core.Data.Data.Synapse
                                 message = TRequest.msgtemptext;
                                 foreach (var item in messageTemplates)
                                 {
-                                    if (System.Configuration.ConfigurationManager.AppSettings["IndianSynapse"] == "true")
+                                    if (GetConfiguration("IndianSynapse") == "true")
                                     {
                                         var sRecord = TRequest.ContactList.FirstOrDefault(f => f.MobileNo.Equals(m.Substring(2, 10)));
                                         var itemString = string.Empty;
@@ -1605,7 +1616,7 @@ namespace Core.Data.Data.Synapse
                             }
                             xmlContent += "</root>";
                             var fPath1 = Path.Combine(
-                                 (System.Configuration.ConfigurationManager.AppSettings["CampaintPath"] + "QuickSMS"),
+                                 (GetConfiguration("CampaintPath") + "QuickSMS"),
                                  fileName);// + ".xml");
                             if (!Directory.Exists(fPath1))
                             {
@@ -1619,8 +1630,8 @@ namespace Core.Data.Data.Synapse
                 else //Bulk Testsms
                 {
                     fileName = DateTime.Now.ToString("ddMMyyyyhhmmss") + randNo;
-                    if (System.Configuration.ConfigurationManager.AppSettings["IndianSynapse"] == "true" && !Regex.IsMatch(TRequest.Sender, @"^[a-zA-Z]+$") ||
-                        (System.Configuration.ConfigurationManager.AppSettings["IndianSynapse"] == "true" && Regex.IsMatch(TRequest.Sender, @"^[a-zA-Z]+$") && TRequest.CampaignType == "Promotional"))
+                    if (GetConfiguration("IndianSynapse") == "true" && !Regex.IsMatch(TRequest.Sender, @"^[a-zA-Z]+$") ||
+                        (GetConfiguration("IndianSynapse") == "true" && Regex.IsMatch(TRequest.Sender, @"^[a-zA-Z]+$") && TRequest.CampaignType == "Promotional"))
                     {
                         foreach (var item in mobs)
                         {
@@ -1675,7 +1686,7 @@ namespace Core.Data.Data.Synapse
                                         WebUtility.HtmlEncode(TRequest.Message).Replace("\n", "&#10;") +
                                         "' mobile=''><mobile>" + WebUtility.HtmlEncode(str3.TrimEnd(',')) + "</mobile></sendsms></root>";
                             var fPath1 = Path.Combine(
-                                (System.Configuration.ConfigurationManager.AppSettings["CampaintPath"] + "QuickSMS"),
+                                (GetConfiguration("CampaintPath") + "QuickSMS"),
                                 fileName);// + ".xml");
                             if (!Directory.Exists(fPath1))
                             {
@@ -1701,7 +1712,7 @@ namespace Core.Data.Data.Synapse
                                     "' mobile=''><mobile>" + WebUtility.HtmlEncode(string.Join(",", mobs)) + "</mobile></sendsms></root>";
 
                         var fPath1 = Path.Combine(
-                             (System.Configuration.ConfigurationManager.AppSettings["CampaintPath"] + "QuickSMS"),
+                             (GetConfiguration("CampaintPath") + "QuickSMS"),
                              fileName);// + ".xml");
                         if (!Directory.Exists(fPath1))
                         {
@@ -1715,7 +1726,7 @@ namespace Core.Data.Data.Synapse
 
 
                 //var fPath2 = Path.Combine(
-                //             (System.Configuration.ConfigurationManager.AppSettings["CampaintPath"] + "QuickSMS"),
+                //             (GetConfiguration("CampaintPath") + "QuickSMS"),
                 //             fileName);// + ".xml");
                 //if (!Directory.Exists(fPath2))
                 //{
@@ -1732,12 +1743,12 @@ namespace Core.Data.Data.Synapse
                 //        File.WriteAllText(Path.Combine(fPath2, fileName + ".xml"), xmlContent);
                 //}
                 //var fPath = Path.Combine(
-                //    (System.Configuration.ConfigurationManager.AppSettings["CampaintPath"] + "QuickSMS"),
+                //    (GetConfiguration("CampaintPath") + "QuickSMS"),
                 //    fileName + ".xml");
                 //File.WriteAllText(fPath, xmlContent);
                 //var res =
                 //    new ThirdPartyServiceConsumption().CampaignNofication(
-                //        System.Configuration.ConfigurationManager.AppSettings["CampNotification"] +
+                //        GetConfiguration("CampNotification") +
                 //        "action=start&camp_id=" +
                 //        randNo + "&camp_type=0&file_name=" + fileName + ".xml");
 
@@ -1962,12 +1973,12 @@ namespace Core.Data.Data.Synapse
                         _consumer.DbConsumerForMultiItems<DataTable>("GetGroupIdsinCampaign", SqlEventTypes.Select,
                             new Dictionary<string, object>()
                             {
-                                {"@GroupIds", request.GroupName}
+                                {"@GroupIds", request.groupname}
                             });
                     if (resp != null)
                     {
                         var respCollection = new List<GroupswithContacts> { };
-                        foreach (var s in request.GroupName.Split(',').Where(s => !string.IsNullOrWhiteSpace(s)))
+                        foreach (var s in request.groupname.Split(',').Where(s => !string.IsNullOrWhiteSpace(s)))
                         {
                             var col = resp.FirstOrDefault().Rows.Cast<DataRow>().Where(w => w["GroupIDs"].ToString().Equals(s, StringComparison.OrdinalIgnoreCase)).Select(r => new GroupContacts
                             {
@@ -1984,27 +1995,27 @@ namespace Core.Data.Data.Synapse
                         //if (resp != null) {
                         //    var respCollection = (from row in resp.FirstOrDefault().Rows.Cast<DataRow>()
                         //                          join id in request.GroupName.Split(',').Where(s => !string.IsNullOrWhiteSpace(s))
-                        //                          on row["GroupIDs"].ToString().Trim() equals id
+                        //                          on row["GroupIDs").ToString().Trim() equals id
                         //                          select new GroupswithContacts
                         //                          {
                         //                              GroupId = Convert.ToInt32(id),
-                        //                              GroupContacts = resp.FirstOrDefault().Rows.Cast<DataRow>().Where(w => w["GroupIDs"].ToString().Equals(id))
+                        //                              GroupContacts = resp.FirstOrDefault().Rows.Cast<DataRow>().Where(w => w["GroupIDs").ToString().Equals(id))
                         //                              .Select(s => new GroupContacts 
                         //                                               {
-                        //                                                    FirstName = s["FirstName"].ToString(),
-                        //                                                    LastName = s["LastName"].ToString(),
-                        //                                                    MobileNo = s["MobileNo"].ToString(),
-                        //                                                    Email = s["Email"].ToString()
+                        //                                                    FirstName = s["FirstName").ToString(),
+                        //                                                    LastName = s["LastName").ToString(),
+                        //                                                    MobileNo = s["MobileNo").ToString(),
+                        //                                                    Email = s["Email").ToString()
                         //                                               }).ToList()
                         //                              //(from row1 in resp.FirstOrDefault().Rows.Cast<DataRow>()
                         //                              //                 join id1 in request.GroupName.Split(',').Where(s => !string.IsNullOrWhiteSpace(s))
-                        //                              //                 on row1["GroupIDs"].ToString().Trim() equals id1
+                        //                              //                 on row1["GroupIDs").ToString().Trim() equals id1
                         //                              //                 select new GroupContacts
                         //                              //                 {
-                        //                                                   //FirstName = row1["FirstName"].ToString(),
-                        //                                                   //LastName = row1["LastName"].ToString(),
-                        //                                                   //MobileNo = row1["MobileNo"].ToString(),
-                        //                                                   //Email = row1["Email"].ToString()
+                        //                                                   //FirstName = row1["FirstName").ToString(),
+                        //                                                   //LastName = row1["LastName").ToString(),
+                        //                                                   //MobileNo = row1["MobileNo").ToString(),
+                        //                                                   //Email = row1["Email").ToString()
                         //                              //                 }).ToList()
                         //                          }).ToList();
                         response.GroupswithContacts = respCollection.GroupBy(g => g.GroupId).Select(s => s.First()).ToList();
@@ -5952,8 +5963,8 @@ namespace Core.Data.Data.Synapse
                     //ConfigurationSettings changed to ConfigurationManager on 13Dec2019
                     using (
                     var domain = new PrincipalContext(ContextType.Domain,
-                        System.Configuration.ConfigurationManager.AppSettings["ADServiceConnString"],
-                        System.Configuration.ConfigurationManager.AppSettings["ADUser"], System.Configuration.ConfigurationManager.AppSettings["ADPassword"]))
+                        GetConfiguration("ADServiceConnString"),
+                        GetConfiguration("ADUser"), GetConfiguration("ADPassword")))
                     {
                         var identity = UserPrincipal.FindByIdentity(domain, IdentityType.SamAccountName, (domain + "\\" + request.UserName));
                         if (identity != null)
@@ -8134,7 +8145,7 @@ namespace Core.Data.Data.Synapse
 
                                 });
                     Logger.InfoFormat("InsertDNDList :: End :: Insert DND  :: {0} ", dnd.Count);
-                    if (System.Configuration.ConfigurationManager.AppSettings["onPremise"] != "false" || System.Configuration.ConfigurationManager.AppSettings["onPremise"] == "")
+                    if (GetConfiguration("onPremise") != "false" || GetConfiguration("onPremise") == "")
                     {
                         if (request.Currentstatus == 1)
                         {
@@ -8186,7 +8197,7 @@ namespace Core.Data.Data.Synapse
 
                          });
                     Logger.Info("IMPORTDNDEND");
-                    if (System.Configuration.ConfigurationManager.AppSettings["onPremise"] != "false" || System.Configuration.ConfigurationManager.AppSettings["onPremise"] == "")
+                    if (GetConfiguration("onPremise") != "false" || GetConfiguration("onPremise") == "")
                     {
                         if (request.CurrentStatus == 1)
                         {
@@ -8442,7 +8453,7 @@ namespace Core.Data.Data.Synapse
 
                                 });
                     //Logger.InfoFormat("InsertDNDList :: End :: Insert DND  :: {0} ", dnd.Count);
-                    //if (System.Configuration.ConfigurationManager.AppSettings["onPremise"] != "false" || System.Configuration.ConfigurationManager.AppSettings["onPremise"] == "")
+                    //if (GetConfiguration("onPremise"] != "false" || GetConfiguration("onPremise"] == "")
                     //{
                     //    if (request.Currentstatus == 1)
                     //    {
@@ -8517,7 +8528,7 @@ namespace Core.Data.Data.Synapse
                                              {"@ReturnValue", DBNull.Value}
                          });
                     //Logger.Info("IMPORTDNDEND");
-                    //if (System.Configuration.ConfigurationManager.AppSettings["onPremise"] != "false" || System.Configuration.ConfigurationManager.AppSettings["onPremise"] == "")
+                    //if (GetConfiguration("onPremise"] != "false" || GetConfiguration("onPremise"] == "")
                     //{
                     //    if (request.CurrentStatus == 1)
                     //    {
@@ -12106,7 +12117,7 @@ namespace Core.Data.Data.Synapse
                                 {"@ReturnValue", DBNull.Value},
                                 {"@UserIp",request.UserIp}
                             });
-                    if (System.Configuration.ConfigurationManager.AppSettings["IndianSynapse"] == "false" || System.Configuration.ConfigurationManager.AppSettings["IndianSynapse"] == "" || System.Configuration.ConfigurationManager.AppSettings["IndianSynapse"] == null)
+                    if (GetConfiguration("IndianSynapse") == "false" || GetConfiguration("IndianSynapse") == "" || GetConfiguration("IndianSynapse") == null)
                     {
                         if (response.nId > 0)
                         {
@@ -12136,7 +12147,7 @@ namespace Core.Data.Data.Synapse
                                              WebUtility.HtmlEncode(request.strMsg).Replace("\n", "&#10;") +
                                              "' mobile=''><mobile>" + request.strMobiles + "</mobile></sendsms></root>";
                             var fPath = Path.Combine(
-                                (System.Configuration.ConfigurationManager.AppSettings["CampaintPath"] + "QuickSMS"),
+                                (GetConfiguration("CampaintPath") + "QuickSMS"),
                                 fileName); // + ".xml");
                             if (!Directory.Exists(fPath))
                             {
@@ -14579,13 +14590,13 @@ namespace Core.Data.Data.Synapse
 
                     // strConnection = "Data Source = (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=" + Request.strservername + ")(PORT=" + Request.strport + "))(CONNECT_DATA=(SERVICE_NAME=" + Request.strdbname + ")));user id=" + Request.strusername + ";password=" + Request.strpassword + ";";
                     Logger.InfoFormat("Oracle Client Connection starts");
-                    var ClientCon = System.Configuration.ConfigurationManager.AppSettings["OracleClientCon"];
+                    var ClientCon = GetConfiguration("OracleClientCon");
                     Logger.InfoFormat("Oracle Client Connection is - {0}", AppInternalEncKey.Encrypt(ClientCon, false));
                     // strConnection = "Data Source = (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=" + Request.strservername + ")(PORT=" + Request.strport + "))(CONNECT_DATA=(SERVICE_NAME=" + Request.strdbname + ")));user id=" + Request.strusername + ";password=" + Request.strpassword + ";";
                     Logger.InfoFormat("Oracle Client Dynamic Connection starts");
                     strConnection = ClientCon.Replace("$strservername$", Request.strservername).Replace("$strport$", Request.strport).Replace("$strdbname$", Request.strdbname).Replace("$strusername$", Request.strusername).Replace("$strpassword$", Request.strpassword);
                     Logger.InfoFormat("Oracle Client Dynamic Connection is - {0} ", AppInternalEncKey.Encrypt(strConnection, false));
-                    //strConnection = (System.Configuration.ConfigurationManager.AppSettings["IsServiceNameorSID"] == "SID") ? strConnection.Replace("$SERVICE_NAME$", "SID") : strConnection.Replace("$SERVICE_NAME$", "SERVICE_NAME");
+                    //strConnection = (GetConfiguration("IsServiceNameorSID"] == "SID") ? strConnection.Replace("$SERVICE_NAME$", "SID") : strConnection.Replace("$SERVICE_NAME$", "SERVICE_NAME");
                     if (Request.ConnectType == 1)
                     {
                         strConnection = strConnection.Replace("$SERVICE_NAME$", "SERVICE_NAME");
@@ -14707,7 +14718,7 @@ namespace Core.Data.Data.Synapse
                     //  strConnection = "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=" + servername + ")(PORT=" + port + ")))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=" + dbname + ")));User Id=" + username + ";Password=" + password + ";";
                     if (ConnectType == 1)
                     {
-                        //strConnection = "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=" + servername + ")(PORT=" + port + ")))(CONNECT_DATA=(SERVER=DEDICATED)(" + (System.Configuration.ConfigurationManager.AppSettings["IsServiceNameorSID"] == "SID" ? "SID=" + dbname : "SERVICE_NAME=" + dbname) + ")));User Id=" + username + ";Password=" + password + ";";
+                        //strConnection = "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=" + servername + ")(PORT=" + port + ")))(CONNECT_DATA=(SERVER=DEDICATED)(" + (GetConfiguration("IsServiceNameorSID"] == "SID" ? "SID=" + dbname : "SERVICE_NAME=" + dbname) + ")));User Id=" + username + ";Password=" + password + ";";
                         strConnection = "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=" + servername + ")(PORT=" + port + ")))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=" + dbname + ")));User Id=" + username + ";Password=" + password + ";";
 
                     }
@@ -21084,7 +21095,7 @@ namespace Core.Data.Data.Synapse
                     if (response.nReturn == 4)
                     {
                         var QMsg = "action=stop&camp_id=" + request.Id + "&camp_type=2&dir_name=" + response.dirname + "&count=" + response.tcount + "&channel=" + request.ChannelType;
-                        var qresult = new CampaignQLog().PushMessageToQ(QMsg, System.Configuration.ConfigurationManager.AppSettings["EmailPushNotificationQ"]);
+                        var qresult = new CampaignQLog().PushMessageToQ(QMsg, GetConfiguration("EmailPushNotificationQ"));
                     }
                     return response.nReturn;
                 }
@@ -21562,6 +21573,8 @@ namespace Core.Data.Data.Synapse
             try
             {
                 _SynapseCoreData();
+                BROKER = GetConfiguration("BROKER");
+                CLIENT_ID = GetConfiguration("CLIENT_ID");
                 Logger.InfoFormat("BuildConfigurationData connection factory - BROKER :: {0} & CLIENT_ID :: {1}", BROKER, CLIENT_ID);
                 switch (type.ToUpper())
                 {
@@ -21600,6 +21613,7 @@ namespace Core.Data.Data.Synapse
                     case GsmData.Bind:
                     case GsmData.Unbind:
                     case GsmData.Restart:
+                        TOPIC_NAME = GetConfiguration("TOPIC_NAME");
                         using (var publisher = new TopicPublisher(session, TOPIC_NAME))
                         {
                             //+ "\"" + type.ToLower() + "\"" +
@@ -21643,7 +21657,7 @@ namespace Core.Data.Data.Synapse
                     var response =
                         await
                             dbConsumer.DbConsumerForMultiItems<DataTable>(
-                                (System.Configuration.ConfigurationManager.AppSettings["ADOProvider"].Equals(GsmData.Npgsql,
+                                (GetConfiguration("ADOProvider").Equals(GsmData.Npgsql,
                                     StringComparison.OrdinalIgnoreCase)
                                     ? "udpgetconfigurationdata_server"
                                     : "udpGetConfigurationData"),
@@ -21674,9 +21688,9 @@ namespace Core.Data.Data.Synapse
 
                                 var xDoc = new XDocument(new XElement("root",
                                     new XAttribute("id", item.Instance1),
-                                    new XElement("port", System.Configuration.ConfigurationManager.AppSettings["SMPP_PORT"] ?? "8090"),
+                                    new XElement("port", GetConfiguration("SMPP_PORT") ?? "8090"),
                                     new XElement("maxConnectionsSize",
-                                        System.Configuration.ConfigurationManager.AppSettings["SMPP_MAX_CONN"] ?? "20"),
+                                        GetConfiguration("SMPP_MAX_CONN") ?? "20"),
                                     from p in response[0].Select("Port=" + item.portcol1.ToString()).AsEnumerable()
 
                                     select new XElement("esme",
@@ -21764,7 +21778,7 @@ namespace Core.Data.Data.Synapse
                     var response =
                         await
                             dbConsumer.DbConsumerForMultiItems<DataTable>(
-                                (System.Configuration.ConfigurationManager.AppSettings["ADOProvider"].Equals(GsmData.Npgsql,
+                                (GetConfiguration("ADOProvider").Equals(GsmData.Npgsql,
                                     StringComparison.OrdinalIgnoreCase)
                                     ? "udpgetconfigurationdata_client"
                                     : "udpGetConfigurationData"),
@@ -21867,7 +21881,7 @@ namespace Core.Data.Data.Synapse
                     var response =
                         await
                             dbConsumer.DbConsumerForMultiItems<DataTable>(
-                                (System.Configuration.ConfigurationManager.AppSettings["ADOProvider"].Equals(GsmData.Npgsql,
+                                (GetConfiguration("ADOProvider").Equals(GsmData.Npgsql,
                                     StringComparison.OrdinalIgnoreCase)
                                     ? "udpgetconfigurationdata_hlr"
                                     : "udpGetConfigurationData"),
@@ -21918,7 +21932,7 @@ namespace Core.Data.Data.Synapse
                     var response =
                         await
                             dbConsumer.DbConsumerForMultiItems<DataTable>(
-                                (System.Configuration.ConfigurationManager.AppSettings["ADOProvider"].Equals(GsmData.Npgsql,
+                                (GetConfiguration("ADOProvider").Equals(GsmData.Npgsql,
                                     StringComparison.OrdinalIgnoreCase)
                                     ? "udpgetconfigurationdata_route"
                                     : "udpGetConfigurationData"),
@@ -22014,7 +22028,7 @@ namespace Core.Data.Data.Synapse
                     var response =
                         await
                             dbConsumer.DbConsumerForMultiItems<DataTable>(
-                                (System.Configuration.ConfigurationManager.AppSettings["ADOProvider"].Equals(GsmData.Npgsql,
+                                (GetConfiguration("ADOProvider").Equals(GsmData.Npgsql,
                                     StringComparison.OrdinalIgnoreCase)
                                     ? "udpgetconfigurationdata_filter"
                                     : "udpGetConfigurationData"),
@@ -22061,7 +22075,7 @@ namespace Core.Data.Data.Synapse
                     var response =
                         await
                             dbConsumer.DbConsumerForMultiItems<DataTable>(
-                                (System.Configuration.ConfigurationManager.AppSettings["ADOProvider"].Equals(GsmData.Npgsql,
+                                (GetConfiguration("ADOProvider").Equals(GsmData.Npgsql,
                                     StringComparison.OrdinalIgnoreCase)
                                     ? "udpgetconfigurationdata_smppsenders"
                                     : "udpGetConfigurationData"),
@@ -22140,7 +22154,7 @@ namespace Core.Data.Data.Synapse
                     var response =
                         await
                             dbConsumer.DbConsumerForMultiItems<DataTable>(
-                                (System.Configuration.ConfigurationManager.AppSettings["ADOProvider"].Equals(GsmData.Npgsql,
+                                (GetConfiguration("ADOProvider").Equals(GsmData.Npgsql,
                                     StringComparison.OrdinalIgnoreCase)
                                     ? "udpgetconfigurationdata_users"
                                     : "udpGetConfigurationData"),
@@ -22199,7 +22213,7 @@ namespace Core.Data.Data.Synapse
                     var response =
                         await
                             dbConsumer.DbConsumerForMultiItems<DataTable>(
-                                (System.Configuration.ConfigurationManager.AppSettings["ADOProvider"].Equals(GsmData.Npgsql,
+                                (GetConfiguration("ADOProvider").Equals(GsmData.Npgsql,
                                     StringComparison.OrdinalIgnoreCase)
                                     ? "udpgetconfigurationdata_dnd"
                                     : "udpGetConfigurationData"),
@@ -22243,7 +22257,7 @@ namespace Core.Data.Data.Synapse
                     var response =
                         await
                             dbConsumer.DbConsumerForMultiItems<DataTable>(
-                                (System.Configuration.ConfigurationManager.AppSettings["ADOProvider"].Equals(GsmData.Npgsql,
+                                (GetConfiguration("ADOProvider").Equals(GsmData.Npgsql,
                                     StringComparison.OrdinalIgnoreCase)
                                     ? "udpgetgsmcharset"
                                     : "udpGetGSMCharSet"),
@@ -23258,104 +23272,104 @@ namespace Core.Data.Data.Synapse
 
         public class RoutesTempModel
         {
-            public string smscid { get; set; }
+            public string? smscid { get; set; }
 
-            public string RouteId { get; set; }
+            public string? RouteId { get; set; }
 
-            public string CustomerId { get; set; }
+            public string? CustomerId { get; set; }
 
-            public string UserId { get; set; }
+            public string? UserId { get; set; }
 
-            public string Country { get; set; }
+            public string? Country { get; set; }
 
-            public string CountryName { get; set; }
+            public string? CountryName { get; set; }
 
-            public string len_country { get; set; }
+            public string? len_country { get; set; }
 
-            public string mobilelen { get; set; }
+            public string? mobilelen { get; set; }
 
-            public string totmobilelen { get; set; }
+            public string? totmobilelen { get; set; }
 
-            public string operatorid { get; set; }
+            public string? operatorid { get; set; }
 
-            public string series { get; set; }
+            public string? series { get; set; }
 
-            public string smsc { get; set; }
+            public string? smsc { get; set; }
 
-            public string defroute { get; set; }
+            public string? defroute { get; set; }
 
-            public string prefroute { get; set; }
+            public string? prefroute { get; set; }
 
-            public string sender { get; set; }
+            public string? sender { get; set; }
 
-            public string senderid { get; set; }
+            public string? senderid { get; set; }
 
-            public string vendorid { get; set; }
+            public string? vendorid { get; set; }
         }
 
 
         public class SmppSenderTempModel
         {
-            public string senderid { get; set; }
-            public string inboundsmppsender { get; set; }
-            public string customerid { get; set; }
-            public string userid { get; set; }
-            public string dndcheck { get; set; }
-            public string dnscheck { get; set; }
-            public string dnsseries { get; set; }
+            public string? senderid { get; set; }
+            public string? inboundsmppsender { get; set; }
+            public string? customerid { get; set; }
+            public string? userid { get; set; }
+            public string? dndcheck { get; set; }
+            public string? dnscheck { get; set; }
+            public string? dnsseries { get; set; }
         }
 
         public class UserTempModel
         {
-            public string userid { get; set; }
-            public string username { get; set; }
-            public string password { get; set; }
-            public string http { get; set; }
-            public string smpp { get; set; }
-            public string customerid { get; set; }
+            public string? userid { get; set; }
+            public string? username { get; set; }
+            public string? password { get; set; }
+            public string? http { get; set; }
+            public string? smpp { get; set; }
+            public string? customerid { get; set; }
         }
 
         public class RouteResponse
         {
-            public string CUSTOMERID { get; set; }
-            public string USERID { get; set; }
-            public string COUNTRY { get; set; }
-            public string COUNTRYNAME { get; set; }
-            public string LEN_COUNTRY { get; set; }
-            public string MOBILELEN { get; set; }
-            public string TOTMOBILELEN { get; set; }
-            public string OPERATORID { get; set; }
-            public string SERIES { get; set; }
-            public string SMSCID { get; set; }
-            public string SMSC { get; set; }
-            public string PROTOCOLID { get; set; }
-            public string STAGE { get; set; }
-            public string DEFROUTE { get; set; }
-            public string SENDER { get; set; }
-            public string SENDERID { get; set; }
-            public string ROUTEID { get; set; }
-            public string DISPLAYSID { get; set; }
-            public string VENDORID { get; set; }
+            public string? CUSTOMERID { get; set; }
+            public string? USERID { get; set; }
+            public string? COUNTRY { get; set; }
+            public string? COUNTRYNAME { get; set; }
+            public string? LEN_COUNTRY { get; set; }
+            public string? MOBILELEN { get; set; }
+            public string? TOTMOBILELEN { get; set; }
+            public string? OPERATORID { get; set; }
+            public string? SERIES { get; set; }
+            public string? SMSCID { get; set; }
+            public string? SMSC { get; set; }
+            public string? PROTOCOLID { get; set; }
+            public string? STAGE { get; set; }
+            public string? DEFROUTE { get; set; }
+            public string? SENDER { get; set; }
+            public string? SENDERID { get; set; }
+            public string? ROUTEID { get; set; }
+            public string? DISPLAYSID { get; set; }
+            public string? VENDORID { get; set; }
         }
 
         public class SmppSenderResponse
         {
-            public string CUSTOMERID { get; set; }
-            public string USERID { get; set; }
-            public string INBOUNDSMPPSENDER { get; set; }
-            public string DNDCHECK { get; set; }
-            public string DNSCHECK { get; set; }
-            public string DNSSERIES { get; set; }
+            public string? CUSTOMERID { get; set; }
+            public string? USERID { get; set; }
+            public string? INBOUNDSMPPSENDER { get; set; }
+            public string? DNDCHECK { get; set; }
+            public string? DNSCHECK { get; set; }
+            public string? DNSSERIES { get; set; }
         }
 
         public class UserResponse
         {
-            public string USERID { get; set; }
-            public string USERNAME { get; set; }
-            public string PASSWORD { get; set; }
-            public string HTTP { get; set; }
-            public string SMPP { get; set; }
-            public string CUSTOMERID { get; set; }
+            public string? USERID { get; set; }
+            public string? USERNAME { get; set; }
+            public string? PASSWORD { get; set; }
+            public string? HTTP { get; set; }
+            public string? SMPP { get; set; }
+            public string? CUSTOMERID { get; set; }
         }
         #endregion
 
@@ -23822,7 +23836,7 @@ namespace Core.Data.Data.Synapse
             Logger.Info("GetDlrPercentageAsync - Exec Completed : " + DateTime.Now);
             return null;
         }
-        public string GetConnectionString()
+        public string? GetConnectionString()
         {
             Logger.Info("GetDlrPercentageAsync - start : " + DateTime.Now);
 

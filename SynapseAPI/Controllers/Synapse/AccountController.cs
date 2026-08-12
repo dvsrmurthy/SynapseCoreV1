@@ -1,18 +1,16 @@
-﻿//using Microsoft.AspNetCore.Mvc;
-using APIServices.Helpers;
+﻿using APIServices.Helpers;
 using Core.Data.IDataInterfaces.Account;
 using Core.Models.Dtos.CommonDtos;
 using Core.Models.Dtos.Requests.Synapse.MailBox;
 using Core.Models.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using SynapseAPI.Controllers;
 using System.Threading.Tasks;
 
-namespace SynapseAPI.Controllers.Account
+namespace SynapseAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("")]
     public class AccountController : ServicesBaseController
     {
         private readonly ILogger<AccountController> _logger;
@@ -88,7 +86,7 @@ namespace SynapseAPI.Controllers.Account
             return Ok(response);
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("GetAllPreferredCountry")]
         public async Task<IActionResult> GetAllPreferredCountry()
         {
@@ -185,14 +183,14 @@ namespace SynapseAPI.Controllers.Account
             var response = await _contextAccountCore.GetAppGobalKeys();
             return Ok(response);
         }
-        [HttpPost]
+        [HttpGet]
         [Route("GetAllUsersAsync")]
         public async Task<IActionResult> GetAllUsersAsync()
         {
             var response = await _contextAccountCore.GetAllUsersAsync();
             return Ok(response);
         }
-        [HttpPost]
+        [HttpGet]
         [Route("GetAllSendersAsync")]
         public async Task<IActionResult> GetAllSendersAsync()
         {
@@ -277,7 +275,7 @@ namespace SynapseAPI.Controllers.Account
         }
         //vendor
         [Route("GetVendor")]
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> GetVendor()
         {
             var responce = await _contextAccountCore.GetVendor();

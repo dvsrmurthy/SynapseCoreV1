@@ -14,9 +14,9 @@ namespace Core.Models.Dtos.Requests.Synapse.MailBox
     }
    public class AddMailBoxConfiguration
    {
-       public string STRHOST { get; set; }
-       public string STRMAILBOX { get; set; }
-       public string STRPASSWORD { get; set; }
+       public string? STRHOST { get; set; }
+       public string? STRMAILBOX { get; set; }
+       public string? STRPASSWORD { get; set; }
        public int NPORT { get; set; }
        public bool NSSL { get; set; }
        public int NFREQUENCY { get; set; }
@@ -25,7 +25,7 @@ namespace Core.Models.Dtos.Requests.Synapse.MailBox
        public int NADDEDBY { get; set; }
        public int NRETVAL { get; set; }
        public int NMBID { get; set; }
-       public string command { get; set; }
+       public string? command { get; set; }
        public int NUPDATEDBY { get; set; }
        public int NMAILBOXID { get; set; }
 
@@ -37,6 +37,6 @@ namespace Core.Models.Dtos.Requests.Synapse.MailBox
        public int CURRENTSTATUS { get; set; }
        public int RETURNVALUE { get; set; }
        public int UPDATEDBY { get; set; }
-       public string REJECTNOTE { get; set; }
+       public string? REJECTNOTE { get; set; }
    }
 }

@@ -4,15 +4,15 @@ namespace Core.Models.Dtos.Responses.Synapse.SecurityManagement
 {
     public class FeaturePrivilagesSetupResponse
     {
-        public string ParentPlugin { get; set; }
+        public string? ParentPlugin { get; set; }
 
         public int Id { get; set; }
 
         public int CustomerId { get; set; }
 
-        public string Plugin { get; set; }
+        public string? Plugin { get; set; }
 
-        public string PageType { get; set; }
+        public string? PageType { get; set; }
 
         public bool IsCheckerRequier { get; set; }        
 
