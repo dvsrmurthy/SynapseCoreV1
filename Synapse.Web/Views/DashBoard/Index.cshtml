@@ -1,0 +1,697 @@
+﻿@using Synapse.Web.Helpers.SecureAccess
+@using Synapse.Web.Models
+@using Core.Models.Dtos.CommonDtos
+@inject IConfiguration Configuration;
+@inject IHttpContextAccessor HttpContextAccessor;
+
+@{
+    ViewBag.Title = "Dash Board";
+    var lz = SessionExtensions.GetItem<LocalizationResponse>(HttpContextAccessor.HttpContext.Session);
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    dynamic u = null;
+    if (User.Identity.IsAuthenticated)
+    {
+        var extendedUser = SessionExtensions.GetItem<CustomeUser>(HttpContextAccessor.HttpContext.Session);
+        if (extendedUser != null)
+        {
+            u = extendedUser.LogOnRespons;
+        }
+    }
+    var XUser = SessionExtensions.GetItem<Core.Models.Extensions.CustomeUser>(HttpContextAccessor.HttpContext.Session);
+    var IsXUserRole = 0;
+    if (Configuration["IndianSynapse"] == "true")
+    {
+        if (XUser != null && XUser.LogOnRespons != null && XUser.LogOnRespons.CustomerType == 1)
+        {
+            IsXUserRole = XUser.LogOnRespons.CustomerType;
+        }
+    }
+    else
+    {
+        if (XUser != null && XUser.LogOnRespons != null && XUser.LogOnRespons.Id == 1)
+        {
+            IsXUserRole = XUser.LogOnRespons.Id;
+        }
+    }
+    var Dtype = HttpContextAccessor.HttpContext.Session.GetItem<Core.Models.Extensions.GlobalUsageProperties>() ?? new Core.Models.Extensions.GlobalUsageProperties();
+    var Utype = 0;
+    if (Dtype != null)
+    {
+        Utype = Dtype.UserType;
+    }
+    Html.AntiForgeryToken();
+    var controller = HttpContextAccessor.HttpContext.GetRouteValue("controller")?.ToString();
+    string layout = "";
+
+    if (u != null && !u.RoleName.Equals("SynAdmin"))
+    {
+        @Html.PartialAsync("_DashBoard")
+        ;
+    }
+    else
+    {
+        @await Html.PartialAsync("_AdminDashBoard")
+    }
+
+}
+@section scripts {
+    <script src="@Url.Content("~/wwwroot/js/morris.js")"></script>
+    <script src="@Url.Content("~/wwwroot/js/raphael.min.js")"></script>
+    <script src="@Url.Content("~/wwwroot/js/jquery.sparkline.min.js")"></script>
+    <script src="@Url.Content("~/wwwroot/js/dashboard.js")"></script>
+    <script src="@Url.Content("~/wwwroot/js/worldmap.js")"></script>
+
+    <script type="text/javascript">
+        var antiForgeryToken = $('input[name="__RequestVerificationToken"]').val();
+        var headers = {};
+        headers['__RequestVerificationToken'] = antiForgeryToken;
+        Array.prototype.avg = Array.prototype.avg || function () {
+            return this.reduce(function (p, c, i, a) { return p + (c / a.length) }, 0);
+        };
+
+        Array.prototype.sum = Array.prototype.sum || function () {
+            return this.reduce(function (p, c) { return p + c }, 0);
+        };
+
+        var dVal = '4';
+        function LoadAllMethods(dVal) {
+            var _xUser = '@IsXUserRole';
+            if(_xUser == '1') {
+                LoadTPS(dVal);
+                LoadModules(dVal);
+            LoadSRatio(dVal);
+                LoadSMSMo();
+            }
+            else {
+                LoadModules(dVal);
+            }
+            LoadCampActvs(dVal);
+            LoadSMSC(dVal);
+            LoadDashBoardWorld(dVal);
+            analyticschrd(dVal);
+        }
+
+            function LoadSMSMo() {
+
+            }
+        window.onload = function () {
+            LoadAllMethods(dVal)
+            var _Dtype = '@Utype';
+            if(_Dtype == '3'){
+                $("#Morefreshchart,.motab").trigger('click');
+            }
+            $("#demo-panel-network-refresh,.mttab").click(function () {
+                // alert('refresh clicked');
+                $("#qLoverlay").hide();
+                $("#qLbar").hide();
+                $("#DashLoad").show();
+                dVal = '4';
+                LoadAllMethods(dVal);
+                $(".btnmonth").parent().find('button').removeClass('btn-default').addClass('btn-primary');
+                $(".btnmonth").addClass('btn-default').removeClass('btn-primary');
+            });
+            $(".btnday").click(function () {
+                dVal = '1';
+                $(this).parent().find('button').removeClass('btn-default').addClass('btn-primary');
+                $(this).addClass('btn-default').removeClass('btn-primary');
+                if ($(this).attr('name') == "motab") {
+                    LoadMochart(dVal);
+                } else {
+                    LoadAllMethods(dVal)
+                }
+            });
+            $(".btnweek").click(function () {
+                dVal = '2';
+                $(this).parent().find('button').removeClass('btn-default').addClass('btn-primary');
+                $(this).addClass('btn-default').removeClass('btn-primary');
+                if ($(this).attr('name') == "motab") {
+                    LoadMochart(dVal);
+                } else {
+                    LoadAllMethods(dVal)
+                }
+            });
+            $(".btntwoweek").click(function () {
+                dVal = '3';
+                $(this).parent().find('button').removeClass('btn-default').addClass('btn-primary');
+                $(this).addClass('btn-default').removeClass('btn-primary');
+                if ($(this).attr('name') == "motab") {
+                    LoadMochart(dVal);
+                } else {
+                    LoadAllMethods(dVal)
+                }
+            });
+            $(".btnmonth").click(function () {
+                dVal = '4';
+                $(this).parent().find('button').removeClass('btn-default').addClass('btn-primary');
+                $(this).addClass('btn-default').removeClass('btn-primary');
+                if ($(this).attr('name') == "motab") {
+                    LoadMochart(dVal);
+                } else {
+                    LoadAllMethods(dVal)
+                }
+            });
+            $(".btnthreemonth").click(function () {
+                dVal = '5';
+                $(this).parent().find('button').removeClass('btn-default').addClass('btn-primary');
+                $(this).addClass('btn-default').removeClass('btn-primary');
+                if ($(this).attr('name') == "motab") {
+                    LoadMochart(dVal);
+                } else {
+                    LoadAllMethods(dVal)
+                }
+            });
+        }
+
+        $("#Morefreshchart,.motab").on('click', function () {
+            $("#qLoverlay").hide();
+            $("#qLbar").hide();
+            $("#DashLoad").show();
+            dVal = '4';
+            GetShortcode();
+            setTimeout(function () {
+                LoadMochart(dVal);
+            }, 500);
+            $('.motab .btnmonth').trigger('click');
+            $(".btnmonth").parent().find('button').removeClass('btn-default').addClass('btn-primary');
+            $(".btnmonth").addClass('btn-default').removeClass('btn-primary');
+        });
+        $(window).on('resizeEnd', function () {
+            if ($(window).width() > 768) {
+                $("#qLoverlay").show();
+                $("#qLbar").hide();
+                dVal = "4";
+                LoadAllMethods(dVal);
+                $('.gls').removeClass('btn-default').addClass('btn-primary');
+                $(".btnmonth").addClass('btn-default').removeClass('btn-primary');
+            }
+        });
+        // Analytics
+        function analyticschrd($inputvalue) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("DashBoard", "Home")',
+                headers: headers,
+                data: { days: $inputvalue, day: $inputvalue, text: '' },
+                datatype: 'application/json',
+                beforeSend: function () {
+                    $("#qLbar").hide();
+                    $("#DashLoad").show();
+                },
+                success: function (d) {
+                    analyticsChr(d.AnalyticsGraph);
+                },
+                complete: function () {
+                    $("#DashLoad").fadeOut(200);
+                },
+                error: function (xhr, error, status) {
+                    console.log(error);
+                    console.log(xhr.errorMessage);
+                }
+            });
+        }
+            function LoadMochartScode() {
+                LoadMochart(dVal);
+            }
+        //SMS MO
+        function LoadMochart($inputvalue) {
+            var scode = $('#Shortcodes option:selected').text();
+            var shrseloptions = $("#Shortcodes").find("option");
+            var shrbase = $("#Shortcodes").val() == "All" ? $.map(shrseloptions, function (option) { return $(option).text(); }).join() : $("#Shortcodes option:selected").text();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("MoAnalytics", "Home")',
+                headers: headers,
+                data: { days: $inputvalue, day: $inputvalue, text: '', scode: shrbase },
+                datatype: 'application/json',
+                beforeSend: function () {
+                    $("#qLbar").hide();
+                    $("#DashLoad").show();
+                },
+                success: function (d) {
+                    getMoChart(d.SMSMoChartGraph, d.SMSMoMinutes);
+                },
+                complete: function () {
+                    $("#DashLoad").fadeOut(200);
+                },
+                error: function (xhr, error, status) {
+                    console.log(error);
+                    console.log(xhr.errorMessage);
+                }
+            });
+        }
+        //LoadWorldMap
+        function LoadDashBoardWorld(dVal) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LoadDashBoardWorld", "Home")',
+                headers: headers,
+                data: { days: dVal, day: dVal, text: '' },
+                datatype: 'application/json',
+                beforeSend: function () {
+                    $("#qLbar").hide();
+                    $("#DashLoad").show();
+                },
+                success: function (d) {
+                    getWorlddata(d.WorldMaps);
+                },
+                complete: function () {
+                    $("#DashLoad").fadeOut(200);
+                },
+                error: function (xhr, error, status) {
+                    console.log(error);
+                    console.log(xhr.errorMessage);
+                }
+            });
+        }
+
+        //Modules
+        function LoadModules(dVal) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LoadModules", "Home")',
+                headers: headers,
+                data: { days: dVal, day: dVal, text: '' },
+                datatype: 'application/json',
+                beforeSend: function () {
+                    $("#qLbar").hide();
+                    $("#DashLoad").hide();
+                    $('#smscount').html('<i class="fa fa-spinner fa-spin"></i>');
+                },
+                success: function (d) {
+                    moduletraffic(d.Module);
+                },
+                complete: function () {
+                    $("#DashLoad").fadeOut(200);
+                },
+                error: function (xhr, error, status) {
+                    console.log(error);
+                    console.log(xhr.errorMessage);
+                }
+            });
+        }
+
+        //SuccessRatio
+        function LoadSRatio(dVal) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LoadSuccessRatio", "Home")',
+                headers: headers,
+                data: { days: dVal, day: dVal, text: '' },
+                datatype: 'application/json',
+                beforeSend: function () {
+                    $("#qLbar").hide();
+                    $("#DashLoad").hide();
+                    $('#successratio').html('<i class="fa fa-spinner fa-spin"></i>');
+                },
+                success: function (d) {
+                    $("#succratiosubmited").html('');
+                    $("#succratiodelivered").html('');
+                    $("#succratioundelivered").html('');
+                    successratio(d.SRation);
+                },
+                complete: function () {
+                    $("#DashLoad").fadeOut(200);
+                },
+                error: function (xhr, error, status) {
+                    console.log(error);
+                    console.log(xhr.errorMessage);
+                }
+            });
+        }
+
+        //PullSMS
+        function LoadPullSMS(dVal) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LoadPullSms", "Home")',
+                headers: headers,
+                data: { days: dVal, day: dVal, text: '' },
+                datatype: 'application/json',
+                beforeSend: function () {
+                    $("#qLbar").hide();
+                    $("#DashLoad").hide();
+                    $('#ProcessTime').html('<i class="fa fa-spinner fa-spin"></i>');
+                },
+                success: function (d) {
+                    pullsms(d.PullSmscs);
+                },
+                complete: function () {
+                    $("#DashLoad").fadeOut(200);
+                },
+                error: function (xhr, error, status) {
+                    console.log(error);
+                    console.log(xhr.errorMessage);
+                }
+            });
+        }
+
+        //Throughput
+        function LoadTPS(dVal) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LoadThroughPut", "Home")',
+                headers: headers,
+                data: { days: dVal, day: dVal, text: '' },
+                datatype: 'application/json',
+                beforeSend: function () {
+                    $("#qLbar").hide();
+                    $("#DashLoad").hide();
+                    $('#tppersecond').html('<i class="fa fa-spinner fa-spin"></i>');
+                },
+                success: function (d) {
+                    throughputc(d.TpValues);
+                },
+                complete: function () {
+                    $("#DashLoad").fadeOut(200);
+                },
+                error: function (xhr, error, status) {
+                    console.log(error);
+                    console.log(xhr.errorMessage);
+                }
+            });
+        }
+
+        //CampActivities
+        function LoadCampActvs(dVal) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LoadCampActivites", "Home")',
+                headers: headers,
+                data: { days: dVal, day: dVal, text: '' },
+                datatype: 'application/json',
+                beforeSend: function () {
+                    $("#qLbar").hide();
+                    $("#DashLoad").show();
+                },
+                success: function (d) {
+                    campactivity(d.CampActivity);
+                },
+                complete: function () {
+                    $("#DashLoad").fadeOut(200);
+                },
+                error: function (xhr, error, status) {
+                    console.log(error);
+                    console.log(xhr.errorMessage);
+                }
+            });
+        }
+
+        //SMSC
+        function LoadSMSC(dVal) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LoadSMSC", "Home")',
+                headers: headers,
+                data: { days: dVal, day: dVal, text: '' },
+                datatype: 'application/json',
+                beforeSend: function () {
+                    $("#qLbar").hide();
+                    $("#DashLoad").show();
+                },
+                success: function (d) {
+                    smstable(d.Smsc);
+                },
+                complete: function () {
+                    $("#DashLoad").fadeOut(200);
+                },
+                error: function (xhr, error, status) {
+                    console.log(error);
+                    console.log(xhr.errorMessage);
+                }
+            });
+        }
+
+        //Analytics
+        function analyticsChr(dobj) {
+            getMap(dobj);
+        }
+
+        function getMap(arr) {
+            $("#maparea").html('');
+            if (arr.length > 0) {
+                new Morris.Area({
+                    // ID of the element in which to draw the chart.
+                    element: 'maparea',
+                    width: '100%',
+                    // Chart data records -- each entry in this array corresponds to a point on
+                    // the chart.
+                    data: arr,
+                    // The name of the data record attribute that contains x-values.
+                    xkey: 'y',
+                    // A list of names of data record attributes that contain y-values.
+                    ykeys: ['a'],
+                    parseTime: false,
+                    lineColors: ["#0078D8", "#00BCD4", "#BA68C8", "#FFA726"],
+                    // Labels for the ykeys -- will be displayed when you hover over the
+                    // chart.
+                    labels: ['SMS'],
+                    hideHover: 'auto',
+                    pointSize: 0,
+                    lineWidth: 0,
+                    resize: true
+                });
+            } else {
+                $("#maparea").html('<br><br><br><div class="text-center col-sm-6 col-sm-offset-3">@lz.NoDataFound</div>');
+            }
+            if ($("#maparea svg circle").length === 1) {
+                $("#maparea svg circle").attr('r', 8);
+            }
+        }
+
+        function getMoChart(arr, minutes) {
+            $("#MoChartArea").html('');
+            if (arr.length > 0) {
+                new Morris.Area({
+                    // ID of the element in which to draw the chart.
+                    element: 'MoChartArea',
+                    width: '100%',
+                    // Chart data records -- each entry in this array corresponds to a point on
+                    // the chart.
+                    data: arr,
+                    // The name of the data record attribute that contains x-values.
+                    xkey: 'y',
+                    // A list of names of data record attributes that contain y-values.
+                    ykeys: ['a'],
+                    parseTime: false,
+                    lineColors: ["#0078D8", "#00BCD4", "#BA68C8", "#FFA726"],
+                    labels: ['SMS'],
+                    hideHover: 'auto',
+                    pointSize: 0,
+                    lineWidth: 0,
+                    resize: true
+                });
+            }
+            else {
+                $("#MoChartArea").html('<br><br><br><div class="alert alert-sm text-center col-sm-6 col-sm-offset-3">No Data Found</div>');
+            }
+            if ($("#MoChartArea svg circle").length === 1) {
+                $("#MoChartArea svg circle").attr('r', 8);
+            }
+            var stabl = $('#minuteWisetbl');
+            stabl.html('');
+            var minData;
+            $.each(minutes, function (i, item) {
+                minData += "<tr><td>Last " + item.LastMinute + " minutes :</td><td>" + item.mCount + "</td></tr>";
+            });
+            stabl.append(minData);
+        }
+
+        function successratio(SRation) {
+            document.getElementById("successratio").innerHTML = SRation.Average + '%';
+        }
+
+        function throughputc(arr) {
+            if (arr != (null || undefined)) {
+                $("#tppersecond").html(parseFloat(Math.round(arr.avg() * 100) / 100).toFixed(2) + ' SMS/Sec');
+            }
+        }
+
+        function moduletraffic(mtraffic) {
+            var smstotal = numberWithThousands((mtraffic.Camp + mtraffic.Qsms + mtraffic.Alerts));
+            $("#smscount").html(smstotal);
+        }
+
+        function pullsms(arr) {
+            if (arr != (null || undefined)) {
+                $("#ProcessTime").html(arr + ' sec');
+            }
+        }
+
+        function msToTime(duration) {
+            var milliseconds = parseInt((duration % 1000) / 100)
+                , seconds = parseInt((duration / 1000) % 60)
+                , minutes = parseInt((duration / (1000 * 60)) % 60)
+                , hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+
+            hours = (hours < 10) ? "0" + hours : hours;
+            minutes = (minutes < 10) ? "0" + minutes : minutes;
+            seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+            return seconds + "." + milliseconds;
+        }
+
+
+
+        function campactivity(arr) {
+            $("#tblcampactivity tbody").html('');
+            var tablerow = '';
+
+            if (arr != (null || undefined) && arr.length > 0) {
+                for (var i = 0; i < arr.length; i++) {
+                    tablerow += addrowcampactivity(arr[i]);
+                }
+            }
+
+            $("#tblcampactivity tbody").html(tablerow);
+            $("#tblcampactivity").hide();
+            setTimeout(function () {
+                $("#tblcampactivity").show();
+                var CampTable = $('#tblcampactivity');
+                var lgval = document.getElementById("hdnLang").value == "lngArbic" ? "بحث" : "Search:";
+                var slenghmenu = (document.getElementById("hdnLang").value == "lngArbic" ? ("تبين" + " _MENU_ " + "إدخالات") : "Show _MENU_ entries");
+                var sinfo = (document.getElementById("hdnLang").value == "lngArbic" ? ("عرض" + " _START_ " + " إلى " + " _END_ " + " من " + " _TOTAL_ " + "إدخالات") : "Showing _START_ to _END_ of _TOTAL_ entries");
+                var nodatamsg = document.getElementById("hdnLang").value == "lngArbic" ? "لا تتوفر بيانات في الجدول" : "No data available in table";
+                var nomatchmsg = document.getElementById("hdnLang").value == "lngArbic" ? "لم يتم العثور على سجلات مطابقة" : "No matching records found";
+                var sInfoFiltertext = document.getElementById("hdnLang").value == "lngArbic" ? "(تمت تصفيتها من _MAX_ إجمالي الإدخالات)" : "(filtered from _MAX_ total entries)";
+                var sInfoempt = document.getElementById("hdnLang").value == "lngArbic" ? "عرض 0 إلى 0 من 0 إدخالات" : "Showing 0 to 0 of 0 entries";
+                CampTable.dataTable({
+                    "destroy": true,
+                    "language": {
+                        "search": lgval,
+                        "sLengthMenu": slenghmenu,
+                        "emptyTable": nodatamsg,
+                        "sZeroRecords": nomatchmsg,
+                        "sInfoFiltered": sInfoFiltertext,
+                        "sInfoEmpty": sInfoempt,
+                        "sInfo": sinfo,
+                        "paginate": {
+                            "previous": '<i class="demo-psi-arrow-left"></i>',
+                            "next": '<i class="demo-psi-arrow-right"></i>'
+                        }
+                    },
+                });
+                $('.dataTables_filter input, .dataTables_length select').addClass('form-control');
+                $('#tblcampactivity_paginate .pagination .paginate_button.active').trigger('click');
+            }, 2000);
+        }
+
+        function addrowcampactivity(row) {
+            var tablerow = '';
+            tablerow += '<tr>';
+            tablerow += '<td>' + row.CampName + '</td>';
+            tablerow += '<td>' + row.UserName + '</td>';
+            tablerow += '<td><span class="text-muted"><i class="fa fa-clock-o"></i>' + row.ScheduleDate + '</span></td>';
+            tablerow += '<td>' + row.CampaignType + '</td>';
+            tablerow += '<td>';
+            tablerow += '<div class="label label-table label-' + row.Progress +'">' + row.Progress + '</div>';
+            tablerow += '</td>';
+            tablerow += '</tr>';
+            return tablerow;
+        }
+
+        function smstable(arr) {
+            $("#tblsmsc tbody").html('');
+            var tablerow = '';
+            setTimeout(function () {
+                if (arr != (null || undefined) && arr.length > 0) {
+                    tablerow = '';
+                    for (var i = 0; i < arr.length; i++) {
+                        tablerow += addrowsms(arr[i]);
+                    }
+                }
+                $("#tblsmsc tbody").html(tablerow);
+                var SMSCtable = $('#tblsmsc');
+
+                $('#tblsmsc').dataTable();
+                $('.dataTables_filter input, .dataTables_length select').addClass('form-control');
+                $('#tblsmsc_paginate .pagination .paginate_button.active').trigger('click');
+            }, 2000);
+
+        }
+
+        function addrowsms(row) {
+            var tablerow = '';
+            tablerow += '<tr>';
+            tablerow += '<td>' + row.SmscName + '</td>';
+            tablerow += '<td>';
+            if (row.Status != (null || undefined) && row.Status == 'Active') {
+                tablerow += '<div class="label label-table label-success">' + row.Status + '</div>';
+            } else {
+                tablerow += '<div class="label label-table label-danger">' + row.Status + '</div>';
+            }
+            tablerow += '</td>';
+            tablerow += '<td>' + row.Tps + '</td>';
+            if (row.Action == 'Bind') {
+                tablerow += '<td> Bound</td>';
+            }
+            else {
+                tablerow += '<td> Unbind</td>';
+            }
+            if (row.Status != (null || undefined) && row.Status == 'Active') {//row.Id
+                var value = "'" + row.Id + "','0'";
+                var value1 = "'" + row.Id + "','1'";
+                tablerow += '<td><a href="#" onclick="updatesms(' + value + ')" class="btn btn-info btn-xs editform-btn">Unbind</a> <a href="#" onclick="updatesms(' + value1 + ')" class="btn btn-info btn-xs editform-btn">Bind</a> </td>';
+            } else {
+                tablerow += '<td><a href="#" onclick="updatesms(' + value + ')" class="btn btn-info btn-xs editform-btn disabled">Unbind</a> <a href="#" onclick="updatesms(' + value1 + ')" class="btn btn-info btn-xs editform-btn disabled">Bind</a> </td>';
+            }
+            tablerow += '</tr>';
+            return tablerow;
+        }
+
+        function updatesms(id, b) {
+            confirm('Are you sure you want to change the Bind status !');
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("BindOrUnbind", "Home")',
+                headers: headers,
+                data: { Id: id, bound: b },
+                datatype: 'application/json',
+                success: function (d) {
+                    if (d) {
+                        emsg("@lz.UpdatedSuccessfully", false);
+                        location.reload(false);
+                    }
+                },
+                error: function (xhr, error, status) {
+                    console.log(error);
+                    console.log(xhr.errorMessage);
+                }
+            });
+        }
+
+            function GetShortcode() {
+                $('#Shortcodes').multiselect('rebuild');
+                setTimeout(function () {
+                    $('#Shortcodes').next().find('button').removeClass('btn-default').addClass('btn-primary').css('border-radius', '5px');
+                    $('.shr-btn').css({ 'position': 'relative', 'z-index': '99' });
+                }, 900);
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetShortcodeByUsers", "Home")",
+                headers: headers,
+                data: { id: '@XUser.LogOnRespons.Id' },
+                datatype: 'application/json',
+                success: function (d) {
+                    if (d.length > 0) {
+                        $("#Shortcodes").empty().append('<option value="All">All</option>');
+                        $.each(d, function (i, item) {
+                            $('#Shortcodes').append($('<option>', {
+                                value: item.Id,
+                                text: item.Shortcode
+                            }));
+                        });
+                    }
+                    $('#Shortcodes').multiselect('rebuild');
+                    setTimeout(function () {
+                    $('#Shortcodes').next().find('button').removeClass('btn-default').addClass('btn-primary').css('border-radius','5px');
+                    $('.shr-btn').css({ 'position': 'relative', 'z-index': '99' });
+                    }, 900);
+                },
+                error: function (xhr, error, status) {
+                    var e = xhr;
+                }
+            });
+
+        }
+    </script>
+}

@@ -1,0 +1,2412 @@
+﻿@using Core.Models.Extensions;
+@using Synapse.Web.CampaignPlugin.Models;
+@using Synapse.Web.CampaignPlugin.Helpers.SecureAccess;
+@using Core.Models.Dtos.CommonDtos;
+@using Core.Models.Enums;
+
+@inject IConfiguration Configuration
+@inject IHttpContextAccessor HttpContextAccessor;
+
+@model QuickSMSOrCampaignMain
+@{
+    var ExtendedUser = SessionExtensions.GetItem<Core.Models.Extensions.CustomeUser>(HttpContextAccessor.HttpContext.Session);
+    List<SelectListItem> SendersList = new List<SelectListItem>();
+    var SenderColomns = Model.Senders;
+    if (SenderColomns != null && SenderColomns.Any())
+    {
+        SendersList = SenderColomns.Select(x => new SelectListItem { Value = x.SenderID.ToString(), Text = x.SenderName }).ToList();
+        if (SendersList.Count > 1)
+        {
+            SendersList.Insert(0, new SelectListItem { Value = "0", Text = "--Select Sender ID--" });
+        }
+    }
+    List<SelectListItem> Hours = new List<SelectListItem>();
+    for (int i = 1; i <= 23; i++)
+    {
+        var hrsvalue = "";
+        if (i < 10) { hrsvalue = "0" + i; }
+        else { hrsvalue = i.ToString(); }
+        SelectListItem item = new SelectListItem { Value = i.ToString(), Text = hrsvalue };
+        Hours.Add(item);
+    }
+    List<SelectListItem> Minutes = new List<SelectListItem>();
+    for (int j = 0; j <= 59; j++)
+    {
+        var MinValue = "";
+        if (j < 10) { MinValue = "0" + j; }
+        else { MinValue = j.ToString(); }
+        SelectListItem item = new SelectListItem { Value = j.ToString(), Text = MinValue };
+        Minutes.Add(item);
+    }
+    var Msgmodel = Model.ExtGSMCharecters;
+    var lz = SessionExtensions.GetItem<LocalizationResponse>(HttpContextAccessor.HttpContext.Session);
+    var basePath = Configuration["tempPathVirtualPath"] + "\\" + "CommonFiles" + "\\" + "SampleFile.xlsx";
+}
+<style type="text/css">
+    .tooltip.in {
+        width: 400px;
+    }
+
+    .popover {
+        max-width: 420px;
+    }
+
+    /* Uploader */
+
+    div.uploader {
+        position: relative;
+        overflow: hidden;
+        cursor: default;
+        border: 1px solid #ddd;
+        padding: 5px 12px;
+    }
+
+        div.uploader span.action {
+            float: right;
+            display: inline;
+            padding: 3px 0px;
+            overflow: hidden;
+            cursor: pointer;
+            margin-top: -1px;
+            text-indent: inherit;
+            width: 28px;
+            background: #eee;
+            text-align: center;
+        }
+
+
+        div.uploader span.filename {
+            margin: 1px;
+            float: left;
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            cursor: default;
+        }
+
+
+
+        div.uploader input {
+            opacity: 0;
+            filter: alpha(opacity:0);
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            float: right;
+            height: 25px;
+            border: none;
+            cursor: default;
+        }
+
+    .padrt {
+        margin-right: 8px !important;
+    }
+
+    .noleftpad {
+        padding-left: 0px;
+    }
+</style>
+@{
+    ViewBag.Title = "Bulk SMS Approval";
+}
+
+<div id="myPopoverContent">
+    <div style="width: 390px; overflow: hidden">
+        @*<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>*@
+        <button type="button" class="close" onclick="closepover()"><i class="fa fa-close 1x" aria-hidden="true"></i></button>
+        <ul>
+            <li>File name accepts <span><b><i> a – z , A – Z , 0-9 , - , _ , space</i></b></span> characters only</li>
+            <li>Recipients File should be Notepad/CSV/XLS or XLSX</li>
+            <li>Recommended that the first row is header as shown below.</li>
+            <li>In csv or txt files each column should be separated by a comma.</li>
+        </ul>
+        <img src="~/Content/images/importcontacts.jpg" width="382" height="140" alt="">
+        <br />
+        <img src="~/Content/images/notepadformat.gif" width="332" height="119" alt="">
+    </div>
+</div>
+<div class="form-horizontal bulksms-dso" id="dsotheme">
+
+    <div class="row">
+        <div class="col-sm-11 col-sm-offset-s">
+
+            <div class="add-field" id="CheckerUpdation">
+                @using (Html.BeginForm("CreateQuickSMSorCampaign", "CampaignPlugin", new { Area = "CampaignPlugin" }, FormMethod.Post, false, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.AntiForgeryToken()
+                    <div class="panel top-border">
+                        <div class="warningmessage  warn-msg">
+                        </div><div id="message"></div>
+                        <div class="panel-heading">
+                            <div class="panel-control">
+                                <button type="button" class="btn btn-default" data-target="#InsertFormtg" data-toggle="collapse"><i class="fa fa-angle-down" style="font-size:20px;"></i></button>
+                            </div>
+
+                            <h3 class="panel-title  text-primary">Bulk SMS Approval</h3>
+                        </div>
+                        <div id="InsertFormtg" class="collapse in">
+                            <div class="panel-body  clearfix" id="main-formarea">
+
+                                <div id="">
+                                    <div>
+                                        <fieldset>
+
+                                            <div class="form-group">
+                                                <span class="col-sm-4 control-label">@lz.CampaignName</span>
+                                                <div class="col-sm-5">
+                                                    @Html.TextBoxFor(x => x.QuicksmsorCampaign.CampaignNameorRecipient, new { @class = "form-control", @disabled = "disabled", @rc = "y", @maxlength = "30", @placeholder = @lz.CampaignName, @errormsg = @lz.PleaseEnterCampaignName, @onclick = "removeerrorstylectrolfocus(this)", @onchange = "removeerrorstylectrolfocus(this)" })
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group">
+                                                <span class="col-sm-4 control-label">@lz.SenderID</span>
+                                                <div class="col-sm-5" style="">
+                                                    @*@Html.HiddenFor(x => x.QuicksmsorCampaign.SenderId, new { @cd = "y" })*@
+                                                    @if (System.Configuration.ConfigurationManager.AppSettings["IndianSynapse"] == "true")
+                                                    {
+                                                        @Html.DropDownListFor(x => x.QuicksmsorCampaign.SenderId, SendersList, new { @class = "form-control", @disabled = "disabled", @type = "select", @ct = "select", @rc = "y", @errormsg = @lz.PleaseSelectSenderId, @onclick = "removeerrorstylectrolfocus(this)", @onchange = "Drponchange(this,'Campaign_SenderId') ; TransactionalFlag() " })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.DropDownListFor(x => x.QuicksmsorCampaign.SenderId, SendersList, new { @class = "form-control", @disabled = "disabled", @type = "select", @ct = "select", @rc = "y", @errormsg = @lz.PleaseSelectSenderId, @onclick = "removeerrorstylectrolfocus(this)", @onchange = "Drponchange(this,'Campaign_SenderId') " })
+                                                    }
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        @*<hr class="line" />*@
+                                        <div id="Recipientfield">
+                                            <fieldset>
+                                                @*<legend>
+                                                <span class="control-label">Recipient Details</span>
+                                            </legend>*@
+                                                <div class="form-group">
+                                                    <span class="col-sm-4 control-label">@lz.RecipientType</span>
+                                                    <div class="col-sm-5">
+                                                        <div id="RecipentsDiv" class="btn-group pull-left" onclick="removeerrorstylectrolfocus(this)">
+                                                            <button class="btn btn-default tip" disabled="disabled" title="Notepad/Excel" id="Notepad"><span class="fa fa-file-text-o fa-1x text-primary"></span> / <span class="fa fa-file-excel-o fa-1x text-success"></span></button>
+                                                            @*<button class="btn btn-default tip" title="Excel" id="Excel"><span class="fa fa-file-excel-o fa-1x text-success"></span></button>*@
+                                                            <button class="btn btn-default tip" disabled="disabled" title="Group" id="Group"><span class="fa fa-address-book-o fa-1x text-purple"></span></button>
+                                                            <a class="btn btn-default maininfo" disabled="disabled" data-toggle="popover" data-trigger="click" data-placement="bottom" title="SampleFile"><span class="fa fa-question-circle-o fa-1x text-warning"></span></a>
+
+                                                            @*<a href="@basePath" class="FileDownload"> <span class="btn btn-default fa fa-download" disabled="disabled" style="padding-top:11px"></span></a>*@
+                                                            @*<a class="btn btn-default maininfo" data-toggle="popover" data-trigger="click" data-placement="bottom" title=""><span class="fa fa-question-circle-o fa-1x text-warning"></span></a>*@
+                                                            @*<a data-toggle="tooltip" titlle="<img src='~/Content/images/importcontacts.jpg'>" ><span class=" icon16 icomoon-icon-question-5"></span></a>*@
+                                                            @*<input type="button" id="Excel" class="btn btn-sm btn-success" value="Excel">
+                                                        <input type="button" id="Notepad" class="btn btn-sm btn-success" value="Notepad">
+                                                        <input type="button" id="Group" class="btn btn-sm btn-success" value="Group">
+                                                        <img id="imgHelpIn" src="~/images/help.jpg" style="margin-top: 7px" />*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="UploadExcelFile" onclick="removeerrorstylectrolfocus('#QuicksmsorCampaign_ExcelFile')">
+                                                    <div class="form-group">
+                                                        <span class="col-sm-4 control-label">@lz.SelectTextExcelFile</span>
+                                                        <div class="col-sm-5">
+
+                                                            <div class="uploader">
+                                                                @Html.TextBoxFor(x => x.QuicksmsorCampaign.ExcelFile, new { @type = "file", @disabled = "disabled", @ct = "file", @class = "form-control text-primary", @onclick = "removeerrorstylectrolfocus(this)", @errormsg = @lz.pleaseselectTextExcelfile })
+                                                                <span class="filename">@lz.NofileSelected</span>
+                                                                <span class="action"><i class="fa fa-plus fa-1x text-primary"></i></span>
+                                                            </div>
+                                                            <span>File name accepts <b><i>a – z , A – Z , 0-9 , - , _ , space</i></b> characters only</span>
+                                                            @*<div class="uploader">
+
+                                                            @Html.TextBoxFor(x => x.QuicksmsorCampaign.ExcelFile, new { @type = "file", @class = "form-control text-primary", @onclick = "removeerrorstylectrolfocus(this)", @errormsg = "please select Text/Excel file." })
+                                                            <span class="filename">No file Selected</span><span class="action">Choose File</span>
+                                                        </div>*@
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <span class="col-sm-4 control-label"></span>
+                                                        <div disabled="disabled" class="col-sm-5">
+                                                            <button disabled="disabled" type="button" name="command" class="btn btn-sm btn-info tip" id="DeleteFile" value="Delete">@lz.DeleteFile</button>
+                                                        </div>
+                                                    </div>
+                                                    <div id="SelectSheet" class="form-group">
+                                                        <span class="col-sm-4 control-label">@lz.SelectSheet</span>
+                                                        <div class="col-sm-5">
+                                                            @Html.DropDownListFor(x => x.QuicksmsorCampaign.SheetID, new List<SelectListItem> {
+                                                            new SelectListItem() { Text = "", Value = "0" }
+                                                                                                                }, new { @class = "form-control", @errormsg = @lz.pleaseselectSheet, @disabled = "disabled", @ct = "select", @type = "select", @onclick = "removeerrorstylectrolfocus(this)", @onchange = "OnSheetChange('')" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="UploadGroupFile" onclick="removeerrorstylectrolfocus('#GroupsDiv')">
+                                                <div class="form-group">
+                                                    <span class="col-sm-4 control-label">@lz.SelectGroups</span>
+                                                    <div class="col-sm-5">
+                                                        <div class="input-group" style="width:100%;">
+                                                            <input type="text" placeholder="Search Group" id="conSearch" class="form-control input-sm">
+                                                        </div>
+                                                        <div id="GroupsDiv" class="scrollarea" onclick="removeerrorstylectrolfocus(this)">
+                                                            <ul class="list-unstyled">
+                                                                @foreach (var grp in Model.Groups.OrderBy(s => s.GrpName))
+                                                                {
+                                                                    if (grp.ContactsCount == 0)
+                                                                    {
+                                                                        <li class="GroupCBs">
+                                                                            <span> <input type="checkbox" class="GroupCheckBox" disabled="disabled" value="@grp.GrpId" id="@grp.GrpId" data-parent="@grp.GrpId" data-id="@grp.GrpName" /> <span alt="Contacts Count - @grp.ContactsCount" title="Contacts Count - @grp.ContactsCount">@grp.GrpName</span> </span>  @*$$@grp.GrpName*@
+                                                                        </li>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <li class="GroupCBs">
+                                                                            <span> <input type="checkbox" class="GroupCheckBox" value="@grp.GrpId" id="@grp.GrpId" data-parent="@grp.GrpId" data-id="@grp.GrpName" /> <span alt="Contacts Count - @grp.ContactsCount" title="Contacts Count - @grp.ContactsCount">@grp.GrpName</span></span>  @*$$@grp.GrpName*@
+                                                                        </li>
+                                                                    }
+                                                                }
+                                                            </ul>
+                                                        </div>
+                                                        <span class="counter"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group hide" style="display:none;">
+                                                <span class="col-sm-4 control-label">@lz.CampaignType</span>
+                                                <div class="col-sm-5">
+                                                    @*@Html.DropDownListFor(x => x.QuicksmsorCampaign.CampTypeID, CampaignTypes, new { @class = "form-control", @type = "select", @ct = "select", @rc = "y", @errormsg = "please select Campaign Type", @onclick = "removeerrorstylectrolfocus(this)" })*@
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <span class="col-sm-4 control-label">@lz.MobileNumberField</span>
+                                                <div class="col-sm-5">
+                                                    @Html.DropDownListFor(x => x.QuicksmsorCampaign.MobileNumberField, new List<SelectListItem> { new SelectListItem { Value = "0", Text = "--Select Mobile Number Field--" } }, new { @class = "form-control", @disabled = "disabled", @type = "select", @ct = "select", @rc = "y", @errormsg = @lz.pleaseSelectMobileNoField, @onclick = "removeerrorstylectrolfocus(this)" })
+                                                    @*@Html.DropDownListFor(m => m.QuicksmsorCampaign.MobileNumberField, new SelectList(Enum.GetValues(typeof(Synapse.Web.CampaignPlugin.Models.mob))),
+                                                    "select", new { @class = "form-control" })*@
+                                                </div>
+                                            </div>
+
+                                        </fieldset>
+                                    </div>
+                                    @*<hr class="line" />*@
+                                    <fieldset>
+                                        @*<legend>
+                                            <span class="control-label">Message Details</span>
+                                        </legend>*@
+                                        @*<div class="form-group">
+                                            <div class="col-sm-9 pull-left col-sm-offset-3">
+
+                                                @Html.RadioButtonFor(m => m.QuicksmsorCampaign.Language, "English", new { @ct = "radio", @datalang = "English", @class = " enlng", @name = "enlng", @onclick = "Rdoonchange(this,'QuicksmsorCampaign_Language'); removeerrorstylectrolfocus(this)" }) English
+                                                @Html.RadioButtonFor(m => m.QuicksmsorCampaign.Language, "Arabic", new { @ct = "radio", @datalang = "Arabic", @class = " arlng", @name = "arlng", @onclick = "Rdoonchange(this,'QuicksmsorCampaign_Language'); removeerrorstylectrolfocus(this)" }) Arabic
+                                            </div>
+                                        </div>*@
+                                        <div class="form-group emailon">
+                                            <div class="col-sm-5 pull-left col-sm-offset-4">
+                                                @*<label class="radio-inline">*@  @Html.RadioButtonFor(x => x.QuicksmsorCampaign.Language, "1", new { @disabled = "disabled", @type = "radio", @ct = "radio", @datalang = "1", @class = "english rightarchk", @checked = "checked", @onclick = "removeerrorstylectrolfocus(this)", onchange = "lngchk(this)" }) <span class="rightarchk">English</span> @*</label>*@
+                                                @if (System.Configuration.ConfigurationManager.AppSettings["IndianSynapse"] == "true")
+                                                {
+                                                    @*<label class="radio-inline">*@  @Html.RadioButtonFor(x => x.QuicksmsorCampaign.Language, "2", new { @disabled = "disabled", @type = "radio", @ct = "radio", @datalang = "2", @class = "arabic padrt rightarchk", onchange = "lngchk(this)" })
+                                                    <span class="rightarchk">Unicode</span>
+     @*</label>*@
+                                                }
+                                                else
+                                                {
+                                                    @*<label class="radio-inline">*@  @Html.RadioButtonFor(x => x.QuicksmsorCampaign.Language, "2", new { @disabled = "disabled", @type = "radio", @ct = "radio", @datalang = "2", @class = "arabic padrt rightarchk", onchange = "lngchk(this)" })
+                                                    <span class="rightarchk">عربى</span>
+     @*</label>*@
+
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-5 col-sm-offset-4">
+                                                @Html.CheckBoxFor(c => c.QuicksmsorCampaign.Template, new { @ct = "check", @disabled = "disabled", @onclick = "OnCheckTemplate(this)" }) @lz.UseTemplate
+                                                <div id="temphide" style="display:inline;margin-left:5px">
+                                                    <a class="templatedata" data-toggle="popover" data-trigger="hover" data-placement="right" title=""><span class="fa fa-info-circle fa-1x" style="color:#00bcd4; margin-top:8px"></span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" id="TemplateDiv">
+                                            <span class="col-sm-4 control-label">Templates</span>
+                                            <div class="col-sm-5">
+                                                @Html.DropDownListFor(x => x.QuicksmsorCampaign.TemplateID, new List<SelectListItem>
+                                                {
+                                                    new SelectListItem { Text = "--Select Template--", Value = "0" }
+                                                                                                }, new { @class = "form-control", @type = "select", @ct = "select", @onchange = "OnChangeTemplate(this)", @errormsg = @lz.PleaseselectTemplate, @onclick = "removeerrorstylectrolfocus(this)" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <span class="col-sm-4 control-label">@lz.Message</span>
+                                            <div class="col-sm-6">
+                                                @Html.Hidden("ExtGSMChars", Msgmodel)
+                                                @Html.TextAreaFor(t => t.QuicksmsorCampaign.Message, new { @class = "form-control", @disabled = "disabled", @rows = "4", @placeholder = @lz.Message, @rc = "y", @errormsg = @lz.PleaseEnterMessage, @onclick = "removeerrorstylectrolfocus(this)", @onpaste = "EditorOnpast(event)" })
+                                                <div class="clearfix"></div>
+                                                <div class="emailon msgcss" id="trChars">
+                                                    <b><span class="" id="txtCharCount" style=""></span></b>&nbsp;
+                                                    <span class="" id="lblCharCount">@lz.CharacterS</span>
+                                                    <font class="title">,</font>&nbsp;
+                                                    <b><span class="" id="txtMSgCount" style=""></span></b>&nbsp;
+                                                    <span class="" id="lblCharCount">@lz.SMSMessages</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-1 rightar">
+
+                                                @*<a href="#" data-target="#msg-preview" data-toggle="modal"><i class="fa fa-mobile fa-2x" aria-hidden="true"></i>&nbsp; <span style="position:absolute; margin-top:4px;"></span> </a>*@
+                                                <a class="p-icon" tabindex="20" data-target="#msg-pre" data-toggle="modal"><span class="fa fa-mobile fa-2x" alt="Preview" title="Preview"></span></a>
+
+                                            </div>
+
+                                            @*<div class="form-group">
+                                                <div class="col-sm-8 col-sm-offset-3">
+                                                    <b>
+                                                        <span class="msgcss" id="remaining">0</span>&nbsp;
+                                                        <span class="title">@Html.Label("character(s)")</span>
+                                                    </b>
+                                                </div>
+                                            </div>*@
+
+                                        </div>
+
+                                        <div class="form-group hide">
+                                            <div class="col-sm-5 col-sm-offset-4">
+                                                @Html.CheckBoxFor(c => c.QuicksmsorCampaign.DeliveryReport, true)  <span style="margin-top: -6px;">@lz.DeliveryReportRequired</span>
+                                            </div>
+                                            <div class="col-sm-1 controlmargin">
+                                            </div>
+                                        </div>
+                                        <div id="Schedulefield">
+                                            <div class="form-group">
+                                                <div>
+                                                    <span class="col-sm-4 control-label">@lz.Schedule</span>
+                                                </div>
+                                                <div class="col-sm-5 rightar">
+                                                    @*<label class="radio-inline">*@ @Html.RadioButtonFor(m => m.QuicksmsorCampaign.Schedule, "SendNow", new { @class = "sendnow rightarchk", @disabled = "disabled", @value = "sendnow" }) <span class="rightarchk">@lz.SendNow</span> @*</label>*@
+                                                    @*<label class="radio-inline">*@ @Html.RadioButtonFor(m => m.QuicksmsorCampaign.Schedule, "Schedule", new { @class = "schlater padrt rightarchk", @disabled = "disabled", @value = "schlater" }) <span class="rightarchk">@lz.ScheduleLater</span> @*</label>*@
+                                                </div>
+                                            </div>
+                                            <div class="form-horizontal ScheduleLater" style="display:none;">
+                                                <div class="form-group" style="display:none;">
+                                                    <span id="" class="col-sm-4 control-label">@lz.Schedule</span>
+                                                    <div class="col-sm-5">
+                                                        @Html.DropDownListFor(t => t.QuicksmsorCampaign.ScheduleType, new List<SelectListItem>{
+                                                                                                                new SelectListItem() { Text = "One Time", Value = "0" }
+                                                                                                                }, new { @class = "form-control", @disabled = "disabled", })
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <span class="col-sm-4 control-label">@lz.ScheduleDate</span>
+                                                    <div class="col-sm-5">
+                                                        @*<div class="input-group date schdate">
+                                                            @Html.TextBoxFor(t => t.QuicksmsorCampaign.ScheduleStartDate, new { @class = "form-control", @errormsg = "please select date.", @onclick = "removeerrorstylectrolfocus(this)" })
+                                                            <span class="input-group-addon"><i class="demo-pli-calendar-4"></i></span>
+                                                        </div>*@
+                                                        @Html.TextBoxFor(t => t.QuicksmsorCampaign.ScheduleStartDate, new { @class = "form-control", @disabled = "disabled", @errormsg = @lz.PleaseSelectDate, @onclick = "removeerrorstylectrolfocus(this)" })
+
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <span class="col-sm-4 control-label">@lz.ScheduleTime</span>
+                                                    <div class="col-sm-5">
+                                                        <div class="row">
+                                                            <span class="col-sm-2 control-label">@lz.Hours</span>
+                                                            <div class="col-md-4">
+                                                                @Html.DropDownListFor(t => t.QuicksmsorCampaign.ScheduleStartTime, Hours, new { @class = "form-control", @disabled = "disabled", @type = "select", @rc = "y", @errormsg = @lz.pleaseselectHours })
+                                                            </div>
+                                                            <span class="col-sm-2 control-label">@lz.Minutes</span>
+                                                            <div class="col-md-4">
+                                                                @Html.DropDownListFor(t => t.QuicksmsorCampaign.ScheduleStartMinutes, Minutes, new { @class = "form-control", @disabled = "disabled", @type = "select", @rc = "y", @errormsg = @lz.pleaseselectminutes })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group">
+                                                    <span class="col-sm-4 control-label"></span>
+                                                    <div class="col-sm-5">
+                                                        @*<button type="button" onclick="schLtr()" class="btn btn-default btn-sm" >
+                                                            <span class="icon16 icomoon-icon-clock-3"></span> Schedule
+                                                        </button>*@
+                                                        <span id="schDetails" class="text-primary" style="display:none;"></span>
+                                                    </div>
+                                                    @*<div class="col-sm-3">
+                                                        <a href="#" id="lnkSchedule" class="schlater">Edit Schedule</a>
+                                                    </div>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-5 col-sm-offset-4 rightar">
+                                                <label class="radio-inline noleftpad hide">
+                                                    @Html.CheckBoxFor(c => c.QuicksmsorCampaign.AllowDups, true)
+                                                    <span style="margin-top: -6px;" class="">@lz.AllowDuplicateNumbers</span>
+                                                </label>
+                                                <label class="radio-inline noleftpad">
+                                                    @Html.CheckBoxFor(c => c.QuicksmsorCampaign.CampTypeID, true)
+                                                    <span style="margin-top: -6px;" class="">@lz.TransactionalCampaigns</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-1 controlmargin">
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="clearfix" id="testmsg-formarea  testspace">
+                            <div id="test-msgpreview" class="col-sm-10 col-sm-offset-1" style="padding:5px;">
+                                <legend style="text-align:center;">@lz.TestSMS</legend>
+                                @*<span class="btn close-btn pull-right"><span class="icomoon-icon-close iconred"></span></span>*@
+                                <div class="form-group">
+                                    <span class="col-sm-4 control-label">@lz.MobileNumber</span>
+                                    <div class="col-sm-5">
+                                        @Html.TextAreaFor(x => x.QuicksmsorCampaign.MobileNumber, new { @placeholder = @lz.EnterMobileNumbers, @disabled = "disabled", @rows = "4", @type = "text", @onclick = "removeerrorstylectrolfocus(this)", @class = "form-control", @onblur = " CheckMaxQSMSLimit(this)", @errormsg = @lz.pleaseentercommaseperatedmobileNos })
+                                        <small>@lz.NotePleaseenterCommaseparatedmobilenumberswithoutspace</small>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <span class="col-sm-4 control-label">@lz.MessagePreview</span>
+                                    <div class="col-sm-5">
+                                        @Html.TextAreaFor(t => t.QuicksmsorCampaign.TestMessagePrv, new { @class = "form-control", @rows = "4", @disabled = "disabled" })
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <a class="p-iconTest" tabindex="20" data-target="#msg-pre" data-toggle="modal"><span class="fa fa-mobile fa-2x" alt="Preview" title="Preview"></span></a>
+                                    </div>
+                                </div>
+                                @*<div class="form-group" id="RejectNote">
+                                        <span class="col-lg-4 control-label">Reject Reason </span>
+                                        <div class="col-lg-5">
+                                            @Html.TextAreaFor(x => x.QuicksmsorCampaign.RejectNote, new { @type = "text", @class = "EditFieldData form-control", @onclick = "removeerrorstylectrolfocus(this)", Rows = "4", @placeholder = "Reject Reason", @required = "required" })
+                                        </div>
+                                    </div>*@
+                                <div class="modal-footer">
+                                    <button type="button" disabled="disabled" name="command" id="SendTestSMS" class="btn-sm btn btn-info " value="Submit">@lz.Submit</button>
+                                    <button type="button" name="command" id="" class="btn-sm btn btn-danger close-test-sms">@lz.Back</button>
+                                </div>
+                            </div>
+                            <div id="msg-display" class="col-sm-12">
+                                <div id="SubmitCampDet">
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="modal-footer">
+                                    <button type="button" name="command" id="SendCampaign" class="btn-sm btn btn-info " value="Submit">@lz.Proceed</button>
+                                    <button type="button" name="command" id="BackCampaign" class="btn-sm btn btn-danger close-msg-display">@lz.Back</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="RejectNote">
+                                <span class="col-lg-4 control-label">Reject Reason </span>
+                                <div class="col-lg-5">
+                                    @Html.TextAreaFor(x => x.QuicksmsorCampaign.RejectNote, new { @type = "text", @rc = "y", @errormessage = "Please enter the Reject reason", @class = "EditFieldData form-control", @onclick = "removeerrorstylectrolfocus(this)", Rows = "4", @placeholder = "Reject Reason", @required = "required" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel-footer">
+                            <div class="col-sm-offset-4">
+                                <button type="button" name="command" id="ApproveBulk" class="btn btn-success ApproveBtn" value="Approve">Approve</button>
+                                <button type="button" name="command" id="RejectBulk" class="btn btn-danger RejectBtn" value="Reject">Reject</button>
+                                @*<button type="button" name="command" id="btnSave" class="btn btn-success tip" value="Save">@lz.Submit</button>
+                                    <button type="button" disabled="disabled" name="command" id="TestSms" class="btn btn-primary tip" value="Test SMS">@lz.TestSMS</button>*@
+                                @*<button type="submit" name="command" id="SaveDetails" class="hide btn btn-default tip" value="Save">Submit</button>*@
+                                <button type="button" name="command" id="btnReset" class="btn btn-default tip">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                }
+            </div>
+            <div id="msg-pre" class="modal fade" tabindex="-1">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle" alt-="Close" title="Close"></i></button>
+                            <h4 class="modal-title" id="myLargeModalLabel">@lz.SMSPreview</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="" style="position:relative">
+                                    <div id="show-msgpreview">
+                                        @*<span class="btn close-btn pull-right"><span class="fa fa-close iconred"></span></span>*@
+                                        <div class="handset" align="center">
+                                            @Html.TextAreaFor(t => t.QuicksmsorCampaign.PreviewMessage, new { @class = "form-control previewbox", @disabled = "disabled" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="next btn btn-success" data-dismiss="modal">@lz.OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="synapse-table" id="DataListTable">
+                @*<div class="email-header">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div class="btn-group">
+                                    <div class="btn-group" id="dropdownmore">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="3">
+                                            <span id="">More</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a tabindex="4" href="javascript:SetCampaignEvents('Deactivate')" id="Deactivate" style=" color:Black;">Deactivate</a></li>
+                                            <li><a tabindex="5" href="javascript:SetCampaignEvents('Pause')" id="Pause" style="color:Black;">Pause</a></li>
+                                            <li><a tabindex="6" href="javascript:SetCampaignEvents('Resume')" id="Resume" style="color:Black;">Resume</a></li>
+                                            <li><a tabindex="6" href="javascript:SetCampaignEvents('Suspend')" id="Suspend" style="color:Black;">Suspend</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+                <div class="panel">
+                    <div class="panel-heading">
+                        @*<div class="panel-control">
+                            @*<button type="button" class="btn btn-default" data-target="#DataGridtg" data-toggle="collapse"><i class="fa fa-angle-down" style="font-size:20px;"></i></button></div>*@
+
+                        <div class="row">
+                            <div class="col-sm-3 pull-left">
+                                <h3 class="panel-title">Bulk SMS Approval</h3>
+                            </div>
+
+                            <div class="">
+                                <div class="col-sm-4 pull-right" style="padding: 5px 15px;">
+                                    <div class="input-group">
+                                        <input type="text" id="SearchTextValue" minlength="15" placeholder="@lz.DatabaseSearch" class="form-control">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default" onclick="getBulksmsbySearch()"><i class="fa fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="DataGridtg" class="collapse in">
+
+                        <div class="panel-body  clearfix" id="GridID">
+
+                            <div id="PartialCustomers">
+                                @Html.Partial("_CBulkSMSTable", Model.QuicksmsorCampaignCollections)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="demo-lg-modal" class="modal fade" tabindex="-1">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                        <h4 class="modal-title" id="myLargeModalLabel">BulkSMS Approval View</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="PartialResult">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+<input type="hidden" id="hdnFilePath" value="0" />
+<input type="hidden" id="hdnTextReplace" value="0" />
+<input type="hidden" id="hdnCampID" value="0" />
+<input type="hidden" id="hdnEditSheetID" value="" />
+<input type="hidden" id="TestSMSPreviewTemplate" />
+<input type="hidden" id="TestSMSCGroupIds" />
+<input type="hidden" id="hdnGroupFilePath" value="" />
+<input type="hidden" id="hdnBeforeEditSchTime" value="" />
+
+@section scripts {
+    <script type="text/javascript">
+        $("#DeleteFile").attr("disabled", true);
+
+        var $remaining = $('#remaining'),
+        $QuicksmsorCampaign_Message = $remaining.next();
+        function isUnicode(s) { return /[^\u0000-\u00ff]/.test(s); }
+        $('#QuicksmsorCampaign_Message').keyup(function () {
+            smscount();
+            var value = $(this).val();
+            var TextReplace = $("#hdnTextReplace").val();
+            var KeyValuePair = $("#hdnTextReplace").val().split('||');
+            var replaceText = '';
+            $.each(KeyValuePair, function (i, item) {
+                var Msgkey = "<$" + item.split('::')[0] + "$>";
+                var MsgVal = item.split('::')[1];
+                if (value.indexOf(Msgkey) >= 0) {
+                    replaceText = value.replaceAll(Msgkey, MsgVal);
+                    value = replaceText;
+                }
+                if (KeyValuePair.length == (i + 1)) {
+                    $("#QuicksmsorCampaign_PreviewMessage").val(value);
+                }
+            })
+        }).keyup();
+    </script>
+    <script type="text/javascript">
+
+        $("#msg-display,#TemplateDiv").hide();
+        $('#test-msgpreview').hide();
+        $('.p-icon').click(function (event) {
+            //$("body, html").animate({
+            //    scrollTop: $(document).height()
+            //}, 200)
+            //if ($("#QuicksmsorCampaign_Message").val() == "") {
+            //    $('.p-icon').removeAttr("data-target", "#msg-pre");
+            //    $("#QuicksmsorCampaign_Message").parent().find(".error").remove();
+            //    $("#QuicksmsorCampaign_Message").css("border", "1px solid red");
+            //    $("#QuicksmsorCampaign_Message").parent().append('<div class="error" style="color: red; height:10px !important;">Please Enter Message</div>');
+            //}
+            //else {
+                $('.p-icon').attr("data-target", "#msg-pre");
+            //}
+            $('#hide-msglist').slideToggle();
+            //$(".close-btn span").toggleClass("icomoon-icon-close iconred");
+        });
+        $('#TestSms').click(function (event) {
+            if ($("#QuicksmsorCampaign_Template").is(":checked")) {
+                $("#QuicksmsorCampaign_TemplateID").attr("rc", "y");
+            } else { $("#QuicksmsorCampaign_TemplateID").attr("rc", "n"); }
+            if ($("#UploadExcelFile").is(':visible')) {
+                $("#QuicksmsorCampaign_ExcelFile").attr("rc", "y");
+            } else { $("#QuicksmsorCampaign_ExcelFile").attr("rc", "n"); }
+            if ($("#SelectSheet").is(':visible')) {
+                $("#QuicksmsorCampaign_SheetID").attr("rc", "y");
+            } else { $("#QuicksmsorCampaign_SheetID").attr("rc", "n"); }
+            var IsValid = validateAjaxclick('#CheckerUpdation');
+            if ($("#UploadGroupFile").is(':visible')) {
+                if ($("#UploadGroupFile").find("input[type=checkbox]:checked").length <= 0) {
+                    $("#GroupsDiv").attr('style', 'border: 1px solid red !important');
+                    AddError("#GroupsDiv", "please select Groups.");
+                    IsValid = false;
+                }
+            }
+            if (!$("#UploadExcelFile").is(':visible') && !$("#UploadGroupFile ").is(':visible')) {
+                $("#RecipentsDiv").attr('style', 'border: 1px solid red !important');
+                AddError("#RecipentsDiv", "Please select Recipient Details.");
+                IsValid = false;
+            }
+            if (IsValid) {
+                $('#test-msgpreview,#main-formarea').slideToggle();
+                $("#QuicksmsorCampaign_TestMessagePrv").val($("#QuicksmsorCampaign_PreviewMessage").val());
+                $("body, html").animate({
+                    scrollTop: $(document).height()
+                }, 200);
+                $("#btnSave").attr("disabled", true);
+                $("#TestSms").attr("disabled", true);
+                $("#btnReset").attr("disabled", true);
+            }
+        });
+
+        $('.close-btn').click(function (event) {
+            $('#show-msgpreview, #hide-msglist').slideUp();
+            $('#test-msgpreview').hide();
+        });
+        $('.close-test-sms').click(function (event) {
+            $('#main-formarea,#test-msgpreview').slideToggle();
+            $("#btnSave").attr("disabled", false);
+            //$("#TestSms").attr("disabled", false);
+            $("#btnReset").attr("disabled", false);
+        });
+        $('.close-msg-display').click(function (event) {
+            $('#main-formarea,#msg-display').slideToggle();
+            $("#btnSave").attr("disabled", false);
+           // $("#TestSms").attr("disabled", false);
+            $("#btnReset").attr("disabled", false);
+        });
+        $('.show-btn').click(function (event) {
+            $('#msg-display').hide();
+            $('#main-formarea').show();
+            $('#test-msgpreview').hide();
+        });
+        // Text boxes to accept only numbers and comma
+        $('#QuicksmsorCampaign_MobileNumber').keydown(function (e) {
+            if (e.shiftKey || e.altKey) {
+                e.preventDefault();
+            } else {
+                var key = e.keyCode;
+                if (!((key == 8) || (key == 46) || (key == 9) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105) || (key == 188) || (e.ctrlKey && key == 86))) {
+                    e.preventDefault();
+                }
+                else if (key == 9) {
+                }
+            }
+        });
+        $("#btnReset").click(function () {
+            $("#QuicksmsorCampaign_CampaignNameorRecipient").val("");
+            $("#QuicksmsorCampaign_CampaignNameorRecipient").attr("disabled", true);
+            //$("#QuicksmsorCampaign_CampaignNameorRecipient").val("").attr("disabled", false);
+            $("#QuicksmsorCampaign_SenderId").val(0);
+            $('#QuicksmsorCampaign_ExcelFile').text("");
+            $('#QuicksmsorCampaign_ExcelFile').val("");
+            $(".filename").text("No file Selected");
+            $("#UploadExcelFile").hide();
+            $("#GridID").find("input[type=checkbox]").removeAttr("checked");
+            $("#UploadGroupFile").hide();
+            //$("#DeleteFile").attr("disabled", true);
+            $("#QuicksmsorCampaign_CampTypeID").val(0);
+            $("#QuicksmsorCampaign_MobileNumberField").html("");
+            $('#QuicksmsorCampaign_MobileNumberField').append($('<option></option>').val(0).html("--Select MobileNo Field--"));
+            $('#QuicksmsorCampaign_SheetID').hide();
+            $('.enlng').attr("checked", true);
+            $('.enlng').prop("checked", true);
+            $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'left').attr('lang', 'en');
+            $("#QuicksmsorCampaign_Template").removeAttr("checked");
+            $("#QuicksmsorCampaign_Message").val("");
+            $("#QuicksmsorCampaign_PreviewMessage").val("");
+            smscount();
+            $("#QuicksmsorCampaign_DeliveryReport").removeAttr("checked");
+            $('.ScheduleLater').hide();
+            $(".sendnow").attr('checked', 'checked');
+            $('.schlater').removeAttr('checked', 'checked');
+            $('#QuicksmsorCampaign_ScheduleStartTime,#QuicksmsorCampaign_ScheduleStartMinutes').val(0);
+            $("#QuicksmsorCampaign_ScheduleStartDate").val("");
+            LoadSCHDetails();
+            $("#QuicksmsorCampaign_AllowDups").removeAttr("checked");
+            $("#hdnFilePath").val("");
+            $("#hdnTextReplace").val("");
+            $("#hdnCampID").val(0);
+            $(".panel-footer").hide();
+            //$('#CustomSMS,#Schedulefield,#Recipientfield').hide();
+            //$('input:hidden[id=QuicksmsorCampaign_TypeofCampaign]').val("QuickSMS");
+            //$('input:text[id=QuicksmsorCampaign_CampaignNameorRecipient]').val("");
+            //$remaining.text('0 character(s)');
+            //$QuicksmsorCampaign_Message.text('');
+            ////$("#verify").removeAttr("disabled");
+            ////$('#UserCreation_UserName').removeAttr("readonly");
+            ////$('#UserCreation_UserName').removeAttr("background-color");
+        });
+    </script>
+    <script type="text/javascript">
+        var antiForgeryToken = $('input[name="__RequestVerificationToken"]').val();
+        var headers = {};
+        headers['__RequestVerificationToken'] = antiForgeryToken;
+
+        function sample(value, act) {
+            $("#SelectSheet").hide();
+            $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'left').attr('lang', 'en');
+            if (act != (null || undefined) && act == 'Edit') {
+                internalPost("@Url.Action("OnEdit", "PhoneBookPlugin")", { id: value }, 'CheckerUpdation', 'group_');
+            }
+            else {
+                clearparent('CheckerUpdation', 'group_');
+            }
+        }
+
+        function CampEvents(CampID, Stages, cntrl) {
+            var selCamps = $("#GridID").find("input[type=checkbox]:checked").length;
+            if (selCamps == 1) {
+                if ($(cntrl).is(":checked")) {
+                    if (Stages == "" || Stages == null) {
+                        $("#Pause,#Resume,#Suspend").hide();
+                        $("#Deactivate").show();
+                    }
+                    else {
+                        $("#Deactivate").hide();
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("GetStageCounts", "CampaignPlugin")',
+                            headers: headers,
+                            data: { CampID: CampID, Stages: Stages },
+                            datatype: 'application/json',
+                            success: function (data) {
+                                if (data == "ResumeEnable") {
+                                    $("#Resume,#Suspend").show();
+                                    $("#Pause").hide();
+                                }
+                                else if (data == "PauseEnable") {
+                                    $("#Pause,#Suspend").show();
+                                    $("#Resume").hide();
+                                }
+                                else if (data == "DisableRow") {
+                                    $("#Deactivate,#Pause,#Resume,#Suspend").hide();
+                                    errorMessage('Already Campaign Completed, You can not do any operation with the selected campaign');
+                                    $("html, body").animate({ scrollTop: 0 }, 600);
+                                    setTimeout(function () {
+                                        window.location.reload(false);
+                                    }, 2000);
+                                }
+                            },
+                            error: function (xhr, status) {
+                                errorMessage('Exception Occured');
+                                $("html, body").animate({ scrollTop: 0 }, 600);
+                                setTimeout(function () {
+                                    window.location.reload(false);
+                                }, 2000);
+                            }
+                        });
+                    }
+                }
+            }
+            else if (selCamps > 1) {
+                $("#Pause,#Resume,#Suspend,#Deactivate").show();
+                $("#GridID").find("input[type=checkbox]").removeAttr("checked");
+                errorMessage("Please select one campign only.");
+                $("html, body").animate({ scrollTop: 0 }, 600);
+            }
+            else if (selCamps == 0) {
+                $("#Pause,#Resume,#Suspend,#Deactivate").show();
+            }
+        }
+        function SetCampaignEvents(cntrl) {
+            var selCamps = $("#GridID").find("input[type=checkbox]:checked").length;
+            if (selCamps == 1) {
+                var Status = 1;
+                if (cntrl == "Deactivate") { Status = 0; }
+                else if (cntrl == "Pause") { Status = 8; }
+                else if (cntrl == "Resume") { Status = 4; }
+                else if (cntrl == "Suspend") { Status = 12; }
+                var CampID = $("#GridID").find("input[type=checkbox]:checked").attr("data-id").split('||')[0];
+                var StageIDs = $("#GridID").find("input[type=checkbox]:checked").attr("data-id").split('||')[1];
+                if (StageIDs == "" || StageIDs == null) { StageIDs = 0 }
+                if (CampID != 0 || CampID != "") {
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("CampaignEvents", "CampaignPlugin")',
+                        headers: headers,
+                        data: { CampID: CampID, StageIDs: StageIDs, Status: Status, cmd: "Deactivate" },
+                        datatype: 'application/json',
+                        success: function (d) {
+                            if (d != (null || undefined)) {
+                                if (d == 2) {
+                                    successMessage("Campaign Deactivated Successfully.");
+                                    $("html body").animate({ scrollTop: 0 });
+                                    setTimeout(function () {
+                                        window.location.reload(false);
+                                    }, 2000);
+                                }
+                                else if (d == 8) {
+                                    successMessage("Campaign Paused Successfully.");
+                                    $("html body").animate({ scrollTop: 0 });
+                                    setTimeout(function () {
+                                        window.location.reload(false);
+                                    }, 2000);
+                                }
+                                else if (d == 0) {
+                                    successMessage("Campaign Resumed Successfully.");
+                                    $("html body").animate({ scrollTop: 0 });
+                                    setTimeout(function () {
+                                        window.location.reload(false);
+                                    }, 2000);
+                                }
+                                else if (d == 12) {
+                                    successMessage("Campaign Suspended Successfully.");
+                                    $("html body").animate({ scrollTop: 0 });
+                                    setTimeout(function () {
+                                        window.location.reload(false);
+                                    }, 2000);
+                                }
+                            }
+                        },
+                        error: function (xhr, status) {
+                            errorMessage('Exception Occured');
+                            $("html, body").animate({ scrollTop: 0 }, 600);
+                        }
+                    });
+                }
+            }
+            else {
+                errorMessage("Please select at least one campign.");
+                $("html, body").animate({ scrollTop: 0 }, 600);
+            }
+        }
+
+            function OnCheckTemplate(cntrl) {
+                $('#QuicksmsorCampaign_TemplateID').html("").append($('<option></option>').val(0).html("--Select Template--"));
+                if ($(cntrl).is(":checked")) {
+                    removeerrorstylectrolfocus("#QuicksmsorCampaign_Message");
+                    $("#TemplateDiv").show();
+                    $("#QuicksmsorCampaign_Message").attr("disabled", true);
+                    $('.english,.arabic').prop("disabled", true);
+                    var CampType = 1;
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("LoadTemplates", "CCampaignPlugin")',
+                        headers: headers,
+                        data: { CampType: CampType },
+                        datatype: 'application/json',
+                        success: function (data) {
+                            $('#QuicksmsorCampaign_TemplateID').html("");
+                            $('#QuicksmsorCampaign_TemplateID').append($('<option></option>').val(0).html("--Select Template--"));
+                            $.each(data, function (key, val) {
+                                $('#QuicksmsorCampaign_TemplateID').append(
+                                   // $('<option></option>').val(val.ID + "$VMHDC$" + val.LANGUAGEID + "$VMHDC$" + val.TEXT).html(val.NAME));
+                                $('<option></option>').attr({ 'data-lang': val.LANGUAGEID, 'data-msg': val.TEXT }).val(val.ID).html(val.NAME));
+                            });
+                        },
+                        error: function (xhr, status) {
+                            errorMessage('@lz.ExceptionOccured');
+                            $("html, body").animate({ scrollTop: 0 }, 600);
+                        }
+                    });
+                } else {
+                    $("#TemplateDiv").hide();
+                    $("#QuicksmsorCampaign_Message").attr("disabled", false);
+                    //$("#QuicksmsorCampaign_Message").val("");
+                    //$("#QuicksmsorCampaign_PreviewMessage").val("");
+                    $('.english').prop("checked", true);
+                    $('.english,.arabic').prop("disabled", false);
+                    $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'left').attr('lang', 'en');
+                    $('#QuicksmsorCampaign_Language').prop('disabled', false);
+                }
+            }
+
+            function OnChangeTemplate(cntrl) {
+                var arabiclan = /[\u0621-\u064A]/;
+                if ($(cntrl).val() != 0) {
+                    removeerrorstylectrolfocus('#QuicksmsorCampaign_Message');
+                    //var TempLang = $('#QuicksmsorCampaign_TemplateID').val().split('$VMHDC$')[1];
+                    //var TempText = $('#QuicksmsorCampaign_TemplateID').val().split('$VMHDC$')[2];
+                    var TempLang = $('#QuicksmsorCampaign_TemplateID  option:selected').attr('data-lang');
+                    var TempText = $('#QuicksmsorCampaign_TemplateID  option:selected').attr('data-msg');
+                    $("#QuicksmsorCampaign_Message").val(TempText);
+                    $("#QuicksmsorCampaign_PreviewMessage").val(TempText);
+                    if (TempLang == 1) {
+                        $('.english').attr("checked", true);
+                        $('.english').prop("checked", true);
+                        $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'left').attr('lang', 'en');
+                    } else {
+                        $('.arabic').attr("checked", true);
+                        $('.arabic').prop("checked", true);
+                        var msgval = $('#QuicksmsorCampaign_Message').val();
+                        var msgvall = $('#QuicksmsorCampaign_PreviewMessage').val();
+                        if (msgval.match(arabiclan) || msgvall.match(arabiclan)) {
+                            $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'rtl').attr('lang', 'ar');
+                        }
+                        else {
+                            $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'ltr').attr('lang', 'ar');
+                        }
+                    }
+                    fnShowCount();
+                } else {
+                    removeerrorstylectrolfocus('#QuicksmsorCampaign_Message');
+                    $('.english').attr("checked", true);
+                    $("#QuicksmsorCampaign_Message").focus().attr('dir', 'left').attr('lang', 'en').val("");
+                    $("#QuicksmsorCampaign_PreviewMessage").focus().attr('dir', 'left').attr('lang', 'en').val("");
+                    //$('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'left').attr('lang', 'en');
+                    fnShowCount();
+
+                }
+            }
+
+            function OnViewClick(QSMSName, Sender, Lang, Message, CreditsUsed, TotalCredits, Dlr, AddedDate, Status, RecipentID, ValidCount, ScheduleDate, ActualFileName, GroupIds, Edit) {
+                var GrpName = "";
+                //var e_msg = Message;
+                var e_msg = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Message.replaceAll("^^", '"').replaceAll("^", "ÞÞ")), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                $.each(GroupIds.split(','), function (i, item) {
+                    var Checkboxes = $("#GroupsDiv").find("input[type=checkbox]");
+                    $.each(Checkboxes, function (i, CB) {
+                        if ($(CB).attr("id") == item) {
+                            GrpName += $(CB).attr("data-id") + ",";
+                        }
+                    });
+                });
+                var QSMSName = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(QSMSName), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                var Sender = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Sender), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                var Lang = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Lang), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                var CreditsUsed = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(CreditsUsed), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                var TotalCredits = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(TotalCredits), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                var Dlr = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Dlr), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                var AddedDate = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(AddedDate), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                var Status = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Status), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                var ValidCount = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(ValidCount), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                // var RecipentID = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(RecipentID), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                var GrpName = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(GrpName) == "" ? "QSMS" : GrpName, key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                var ScheduleDate = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(ScheduleDate) == "" ? "QSMS" : ScheduleDate, key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                var ActualFileName = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(ActualFileName) == "" ? "QSMS" : ActualFileName, key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                var strRecipentID = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(RecipentID), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("OnView", "CCampaignPlugin")',
+                    headers: headers,
+                    data: { QSMSName: QSMSName, Sender: Sender, Lang: Lang, Message: e_msg, CreditsUsed: CreditsUsed, TotalCredits: TotalCredits, Dlr: Dlr, AddedDate: AddedDate, Status: Status, strRecipentID: strRecipentID, GrpName: GrpName, ValidCount: ValidCount, ScheduleDate: ScheduleDate, ActualFileName: ActualFileName, cmd: "_BulkSMSView" },
+                    datatype: 'application/json',
+                    success: function (d) {
+                        if (d != (null || undefined)) {
+                            if (d.Invaid) {
+                                emsg(d.Message, false);
+                                return false;
+                            }
+                            else {
+                                $("#PartialResult").html('');
+                                $("#PartialResult").html(d.PartialResult);
+                            }
+                        }
+                    },
+                    error: function (xhr, error, status) {
+                        var err = xhr;
+                    }
+                });
+            }
+
+        $('#btnSave').click(function (event) {
+            if ($("#QuicksmsorCampaign_Template").is(":checked")) {
+                $("#QuicksmsorCampaign_TemplateID").attr("rc", "y");
+            } else { $("#QuicksmsorCampaign_TemplateID").attr("rc", "n"); }
+            if ($("#UploadExcelFile").is(':visible')) {
+                $("#QuicksmsorCampaign_ExcelFile").attr("rc", "y");
+            } else { $("#QuicksmsorCampaign_ExcelFile").attr("rc", "n"); }
+            if ($("#SelectSheet").is(':visible')) {
+                $("#QuicksmsorCampaign_SheetID").attr("rc", "y");
+            } else { $("#QuicksmsorCampaign_SheetID").attr("rc", "n"); }
+            var IsValid = validateAjaxclick('#CheckerUpdation');
+            if ($("#UploadGroupFile").is(':visible')) {
+                if ($("#UploadGroupFile").find("input[type=checkbox]:checked").length <= 0) {
+                    $("#GroupsDiv").attr('style', 'border: 1px solid red !important');
+                    AddError("#GroupsDiv", "please select Groups.");
+                    IsValid = false;
+                }
+            }
+            if (!$("#UploadExcelFile").is(':visible') && !$("#UploadGroupFile ").is(':visible')) {
+                $("#RecipentsDiv").attr('style', 'border: 1px solid red !important');
+                AddError("#RecipentsDiv", "Please select Recipient Details.");
+                IsValid = false;
+            }
+            if (IsValid) {
+                var Language = ""; var LangID = 1;
+                if ($('.enlng').is(":checked")) {
+                    Language = "English";
+                    LangID = 1;
+                }
+                else {
+                    Language = "Arabic";
+                    LangID = 2
+                }
+
+                var DLR = 0;
+                if ($("#QuicksmsorCampaign_DeliveryReport").is(":checked")) { DLR = 1; }
+                else { DLR = 0; }
+                var AllowDuplicates = 0;
+                if ($("#QuicksmsorCampaign_AllowDups").is(":checked")) { AllowDuplicates = 1; }
+                else { AllowDuplicates = 0; }
+                var TotalScheduleString = "";
+                var ScheduleDateTime = ""
+                var XMLSchedule = "";
+                var ScheduleType = 1;
+                var StartHr = $("#QuicksmsorCampaign_ScheduleStartTime option:selected").text();
+                var StartMin = $("#QuicksmsorCampaign_ScheduleStartMinutes option:selected").text();
+                var SchDate = $("#QuicksmsorCampaign_ScheduleStartDate option:selected").text();
+                var CampStatus = 5;
+
+                if ($(".sendnow").is(":checked")) {
+                    TotalScheduleString = "Send Now";
+                    ScheduleType = 1;
+                    CampStatus = 1;
+                }
+                else {
+                    TotalScheduleString = $("#schDetails").text().split('Schedule:')[1];
+                    ScheduleType = 2;
+                    CampStatus = 5
+                    ScheduleDateTime = $("#schDetails").text().split(',')[1];
+                    XMLSchedule = "";//<XML><RECURRENCE SCHEDULE='5' STARTTIME='"+StartHr+":"+StartMin+"' INTERVAL='18' STARTDATE='"+SchDate+"' ENDON='1' ENDONDATE='' SENDALERTON='' EVERYNWEEK='0' WEEKDAYS='' DAYS='' MONTHS='' /></XML>";
+                }
+                var ImportFileName = "";
+                var ext = "";
+                var fileName = "";
+                var RecipientsType = 0;
+                var GroupIds = "";
+
+                if ($("#UploadExcelFile").is(':visible')) {
+                    ImportFileName = $("#hdnFilePath").val();
+                    fileName = ImportFileName.split('\\').pop();
+                    ext = ImportFileName.match(/\.([^\.]+)$/)[1];
+                    if (ext == "txt" || ext == "csv") { RecipientsType = 1; }
+                    else if (ext == "xls" || ext == "xlsx") { RecipientsType = 2; }
+                }
+                if ($("#UploadGroupFile").is(':visible')) {
+                    RecipientsType = 3;
+                    var SelectedGroups = $("#UploadGroupFile").find("input[type=checkbox]:checked");
+                    $.each(SelectedGroups, function (i, item) {
+                        GroupIds += $(item).val() + ",";
+                    });
+                    GroupIds.trim(',');
+                }
+
+
+                var LocalModel = {
+                    CampID: $("#hdnCampID").val(),
+                    Name: $("#QuicksmsorCampaign_CampaignNameorRecipient").val().trim(),
+                    SenderID: $("#QuicksmsorCampaign_SenderId").val(),
+                    Sender: $("#QuicksmsorCampaign_SenderId option:selected").text(),
+                    CampaignTypeID: $("#QuicksmsorCampaign_CampTypeID").val(),
+                    CampaignType: $("#QuicksmsorCampaign_CampTypeID  option:selected").text(),
+                    MobileField: $("#QuicksmsorCampaign_MobileNumberField option:selected").text(),
+                    Language: Language,
+                    LangID: LangID,
+                    Message: $("#QuicksmsorCampaign_Message").val(),
+                    DLR: DLR,
+                    AllowDuplicates: AllowDuplicates,
+                    TotalScheduleString: TotalScheduleString.trim(),
+                    ScheduledType: ScheduleType,
+                    CharCount: $remaining.val(),
+                    CreditsUsed: $QuicksmsorCampaign_Message.val(),
+                    XMLSchedule: XMLSchedule.trim(),
+                    Criteria: "N'" + $("#QuicksmsorCampaign_Message").val(),
+                    PlaceHolders: "",
+                    MessageType: 1,
+                    Status: CampStatus,/////////////////////////////
+                    IpAddress: "",
+                    Type: "Camp",
+                    ImportFileName: ImportFileName,
+                    ActualFileName: fileName,
+                    SheetName: $('#QuicksmsorCampaign_SheetID option:selected').text(),
+                    RecipientsType: RecipientsType,
+                    GroupIds: GroupIds.trim(),
+                    RuleId: 0,/////////////////////////////////////
+                    TempTableName: "",///////////////////////////////////
+                    Remarks: "",
+                    IsDone: "",
+                    Schedule: ScheduleDateTime,
+                    PreprocessTime: "",
+                    IsProcess: 0,
+                    PreProcessStatus: 0,
+                    SchStatus: 1,
+                    Stageids: "",
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("LoadSubmitCamp", "CampaignPlugin")',
+                    headers: headers,
+                    data: { LocalModel: LocalModel, cmd: "_SubmitCampaign" },
+                    datatype: 'application/json',
+                    success: function (d) {
+                        if (d != (null || undefined)) {
+                            $("#SubmitCampDet").html('');
+                            $("#SubmitCampDet").html(d.PartialResult);
+                        }
+                        $('#msg-display,#main-formarea').slideToggle();
+                        $("html body").animate({ scrollTop: 0 });
+                        $("#btnSave").attr("disabled", true);
+                        $("#TestSms").attr("disabled", true);
+                        $("#btnReset").attr("disabled", true);
+                    },
+                    error: function (xhr, error, status) {
+                    }
+                });
+
+
+            }
+        });
+
+        $("#SendTestSMS").click(function () {
+            if ($("#QuicksmsorCampaign_MobileNumber").val() != "") {
+                var LanguageId = 1;
+                if ($('.enlng').is(":checked")) { LanguageId = 1; }
+                else { LanguageId = 2; }
+                var DLRRequired = 0;
+                if ($("#QuicksmsorCampaign_DeliveryReport").is(":checked")) { DLRRequired = 1; }
+                else { DLRRequired = 0; }
+                var OrgAddress = "@Configuration["IpAddress"]";
+
+
+                var TestSMSModel = {
+                    LanguageId: LanguageId,
+                    MessageId: 0,
+                    Priority: 100,
+                    SentStatus: 0,
+                    CharSet: 0,
+                    DLRRequired: DLRRequired,
+                    MobileNo: $("#QuicksmsorCampaign_MobileNumber").val().trim(','),
+                    SmsType: 1,
+                    Message: $("#QuicksmsorCampaign_Message").val(),
+                    CharCount: $remaining.val(),
+                    Credits: $QuicksmsorCampaign_Message.val(),
+                    ReferenceId: 0,
+                    ShortCode: "",
+                    Sender: $("#QuicksmsorCampaign_SenderId option:selected").text(),
+                    OrgAddress: OrgAddress,
+                    ModuleId: 0,
+                    ModuleType: "CampTest",
+                    ModuleUniqId: 0,
+                    SenderName: $("#QuicksmsorCampaign_SenderId option:selected").text(),
+                    ModuleName: $("#QuicksmsorCampaign_CampaignNameorRecipient").val().trim(),
+                    SmppReferenceId: "0",
+                    SmppSenderName: "",
+                    MessageQNo: "0",
+                    SmppStage: 0,
+                    SenderId: $("#QuicksmsorCampaign_SenderId").val()
+                };
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("InsertTestSMS", "CampaignPlugin")',
+                    headers: headers,
+                    data: { TestSMSModel: TestSMSModel, MbcID: 0 },
+                    datatype: 'application/json',
+                    success: function (d) {
+                        if (d != (null || undefined)) {
+                            $("#QuicksmsorCampaign_MobileNumber").val("");
+                            if (d == "MsgSubmitSuccess") {
+                                successMessage("TestSMS submitted successfully.");
+                                $("html body").animate({ scrollTop: 0 });
+                            }
+                            else if (d == "CustInActive") {
+                                errorMessage("Customer is in InActive state ");
+                                $("html body").animate({ scrollTop: 0 });
+                            }
+                            else if (d == "CustExpired") {
+                                errorMessage("Customer Expired");
+                                $("html body").animate({ scrollTop: 0 });
+                            }
+                            else if (d == "CustPrefInActive") {
+                                errorMessage("Customer Preferences are in InActive State");
+                                $("html body").animate({ scrollTop: 0 });
+                            }
+                            else if (d == "InsufficentCredits") {
+                                errorMessage("Insufficient Credits");
+                            }
+                        }
+                        //$('#msg-display,#main-formarea').slideToggle();
+                        //$("html body").animate({ scrollTop: 0 });
+                        //$("#btnSave").attr("disabled", true);
+                        //$("#TestSms").attr("disabled", true);
+                        //$("#btnReset").attr("disabled", true);
+                    },
+                    error: function (xhr, error, status) {
+                    }
+                });
+
+            }
+            else {
+                $("#QuicksmsorCampaign_MobileNumber").attr('style', 'border: 1px solid red !important');
+                AddError("#QuicksmsorCampaign_MobileNumber", "please enter mobileNos.");
+            }
+        });
+
+            function OnEdit(QSMSID, CampName, SenderID, LangID, Message, DLR, CampaignTypeID, MobileField, ImportFileName, RecipentID, GroupIds, ActualFileName, Sheet, ScheduledType, ScheduleDate, AllowDups, Status, RuleId, Remarks, edit) {
+                $("#hdnGroupFilePath").val("");
+                $("#hdnGroupFilePath").val(ActualFileName);
+                $(".panel-footer").show();
+                $("#btnReset").hide();
+                var arabiclan = /[\u0621-\u064A]/;
+                var unicodelan = /[\u0000-\u007F]/;
+                $('#QuicksmsorCampaign_ExcelFile').val("");
+                $("#UploadExcelFile,#UploadTextFile,#UploadGroupFile").hide();
+
+                $("#UploadGroupFile").find("input[type=checkbox]").removeAttr("checked").prop("checked", false);
+                $('#QuicksmsorCampaign_Template').removeAttr('checked', 'checked').prop('checked', false);
+                OnCheckTemplate($('#QuicksmsorCampaign_Template'));
+                $('#TemplateDiv').hide();
+                var sblRep = ActualFileName;
+                var EditFilePath = sblRep.replace(/\^/g, '/');
+                EditFilePath = EditFilePath.split("\\").pop();
+                //$("#QuicksmsorCampaign_ExcelFile").next('.filename').text("No file Selected");
+                if (ActualFileName != "") {
+                    //$('#Notepad').trigger('click');
+                    $('#UploadExcelFile').show();
+                    //$('#QuicksmsorCampaign_ExcelFile').val(EditFilePath);
+                    $("#QuicksmsorCampaign_ExcelFile").next('.filename').text(EditFilePath);
+                }
+                if (GroupIds != "") {
+                    $('#Group').trigger('click');
+                    $('#GroupIds').prop('checked', true);
+                    $('#GroupIds').attr('checked', 'checked');
+                }
+                if (Status == "Paused") {
+                    $("#QuicksmsorCampaign_CampaignNameorRecipient,#QuicksmsorCampaign_SenderId,#QuicksmsorCampaign_CampTypeID, #RecipentsDiv button, #RecipentsDiv input, #GroupsDiv input, #Schedulefield input,#Schedulefield select, #QuicksmsorCampaign_AllowDups, #QuicksmsorCampaign_MobileNumberField, #UploadExcelFile input, #UploadExcelFile button").attr('disabled', true);
+                }
+                if (Status == "Scheduled") {
+                    $("#QuicksmsorCampaign_CampaignNameorRecipient").attr('disabled', true);
+                }
+                //$('#QuicksmsorCampaign_MobileNumberField').append($('<option></option>'));
+                $("#hdnCampID").val(QSMSID);
+                //$("#show-msgpreview").hide();
+                $("#TemplateDiv").hide();
+                $("#QuicksmsorCampaign_CampaignNameorRecipient").val(CampName);
+                //  $("#QuicksmsorCampaign_CampaignNameorRecipient").val(CampName);
+                $("#QuicksmsorCampaign_SenderId").val(SenderID);
+
+                $("#QuicksmsorCampaign_CampTypeID").val(CampaignTypeID);
+                //$("#QuicksmsorCampaign_MobileNumberField").val(MobileField);
+                if (LangID == 1) {
+                    $('.english').attr("checked", true);
+                    $('.english').prop("checked", true);
+                    $('.english').attr("disabled", true);
+                    $('.arabic').attr("disabled", true);
+                    $('.arabic').prop("disabled", true);
+                    $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'left').attr('lang', 'en');
+                } else {
+                    $('.arabic').attr("checked", true);
+                    $('.arabic').prop("checked", true);
+                    $('.arabic').attr("disabled", true);
+                    $('.english').attr("disabled", true);
+                    $('.english').prop("disabled", true);
+                    if (Message.replace(/’/g, "'").match(arabiclan)) {
+                        $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'rtl').attr('lang', 'ar');
+                    }
+                    else {
+                        $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'ltr').attr('lang', 'ar');
+                    }
+
+                }
+                var msg = "";
+                var key1 = "$HDC$";
+                var key2 = "$HDCD$";
+
+                msg = Message.replaceAll(key1, "'").replaceAll(key2, "\"").replaceAll("^^", '"').replaceAll("Ø", "\\").replaceAll("~~", '"').replaceAll("qzzzq","%");
+
+                $("#QuicksmsorCampaign_Message").val(msg);
+                $("#QuicksmsorCampaign_PreviewMessage").val(msg);
+
+                $("#QuicksmsorCampaign_Message").attr("disabled", true);
+                $("#QuicksmsorCampaign_Message").prop("disabled", true);
+
+                var cname = "";
+                cname = CampName.replaceAll("Ø", "\\").replaceAll("ÞÞ", "^").replaceAll("qzzzq","%");
+
+                $("#QuicksmsorCampaign_CampaignNameorRecipient").val(cname);
+
+                //$("#QuicksmsorCampaign_PreviewMessage").attr("disabled", true);
+                //$("#QuicksmsorCampaign_PreviewMessage").prop("disabled", true);
+
+                fnShowCount();
+                if (DLR == 1) {
+                    $("#QuicksmsorCampaign_DeliveryReport").prop("checked", true);
+                    $("#QuicksmsorCampaign_DeliveryReport").attr("checked", true);
+                } else {
+                    $("#QuicksmsorCampaign_DeliveryReport").removeProp("checked");
+                    $("#QuicksmsorCampaign_DeliveryReport").removeAttr("checked");
+                }
+
+                if (CampaignTypeID == 2) {
+                    $("#QuicksmsorCampaign_CampTypeID").prop("checked", true);
+                    $("#QuicksmsorCampaign_CampTypeID").attr("checked", true);
+                } else {
+                    $("#QuicksmsorCampaign_CampTypeID").removeProp("checked");
+                    $("#QuicksmsorCampaign_CampTypeID").removeAttr("checked");
+                }
+
+
+                $("#QuicksmsorCampaign_CampTypeID").prop("disabled", true);
+                $("#QuicksmsorCampaign_CampTypeID").attr("disabled", true);
+
+                if (ScheduledType == 2) {
+                    $('.ScheduleLater').show();
+                    $(".schlater").attr('checked', 'checked').prop("checked", true);
+                    $('.sendnow').removeAttr('checked', 'checked').prop("checked", false);
+                    var SchTime = ScheduleDate.split(' ');
+                    $('#hdnBeforeEditSchTime').val(ScheduleDate);
+                    $('#QuicksmsorCampaign_ScheduleStartTime').val(parseInt(SchTime[1].split(':')[0]));
+                    $('#QuicksmsorCampaign_ScheduleStartMinutes').val(parseInt(SchTime[1].split(':')[1]));
+
+                    var date = new Date(SchTime[0].replace(/-/g, " "));
+                    $('#QuicksmsorCampaign_ScheduleStartDate').val(date.toString().substring(0, 15));
+                    LoadSCHDetails();
+                } else {
+                    $('.ScheduleLater').hide();
+                    $(".sendnow").attr('checked', 'checked').prop("checked", true);
+                    $('.schlater').removeAttr('checked', 'checked').prop("checked", false);
+                }
+                if (AllowDups == 1) {
+                    $("#QuicksmsorCampaign_AllowDups").attr("checked", true);
+                    $("#QuicksmsorCampaign_AllowDups").prop("checked", true);
+                } else {
+                    $("#QuicksmsorCampaign_AllowDups").removeAttr("checked");
+                    $("#QuicksmsorCampaign_AllowDups").removeProp("checked");
+                }
+
+                if (RecipentID == "1" || RecipentID == 2) {
+                    var filepath = ImportFileName;
+                    var ext = filepath.match(/\.([^\.]+)$/)[1];
+                    var fileName = ActualFileName;
+                    filepath = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(filepath), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("FileChangedEventOnEdit", "CCampaignPlugin")',
+                        headers: headers,
+                        data: { filepath: filepath },
+                        datatype: 'application/json',
+                        success: function (d) {
+                            if (d != "" && d != null && d != undefined) {
+                                if (d.Invalid) {
+                                    emsg(d.Message, false);
+                                    return false;
+                                }
+                                $("#UploadExcelFile").show();
+                                $("#UploadGroupFile").hide();
+                                if (ext == "xls" || ext == "xlsx") {
+                                    $("#SelectSheet").show();
+                                    $('#QuicksmsorCampaign_SheetID').html("");
+                                    $('#QuicksmsorCampaign_SheetID').append($('<option></option>').val(0).html("--Select Sheet--"));
+                                    $.each(d, function (key, val) {
+                                        $("#hdnEditSheetID").val(val.SheetName);
+                                        $('#QuicksmsorCampaign_SheetID').append(
+                                            $('<option></option>').val(val.SheetName).html(val.SheetName));
+                                    });
+                                    $("#QuicksmsorCampaign_SheetID option").filter(function () { return ($(this).text() == Sheet) }).attr('selected', true);
+                                    OnSheetChange(MobileField);
+                                }
+                                if (ext == "txt" || ext == "csv") {
+                                    $('#QuicksmsorCampaign_SheetID').html("");
+                                    $("#SelectSheet").hide();
+                                    $("#hdnTextReplace").val("");
+                                    var TextReplace = "";
+                                    $("#QuicksmsorCampaign_MobileNumberField").html("");
+                                    $('#QuicksmsorCampaign_MobileNumberField').append($('<option></option>').val(0).html("--Select MobileNo Field--"));
+                                    $.each(d[0].FileRecord, function (key, val) {
+                                        $('#QuicksmsorCampaign_MobileNumberField').append($('<option></option>').val(val).html(key));
+                                        TextReplace += key + "::" + val + "||";
+                                    });
+                                    $("#QuicksmsorCampaign_MobileNumberField option").filter(function () { return ($(this).text() == MobileField) }).attr('selected', true);
+                                    $("#hdnTextReplace").val(TextReplace);
+                                }
+                                //$('#Notepad').trigger('click');
+                                $(".filename").text(ActualFileName);
+                                $("#QuicksmsorCampaign_ExcelFile").text(ActualFileName);
+                                $("#QuicksmsorCampaign_ExcelFile").attr("title", ActualFileName);
+                                $(".filename").css("color", "#0088cc");
+                                $(".filename").css("font-size", "14px");
+                                $("#hdnFilePath").val(d[0].FilePath);
+                                $("#DeleteFile").attr("disabled", true);
+                                $("#DeleteFile").prop("disabled", true);
+                            } else if (d == "") {
+                                errorMessage("File deleted by someone");
+                                $(".filename").text("");
+                            }
+                        },
+                        error: function (xhr, error, status) {
+                            var err = xhr;
+                        }
+                    });
+                } else if (RecipentID == 3) {
+                    $("#UploadGroupFile").show();
+                    $("#UploadExcelFile").hide();
+                    $("#SelectSheet").hide();
+                    $("#hdnGroupFilePath").val(ActualFileName + "_3");
+                    $("#UploadGroupFile").find("input[type=checkbox]").removeAttr("checked");
+                    $("#UploadGroupFile").find("input[type=checkbox]").removeProp("checked");
+                    var GrpIds = GroupIds.split(',');
+                    $.each(GrpIds, function (i, item) {
+                        if (item != null || item != "") {
+                            $("#" + item).attr("checked", "checked");
+                            $("#" + item).prop("checked", "checked");
+                            //$(".GroupCheckBox").find('[data-parent=' + item + ']').attr("checked", "checked");
+                        }
+                    });
+                    $('.GroupCheckBox').trigger('change');
+                    $("#QuicksmsorCampaign_MobileNumberField").html("");
+                    $('#QuicksmsorCampaign_MobileNumberField').append($('<option></option>').val(0).html("--Select MobileNo Field--"));
+                    $('#QuicksmsorCampaign_MobileNumberField').append($('<option></option>').val(1).html("MobileNo"));
+                    $('#QuicksmsorCampaign_MobileNumberField').val(1);
+                }
+
+                $('#QuicksmsorCampaign_TemplateID').attr('disabled', false);
+                $('#QuicksmsorCampaign_TemplateID').prop('disabled', false);
+                $('#QuicksmsorCampaign_Template').attr('disabled', false);
+                $('#QuicksmsorCampaign_Template').prop('disabled', false);
+
+                if (RuleId > 0) {
+                    $('#QuicksmsorCampaign_Template').attr('checked', 'checked').prop('cheked', true).trigger('click');
+                    OnCheckTemplate($('#QuicksmsorCampaign_Template'));
+                    setTimeout(function () {
+                        $('#QuicksmsorCampaign_TemplateID').val(RuleId);
+                        OnChangeTemplate($('#QuicksmsorCampaign_TemplateID'));
+                        $("#hdnCustTmptStat").val(1);
+                        $('#QuicksmsorCampaign_TemplateID').attr('disabled', true);
+                        $('#QuicksmsorCampaign_TemplateID').prop('disabled', true);
+                        $('#QuicksmsorCampaign_Template').attr('disabled', true);
+                        $('#QuicksmsorCampaign_Template').prop('disabled', true);
+                    }, 2000);
+                } else {
+                    $('#QuicksmsorCampaign_Template').removeAttr('checked', 'checked').prop('cheked', false);
+                    $("#MapCustomDiv,#AddFields").slideUp();
+                    $('#QuicksmsorCampaign_TemplateID').attr('disabled', true);
+                    $('#QuicksmsorCampaign_TemplateID').prop('disabled', true);
+                    $('#QuicksmsorCampaign_Template').attr('disabled', true);
+                    $('#QuicksmsorCampaign_Template').prop('disabled', true);
+                }
+                //$('#QuicksmsorCampaign_Template').attr('disabled', true);
+                //$(window).scrollTop(0);
+            }
+
+            var nlangid = 1;
+
+            function lngchk(ctrl) {
+                if ($('.english').prop('checked') == true) {
+                    $('#QuicksmsorCampaign_Language').val(1);
+                    nlangid = 1;
+                    fnShowCount();
+                    langUnicode();
+                } else {
+
+                    $('#QuicksmsorCampaign_Language').val(2);
+                    nlangid = 2;
+                    fnShowCount();
+                    langUnicode();
+                }
+            }
+
+
+            function getBulksmsbySearch() {
+                var diffid = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(1), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                var encsearch = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($('#SearchTextValue').val()), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetCampaignSearchText", "CCampaignPlugin")',
+                    headers: headers,
+                    data: { SearchText: encsearch, DiffId: diffid },
+                    datatype: 'application/json',
+                    success: function (d) {
+                        if (d != (null || undefined)) {
+                            if (d.Invalid) {
+                                emsg(d.Message, false);
+                                return false;
+                            }
+                            $("#PartialCustomers").html('');
+                            $("#PartialCustomers").html(d);
+                            setTimeout(function () {
+                                $(".dataTable").addClass("gridtable");
+
+                                var lgval = document.getElementById("hdnLang").value == "lngArbic" ? "بحث" : "Search:";
+                                var slenghmenu = (document.getElementById("hdnLang").value == "lngArbic" ? ("تبين" + " _MENU_ " + "إدخالات") : "Show _MENU_ entries");
+                                var sinfo = (document.getElementById("hdnLang").value == "lngArbic" ? ("عرض" + " _START_ " + " إلى " + " _END_ " + " من " + " _TOTAL_ " + "إدخالات") : "Showing _START_ to _END_ of _TOTAL_ entries");
+                                var nodatamsg = document.getElementById("hdnLang").value == "lngArbic" ? "لا تتوفر بيانات في الجدول" : "No data available in table";
+                                var nomatchmsg = document.getElementById("hdnLang").value == "lngArbic" ? "لم يتم العثور على سجلات مطابقة" : "No matching records found";
+                                var sInfoFiltertext = document.getElementById("hdnLang").value == "lngArbic" ? "(تمت تصفيتها من _MAX_ إجمالي الإدخالات)" : "(filtered from _MAX_ total entries)";
+                                var sInfoempt = document.getElementById("hdnLang").value == "lngArbic" ? "عرض 0 إلى 0 من 0 إدخالات" : "Showing 0 to 0 of 0 entries";
+                                var table = $('.gridtable');
+                                table.dataTable({
+                                    "destroy": true,
+                                    "responsive": true,
+                                    "order": [],
+                                    "aoColumnDefs": [
+                                            {
+                                                "bSortable": false,
+                                                "aTargets": [0]
+                                            }
+                                    ],
+                                    "language": {
+                                        "search": lgval,
+                                        "sLengthMenu": slenghmenu,
+                                        "emptyTable": nodatamsg,
+                                        "sZeroRecords": nomatchmsg,
+                                        "sInfoFiltered": sInfoFiltertext,
+                                        "sInfoEmpty": sInfoempt,
+                                        "sInfo": sinfo,
+                                        "paginate": {
+                                            "previous": '<i class="demo-psi-arrow-left"></i>',
+                                            "next": '<i class="demo-psi-arrow-right"></i>'
+                                        }
+                                    },
+                                    iDisplayLength: 10,
+                                    aLengthMenu: [[10, 50, 100], [10, 50, 100, ]],
+                                    fnDrawCallback: function (o) {
+                                        if (o._iDisplayLength == -2) {
+                                        }
+                                    }
+                                });
+                                @*table.css('width', '100%');
+                            $('.dataTable').on('page.dt', function () {
+                                $('#checkAll').addClass('checkedAll').removeAttr('checked');
+                                onchkAll($('input#checkAll'));
+                            });
+                            $('.table-responsive .dataTable').before("<a style='display:none' id='chgStatus' onclick='chgAllStatus()'  class='btn btn-sm btn-info'>@lz.ChangeStatus</a>");
+                            $('.dataTables_filter input, .dataTables_length select').addClass('form-control');*@
+                                }, 1000);
+
+                        }
+                    },
+                    error: function (xhr, error, status) {
+                        var err = xhr;
+                    }
+                });
+
+            }
+
+            function langUnicode() {
+                var message = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($("#QuicksmsorCampaign_Message").val()), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                //  var message = $("#QuicksmsorCampaign_Message").val();
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("IsUnicode", "CampaignPlugin")',
+                    headers: headers,
+                    data: { sms: message },
+                    datatype: 'application/json',
+                    beforeSend: function () {
+
+                        $("#qLoverlay").css({ 'display': 'none', 'opacity': '0' });
+                        $("#qLbar").css({ 'display': 'none', 'opacity': '0' });
+
+                    },
+                    success: function (d) {
+                        if (d.Invalid) {
+                            errorMessage(d.Message, false);
+                            return false;
+                        }
+                        else {
+                            langCrs = d;
+                            langchk = d;
+                        }
+                    },
+                    complete: function () {
+
+                        $("#qLoverlay").css({ 'display': 'none', 'opacity': '0' });
+                        $("#qLbar").css({ 'display': 'none', 'opacity': '0' });
+
+                    },
+                });
+            }
+
+            function splCount(sval) {
+                var regex = /([€|{}\[\]\\~^])/g
+                var allFoundCharacters = sval.match(regex);
+                if (allFoundCharacters != null) {
+                    if (allFoundCharacters.length > 0) {
+                        return allFoundCharacters.length * 1
+                    }
+                } else {
+                    return 0;
+                }
+            }
+
+            function fnShowCount() {
+
+                var obj = $("#QuicksmsorCampaign_Message");
+                var sval = (obj.val().trim()); //.trim();
+                var svalcountspl = splCount(sval);
+                var objCount = $("#txtCharCount");
+                var nlen = sval.length;
+                objCount.innerHTML = nlen;
+                var langidobj = $("#QuicksmsorCampaign_Language");
+                var strCredits = 0;
+                var nLength;
+                var objGSMChars = $("#hdnGSMChars").val();
+                var objExGSMCHars = $("#hdnEXGSMChars").val();
+                var nreturn = true;
+                nLength = sval.length;
+                objGSMChars = unescape(objGSMChars);
+                objExGSMCHars = unescape(objExGSMCHars);
+                for (var i = 0; i < sval.length; i++) {
+                    var stvalue = sval[i];
+                    if (objGSMChars.indexOf(stvalue) == -1) {
+                        if (objExGSMCHars.indexOf(stvalue) != -1) {
+                            nLength = nLength + 1;
+                        }
+                        else {
+                            nreturn = false;
+                        }
+                    }
+                }
+                nlen = nLength;
+                var strNextCountOne = nlen;
+                var text = sval.replace(/’/g, "'");
+                if (text.match(/[^\u0000-\u007F]/)) {
+                    //if (sval.match(/[^\u0000-\u007F]/)) {
+                    // if (sval.match(/[\u0000-\u007F]/)) {
+                    divider1 = 67;
+                    if (nlen <= 70)
+                    { strCredits = 1; }
+                    else if (nlen > 70 && nlen <= 134)
+                    { strCredits = 2; }
+                    else {
+                        var strTotal = strNextCountOne / divider1;
+                        strCredits = Math.ceil(strTotal);
+                    }
+                    nlangid = 2;
+                }
+                else {
+                    nlen = nlen + svalcountspl;
+                    divider1 = 153;
+                    if (nlen <= 160)
+                    { strCredits = 1; }
+                    else if (nlen > 160 && nlen <= 306)
+                    { strCredits = 2; }
+                    else {
+                        var strTotal = strNextCountOne / divider1;
+                        strCredits = Math.ceil(strTotal);
+                    }
+                    nlangid = 1;
+                }
+                if (nlen == 0) {
+                    strCredits = 0;
+                }
+                $("#txtMSgCount").html(strCredits);
+                $("#txtCharCount").html(nlen);
+                return false;
+            }
+
+        $("#SendCampaign").click(function () {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SubmitCampaign", "CampaignPlugin")',
+                headers: headers,
+                data: { cmd: "Add" },
+                datatype: 'application/json',
+                success: function (d) {
+                    if (d != (null || undefined)) {
+                        $("#hdnFilePath").val(0);
+                        $("#hdnTextReplace").val(0);
+                        $("#hdnCampID").val(0);
+                        if (d == "MsgSubmitSuccess") {
+                            successMessage("Message submitted successfully.");
+                            $("html body").animate({ scrollTop: 0 });
+                            setTimeout(function () {
+                                window.location.reload(false);
+                            }, 2000);
+                        }
+                        else if (d == "SrvcError") {
+                            errorMessage("Send SMS Service may not be up and running.Campaign will be sent once the service starts.");
+                            $("html body").animate({ scrollTop: 0 });
+                            setTimeout(function () {
+                                window.location.reload(false);
+                            }, 2000);
+                        }
+                        else if (d == "MsgSubittedToChecker") {
+                            successMessage("Campaign submitted successfully");
+                            $("html body").animate({ scrollTop: 0 });
+                            setTimeout(function () {
+                                window.location.reload(false);
+                            }, 2000);
+                        }
+                        else if (d == "CustInActive") {
+                            errorMessage("Customer is in InActive state ");
+                            $("html body").animate({ scrollTop: 0 });
+                            setTimeout(function () {
+                                window.location.reload(false);
+                            }, 2000);
+                        }
+                        else if (d == "CustExpired") {
+                            errorMessage("Customer Expired");
+                            $("html body").animate({ scrollTop: 0 });
+                            setTimeout(function () {
+                                window.location.reload(false);
+                            }, 2000);
+                        }
+                        else if (d == "CustPrefInActive") {
+                            errorMessage("Customer Preferences are in InActive State");
+                            $("html body").animate({ scrollTop: 0 });
+                            setTimeout(function () {
+                                window.location.reload(false);
+                            }, 2000);
+                        }
+                        else if (d == "InsufficentCredits") {
+                            errorMessage("Insufficient Credits");
+                            $("html body").animate({ scrollTop: 0 });
+                            setTimeout(function () {
+                                window.location.reload(false);
+                            }, 2000);
+                        }
+                        else if (d == "UpdatedSuccessfully") {
+                            successMessage("Campaign Updated Successfully.");
+                            $("html body").animate({ scrollTop: 0 });
+                            setTimeout(function () {
+                                window.location.reload(false);
+                            }, 2000);
+                        }
+                        else if (d == "DuplicateName") {
+                            errorMessage("Campaign Name already Exists.");
+                            $("html body").animate({ scrollTop: 0 });
+                            setTimeout(function () {
+                                window.location.reload(false);
+                            }, 2000);
+                        }
+                        else if (d == "InvalidSchedule") {
+                            errorMessage("Schedule time should be greather than current date&time.");
+                            $("html body").animate({ scrollTop: 0 });
+                        }
+                    }
+                    $("#btnSave").attr("disabled", false);
+                    //$("#TestSms").attr("disabled", false);
+                    $("#btnReset").attr("disabled", false);
+                },
+                error: function (xhr, error, status) {
+                }
+            });
+        });
+
+
+
+
+
+
+
+        $("#ApproveBulk").click(function () {
+            //debugger;
+            var QSMSID = $("#hdnCampID").val();
+            var Stage = $("#hdnStageIDs").val();
+            var rejectreason = "";
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("ApproveOrRejectQSMS", "CCampaignPlugin")',
+                headers: headers,
+                data: { QSMSID: QSMSID, Status: 1, CurrentStatus: 1, Rejectreason: rejectreason, MbcID: 1, Stage: Stage, ModuleType: 1 },
+                datatype: 'html',
+                success: function (data) {
+                    $("#hdnCampID").val(0);
+                    $("#hdnStageIDs").val("");
+                    if (data == 7) {
+                        successMessage('Campaign approved successfully.');
+                        setTimeout(function () {
+                            window.location.reload(false);
+                        }, 2000);
+                        return false
+                    }
+                    if (data == 6) {
+                        errorMessage("Campaign Time Exceeded");
+                        $("html body").animate({ scrollTop: 0 });
+                        setTimeout(function () {
+                            window.location.reload(false);
+                        }, 2000);
+                        return false
+                    }
+                    else {
+                        errorMessage("Send SMS Service may not be up and running.Messages will be sent once the service starts.");
+                        $("html body").animate({ scrollTop: 0 });
+                        setTimeout(function () {
+                            window.location.reload(false);
+                        }, 2000);
+                    }
+                },
+                error: function (xhr, status) {
+                    $("#hdnCampID").val(0);
+                    $("#hdnStageIDs").val("");
+                    errorMessage('Exception Occured');
+                    setTimeout(function () {
+                        window.location.reload(false);
+                    }, 2000);
+                    return false
+                }
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+
+        $("#UploadExcelFile,#UploadTextFile,#UploadGroupFile").hide();
+        $(".closed-btn,.show-btn").click(function () {
+            $(".qsms").click();
+            // FileDeletion();
+            $("#QuicksmsorCampaign_CampTypeID").val(0);
+
+        });
+        $("#Excel").click(function (e) {
+            e.preventDefault();
+            $("#UploadExcelFile").show();
+            $("#UploadTextFile").hide();
+            $("#UploadGroupFile").hide();
+            $("#btnCloseExcel").click(function () {
+                $("#UploadExcelFile").hide();
+            });
+            $("#SelectSheet").show();
+        });
+        $("#Notepad").click(function (e) {
+            e.preventDefault();
+            //$("#UploadTextFile").show();
+            $("#UploadExcelFile").show();
+            $("#UploadGroupFile").hide();
+            $("#btnCloseExcel").click(function () {
+                $("#UploadExcelFile").hide();
+            });
+            $("#SelectSheet").hide();
+
+            $('#QuicksmsorCampaign_ExcelFile').attr('rc', 'y');
+        });
+        $("#Group").click(function (e) {
+            e.preventDefault();
+            $("#UploadGroupFile").show();
+            $("#UploadExcelFile").hide();
+            $("#SelectSheet").hide();
+            $("#QuicksmsorCampaign_MobileNumberField").html("");
+            $('#QuicksmsorCampaign_MobileNumberField').append($('<option></option>').val(0).html("--Select MobileNo Field--"));
+            $('#QuicksmsorCampaign_MobileNumberField').append($('<option></option>').val(1).html("MobileNo"));
+            setTimeout(function () {
+                $('#QuicksmsorCampaign_ExcelFile').removeAttr('rc', 'y');
+                removeerrorstylectrolfocus('#QuicksmsorCampaign_ExcelFile');
+            }, 2);
+        });
+
+        window.onload = function () {
+            setTimeout(function () { $("#QuicksmsorCampaign_CampaignNameorRecipient").focus(); }, 1000);
+            $("#QuicksmsorCampaign_CampTypeID").prop("disabled", true);
+            //var count = $("#QuicksmsorCampaign_SenderId option").length;
+            //if (count == 2) {
+            //    $("#QuicksmsorCampaign_SenderId option:first").hide();
+            //    $("#QuicksmsorCampaign_SenderId").prop("selectedIndex", 1);
+            //}
+
+            $("#QuicksmsorCampaign_PreviewMessage").val($("#QuicksmsorCampaign_Message").val());
+            $('.p-icon').removeAttr("data-target", "#msg-pre");
+            //setTimeout(function () {
+            //    $("#QuicksmsorCampaign_CampTypeID").append('<option value="1">Promotional</option>');
+            //}, 300);
+
+            //var len = $('#QuicksmsorCampaign_TemplateID option').length;
+            var Tempenabled = $('#QuicksmsorCampaign_Template').is(':disabled');
+            if (Tempenabled == false) {
+                $("#temphide").hide();
+            }
+
+            var CustId = '@ExtendedUser.LogOnRespons.CustomerId';
+            if (CustId != 1) {
+                $("#QuicksmsorCampaign_Template").prop('checked', true);
+                OnCheckTemplate($('#QuicksmsorCampaign_Template'));
+
+                setTimeout(function () {
+                    var TempCount = $('#QuicksmsorCampaign_TemplateID option').length;
+
+                    if (TempCount == 1) {
+                        $("#QuicksmsorCampaign_Template").prop('checked', false);
+                        OnCheckTemplate($('#QuicksmsorCampaign_Template'));
+                        $("#QuicksmsorCampaign_Template").attr('disabled', true);
+                        $("#QuicksmsorCampaign_Template").prop('disabled', true);
+                        //alert('Your user account doesnot have templates,please contact administrator');
+                        var Tempdisabled = $('#QuicksmsorCampaign_Template').is(':disabled');
+                        if (Tempdisabled == true) {
+                            $("#temphide").show();
+                        }
+                        $("#QuicksmsorCampaign_Message").attr("disabled", true);
+                        $('.english,.arabic').prop("disabled", true);
+                    }
+                    else {
+                        $("#QuicksmsorCampaign_Template").prop('checked', false);
+                        OnCheckTemplate($('#QuicksmsorCampaign_Template'));
+                    }
+                }, 1000);
+            }
+
+
+            var queryparams = '@Context.Request.Query["RCPN"]';
+            if (queryparams != (null || "")) {
+                $(".show-btn").trigger("click");
+                setTimeout(function () { $("#QuicksmsorCampaign_CampaignNameorRecipient").val(queryparams); }, 1);
+            }
+
+            $('#QuicksmsorCampaign_ExcelFile').on('change', function () {
+                var fileName = $(this).val().replace(".XLSX", ".xlsx").replace(".TXT", ".txt").replace(".CSV", ".csv").replace(".XLS", ".xls");
+                var regex = /(\..*){2,}/;
+                if (regex.test(fileName)) {
+                    emsg("@lz.Uploadfilecontainsdotsinfilename", false);
+                    $("#QuicksmsorCampaign_ExcelFile").val("");
+                    $(".filename").text("");
+                    return false;
+                }
+                var ext = fileName.match(/\.([^\.]+)$/)[1].toLowerCase();
+                fileName = fileName.split('\\').pop();
+                switch (ext) {
+                    case 'xls':
+                    case 'xlsx':
+                    case 'csv':
+                    case 'txt':
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            var contents = e.target.result;
+                            fileName = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(fileName), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                            $.ajax({
+                                type: "POST",
+                                url: '@Url.Action("FileChangedEvent", "CampaignPlugin")',
+                                headers: headers,
+                                data: { file: e.target.result, fileName: fileName },
+                                datatype: 'application/json',
+                                beforeSend: function () {
+                                    setTimeout(function () {
+                                        $("#qLoverlay").css('background', 'rgba(187, 187, 187, 0.5)').fadeIn(700);
+                                        $("#qLbar").fadeIn(700);
+                                    }, 200);
+                                },
+                                complete: function () {
+                                    setTimeout(function () {
+                                        $("#qLoverlay").fadeOut(700);
+                                        $("#qLbar").fadeOut(700);
+                                    }, 400);
+                                },
+                                success: function (d) {
+                                    if (d != (null || undefined)) {
+                                        if (d.Invalid) {
+                                            errorMessage(d.Message, false);
+                                            $("html,body").animate({ scrollTop: 0 }, 200);
+                                            return false;
+                                        }
+                                        if (d === "") {
+                                            errorMessage('@lz.InvalidFileFormat', false);
+                                            $('.filename').html("No file Selected");
+                                            $("#QuicksmsorCampaign_ExcelFile").val('');
+                                            $("html,body").animate({ scrollTop: 0 }, 200);
+                                            return false;
+                                        }
+                                        if (d == "Special Characters") {
+                                            errorMessage('File name contains invalid characters(Accepts a – z , A – Z , 0-9 , - , _ , space characters only)', false);
+                                            $('.filename').html("No file Selected");
+                                            $("#QuicksmsorCampaign_ExcelFile").val('');
+                                            $("html,body").animate({ scrollTop: 0 }, 200);
+                                            return false;
+                                        }
+                                        if (d == "Invalid File") {
+                                            errorMessage('@lz.InvalidFileFormat', false);
+                                            $("#QuicksmsorCampaign_ExcelFile").val('');
+                                            // $('.warningmessage').html('Invalid file format').addClass('alert alert-danger').delay(4000).fadeOut();
+                                            $('.filename').html("No file Selected");
+                                            $("html,body").animate({ scrollTop: 0 }, 200);
+                                            return false;
+                                        }
+
+                                        if (d == "File should contain header information") {
+                                            errorMessage('@lz.UploadFileshouldcontainheaderinformation', false);
+                                            // $('.warningmessage').html('Invalid file format').addClass('alert alert-danger').delay(4000).fadeOut();
+                                            $('.filename').html("No file Selected");
+                                            $("#QuicksmsorCampaign_ExcelFile").val('');
+                                            $("html,body").animate({ scrollTop: 0 }, 200);
+                                            return false;
+                                        }
+
+                                        if (ext == "xls" || ext == "xlsx") {
+                                            $("#SelectSheet").show();
+                                            $('#QuicksmsorCampaign_SheetID').html("");
+                                            $('#QuicksmsorCampaign_SheetID').append($('<option></option>').val(0).html("--Select Sheet--"));
+                                            $.each(d, function (key, val) {
+                                                $('#QuicksmsorCampaign_SheetID').append(
+                                                    $('<option></option>').val(val.SheetName).html(val.SheetName));
+                                            });
+                                        }
+                                        if (ext == "txt" || ext == "csv") {
+                                            $('#QuicksmsorCampaign_SheetID').html("");
+                                            $("#SelectSheet").hide();
+                                            $("#hdnTextReplace").val("");
+                                            var TextReplace = "";
+                                            $("#QuicksmsorCampaign_MobileNumberField").html("");
+                                            $('#QuicksmsorCampaign_MobileNumberField').append($('<option></option>').val(0).html("--Select MobileNo Field--"));
+                                            $.each(d[0].FileRecord, function (key, val) {
+                                                $('#QuicksmsorCampaign_MobileNumberField').append($('<option></option>').val(val).html(key));
+                                                TextReplace += key + "::" + val + "||";
+                                            });
+                                            $("#hdnTextReplace").val(TextReplace);
+                                        }
+                                        $('#QuicksmsorCampaign_ExcelFile').text(fileName);
+                                        $(".uploader").attr("title", fileName);
+                                        $(".filename").css("color", "#0088cc");
+                                        $(".filename").css("font-size", "14px");
+                                        $("#hdnFilePath").val(d[0].FilePath);
+                                        $("#DeleteFile").attr("disabled", false);
+                                    }
+                                },
+                                error: function (xhr, error, status) {
+                                    var err = xhr;
+                                }
+                            });
+                        }
+                        reader.onerror = function (e) {
+                            console.log(e);
+                            alert(e);
+                        };
+                        try {
+                            reader.readAsDataURL(this.files[0]);
+                        } catch (ex) {
+                        }
+                        break;
+                    default:
+                        errorMessage('@lz.InvalidFileFormat', false);
+                        $('.filename').text('No file Selected');
+                        this.value = '';
+                }
+            });
+        }
+
+        $("#DeleteFile").click(function () {
+            //FileDeletion();
+        });
+        function DownloadFile(FileName, ctrl) {
+            $("#" + ctrl).removeAttr("href");
+            var VertPath = "@Configuration["VertualPath"]" + FileName;
+            $("#" + ctrl).attr("href", VertPath);
+            $("#" + ctrl)[0].click();
+        }
+
+        function FileDeletion() {
+            var FilePath = $("#hdnFilePath").val();
+            if (FilePath != 0 && FilePath != "") {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("DeleteFile", "CampaignPlugin")',
+                    headers: headers,
+                    data: { FilePath: FilePath },
+                    datatype: 'application/json',
+                    success: function (data) {
+                        OnSetDropDowns();
+                        if (data == 7) {
+                            successMessage("File Deleted Successfully.");
+                            $("html,body").animate({ scrollTop: 0 }, 200);
+                        }
+                        else {
+                            errorMessage("File not Exist.");
+                            $("html,body").animate({ scrollTop: 0 }, 200);
+                        }
+                    },
+                    error: function (xhr, status) {
+                        OnSetDropDowns();
+                        errorMessage("Exception Occured.");
+                        $("html,body").animate({ scrollTop: 0 }, 200);
+                    }
+                });
+            }
+        }
+
+        function OnSheetChange(MobileField) {
+            var Sheet = $('#QuicksmsorCampaign_SheetID').val() == "0" ? $("#hdnEditSheetID").val() : $('#QuicksmsorCampaign_SheetID').val();//$('#QuicksmsorCampaign_SheetID').val();
+            Sheet = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Sheet), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("OnSheetChange", "CCampaignPlugin")',
+                headers: headers,
+                data: { Sheet: Sheet },
+                datatype: 'application/json',
+                success: function (data) {
+                    if (data.Invalid) {
+                        emsg(data.Message, false);
+                    }
+                    else {
+                        $("#hdnTextReplace").val("");
+                        var TextReplace = "";
+                        $("#QuicksmsorCampaign_MobileNumberField").html("");
+                        $('#QuicksmsorCampaign_MobileNumberField').append($('<option></option>').val(0).html("--Select MobileNo Field--"));
+                        var i = 1;
+                        $.each(data.FileRecord, function (key, val) {
+                            $('#QuicksmsorCampaign_MobileNumberField').append($('<option></option>').val(i).html(key));
+                            TextReplace += key + "::" + val + "||";
+                            i++;
+                        });
+                        $("#hdnTextReplace").val(TextReplace);
+                        $("#QuicksmsorCampaign_MobileNumberField option").filter(function () { return ($(this).text() == MobileField) }).attr('selected', true);
+
+                    }
+                },
+                error: function (xhr, status) {
+                    $("#QuicksmsorCampaign_ExcelFile").val("");
+                    $(".filename").text("No file Selected");
+                    $("#hdnFilePath").val(0);
+                    $("#DeleteFile").attr("disabled", true);
+                    errorMessage("@lz.ExceptionOccured");
+                    $("html,body").animate({ scrollTop: 0 }, 200);
+                }
+            });
+        }
+        function OnSetDropDowns() {
+            $(".uploader").removeAttr("title");
+            $(".filename").removeAttr("style");
+            $("#QuicksmsorCampaign_SheetID,#QuicksmsorCampaign_MobileNumberField").html('');
+            $('#QuicksmsorCampaign_SheetID').append($('<option></option>').val(0).html("--Select Sheet--"));
+            $('#QuicksmsorCampaign_MobileNumberField').append($('<option></option>').val(0).html("--Select MobileNo Field--"));
+            $(".filename").text("No file Selected");
+            $("#QuicksmsorCampaign_ExcelFile").val("");
+            $("#DeleteFile").attr("disabled", true);
+            $("#hdnFilePath").val(0);
+        }
+
+
+    </script>
+
+    <script type="text/javascript">
+
+        String.prototype.replaceAll = function (find, replace) {
+            var str = this;
+            return str.replace(new RegExp(find.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g'), replace);
+        };
+
+        $('a[data-toggle="tooltip"]').tooltip({
+            animated: 'fade',
+            placement: 'bottom',
+            template: '<div class="tooltip" style="border: 1px solid #cccccc;background: #ffffff; width: 400px; padding: 3px;white-space: nowrap"><div class="tooltip-inner" style="background: #ffffff; width:400px; color:#333333;white-space: nowrap"></div></div>',
+            html: true
+        });
+
+        function Rdoonchange(value, id) {
+            $('input:hidden[id=' + id + ']').val($(value).attr("datalang"))
+            smscount();
+        }
+        $('.enlng').on('change', function () {
+            $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'left').attr('lang', 'en');
+        });
+        $('.arlng').on('change', function () {
+            $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'rtl').attr('lang', 'ar');
+        });
+
+        //schedule later function
+        $('#QuicksmsorCampaign_ScheduleType,#QuicksmsorCampaign_ScheduleStartDate,#QuicksmsorCampaign_ScheduleStartTime,#QuicksmsorCampaign_ScheduleStartMinutes').change(function () {
+            LoadSCHDetails();
+        });
+
+        function LoadSCHDetails() {
+            $('#schDetails').html('');
+            if ($('.ScheduleLater input, .ScheduleLater select').val() != null || $('.ScheduleLater input,.ScheduleLater select').val() != "0") {
+                $('#schDetails').show();
+                var schType = $('#QuicksmsorCampaign_ScheduleType option:selected');
+                var hours = $('#QuicksmsorCampaign_ScheduleStartTime').val();
+                if (parseInt(hours) <= 9) { hours = "0" + hours; }
+                var minutes = $('#QuicksmsorCampaign_ScheduleStartMinutes').val();
+                if (parseInt(minutes) <= 9) { minutes = "0" + minutes; }
+                $('#schDetails').html('<b>Schedule:</b> '
+                    + $(schType).text() + " , "
+                    + $('#QuicksmsorCampaign_ScheduleStartDate').val() + "  "
+                    + hours + ":"
+                    + minutes + ":"
+                    + "00"
+                );
+
+            }
+            else {
+                $('#schDetails').hide();
+            }
+        }
+
+        $(".schlater").click(function () {
+            $('.ScheduleLater').show();
+            $(this).attr('checked', 'checked');
+            $('.sendnow').removeAttr('checked', 'checked');          
+            $('#QuicksmsorCampaign_ScheduleStartDate').attr('rc', 'y');
+
+        });
+        $(".sendnow").click(function () {
+            $('.ScheduleLater').hide();
+            $(this).attr('checked', 'checked');
+            $('.schlater').removeAttr('checked', 'checked');
+
+            setTimeout(function () {
+                $('#QuicksmsorCampaign_ScheduleStartDate').removeAttr('rc', 'n');
+                removeerrorstylectrolfocus('#QuicksmsorCampaign_ScheduleStartDate');
+            }, 2);
+        });
+        //contact groups function
+        var fnUpdateCount = function () {
+            var ContactGroup = $(".scrollarea input[type=checkbox]:checked").length;
+            console.log(ContactGroup, $("span.counter"))
+            if (ContactGroup > 0) {
+                $('span.counter').fadeIn(1000);
+                $('span.counter').html('Selected Groups: ' + ContactGroup + '<span onclick="rmvGrp()" class="icon12 fa fa-remove" style="color:#7f0000; cursor:pointer;"></span>');
+            } else {
+                $("span.counter").html('');
+            }
+        };
+        $(".scrollarea").on("change", function () {
+            fnUpdateCount();
+        });
+        $('.scrollarea').change(function () {
+            var checkthis = $(this);
+            // var checkboxes = $(".scrollarea input:checkbox");
+
+            if (checkthis.is(':checked')) {
+                checkthis.prop('checked', true);
+            } else {
+                checkthis.prop('checked', false);
+            }
+
+            fnUpdateCount();
+        });
+        function rmvGrp() {
+            $('.scrollarea input[type=checkbox]').removeAttr('checked');
+            $('span.counter').fadeOut(1000);
+        }
+        $("#QuicksmsorCampaign_ScheduleStartDate").datepicker({
+            format: 'D M dd yyyy',
+            autoclose: true,
+            startDate: '0'
+        });
+
+        /* Popover */
+
+        $('.maininfo').popover({
+            html: true,
+            content: function () {
+                return $('#myPopoverContent').html();
+            }
+        });
+
+
+        $(document).on('click', function (e) {
+            $('[data-toggle="popover"],[data-original-title]').each(function () {
+                //the 'is' for buttons that trigger popups
+                //the 'has' for icons within a button that triggers a popup
+                if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+                    (($(this).popover('hide').data('bs.popover') || {}).inState || {}).click = false  // fix for BS 3.3.6
+                }
+            });
+        });
+
+        /* Popover */
+
+        $("#BackCampaign").click(function () {
+            $("#RejectNote").hide();
+            $("#ApproveBulk,#RejectBulk").show();
+
+        });
+
+        function AddError(item, errormsg) {
+            //debugger;
+            $(item).parent().find(".error").remove();
+            $(item).parent().append('<div class="error" style="color: red; height:10px !important;">' + errormsg + ' </div>');
+        }
+
+        function closepover() {
+            $('.popover').toggleClass('in').remove();
+        }
+
+
+        $("#RejectBulk").click(function () {
+            //debugger;
+            var rejectreason = $("#QuicksmsorCampaign_RejectNote").val();
+            var Status = false;
+            if (rejectreason != "") {
+                Status = true;
+            }
+            if (Status == true) {
+                $("#QuicksmsorCampaign_RejectNote").removeAttr('style', 'border: 1px solid red !important');
+                var QSMSID = $("#hdnCampID").val();
+                var StageIDs = $("#hdnStageIDs").val();
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("ApproveOrRejectQSMS", "CCampaignPlugin")',
+                    headers: headers,
+                    data: { QSMSID: QSMSID, Status: 2, CurrentStatus: 3, Rejectreason: rejectreason, MbcID: 1, Stage: StageIDs, ModuleType: 1 },
+                    datatype: 'html',
+                    success: function (data) {
+                        $("#hdnCampID").val(0);
+                        $("#hdnStageIDs").val("");
+                        if (data == 7) {
+                            successMessage('Campaign rejected successfully.');
+                            $("html, body").animate({ scrollTop: 0 }, 600);
+                            setTimeout(function () {
+                                window.location.reload(false);
+                            }, 2000);
+                            return false
+                        }
+                        if (data == 6) {
+                            errorMessage("Campaign Time Exceeded");
+                            $("html body").animate({ scrollTop: 0 });
+                            setTimeout(function () {
+                                window.location.reload(false);
+                            }, 2000);
+                            return false
+                        }
+                        else {
+                            errorMessage("Send SMS Service may not be up and running.Messages will be sent once the service starts.");
+                            $("html body").animate({ scrollTop: 0 });
+                            setTimeout(function () {
+                                window.location.reload(false);
+                            }, 2000);
+                        }
+                    },
+                    error: function (xhr, status) {
+                        $("#hdnCampID").val(0);
+                        $("#hdnStageIDs").val("");
+                        errorMessage('Exception Occured');
+                        $("html, body").animate({ scrollTop: 0 }, 600);
+                        setTimeout(function () {
+                            window.location.reload(false);
+                        }, 2000);
+                        return false
+                    }
+                })
+            }
+        });
+    </script>
+}

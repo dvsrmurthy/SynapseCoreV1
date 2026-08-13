@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\**" />
+    <EmbeddedResource Remove="Areas\**" />
+    <None Remove="Areas\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ElmahCore" Version="2.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ClientHTTPConsuming.Utilities\ClientHTTPConsuming.Utilities.csproj" />
+    <ProjectReference Include="..\Core.Models\Core.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Excel.4.5">
+      <HintPath>bin\Debug\Excel.4.5.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

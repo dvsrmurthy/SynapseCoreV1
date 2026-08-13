@@ -1,0 +1,50 @@
+﻿@using Synapse.Web.CampaignPlugin.Models;
+@using Synapse.Web.CampaignPlugin.Helpers.SecureAccess;
+@using Core.Models.Dtos.CommonDtos;
+
+@inject IConfiguration Configuration;
+@inject IHttpContextAccessor HttpContextAccessor;
+
+@{
+    var lz = SessionExtensions.GetItem<LocalizationResponse>(HttpContextAccessor.HttpContext.Session);
+}
+@model List<SimpleSms>
+
+<table class="table dataTable table-striped">
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@lz.Name</td>
+                <td>@item.CampaignName</td>
+            </tr>
+            <tr>
+                <td>@lz.SMSType</td>
+                <td>@item.SmsType</td>
+            </tr>
+            <tr>
+                <td>@lz.SenderID</td>
+                <td>@item.SenderId</td>
+            </tr>
+            <tr>
+                <td>@lz.Language</td>
+                <td>@item.Language</td>
+            </tr>
+
+            <tr>
+                <td>@lz.ValidRecipients</td>
+                <td>@item.ValidRecipients</td>
+            </tr>
+            <tr>
+                <td>@lz.Credits</td>
+                <td>@item.Credits</td>
+            </tr>
+            <tr>
+                <th>@lz.StartDate</th>
+                <td> @item.StartDate</td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+

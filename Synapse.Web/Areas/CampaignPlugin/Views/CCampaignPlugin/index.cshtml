@@ -1,0 +1,482 @@
+﻿@using Core.Models.Extensions;
+@using Synapse.Web.CampaignPlugin.Models;
+@using Synapse.Web.CampaignPlugin.Helpers.SecureAccess
+@inject IConfiguration Configuration;
+@inject IHttpContextAccessor HttpContextAccessor;
+
+
+@model QuickSMSOrCampaignMain
+@{
+    //$.session.set("GsmChars", Model.MsgDetails);
+
+    List<SelectListItem> SendersList = new List<SelectListItem>();
+    var SenderColomns = Model.Senders;
+    if (SenderColomns != null && SenderColomns.Any())
+    {
+        SendersList = SenderColomns.Select(x => new SelectListItem { Value = x.SenderID.ToString(), Text = x.SenderName }).ToList();
+        SendersList.Insert(0, new SelectListItem { Value = "0", Text = "--Select Sender--" });
+    }
+    var Msgmodel = Model.ExtGSMCharecters;
+
+}
+<style type="text/css">
+    .tooltip.in {
+        width: 400px;
+    }
+</style>
+@{
+    ViewBag.Title = "Simple SMS Approval";
+}
+<div class="form-horizontal">
+
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="add-field" id="CheckerUpdation">
+                @using (Html.BeginForm("CreateQuickSMSorCampaign", "CampaignPlugin", new { Area = "CampaignPlugin" }, FormMethod.Post, false, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.AntiForgeryToken()
+                    <div class="panel ">
+                        <div class="warningmessage warn-msg">
+                        </div>
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@ViewBag.Title</h3>
+                        </div>
+                        <div class="panel-body  clearfix" id="main-formarea">
+
+                            <div id="">
+                                <div>
+                                    <fieldset>
+                                        <legend>
+                                            <span class="control-label">Compose</span>
+                                        </legend>
+                                        <div class="form-group">
+                                            <span class="col-lg-3 control-label" id="CampaignName">Recipient(s)</span>
+                                            <div class="col-lg-7">
+                                                @Html.TextBoxFor(x => x.QuicksmsorCampaign.CampaignNameorRecipient, new { @class = "form-control", @disabled = "disabled", @rc = "y", @errormsg = "Please enter recipient(s)", @onclick = "removeerrorstylectrolfocus(this)", @onblur = " CheckMaxQSMSLimit(this)" })
+                                            </div>
+                                            <a disabled="disabled" href="#" id="SelContactsLnk" style="margin-left: 10px"><span class="fa fa-address-book-o fa-1x text-purple"></span></a>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-lg-9 pull-left col-lg-offset-8">
+
+                                                <span style="color: Green; font-size: smaller; vertical-align: top;">
+                                                    *Maximum recipients are <label id="MaxLimit" style="color: Green; font-size: smaller; vertical-align: top;"></label>
+                                                </span>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" id="ContactsMainDiv">
+                                            <span class="col-lg-3 control-label"></span>
+                                            <div class="col-lg-7">
+                                                <div id="SelContactsDiv" class="" onclick="removeerrorstylectrolfocus(this)">
+                                                </div>
+                                                <div style="margin-top:8px; text-align:right;">
+                                                    <button disabled="disabled" type="button" name="command" id="SaveContacts" class="btn btn-info btn-sm tip" value="Submit">Submit</button>
+                                                    <button type="button" name="command" id="CloseContacts" class="btn btn-info btn-sm tip">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <span class="col-lg-3 control-label">Sender ID</span>
+                                            <div class="col-lg-7" style="">
+                                                @*@Html.HiddenFor(x => x.QuicksmsorCampaign.SenderId,Msgmodel)*@
+                                                @Html.DropDownListFor(x => x.QuicksmsorCampaign.SenderId, SendersList, new { @class = "form-control", @disabled = "disabled", @type = "select", @ct = "select", @rc = "y", @errormsg = "please Select senderID.", @onclick = "removeerrorstylectrolfocus(this)", @onchange = "Drponchange(this,'Campaign_SenderId')" })
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+                                    <fieldset>
+                                        <legend>
+                                            <span class="control-label">Message Details</span>
+                                        </legend>
+                                        <div class="form-group">
+                                            <div class="col-lg-9 pull-left col-lg-offset-3">
+                                                @*@Html.HiddenFor(x => x.QuicksmsorCampaign.Language, new { @cd = "y" })*@
+                                                @Html.RadioButtonFor(m => m.QuicksmsorCampaign.Language, "English", new { @ct = "radio", @disabled = "disabled", @datalang = "English", @class = " enlng", @name = "enlng", @onclick = "Rdoonchange(this,'QuicksmsorCampaign_Language'); removeerrorstylectrolfocus(this)" }) English
+                                                @Html.RadioButtonFor(m => m.QuicksmsorCampaign.Language, "Arabic", new { @ct = "radio", @disabled = "disabled", @datalang = "Arabic", @class = " arlng", @name = "arlng", @onclick = "Rdoonchange(this,'QuicksmsorCampaign_Language'); removeerrorstylectrolfocus(this)" }) Arabic
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-8 col-lg-offset-3">
+                                                @Html.CheckBoxFor(c => c.QuicksmsorCampaign.Template, new { @ct = "check", @disabled = "disabled", @onclick = "OnCheckTemplate(this)" }) Use Template
+                                            </div>
+                                        </div>
+                                        <div class="form-group" id="TemplateDiv">
+                                            <span class="col-lg-3 control-label">Templates</span>
+                                            <div class="col-lg-7">
+                                                @Html.DropDownListFor(x => x.QuicksmsorCampaign.TemplateID, new List<SelectListItem>
+                                                {
+                                                    new SelectListItem { Text = "--Select Template--", Value = "0" }
+                                                                                        }, new { @class = "form-control", @disabled = "disabled", @type = "select", @ct = "select", @rc = "y", @errormsg = "please Select Template.", @onclick = "removeerrorstylectrolfocus(this)", @onchange = "OnChangeTemplate(this)" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="col-lg-3 control-label">Message</span>
+                                        <div class="col-lg-7">
+                                            @Html.Hidden("ExtGSMChars", Msgmodel)
+                                            @Html.TextAreaFor(t => t.QuicksmsorCampaign.Message, new { @class = "form-control", @disabled = "disabled", @rc = "y", @errormsg = "please enter message", @onclick = "removeerrorstylectrolfocus(this)" })
+                                        </div>
+                                        <div class="col-lg-1">
+                                            <span class="input-group-btn">
+                                                <a class="btn p-icon" tabindex="20"><span class="fa-2x fa fa-mobile"></span></a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-8 col-lg-offset-3">
+                                            <b>
+                                                <span class="msgcss" id="remaining">0</span>&nbsp;
+                                                <span class="title">@Html.Label("character(s)")</span>
+                                            </b>
+                                        </div>
+                                    </div>
+                                    <div id="show-msgpreview">
+                                        <span class="btn close-btn pull-right text-danger"><span class="fa-2x fa fa-close iconred"></span></span>
+                                        <div class="handset" align="center">
+                                            @Html.TextAreaFor(t => t.QuicksmsorCampaign.PreviewMessage, new { @class = "form-control previewbox", @disabled = "disabled" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-8 col-lg-offset-3">
+                                            @Html.CheckBoxFor(c => c.QuicksmsorCampaign.DeliveryReport, new { @disabled = "disabled" })  <span style="margin-top: -6px;">Delivery Report Required</span>
+                                        </div>
+                                        <div class="col-lg-1 controlmargin">
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="RejectNote">
+
+                                        <span class="col-lg-3 control-label">Reject Reason </span>
+                                        <div class="col-lg-7">
+                                            @Html.TextAreaFor(x => x.QuicksmsorCampaign.RejectNote, new { @type = "text", @class = "EditFieldData form-control", @onclick = "removeerrorstylectrolfocus(this)", Rows = "4", @placeholder = "Reject Description", @errormsg = "please enter reject reason." })
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="panel-footer text-right">
+                        <button type="button" name="command" id="ApproveQSMS" class="btn btn-success ApproveBtn" value="Approve">Approve</button>
+                        <button type="button" name="command" id="RejectQSMS" class="btn btn-danger RejectBtn" value="Reject">Reject</button>
+                    </div>
+                </div>
+                                }
+            </div>
+
+            <div class="synapse-table" id="DataListTable">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">@ViewBag.Title</h3>
+                    </div>
+                    <div class="panel-body  clearfix" id="">
+                        <div>
+                            @Html.Partial("__CQuickSMSTable", Model.QuicksmsorCampaignCollections)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="demo-lg-modal" class="modal fade" tabindex="-1">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                            <h4 class="modal-title" id="myLargeModalLabel">@ViewBag.Title View</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div id="PartialResult">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <input type="hidden" id="hdnFilePath" value="0" />
+    <input type="hidden" id="hdnTextReplace" value="0">
+    <input type="hidden" id="GsmChars" value="0">
+    <input type="hidden" id="hdnQsmsID" value="0">
+    <input type="hidden" id="hdnStageIDs" value="" />
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+
+        @*$("#QuicksmsorCampaign_CampaignNameorRecipient").attr("title", "Please enter only " + @Configuration["MaxQSMSLimit"] + " Recipient(s)")*@
+        $("#MaxLimit").text(@Configuration["MaxQSMSLimit"]);
+        var $remaining = $('#remaining'),
+        $QuicksmsorCampaign_Message = $remaining.next();
+        //function isUnicode(s) { return /[^\u0000-\u00ff]/.test(s); }
+        $('#QuicksmsorCampaign_Message').keyup(function () {
+            smscount();
+            var value = $(this).val();
+            var TextReplace = $("#hdnTextReplace").val();
+            var KeyValuePair = $("#hdnTextReplace").val().split('||');
+            var replaceText = '';
+            $.each(KeyValuePair, function (i, item) {
+                var Msgkey = "<$" + item.split('::')[0] + "$>";
+                var MsgVal = item.split('::')[1];
+                if (value.indexOf(Msgkey) >= 0) {
+                    replaceText = value.replaceAll(Msgkey, MsgVal);
+                    value = replaceText;
+                }
+                if (KeyValuePair.length == (i + 1)) {
+                    $("#QuicksmsorCampaign_PreviewMessage").val(value);
+                }
+            })
+        }).keyup();
+        function CheckMaxQSMSLimit(cntrl) {
+            var ContactsCount = $(cntrl).val().split(',').length;
+            var MaxLmt = " @Configuration["MaxQSMSLimit"]";
+            if (parseInt(MaxLmt) < ContactsCount) {
+                errorMessage("Please enter only " + MaxLmt + " Recipient(s)");
+                $("html,body").animate({ scrollTop: 0 }, 600);
+            }
+        }
+
+    </script>
+    <script type="text/javascript">
+        var antiForgeryToken = $('input[name="__RequestVerificationToken"]').val();
+        var headers = {};
+        headers['__RequestVerificationToken'] = antiForgeryToken;
+        $("#ContactsMainDiv, #TemplateDiv, #show-msgpreview").hide();
+
+        $('.show-btn').click(function (event) {
+            $('#main-formarea').show();
+            $("#ContactsMainDiv,#TemplateDiv,#show-msgpreview").hide();
+        });
+        $('.p-icon').click(function (event) {
+            $('#show-msgpreview, #hide-msglist').slideToggle();
+        });
+        $('.close-btn').click(function (event) {
+            $('#show-msgpreview, #hide-msglist').slideUp();
+        });
+
+        $("#btnReset").click(function () {
+            $("#hdnQsmsID").val(0);
+            $("#ContactsMainDiv").hide();
+            $("#show-msgpreview").hide();
+            $("#TemplateDiv").hide();
+            $("#QuicksmsorCampaign_Template").removeProp("checked");
+            $("#QuicksmsorCampaign_CampaignNameorRecipient").attr("disabled", false);
+            $("#QuicksmsorCampaign_CampaignNameorRecipient").val("");
+            $("#QuicksmsorCampaign_SenderId").val(0);
+
+            $('.enlng').attr("checked", true);
+            $('.enlng').prop("checked", true);
+            $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'left').attr('lang', 'en');
+
+            $("#QuicksmsorCampaign_Message").val("");
+            $("#QuicksmsorCampaign_Message").attr("disabled", false);
+            $("#QuicksmsorCampaign.PreviewMessage").val("");
+            smscount();
+            $("#QuicksmsorCampaign_DeliveryReport").removeProp("checked");
+            $("#QuicksmsorCampaign_DeliveryReport").removeAttr("checked");
+        });
+
+
+    </script>
+
+
+    <script type="text/javascript">
+
+        function OnEdit(QSMSID, MobileNos, SenderID, LangID, Message, DLR) {
+            $("#hdnQsmsID").val(QSMSID);
+            $("#ContactsMainDiv").hide();
+            $("#show-msgpreview").hide();
+            $("#TemplateDiv").hide();
+            $("#QuicksmsorCampaign_CampaignNameorRecipient").val(MobileNos).attr("disabled", true);
+
+            $("#SelContactsLnk").removeAttr('href');
+
+            $("#QuicksmsorCampaign_SenderId").val(SenderID);
+            if (LangID == 1) {
+                $('.enlng').attr("checked", true);
+                $('.enlng').prop("checked", true);
+                $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'left').attr('lang', 'en');
+            }
+            else {
+                $('.arlng').attr("checked", true);
+                $('.arlng').prop("checked", true);
+                $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'rtl').attr('lang', 'ar');
+            }
+            $("#QuicksmsorCampaign_Message").val(Message);
+            $("#QuicksmsorCampaign_PreviewMessage").val(Message);
+            smscount();
+            if (DLR == 1) { $("#QuicksmsorCampaign_DeliveryReport").prop("checked", true); }
+            else { $("#QuicksmsorCampaign_DeliveryReport").removeProp("checked"); }
+        }
+        function OnViewClick(QSMSName, Sender, Lang, Message, CreditsUsed, TotalCredits, Dlr, AddedDate, Status) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("OnView", "CampaignPlugin")',
+                headers: headers,
+                data: { QSMSName: QSMSName, Sender: Sender, Lang: Lang, Message: Message, CreditsUsed: CreditsUsed, TotalCredits: TotalCredits, Dlr: Dlr, AddedDate: AddedDate, Status: Status, RecipentID: 1, GrpName: "", ValidCount: 0, ScheduleDate: "", ActualFileName: "", cmd: "_QSMSView" },
+                datatype: 'application/json',
+                success: function (d) {
+                    if (d != (null || undefined)) {
+                        $("#PartialResult").html('');
+                        $("#PartialResult").html(d.PartialResult);
+                    }
+                },
+                error: function (xhr, error, status) {
+
+                }
+            });
+        }
+        function sample(value, act) {
+            $("#hdnQsmsID").val(0);
+            $("#QuicksmsorCampaign_CampaignNameorRecipient").attr("disabled", false);
+            $("#SelContactsLnk").prop('href', 'javascript:SelContactsQSMS()');
+            $("#QuicksmsorCampaign_CampaignNameorRecipient").attr("title", "Please enter recipient mobile numbers along with country code, Eg: 97150 XXX XXX, 97155 XXX XXX");
+
+            $("#SelectSheet").hide();
+            $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'left').attr('lang', 'en');
+            if (act != (null || undefined) && act == 'Edit') {
+                internalPost("@Url.Action("OnEdit", "PhoneBookPlugin")", { id: value }, 'ADDForm', 'group_');
+            }
+            else {
+                clearparent('ADDForm', 'group_');
+
+            }
+        }
+
+
+
+        $("#ApproveQSMS").click(function () {
+            //debugger;
+            var QSMSID = $("#hdnQsmsID").val();
+            var Stage = $("#hdnStageIDs").val();
+            var rejectreason = "";
+            var ModuleType = 0;
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("ApproveOrRejectQSMS", "CCampaignPlugin")',
+                headers: headers,
+                data: { QSMSID: QSMSID, Status: 0, CurrentStatus: 1, Rejectreason: rejectreason, MbcID: 1, Stage: Stage, ModuleType: ModuleType },
+                datatype: 'html',
+                success: function (data) {
+                    $("#hdnQsmsID").val(0);
+                    $("#hdnStageIDs").val(0);
+                    if (data == "7") {
+                        successMessage('Quick SMS approved successfully.');
+                        setTimeout(function () {
+                            window.location.reload(false);
+                        }, 2000);
+                        return false
+                    }
+                    else if (d == "SrvcError") {
+                        errorMessage("Send SMS Service may not be up and running.Messages will be sent once the service starts.");
+                        $("html body").animate({ scrollTop: 0 });
+                        setTimeout(function () {
+                            window.location.reload(false);
+                        }, 2000);
+                    }
+                },
+                error: function (xhr, status) {
+                    $("#hdnQsmsID").val(0);
+                    $("#hdnStageIDs").val(0);
+                    errorMessage('Exception Occured');
+                    setTimeout(function () {
+                        window.location.reload(false);
+                    }, 2000);
+                    return false
+                }
+            });
+        });
+
+
+        $("#RejectQSMS").click(function () {
+            var QSMSID = $("#hdnQsmsID").val();
+            var Stage = $("#hdnStageIDs").val();
+            var rejectreason = $("#QuicksmsorCampaign_RejectNote").val();
+            var ModuleType = 0;
+            var Status = false;
+            if (rejectreason != "") {
+                Status = true;
+            }
+            if (Status == true) {
+                $("#QuicksmsorCampaign_RejectNote").removeAttr('style', 'border: 1px solid red !important');
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("ApproveOrRejectQSMS", "CCampaignPlugin")',
+                    headers: headers,
+                    data: { QSMSID: QSMSID, Status: 2, CurrentStatus: 3, Rejectreason: rejectreason, MbcID: 1, Stage: Stage, ModuleType: ModuleType },
+                    datatype: 'html',
+                    success: function (data) {
+                        $("#hdnQsmsID").val(0);
+                        $("#hdnStageIDs").val(0);
+                        if (data == "7") {
+                            successMessage('Quick SMS rejected successfully.');
+                            $("html, body").animate({ scrollTop: 0 }, 600);
+                            setTimeout(function () {
+                                window.location.reload(false);
+                            }, 2000);
+                            return false
+                        }
+                        else if (d == "SrvcError") {
+                            errorMessage("Send SMS Service may not be up and running.Messages will be sent once the service starts.");
+                            $("html body").animate({ scrollTop: 0 });
+                            setTimeout(function () {
+                                window.location.reload(false);
+                            }, 2000);
+                        }
+                    },
+                    error: function (xhr, status) {
+                        $("#hdnQsmsID").val(0);
+                        $("#hdnStageIDs").val(0);
+                        errorMessage('Exception Occured');
+                        $("html, body").animate({ scrollTop: 0 }, 600);
+                        setTimeout(function () {
+                            window.location.reload(false);
+                        }, 2000);
+                        return false
+                    }
+                })
+            }
+            else {
+                $("#QuicksmsorCampaign_RejectNote").attr('style', 'border: 1px solid red !important');
+                AddError("#QuicksmsorCampaign_RejectNote","Please enter Reject Reason");
+            }
+
+        });
+        function AddError(item, errormsg) {
+            //debugger;
+            $(item).parent().find(".error").remove();
+            $(item).parent().append('<div class="error" style="color: red; height:10px !important;">' + errormsg + ' </div>');
+        }
+
+    </script>
+
+    <script type="text/javascript">
+
+        String.prototype.replaceAll = function (find, replace) {
+            var str = this;
+            return str.replace(new RegExp(find.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g'), replace);
+        };
+
+        $('a[data-toggle="tooltip"]').tooltip({
+            animated: 'fade',
+            placement: 'bottom',
+            template: '<div class="tooltip" style="border: 1px solid #cccccc;background: #ffffff; width: 400px; padding: 3px;white-space: nowrap"><div class="tooltip-inner" style="background: #ffffff; width:400px; color:#333333;white-space: nowrap"></div></div>',
+            html: true
+        });
+        function Rdoonchange(value, id) {
+            $('input:hidden[id=' + id + ']').val($(value).attr("datalang"))
+            smscount();
+        }
+        $('.enlng').on('change', function () {
+            $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'left').attr('lang', 'en');
+        });
+        $('.arlng').on('change', function () {
+            $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'rtl').attr('lang', 'ar');
+        });
+
+    </script>
+}

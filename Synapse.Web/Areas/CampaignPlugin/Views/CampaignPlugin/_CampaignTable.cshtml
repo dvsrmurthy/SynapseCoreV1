@@ -1,0 +1,38 @@
+﻿@using Synapse.Web.CampaignPlugin.Models
+@model List<CampaignSMS>
+
+               @*@using GridMvc.Html;
+               @Html.Grid(Model).Columns(columns =>
+           {
+               //columns.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(o => Html.CheckBox("checked", false));
+               columns.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(foo => @<a href="#" class="btn btn-info btn-sm">
+                   <span class="glyphicon glyphicon-book"></span>
+               </a>);
+               columns.Add(foo => foo.Compose.CampaignName).Titled("Name").SetWidth(110);
+
+
+               columns.Add().Titled("Action").Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(foo => @<a href="#" class="btn btn-info btn-sm">
+                   <span class="glyphicon glyphicon-pencil"></span>
+               </a>);
+
+           }).WithPaging(5)*@
+@*@using GridMvc.Html;*@
+
+@*@Html.Grid(Model).Columns(columns =>
+           {
+       columns.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(o => Html.CheckBox("checked", false));
+       columns.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(foo => @<a href="#" class="btn btn-info btn-sm">
+         <span class="glyphicon glyphicon-book"></span></a>);
+               columns.Add(foo => foo.CampaignName).Titled("Name").SetWidth(110);
+               columns.Add(foo => foo.CampaignName).Titled("SMS Type").SetWidth(110);
+               columns.Add(foo => foo.CampaignName).Titled("Sender ID").SetWidth(110);
+               columns.Add(foo => foo.CampaignName).Titled("Language").SetWidth(150);
+               columns.Add(foo => foo.CampaignName).Titled("Valid Recipients").SetWidth(50);
+               columns.Add(foo => foo.CampaignName).Titled("Credits").SetWidth(110);
+               columns.Add(foo => foo.CampaignName).Titled("Start Date").SetWidth(110);
+               columns.Add(foo => foo.CampaignName).Titled("Status").SetWidth(110);
+
+ columns.Add().Titled("Action").Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(foo => @<a href="#" class="btn btn-info btn-sm">
+              <span class="glyphicon glyphicon-pencil"></span>    </a>);
+
+           }).WithPaging(5)*@

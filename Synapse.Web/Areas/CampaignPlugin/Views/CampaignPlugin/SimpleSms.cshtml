@@ -1,0 +1,498 @@
+﻿@using Synapse.Web.CampaignPlugin.Models;
+@model SimpleSmsMain
+
+<!--Large Bootstrap Modal-->
+<!--===================================================-->
+<div id="msg-preview" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg" style="width: 800px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                <h4 class="modal-title" id="myLargeModalLabel">Simple SMS Preview</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-8">
+
+                        <!-- Campaign Preview -->
+                        <div class="camppreview">
+
+                            <div class="col-sm-6 impdetails">
+                                <span class="detailinfo">Contacts</span>
+                                <span class="detailvalue">10</span>
+                            </div>
+
+                            <div class="col-sm-3 impdetails">
+                                <span class="detailinfo">Characters</span>
+                                <span class="detailvalue">129</span>
+                            </div>
+
+                            <div class="col-sm-3 impdetails">
+                                <span class="detailinfo">Credits</span>
+                                <span class="detailvalue">1</span>
+                            </div>
+
+                            <div class="col-sm-8 impdetails">
+                                <span class="sidlanginfo">Sender ID</span>
+                                <span class="sidlangvalue">Synapse</span>
+                            </div>
+
+                            <div class="col-sm-4 impdetails">
+                                <span class="sidlanginfo">Language</span>
+                                <span class="sidlangvalue">English</span>
+                            </div>
+
+                            <div class="campotherdetails">
+
+                                <dl>
+                                    <dt>SMS Type</dt>
+                                    <dd>Test SMSC</dd>
+                                </dl>
+
+                                <dl>
+                                    <dt>Delivery Report</dt>
+                                    <dd>Yes</dd>
+                                </dl>
+
+                                <dl>
+                                    <dt>Allow Duplicates</dt>
+                                    <dd>Yes</dd>
+                                </dl>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-4" style="position:relative"><textarea class="phoneprview"></textarea><img src="~/Content/images/iphoneplain.png" /></div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="next btn btn-success" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--===================================================-->
+<!--End Large Bootstrap Modal-->
+
+<div class="panel">
+
+    <div id="message"></div>
+
+    <!-- Bubble Numbers Form Wizard -->
+    <!--===================================================-->
+    <div id="demo-step-wz">
+
+        <div class="wz-heading wz-w-label">
+            <!--Wizard Nav-->
+            <ul class="wz-steps wz-icon-bw wz-nav-off text-lg">
+                <li class="col-xs-4 bg-primary pad-ver active">
+                    <a data-toggle="tab" href="#demo-step-tab1" aria-expanded="true">
+                        <span class="icon-wrap icon-wrap-xs icon-circle bg-gray">
+                            <span class="wz-icon icon-txt ">1</span>
+                            <i class="wz-icon-done fa fa-check "></i>
+                        </span>
+                        <small class="wz-desc">Compose Test SMSC <i class="fa fa-angle-double-right" aria-hidden="true"></i></small>
+                    </a>
+                </li>
+                <li class="col-xs-4 bg-info pad-ver">
+                    <a data-toggle="tab" href="#demo-step-tab2" aria-expanded="false">
+                        <span class="icon-wrap icon-wrap-xs icon-circle bg-gray ">
+                            <span class="wz-icon icon-txt ">2</span>
+                            <!-- <i class="wz-icon-done fa fa-check"></i>-->
+                            <i class="wz-icon-done fa fa-check "></i>
+                        </span>
+                        <small class="wz-desc">Message Details <i class="fa fa-angle-double-right" aria-hidden="true"></i></small>
+                    </a>
+                </li>
+                <li class="col-xs-4 bg-mint pad-ver">
+                    <a data-toggle="tab" href="#demo-step-tab3">
+                        <span class="icon-wrap icon-wrap-xs icon-circle bg-gray ">
+                            <span class="wz-icon icon-txt">3</span>
+                            <i class="wz-icon-done fa fa-check "></i>
+                        </span>
+                        <small class="wz-desc">Finish</small>
+                    </a>
+                </li>
+
+            </ul>
+            <!--End Wizard Nav-->
+        </div>
+
+        <div class="add-field form-horizontal" id="ADDForm">
+
+            @using (Html.BeginForm("SimpleSMS", "CampaignPlugin", new { Area = "CampaignPlugin" }, FormMethod.Post,  false, new { enctype = "multipart/form-data" }))
+            {
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                @Html.AntiForgeryToken()
+                <div class="panel-body">
+                    <div class="tab-content pad-top">
+                        <!--First tab-->
+                        <div id="demo-step-tab1" class="tab-pane active in">
+
+                            <!-- Form group -->
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-6 input-group">
+                                    @Html.TextBoxFor(x => x.SimpleSms.recipients, new { @class = "form-control", @placeholder = "Recipients" })
+                                    <span class="input-group-btn">
+                                        <button id="selectcontacts" class="btn btn-default" type="button"><i class="fa fa-address-book-o fa-1x text-mint" aria-hidden="true"></i></button>
+                                    </span>
+
+                                </div>
+                            </div>
+                            <!-- End Form group -->
+                            <!-- Form group -->
+                            <div class="form-group" id="phbookcontacts">
+                                <div class="col-sm-offset-3 col-sm-6">
+                                    <div class="qsmsPhonebook">
+                                        <table class="table table-striped table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th><input type="checkbox" id="ParentCB" data-parent="All" onclick="CheckAllContacts(this)"> All</th>
+                                                    <th>First Name</th>
+                                                    <th>Mobile</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="checkbox" class="ChildCB" data-parent="C" data-id="971516412562" value="971516412562"></td>
+                                                    <td>RAVI1</td>
+                                                    <td>971516412562</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="checkbox" class="ChildCB" data-parent="C" data-id="971516412563" value="971516412563"></td>
+                                                    <td>RAVI8</td>
+                                                    <td>971516412563</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="panel-footer">
+                                        <button type="button" class="btn btn-primary">Save</button>
+                                        <button id="closecontacts" type="button" class="next btn btn-default">Close</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- End Form group -->
+                            <!-- End Form group -->
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-6">
+                                @Html.DropDownListFor(x => x.SimpleSms.SenderId, new List<SelectListItem>
+                                {
+                                    new SelectListItem{ Text="Sender ID 1", Value = "1" },
+                                    new SelectListItem{ Text="Sender ID 2", Value = "2" },
+                                }, new { @class = "demo_select2 form-control", @placeholder = "Sender ID" })
+
+                                </div>
+                            </div>
+                            <!-- End Form group -->
+
+                        </div>
+                        <!--First tab-->
+
+                        <!--Second tab-->
+                        <div id="demo-step-tab2" class="tab-pane fade">
+                            <div class="form-group">
+                                <div class="col-lg-6 col-lg-offset-3">
+                                    @*<div class="radio">*@
+                                        @Html.RadioButtonFor(x => x.SimpleSms.Language, "English", new { @name = "language" }) <label for="Language">English</label>
+                                        @Html.RadioButtonFor(x => x.SimpleSms.Language, "Arabic", new { @name = "language" }) <label for="Language">Arabic</label>
+                                    @*</div>*@
+                                </div>
+                            </div>
+
+
+                            <!-- Form Group -->
+                            <div class="form-group">
+                                <div class="col-lg-6 col-lg-offset-3">
+                                        @Html.CheckBoxFor(x => x.SimpleSms.Template)
+                                        <label for="Template">Use Template</label>
+                                </div>
+                            </div>
+                            <!-- End Form Group -->
+                            <!-- End Form group -->
+                            <div class="form-group" id="templatediv">
+                                <div class="col-sm-offset-3 col-sm-6">
+                                    @Html.DropDownListFor(x => x.SimpleSms.TemplateID, new List<SelectListItem>
+                                {
+                                    new SelectListItem{ Text="-- Select Template --", Value = "1" },
+                                }, new { @class = "demo_select2 form-control", @placeholder = "Sender ID" })
+                                </div>
+                            </div>
+                            <!-- End Form group -->
+                            <!-- Form Group -->
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-6">
+                                    @Html.TextAreaFor(x => x.SimpleSms.Message, new { @class = "form-control txtMessage", @placeholder = "Message", @rows = "3" })
+                                </div>
+                                <div class="col-sm-1"><a href="#" data-target="#msg-preview" data-toggle="modal"><i class="fa fa-search-plus" aria-hidden="true"></i> Preview</a></div>
+                                <div class="col-lg-6 col-lg-offset-3">
+                                    <div class="msgcss">
+                                        <span id="remaining"></span>&nbsp;&nbsp;<span class="title"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Form Group -->
+                            <!-- Form Group -->
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label"></label>
+                                <div class="col-lg-7">
+                                    @Html.CheckBoxFor(x => x.SimpleSms.DeliveryReport)
+                                    <label for="DeliveryReport">Delivery Report</label>
+
+                                </div>
+                            </div>
+                            <!-- End Form Group -->
+                            
+                        </div>
+                        <!--Second tab-->
+
+                        <!--Third tab-->
+                        <div id="demo-step-tab3" class="tab-pane mar-btm text-center">
+                            <h4>Thank you</h4>
+                            <p>Your Test SMSC has been submitted successfully.</p>
+                        </div>
+                        <!-- Third tab -->
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <input type="button" name="command" onclick="TestDetails()" class="btn btn-default next tip" value="Save">
+                    @*<button type="submit" name="command" style="display:none" id="SaveDetails" class="btn btn-default tip" value="Save"><span class="icon16 icomoon-icon-checkmark"></span>Save</button>*@
+                    <button type="button" name="command" id="" class="btn btn-default tip" value="Clear"><span class="icon16 icomoon-icon-checkmark"></span>Clear</button>
+                </div>
+
+            }
+        </div>
+    </div>
+    <!--===================================================-->
+    <!-- End Bubble Numbers Form Wizard -->
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Simple SMS</h3>
+            </div>
+
+            <!--Data Table-->
+            <!--===================================================-->
+            <div class="panel-body">
+                <div>
+                    @Html.Partial("_SimpleSms", Model.SimpleSmsTable)
+                </div>
+            </div>
+            <!--===================================================-->
+            <!--End Data Table-->
+
+        </div>
+    </div>
+
+
+        @*///////////////////////////View Form Starts Here///////////////////////////////////*@
+        <div id="demo-lg-modal" class="modal fade" tabindex="-1">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content View-list" id="ViewForm">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                        <h4 class="modal-title" id="myLargeModalLabel">TestSMSC View</h4>
+                    </div>
+                    <div class="modal-body" id="">
+                        <div id="PartialResult">
+                            @Html.Partial("_UserView", Model.SimpleSmsTable)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*////////////////////////View Form Ends Here/////////////////////////////*@
+
+    </div>
+
+
+
+@section scripts{
+
+    <script type="text/javascript">
+
+                    $('.searchdropdown').chosen();
+
+                    var antiForgeryToken = $('input[name="__RequestVerificationToken"]').val();
+                    var headers = {};
+                    headers['__RequestVerificationToken'] = antiForgeryToken;
+
+                    function sample(value, act) {
+                        if (act != (null || undefined) && act == 'Edit') {
+                            clearparent('ADDForm', 'TestSMSC_');
+                            internalPost("@Url.Action("OnEditTestSMSC", "SMSCSettingsPlugin")", { id: value }, 'ADDForm', 'TestSMSC_');
+
+                        }
+                        else {
+                            clearparent('ADDForm', 'TestSMSC_');
+                            setTimeout(function () { $("#TestSMSC_User").focus(); }, 1000);
+
+                        }
+                    }
+
+
+                    function TestDetails() {
+                        var isValid = validateAjaxclick('#ADDForm');
+                        if (isValid) {
+                            var d = {
+                                User: $('#TestSMSC_User').val(),
+                                Recipients: $('#TestSMSC_Recipients').val(),
+                                SenderId: $('#TestSMSC_SenderId').val(),
+                                Message: $('#TestSMSC_Message').val(),
+                                Languagename: $('input:hidden[id=TestSMSC_Languagename]').val()
+                            };
+
+                            $.ajax({
+                                type: "POST",
+                                url: '@Url.Action("TestSMSC", "SMSCSettingsPlugin")',
+                                headers: headers,
+                                data: d,
+                                datatype: 'application/json',
+                                success: function (d) {
+                                    if (d != (null || undefined)) {
+                                        if (d.IsValid) {
+                                            smsg(d.Message, true);
+                                        }
+                                        else {
+                                            emsg(d.Message, false);
+                                        }
+                                    }
+                                },
+                                error: function (xhr, error, status) {
+                                    emsg('error', false);
+                                }
+                            });
+
+                        }
+
+                    }
+
+
+
+                    function OnViewClick(value) {
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("OnEditTestSMSC", "SMSCSettingsPlugin")',
+                            headers: headers,
+                            data: { id: value, cmd: "View" },
+                            datatype: 'application/json',
+                            success: function (d) {
+                                if (d != (null || undefined)) {
+                                    $("#PartialResult").html('');
+                                    $("#PartialResult").html(d.PartialResult);
+                                }
+                            },
+                            error: function (xhr, error, status) {
+
+                            }
+                        });
+
+                    }
+    </script>
+
+
+
+
+    <script type="text/javascript">
+                    var $remaining = $('#remaining'),
+                    $TestSMSC_Message = $remaining.next();
+
+                    $('#TestSMSC_Message').keyup(function () {
+                        var chars = this.value.length,
+                            TestSMSC_Message = Math.ceil(chars / 160),
+                            remaining = TestSMSC_Message * 0 + (chars % (TestSMSC_Message * 160) || TestSMSC_Message * 160);
+
+                        $remaining.text(remaining + ' character(s),');
+                        $TestSMSC_Message.text(TestSMSC_Message + 'SMS Message(s)');
+                    });
+    </script>
+
+    <script type="text/javascript">
+                    $('#show-msgpreview').hide();
+                    $('.p-icon').click(function (event) {
+                        $('#show-msgpreview, #hide-msglist').slideToggle();
+                        //$(".close-btn span").toggleClass("icomoon-icon-close iconred");
+                    });
+
+                    $('.close-btn').click(function (event) {
+                        $('#show-msgpreview, #hide-msglist').slideToggle();
+                    });
+
+    </script>
+
+    <script type="text/javascript">
+                    // Text boxes to accept only numbers and comma
+
+                    $('#TestSMSC_Recipients').keydown(function (e) {
+
+                        if (e.shiftKey || e.altKey) {
+
+                            e.preventDefault();
+                        } else {
+
+                            var key = e.keyCode;
+                            if (!((key == 8) || (key == 46) || (key == 9) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105) || (key == 188) || (e.ctrlKey && key == 86))) {
+                                e.preventDefault();
+                            }
+                            else if (key == 9) {
+                            }
+                        }
+
+                        $('#TestSMSC_Recipients').bind('paste', function () {
+                            var el = this;
+                            setTimeout(function () {
+                                el.value = el.value.replace(/\D/g, '');
+                            }, 0);
+                        });
+
+                        $("#TestSMSC_Recipients").bind("drop", function (e) {
+                            return false;
+
+                        });
+                    });
+
+    </script>
+
+
+    <script type="text/javascript">
+                    $("#TestSMSC_Message").keyup(function () {
+                        var value = $(this).val();
+                        $("#TestSMSC_PreviewMessage").text(value);
+                    }).keyup();
+
+    </script>
+
+
+    <script type="text/javascript">
+                    function Drponchange(value, id) {
+
+                        $("#" + id).val($(value).val());
+                    }
+
+                    function Chkonchange(value, id) {
+                        $("#" + id).val(value.checked);//$(value).attr("datalang")
+                    }
+
+                    function protchange(value, id) {
+                        //debugger;
+                        $('input:hidden[id=' + id + ']').val($(value).val())
+                    }
+
+                    function Rdoonchange(value, id) {
+                        //debugger;
+                        $('input:hidden[id=' + id + ']').val($(value).attr("datalang"))
+                        //$('#TestSMSC_Message').val($('input:hidden[id=' + id + ']').attr("datalang"));
+
+                    }
+
+    </script>
+}
+

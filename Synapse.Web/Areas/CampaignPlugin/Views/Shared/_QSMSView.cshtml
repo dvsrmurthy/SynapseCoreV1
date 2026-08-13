@@ -1,0 +1,51 @@
+﻿@using Synapse.Web.CampaignPlugin.Models
+@using Synapse.Web.CampaignPlugin.Helpers.SecureAccess;
+@using Core.Models.Dtos.CommonDtos
+@inject IConfiguration Configuration;
+@inject IHttpContextAccessor HttpContextAccessor;
+
+@model QuickSMSOrCampaign
+@{
+    var lz = SessionExtensions.GetItem<LocalizationResponse>(HttpContextAccessor.HttpContext.Session);
+}
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered dataTable gridtable ">
+        <tbody>
+            <tr><td class="col-lg-3">@lz.RecipientS</td><td style="word-break:break-all;">@Model.CampaignNameorRecipient</td></tr>
+            <tr><td>@lz.SenderID</td><td>@Model.Sender</td></tr>
+            <tr>
+                <td>@lz.Language</td>
+                <td>
+                    @if (Configuration["IndianSynapse"] == "true")
+                    {
+                        if (@Model.Language == "Arabic")
+                        {
+                            <span>Unicode</span>
+                        }
+                        else
+                        {
+                            @Model.Language
+                        }
+                    }
+                    else
+                    {
+                        @Model.Language
+                    }
+                </td>
+            </tr>
+            <tr><td>@lz.Message</td><td style="word-break:break-all;">@Model.Message.Replace("&#10;", System.Environment.NewLine)</td></tr>
+            <tr><td>@lz.MessageCredits</td><td>@Model.CreditsUsed</td></tr>
+            <tr><td>@lz.TotalCreditsUsed</td><td>@Model.TotalQSMSCredits</td></tr>
+            @*<tr><td>Delivery Report Required</td><td>@((Model.Dlr==1)?"Yes":"No")</td></tr>*@
+            <tr><td>@lz.AddedOn</td><td>@Model.AddedDate</td></tr>
+            @*<tr><td>Status</td><td>@Model.Status</td></tr>*@
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+

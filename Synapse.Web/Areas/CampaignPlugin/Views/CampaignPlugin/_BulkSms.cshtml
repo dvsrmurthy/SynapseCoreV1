@@ -1,0 +1,51 @@
+﻿@using Synapse.Web.CampaignPlugin.Models;
+@using Core.Models.Dtos.CommonDtos;
+@using Synapse.Web.CampaignPlugin.Helpers.SecureAccess;
+@inject IConfiguration Configuration;
+@inject IHttpContextAccessor HttpContextAccessor;
+
+@model List<BulkSms>
+@{
+    var lz = SessionExtensions.GetItem<LocalizationResponse>(HttpContextAccessor.HttpContext.Session);
+}
+<table class="table dataTable table-striped">
+    <thead>
+        <tr>
+            <th>@lz.Name</th>
+            <th>@lz.SMSType</th>
+            <th>@lz.SenderID</th>
+            <th>@lz.Language</th>
+            <th>@lz.ValidRecipients</th>
+            <th>@lz.Credits</th>
+            <th>@lz.StartDate</th>
+            <th>@lz.Status</th>
+            <th>Functional</th>
+            <th>@lz.Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a href="#" onclick="javascript: OnViewClick('', '')" class="Viewform-btn" alt="View" title="View" data-target="#demo-lg-modal" data-toggle="modal">
+                        @item.CampaignName
+                    </a>
+                </td>
+                <td>@item.SmsType</td>
+                <td>@item.SenderId</td>
+                <td>@item.Language</td>
+                <td>@item.ValidRecipients</td>
+                <td>@item.Credits</td>
+                <td><span class="text-muted"><i class="fa fa-clock-o"></i> @item.StartDate</span></td>
+                <td>@item.Status</td>
+                <td class="text-center">
+                    <span class="label label-table label-success">@item.FunctionalStatus</span>
+                </td>
+                <td>
+                    <a href="#"><i class="fa fa-pencil-square-o fa-1x" aria-hidden="true"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

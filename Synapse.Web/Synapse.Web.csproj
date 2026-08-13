@@ -63,6 +63,7 @@
     <ProjectReference Include="..\ClientHTTPConsuming.Utilities\ClientHTTPConsuming.Utilities.csproj" />
     <ProjectReference Include="..\Core.DBAccess\Core.DBAccess.csproj" />
     <ProjectReference Include="..\Core.Models\Core.Models.csproj" />
+    <ProjectReference Include="..\Synapse.Web.Campaign\Synapse.Web.Campaign.csproj" />
     <ProjectReference Include="..\SynapseAPI\SynapseAPI.csproj" />
   </ItemGroup>
 

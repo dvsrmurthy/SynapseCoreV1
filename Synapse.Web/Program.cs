@@ -24,11 +24,16 @@ builder.Services.AddScoped<IRestRequest, RestRequest>();
 
 builder.Services
     .AddControllersWithViews()
-    .AddApplicationPart(typeof(AccountController).Assembly);
-builder.Services
-    .AddControllersWithViews()
+    .AddApplicationPart(typeof(AccountController).Assembly)
     .AddApplicationPart(typeof(SynapseAPI.Controllers.DivisionsController).Assembly);
 
+builder.Services
+    .AddControllersWithViews()
+    .AddApplicationPart(
+        typeof(Synapse.Web.CampaignPlugin.Controllers.CampaignPluginController).Assembly);
+    //.AddApplicationPart(
+    //    typeof(Synapse.Web.AlertsPlugin.Controllers.AlertsPluginController)
+    //        .Assembly);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -38,6 +43,7 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+//builder.Services.AddDistributedMemoryCache();
 builder.Services.AddHttpContextAccessor();
 // Add authentication and authorization services - For Forms Authentication
 builder.Services
@@ -47,10 +53,8 @@ builder.Services
         options.LoginPath = "/Account/Login";
         options.LogoutPath = "/Account/Login";
         options.AccessDeniedPath = "/Account/AccessDenied";
-
         options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
         options.SlidingExpiration = true;
-
         options.Cookie.HttpOnly = true;
         options.Cookie.IsEssential = true;
         options.Cookie.SameSite = SameSiteMode.Lax;
@@ -92,5 +96,7 @@ if (!app.Environment.IsDevelopment())
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 app.Run();

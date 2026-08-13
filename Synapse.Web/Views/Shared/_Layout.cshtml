@@ -66,7 +66,7 @@
     <link href="~/css/chosen.min.css" rel="stylesheet" />
     <link href="~/css/bootstrapValidator.min.css" rel="stylesheet" />
     <link href="~/css/plugins/summernote/summernote.min.css" rel="stylesheet" />
-
+    <script src="~/js/aes.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
     <link rel='shortcut icon' type='image/x-icon' href='' />
     @if (@ln == "en")
@@ -116,6 +116,7 @@
 <body body class="@lngClass">
     @if (u != null && (User.Identity.IsAuthenticated))
     {
+        
         <script>
                 var Q = '@Configuration["ScKey"]';
                 var key = CryptoJS.enc.Utf8.parse(Q);
@@ -231,7 +232,7 @@
                                     </ul>
                                 </li>
 
-                                if (@lngClass == "lnEnglish")
+                                @if(@lngClass == "lnEnglish")
                                 {
                                     <li id="english" style="display:none;">
                                         <a onclick=" langSelection(this.id)" id="en-lan" class="btn btn-white">English</a>
@@ -492,7 +493,7 @@
     <script src="~/js/select2.min.js"></script>
     <script src="~/js/jquery-ui.js"></script>
     <script src="~/js/sitecommon.js"></script>
-    <script src="~/js/aes.js"></script>
+   
     <script src="~/js/linq.js"></script>
 
     <script type="text/javascript">

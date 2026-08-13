@@ -1,0 +1,98 @@
+﻿@using Synapse.Web.CampaignPlugin.Models
+@using Core.Models.Enums;
+@using Core.Models.Dtos.CommonDtos
+@using Synapse.Web.CampaignPlugin.Helpers.SecureAccess;
+
+@inject IConfiguration Configuration
+@inject IHttpContextAccessor HttpContextAccessor;
+
+@model QuickSMSOrCampaign
+@{
+    var lz = SessionExtensions.GetItem<LocalizationResponse>(HttpContextAccessor.HttpContext.Session);
+    string fileNameFrompath = string.Empty;
+}
+
+
+
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered dataTable gridtable ">
+        <tbody>
+            <tr><td class="col-lg-3">@lz.CampaignName</td><td>@Model.CampaignNameorRecipient</td></tr>
+            <tr><td>@lz.Status</td><td>@Model.Status</td></tr>
+            <tr><td>@lz.SenderID</td><td>@Model.Sender</td></tr>
+            <tr><td>@lz.MessageCredits</td><td>@Model.CreditsUsed</td></tr>
+            <tr>
+                <td>@lz.RecipientType</td>
+                <td>
+                    @{
+                        var localDirLen = System.Configuration.ConfigurationManager.AppSettings["LocalDIR"];
+                        var fileName = string.Join("\\", Model.ActualFileName.Split(new string[] { "\\" }, StringSplitOptions.None).Skip(Convert.ToInt32(localDirLen)).ToList());
+                        var fileClientName = System.IO.Path.GetFileNameWithoutExtension(fileName).Replace("&", "") + "_client.csv";
+                        var basePath = System.Configuration.ConfigurationManager.AppSettings["tempPathVirtualPath"] + "\\" + System.IO.Path.GetDirectoryName(fileName) + "\\" + fileClientName;
+                        var splltfile = fileName.Split('\\')[1];
+                        fileNameFrompath = System.IO.Path.GetFileName(fileName);
+                    }
+                    @switch (@Model.RecipientsType)
+                    {                            
+                        case FILETYPE.NOTEPAD:
+                            @*<a id="@Model.ActualFileName.Replace(".txt","").Replace(".csv","")" href="javascript: DownloadFile('@Model.ActualFileName','@Model.ActualFileName.Replace(".txt","").Replace(".csv","")')" class="FileDownload">
+                                <span class="fa fa-file-text-o fa-1x text-primary"></span> @Model.ActualFileName
+                            </a>*@
+                            <a href="#" class="FileDownload" onclick="downloadFile('@fileNameFrompath')">
+                                <span class="fa fa-file-text-o fa-1x text-primary"></span> @splltfile
+                            </a>
+                            break;
+                        case FILETYPE.EXCEL:
+                        @*<a @Model.ActualFileName.Replace(".xls", "").Replace(".xlsx", "") href="javascript: DownloadFile('@Model.ActualFileName','@Model.ActualFileName.Replace(".xls", "").Replace(".xlsx", "")')" class="FileDownload">
+                        <span class="fa fa-file-excel-o fa-1x text-success"></span> @Model.ActualFileName
+                        </a>*@
+                            <a href="#" class="FileDownload" onclick="downloadFile('@fileNameFrompath')">
+                                @*<span class="fa fa-file-excel-o fa-1x text-success"></span> @Model.ActualFileName*@
+                                <span class="fa fa-file-excel-o fa-1x text-success"></span> @splltfile
+                            </a>
+                            break;
+                        case FILETYPE.GROUPS:
+
+                        <span class="fa fa-address-book-o fa-1x text-purple"></span> @Model.GroupIds
+
+                            break;
+                        case FILETYPE.DB:
+
+                        <span class="fa fa-database fa-1x"></span> @((Model.RecipentID == 4) ? "DB" : "");
+                    
+                            break;
+                    }
+
+                </td>
+            </tr>
+            <tr><td>@lz.DeliveryReportRequired</td><td>@((Model.Dlr == 1) ? "Yes" : "No")</td></tr>
+            <tr>
+                <td>@lz.Language</td>
+                <td>
+                    @if (System.Configuration.ConfigurationManager.AppSettings["IndianSynapse"] == "true")
+                    {
+                        if (@Model.Language == "Arabic")
+                        {
+                            <span>Unicode</span>
+                        }
+                        else
+                        {
+                            @Model.Language
+                        }
+                    }
+                    else
+                    {
+                        @Model.Language
+                    }
+                </td>
+            </tr>
+            <tr><td>@lz.LastExecutionDate</td><td>@Model.AddedDate</td></tr>
+            <tr><td>@lz.Message</td><td style="word-break:break-all;">@Model.Message.Replace("&#10;", System.Environment.NewLine)</td></tr>
+            <tr><td>@lz.TotalCreditsUsed</td><td>@Model.TotalQSMSCredits</td></tr>
+            <tr><td>@lz.TotalRecipientCount</td><td>@Model.ValidCount</td></tr>
+            <tr><td>@lz.Schedule</td><td>@Model.ScheduleDate</td></tr>
+
+        </tbody>
+    </table>
+</div>

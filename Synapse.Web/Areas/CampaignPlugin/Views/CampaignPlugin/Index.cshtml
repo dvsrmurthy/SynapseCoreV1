@@ -1,0 +1,1345 @@
+﻿@using Core.Models.Extensions;
+@using Synapse.Web.CampaignPlugin.Models;
+@using Synapse.Web.CampaignPlugin.Helpers.SecureAccess
+@using Core.Models.Dtos.CommonDtos;
+@using System.Configuration;
+@using System.Security.Cryptography;
+
+@inject IHttpContextAccessor HttpContextAccessor;
+@inject IConfiguration Configuration;
+
+<script src="~/js/aes.js"></script>
+@model QuickSMSOrCampaignMain
+@{
+    //$.session.set("GsmChars", Model.MsgDetails);
+
+    List<SelectListItem> SendersList = new List<SelectListItem>();
+    var SenderColomns = Model.Senders;
+    if (SenderColomns != null && SenderColomns.Any())
+    {
+        SendersList = SenderColomns.Select(x => new SelectListItem { Value = x.SenderID.ToString(), Text = x.SenderName }).ToList();
+        if (SendersList.Count > 1)
+        {
+            SendersList.Insert(0, new SelectListItem { Value = "0", Text = "--Select Sender--" });
+        }
+    }
+    var Msgmodel = Model.ExtGSMCharecters;
+    var ExtUser = SessionExtensions.GetItem<CustomeUser>(HttpContextAccessor.HttpContext?.Session);
+    var lz = SessionExtensions.GetItem<LocalizationResponse>(HttpContextAccessor.HttpContext.Session);
+
+}
+<style type="text/css">
+    .tooltip.in {
+        width: 400px;
+    }
+</style>
+@{
+    ViewBag.Title = "Simple SMS";
+}
+<div class="form-horizontal bulksms-dso" id="dsotheme">
+
+    <div class="row">
+        <div class="col-sm-11 col-sm-offset-s">
+
+            <div class="add-field" id="ADDForm">
+                @using (Html.BeginForm("CreateQuickSMSorCampaign", "CampaignPlugin", new { Area = "CampaignPlugin" }, FormMethod.Post,false, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.AntiForgeryToken()
+                    <div class="panel  top-border">
+                        <div class="warningmessage warn-msg wrapp">
+                        </div>
+                        <div class="panel-heading">
+                            <div id="message"></div>
+                            <div class="panel-control">
+                                <button type="button" class="btn btn-default" data-target="#InsertFormtg" data-toggle="collapse"><i class="fa fa-angle-down" style="font-size:20px;"></i></button>
+                            </div>
+                            <h3 class="panel-title  text-primary">@lz.ComposeSimpleSMS</h3>
+                        </div>
+                        <div id="InsertFormtg" class="collapse in">
+                            <div class="panel-body  clearfix" id="main-formarea">
+
+                                <div id="">
+                                    <div>
+                                        <fieldset>
+                                            @*<legend>
+                                                    <span class="control-label">Compose</span>
+                                                </legend>*@
+                                            <div class="form-group rectest">
+                                                <span class="col-sm-4 control-label" id="CampaignName">@lz.RecipientS</span>
+                                                <div class="col-sm-5">
+                                                    @Html.TextBoxFor(x => x.QuicksmsorCampaign.CampaignNameorRecipient, new { @class = "form-control allowrc", @placeholder = @lz.RecipientS, @rc = "y", @errormsg = @lz.PleaseEnterAtleastoneRecipient, @onclick = "removeerrorstylectrolfocus(this)", @onblur = " CheckMaxQSMSLimit(this)" })
+                                                </div>
+                                                <a class="hide" href="javascript:SelContactsQSMS()" id="SelContactsLnk" style="margin-left: 10px"><span class="fa fa-address-book-o fa-1x text-purple"></span></a>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-sm-5 pull-left col-sm-offset-4">
+
+                                                    <span style="color: Green; font-size: smaller; vertical-align: top;">
+                                                        @lz.Maximumrecipientsare <label id="MaxLimit" style="color: Green;"></label>
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <span class="col-sm-4 control-label">
+                                                    @lz.Category
+                                                </span>
+                                                <div class="col-sm-5" style="">
+                                                    @Html.DropDownListFor(x => x.QuicksmsorCampaign.category, new List<SelectListItem>{
+                                     new SelectListItem() {Text = "-- Select Category --", Value="0"},
+                                            new SelectListItem() {Text = "Promotional", Value="1"},
+                                            new SelectListItem() {Text = "Service", Value="2"},
+                                            new SelectListItem() {Text = "Awareness", Value="3"},
+                                            new SelectListItem() {Text = "Alert/Warning", Value="4"},
+                                            new SelectListItem() {Text = "Personal Message", Value="5"}
+                                               },
+                                            new
+                                            {
+                                                @class = "form-control add-tooltip",
+                                                @placeholder = "Select Category",
+                                                @errormsg = lz.PleaseselectCategory,
+                                                @onclick = "removeerrorstylectrolfocus(this)"
+                                            })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <span class="col-sm-4 control-label">@lz.SenderID</span>
+                                                <div class="col-sm-5" style="">
+                                                    @*@Html.HiddenFor(x => x.QuicksmsorCampaign.SenderId,Msgmodel)*@
+                                                    @Html.DropDownListFor(x => x.QuicksmsorCampaign.SenderId, SendersList, new { @class = "form-control", @type = "select", @ct = "select", @rc = "y", @errormsg = @lz.PleaseSelectSenderId, @onclick = "removeerrorstylectrolfocus(this)" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group" id="divAnySender" style="display:none">
+                                                <span class="col-sm-4 control-label">Outgoing Sender ID</span>
+                                                <div class="col-sm-5" style="">
+                                                    @Html.TextBoxFor(x => x.QuicksmsorCampaign.AnySender, new
+                                                    {
+                                                        @class = "form-control allowrc",
+                                                        @rc = "n",
+                                                        @errormsg = "Please enter outbound sender",
+                                                        @onclick = "removeerrorstylectrolfocus(this)",
+                                                        @maxlength = "40",
+                                                        @value = "Any"
+                                                    })
+                                                </div>
+
+                                            </div>
+                                        </fieldset>
+                                        @*<hr class="line"/>*@
+                                        <fieldset>
+                                            @*<legend>
+                                                    <span class="control-label">Message Details</span>
+                                                </legend>*@
+                                            @*<div class="form-group">
+                                                    <div class="col-sm-9 pull-left col-sm-offset-3">
+
+                                                        @Html.RadioButtonFor(m => m.QuicksmsorCampaign.Language, "English", new { @ct = "radio", @datalang = "English", @class = " enlng", @name = "enlng", @onclick = "Rdoonchange(this,'QuicksmsorCampaign_Language'); removeerrorstylectrolfocus(this)" }) English
+                                                        @Html.RadioButtonFor(m => m.QuicksmsorCampaign.Language, "Arabic", new { @ct = "radio", @datalang = "Arabic", @class = " arlng", @name = "arlng", @onclick = "Rdoonchange(this,'QuicksmsorCampaign_Language'); removeerrorstylectrolfocus(this)" }) Arabic
+                                                    </div>
+                                                </div>*@
+
+                                            <div class="form-group emailon">
+                                                <div class="col-sm-5 pull-left col-sm-offset-4">
+                                                    @Html.RadioButtonFor(x => x.QuicksmsorCampaign.Language, "1", new { @type = "radio", @ct = "radio", @datalang = "1", @class = "english rightarchk", @checked = "checked", @onclick = "removeerrorstylectrolfocus(this)", onchange = "lngchk(this)" }) <span class="rightarchk">English</span>
+                                                    @if (System.Configuration.ConfigurationManager.AppSettings["IndianSynapse"] == "true")
+                                                    {
+                                                        @Html.RadioButtonFor(x => x.QuicksmsorCampaign.Language, "2", new { @type = "radio", @ct = "radio", @datalang = "2", @class = "arabic rightarchk", onchange = "lngchk(this)" }) <span class="rightarchk">Unicode</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.RadioButtonFor(x => x.QuicksmsorCampaign.Language, "2", new { @type = "radio", @ct = "radio", @datalang = "2", @class = "arabic rightarchk", onchange = "lngchk(this)" }) <span class="rightarchk">عربى</span>
+
+                                                    }
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group hide">
+                                                <div class="col-sm-4 col-sm-offset-5">
+                                                    @Html.CheckBoxFor(c => c.QuicksmsorCampaign.Template, new { @ct = "check", @onclick = "OnCheckTemplate(this)" }) @lz.UseTemplate
+                                                </div>
+                                            </div>
+                                            <div class="form-group" id="TemplateDiv">
+                                                <span class="col-sm-4 control-label">@lz.Templates</span>
+                                                <div class="col-sm-5">
+                                                    @Html.DropDownListFor(x => x.QuicksmsorCampaign.TemplateID, new List<SelectListItem>
+                                                  {
+                                                      new SelectListItem{ Text="--Select Template--", Value = "0" }
+                                                  }, new { @class = "form-control", @type = "select", @ct = "select", @rc = "y", @errormsg = @lz.PleaseselectTemplate, @onclick = "removeerrorstylectrolfocus(this)", @onchange = "OnChangeTemplate(this)" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <span class="col-sm-4 control-label">@lz.Message</span>
+                                                <div class="col-sm-6">
+                                                    @Html.Hidden("ExtGSMChars", Msgmodel)
+                                                    @Html.TextAreaFor(t => t.QuicksmsorCampaign.Message, new { @class = "form-control allowrc", @placeholder = @lz.Message, @rows = "4", @rc = "y", @errormsg = @lz.PleaseEnterMessage, @onclick = "removeerrorstylectrolfocus(this)", @onpaste = "EditorOnpast(event)", @onkeyup = "fnShowCount()" })
+                                                    <div class="clearfix"></div>
+                                                    <div class="emailon msgcss">
+                                                        <b> <span class="" id="txtCharCount" style=""></span></b>&nbsp;<span class="" id="lblCharCount">@lz.CharacterS</span>
+                                                        <font class="title">,</font>&nbsp;<b><span class="" id="txtMSgCount" style=""></span></b>&nbsp;<span class="" id="lblCharCount">@lz.SMSMessages</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-1 righttar">
+
+                                                    <a class="p-icon" tabindex="20" data-target="#msg-pre" data-toggle="modal"><span class="fa-2x fa fa-mobile" alt="Preview" title="Preview"></span></a>
+
+                                                </div>
+                                            </div>
+                                            @*<div class="form-group">
+                                                    <div class="col-sm-8 col-sm-offset-3">
+                                                        <b>
+                                                            <span class="msgcss" id="remaining">0</span>&nbsp;
+                                                            <span class="title">@Html.Label("character(s)")</span>
+                                                        </b>
+                                                    </div>
+                                                </div>*@
+
+
+                                            <div class="form-group hide">
+                                                <div class="col-sm-4 col-sm-offset-5">
+                                                    @Html.CheckBoxFor(c => c.QuicksmsorCampaign.DeliveryReport, true)  <span style="margin-top: -6px;">@lz.DeliveryReportRequired</span>
+                                                </div>
+                                                <div class="col-sm-1 controlmargin">
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="panel-footer">
+                                <div class="col-sm-offset-4">
+                                    <button type="button" name="command" id="btnSave" class="btn btn-primary btn-sm pad-ho text-semibold" value="Save">@lz.Submit</button>
+                                    @*<button type="button" name="command" id="TestSms" class="btn btn-default tip" value="Test SMS"><span class="icon16 icomoon-icon-envelop"></span>Test SMS</button>
+                                        <button type="submit" name="command" id="SaveDetails" class="hide btn btn-default tip" value="Save"><span class="icon16 icomoon-icon-checkmark"></span>Submit</button>*@
+                                    <button type="button" name="command" id="btnReset" class="btn btn-default btn-sm pad-ho text-semibold">@lz.Clear</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div id="msg-pre" class="modal fade" tabindex="-1">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" alt="close" title="close"><i class="pci-cross pci-circle"></i></button>
+                            <h4 class="modal-title" id="myLargeModalLabel">@lz.SMSPreview</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="" style="position:relative">
+                                    <div id="show-msgpreview">
+                                        @*<span class="btn close-btn pull-right text-danger"><span class="fa-2x fa fa-close iconred"></span></span>*@
+                                        <div class="handset" align="center">
+                                            @Html.TextAreaFor(t => t.QuicksmsorCampaign.PreviewMessage, new { @class = "form-control previewbox", @disabled = "disabled" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="next btn btn-success" data-dismiss="modal">@lz.OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="synapse-table" id="DataListTable">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div class="panel-control">
+                            @*<button type="button" class="btn btn-default" data-target="#DataGridtg" data-toggle="collapse"><i class="fa fa-angle-down" style="font-size:20px;"></i></button>*@
+                        </div>
+                        <h3 class="panel-title">@lz.SimpleSMS</h3>
+                    </div>
+                    <div id="DataGridtg" class="collapse in">
+                        <div class="panel-body  clearfix" id="PartialCustomers">
+                            <div>
+                                @Html.Partial("__QuickSMSTable", Model.QuicksmsorCampaignCollections)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="demo-lg-modal" class="modal fade" tabindex="-1">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                            <h4 class="modal-title" id="myLargeModalLabel">@lz.SimpleSMSView</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div id="PartialResult">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <input type="hidden" id="hdnFilePath" value="0" />
+    <input type="hidden" id="hdnTextReplace" value="0">
+    <input type="hidden" id="GsmChars" value="0">
+    <input type="hidden" id="hdnQsmsID" value="0">
+</div>
+
+@section scripts{
+    <script src="~/js/aes.js"></script>
+    <script type="text/javascript">
+        var antiForgeryToken = $('input[name="__RequestVerificationToken"]').val();
+        var headers = {};
+        headers['__RequestVerificationToken'] = antiForgeryToken;
+        $("#ContactsMainDiv, #TemplateDiv").hide();
+        //debugger;
+        var recpcon = '@HttpContextAccessor.HttpContext?.Session.GetString("GetRecpCon")';
+        //debugger;
+        if (recpcon != null || recpcon != "") {
+            $("#QuicksmsorCampaign_CampaignNameorRecipient").val(recpcon);
+        }
+
+        window.onload = function () {
+            setTimeout(function () {
+                $("#QuicksmsorCampaign_CampaignNameorRecipient").focus();
+                //debugger;
+                var recpcon = '@HttpContextAccessor.HttpContext?.Session.GetString("GetRecpCon")';
+                if (recpcon != "") {
+                    if (confirm("@lz.Areyousureyouwanttoproceedwithselectednumbers")) {
+                        $("#QuicksmsorCampaign_CampaignNameorRecipient").val(recpcon);
+                    }
+                    else {
+                        $("#QuicksmsorCampaign_CampaignNameorRecipient").val("");
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("SessionContacts", "CampaignPlugin")',
+                            headers: headers,
+                            data: { RemoveRecp: "Remove" },
+                            datatype: 'application/json',
+                            success: function (d) {
+                                if (d != (null || undefined)) {
+
+                                }
+                            },
+                            error: function (xhr, error, status) {
+
+                            }
+                        });
+                    }
+                }
+            }, 500);
+            //var count = $("#QuicksmsorCampaign_SenderId option").length;
+            //if (count == 2) {
+            //    $("#QuicksmsorCampaign_SenderId option:first").hide();
+            //    $("#QuicksmsorCampaign_SenderId").prop("selectedIndex", 1);
+            //}
+            $("#QuicksmsorCampaign_PreviewMessage").val($("#QuicksmsorCampaign_Message").val());
+            $('.p-icon').removeAttr("data-target", "#msg-pre");
+        }
+        $('.show-btn').click(function (event) {
+            $('#main-formarea').show();
+            $("#ContactsMainDiv,#TemplateDiv").hide();
+        });
+        $('.p-icon').click(function (event) {
+            //$("body, html").animate({
+            //    scrollTop: $(document).height()
+            //}, 200)
+            if ($("#QuicksmsorCampaign_Message").val() == "") {
+                $('.p-icon').removeAttr("data-target", "#msg-pre");
+                $("#QuicksmsorCampaign_Message").parent().find(".error").remove();
+                $("#QuicksmsorCampaign_Message").css("border", "1px solid red");
+                $("#QuicksmsorCampaign_Message").parent().append('<div class="error" style="color: red; height:10px !important;">@lz.PleaseEnterMessage</div>');
+            }
+            else {
+                $('.p-icon').attr("data-target", "#msg-pre");
+            }
+            $('#hide-msglist').slideToggle();
+            //$(".close-btn span").toggleClass("icomoon-icon-close iconred");
+        });
+        $('.close-btn').click(function (event) {
+            $('#hide-msglist').slideUp();
+        });
+        function CheckAllContacts(cntrl) {
+            if ($(cntrl).is(":checked")) {
+                $("#SelContactsDiv").find("[data-parent=C]").attr("checked", "checked");
+                $("#SelContactsDiv").find("[data-parent=C]").prop("checked", "checked");
+            }
+            else {
+                $("#SelContactsDiv").find("[data-parent=C]").removeAttr("checked", "checked");
+                $("#SelContactsDiv").find("[data-parent=C]").removeProp("checked", "checked");
+            }
+        }
+        function OnCheckTemplate(cntrl) {
+
+            if ($(cntrl).is(":checked")) {
+                $("#TemplateDiv").show();
+                $("#QuicksmsorCampaign_Message").attr("disabled", true);
+                var CampType = 1;
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("LoadTemplates", "CampaignPlugin")',
+                    headers: headers,
+                    data: { CampType: CampType },
+                    datatype: 'application/json',
+                    success: function (data) {
+                        $('#QuicksmsorCampaign_TemplateID').html("");
+                        $('#QuicksmsorCampaign_TemplateID').append($('<option></option>').val(0).html("--Select Templates--"));
+                        $.each(data, function (key, val) {
+                            $('#QuicksmsorCampaign_TemplateID').append(
+                                $('<option></option>').val(val.ID + "$VMHDC$" + val.LANGUAGEID + "$VMHDC$" + val.TEXT).html(val.NAME));
+                        });
+                    },
+                    error: function (xhr, status) {
+                        errorMessage('@lz.ExceptionOccured');
+                        $("html, body").animate({ scrollTop: 0 }, 600);
+                    }
+                });
+            }
+            else {
+                $("#TemplateDiv").hide();
+                $("#QuicksmsorCampaign_Message").attr("disabled", false);
+                $("#QuicksmsorCampaign_Message").val("");
+                $("#QuicksmsorCampaign_PreviewMessage").val("");
+                $('.english').prop("checked", true);
+                $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'left').attr('lang', 'en');
+                removeerrorstylectrolfocus("#QuicksmsorCampaign_TemplateID");
+                fnShowCount();
+            }
+        }
+        function OnChangeTemplate(cntrl) {
+            var arabiclan = /[\u0621-\u064A]/;
+            var TempLang = $('#QuicksmsorCampaign_TemplateID').val().split('$VMHDC$')[1];
+            var TempText = $('#QuicksmsorCampaign_TemplateID').val().split('$VMHDC$')[2];
+            $("#QuicksmsorCampaign_Message").val(TempText);
+            removeerrorstylectrolfocus("#QuicksmsorCampaign_Message");
+            $("#QuicksmsorCampaign_PreviewMessage").val(TempText);
+            if (TempLang == 1) {
+                $('.english').attr("checked", true);
+                $('.english').prop("checked", true);
+                $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'left').attr('lang', 'en');
+            } else {
+                $('.arabic').attr("checked", true);
+                $('.arabic').prop("checked", true);
+                var msgval = $('#QuicksmsorCampaign_Message').val();
+                var msgvall = $('#QuicksmsorCampaign_PreviewMessage').val();
+                if (msgval.match(arabiclan) || msgvall.match(arabiclan)) {
+                    $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'rtl').attr('lang', 'ar');
+                }
+                else {
+                    $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'left').attr('lang', 'ar');
+                }
+            }
+            fnShowCount();
+        }
+
+
+        var langchk = false;
+        $("#btnSave").click(function (event) {
+            // langUnicode()
+            if ($("#QuicksmsorCampaign_SenderId option:selected").text() == "Any") {
+                if ($("#QuicksmsorCampaign_AnySender").val().length == 0) {
+                    $("#QuicksmsorCampaign_AnySender").attr("rc", "y");
+                    $("#QuicksmsorCampaign_AnySender").focus();
+                }
+            }
+            else {
+                $("#QuicksmsorCampaign_AnySender").attr("rc", "n");
+            }
+            var ContactsCount = $("#QuicksmsorCampaign_CampaignNameorRecipient").val().split(',').length;
+            var MaxLmt = " @Configuration["MaxQSMSLimit"]";
+            if (parseInt(MaxLmt) < ContactsCount) {
+                errorMessage("@lz.Pleaseenteronly " + MaxLmt + " @lz.RecipientS");
+                $("html,body").animate({ scrollTop: 0 }, 600);
+                return false;
+            }
+            IsunseenJunk()
+            var obj = $("#QuicksmsorCampaign_Message");
+            // mostrar(obj);
+            var regEx = />/g;
+            var regExless = /</g;
+            var sval = (obj.val().replace(regExless, "< ").replace(regEx, " >")); //.trim();
+            //  obj.val(sval.replace(/\s\s+/g, ' '));
+            if ($("#QuicksmsorCampaign_Template").is(":checked")) {
+                $("#QuicksmsorCampaign_TemplateID").attr("rc", "y");
+            }
+            else {
+                $("#QuicksmsorCampaign_TemplateID").attr("rc", "n");
+            }
+            var IsValid = validateAjaxclick('#ADDForm');
+            // msg = replaceAll("'nl'", "\r\n", msg);
+            var Message = $("#QuicksmsorCampaign_Message").val().trim();
+            if (Message.length <= 0) {
+                $("#QuicksmsorCampaign_Message").parent().find(".error").remove();
+                $("#QuicksmsorCampaign_Message").css("border", "1px solid red");
+                $("#QuicksmsorCampaign_Message").parent().append('<div class="error" style="color: red; height:10px !important;">@lz.PleaseEnterMessage</div>');
+                return false;
+
+
+            }
+
+            if (IsValid) {
+                var message = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($("#QuicksmsorCampaign_Message").val().replace(/’/g, "'")), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                // var message = $("#QuicksmsorCampaign_Message").val();
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("IsUnicode", "CampaignPlugin")',
+                    headers: headers,
+                    data: { sms: message },
+                    datatype: 'application/json',
+                    success: function (d) {
+                        langCrs = d;
+                        langchk = d;
+
+                        var conCode = @Configuration["CountryCode"]
+                        console.log(conCode);
+                        if (conCode != (null || undefined) && conCode === 91) {
+                            var mNos = $("#QuicksmsorCampaign_CampaignNameorRecipient").val().split(',');
+                            for (var i = 0; i < mNos.length; i++) {
+                                if (mNos[i].length == 10) {
+                                    mNos[i] = mNos[i].replace(mNos[i], (conCode + mNos[i]));
+                                }
+                            }
+                        }
+
+
+                        removeerrorstylectrolfocus("#QuicksmsorCampaign_Message");
+                        var QsmsStatus = true;
+                        var QSMSID = $("#hdnQsmsID").val();
+                        var MobileNos = conCode != (null || undefined) ? mNos.join(',') : $("#QuicksmsorCampaign_CampaignNameorRecipient").val();
+                        var SenderID = $("#QuicksmsorCampaign_SenderId").val();
+                        var SenderName = '';    //Added by murty
+                        if ($("#QuicksmsorCampaign_SenderId option:selected").text() == "Any") {
+                            SenderName = $("#QuicksmsorCampaign_AnySender").val();
+                        }
+                        else {
+                            SenderName = $("#QuicksmsorCampaign_SenderId option:selected").text();
+                        }
+                        var CharCount = $("#txtCharCount").html();
+                        var Credits = $("#txtMSgCount").html();
+                        var LangID = nlangid;
+                        if ($(".english").is(":checked") && langCrs == false) {
+                            LangID = nlangid;
+                            Language = "English";
+
+                        }
+                        if ($(".arabic").is(":checked") && langCrs == true) {
+                            Language = "Arabic";
+                            if (Language = "Arabic") {
+                                nlangid = 2;
+                            }
+                            LangID = nlangid;
+                        }
+                        if ($(".english").is(":checked") && langCrs == true) {
+                            if (confirm("@lz.Pleasechoosecorrectlanguage")) {
+                                LangID = nlangid;
+                                Language = "Arabic";
+                                IsValid = false;
+                                return false;
+                            }
+                            else {
+                                IsValid = false;
+                                return false;
+                            }
+                        } else if ($(".arabic").is(":checked") && langCrs == false) {
+                            if (confirm("@lz.Pleasechoosecorrectlanguage")) {
+                                LangID = nlangid;
+                                Language = "English";
+                                IsValid = false;
+                                return false;
+
+                            }
+                            else {
+                                IsValid = false;
+                                return false;
+                            }
+                        }
+                        var DLR = "";
+                        if ($("#QuicksmsorCampaign_DeliveryReport").is(":checked")) { DLR = 1; }
+                        else { DLR = 1; }
+                        var spltmobnos = MobileNos.split(',');
+                        var UniqNums = "";
+                        var DupNums = "";
+                        $.each(spltmobnos, function (i, item) {
+                            var rgx = new RegExp("^[0-9,.]+$");
+                            item = item.trim();
+                            if (rgx.test(item)) {
+                                if (item != "") {
+                                    if (UniqNums.indexOf(item) == -1) {
+                                        UniqNums += item + ",";
+                                    }
+                                    else { DupNums += item + ","; }
+                                }
+                            }
+                            else {
+                                QsmsStatus = false;
+                                return false;
+                            }
+                        });
+                        if (DupNums == "" && QsmsStatus == true) {//QSMS Submit
+                            //if (parseInt(Credits) <= 12) {
+                                var QSMSID = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(QSMSID), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                                var SenderID = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(SenderID), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                                var LangID = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(LangID), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                                var DLR = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(DLR), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                                var SenderName = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(SenderName), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                                var MobileNos = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(MobileNos), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                                var CharCount = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(CharCount), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                                var Credits = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Credits), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                                var MbcID = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(1), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                                var Module = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse("QSMS"), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                                var ModuleID = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(0), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: '@Url.Action("InsertQSMS", "CampaignPlugin")',
+                                    headers: headers,
+                                    data: { QSMSID: QSMSID, SenderID: SenderID, LangID: LangID, Message: message, DLR: DLR, SenderName: SenderName, Module: Module, MobileNos: MobileNos, CharCount: CharCount, Credits: Credits, MbcID: MbcID, ModuleID: ModuleID },
+                                    datatype: 'application/json',
+                                    beforeSend: function () {
+                                        setTimeout(function () {
+                                            $("#qLoverlay").css('background', 'rgba(187, 187, 187, 0.5)').fadeIn(700);
+                                            $("#qLbar").fadeIn(700);
+                                        }, 500);
+                                    },
+                                    complete: function () {
+                                        $(".sendnow").focus();
+                                        setTimeout(function () {
+                                            $("#qLoverlay").fadeOut(700);
+                                            $("#qLbar").fadeOut(700);
+                                        }, 600);
+                                    },
+                                    success: function (d) {
+                                        $("#hdnQsmsID").val(0);
+
+                                        if (d == "MsgSubmitSuccess") {
+                                            campsmsg("@lz.Messagesubmittedsuccessfully", true, '@Url.Action("__QuickSMSTable", "CampaignPlugin", new { Area = "CampaignPlugin" })', "PartialCustomers");
+                                            clearparent('ADDForm', 'QuickSMSOrCampaign_');
+                                            $("#btnReset").trigger("click");
+                                            $("#QuicksmsorCampaign_PreviewMessage").val($("#QuicksmsorCampaign_Message").val());
+                                        }
+                                        else if (d == "SrvcError") {
+
+                                            errorMessage("@lz.SendSMSServicemaynotbeupandrunningMessageswillbesentoncetheservicestarts");
+                                            $("html body").animate({ scrollTop: 0 });
+                                        }
+                                        else if (d.Invalid) {
+                                            errorMessage("@lz.InvalidInputParameters");
+                                            $("html body").animate({ scrollTop: 0 });
+                                        }
+                                        else if (d == "MsgSubittedToChecker") {
+
+                                            campsmsg("@lz.Messagesubmittedsuccessfully", true, '@Url.Action("__QuickSMSTable", "CampaignPlugin", new { Area = "CampaignPlugin" })', "PartialCustomers");
+                                            clearparent('ADDForm', 'QuickSMSOrCampaign_');
+                                            $("#btnReset").trigger("click");
+                                            $("#QuicksmsorCampaign_PreviewMessage").val($("#QuicksmsorCampaign_Message").val());
+                                        }
+                                        else if (d == "CustInActive") {
+
+                                            errorMessage("@lz.CustomerisinInActivestate ");
+                                            $("html body").animate({ scrollTop: 0 });
+                                        }
+                                        else if (d == "CustExpired") {
+
+                                            errorMessage("@lz.CustomerExpired");
+                                            $("html body").animate({ scrollTop: 0 });
+                                        }
+                                        else if (d == "CustPrefInActive") {
+
+                                            errorMessage("@lz.CustomerPreferencesareinInActiveState");
+                                            $("html body").animate({ scrollTop: 0 });
+                                        }
+                                        else if (d == "InsufficentCredits") {
+
+                                            emsg("@lz.InsufficientCredits", false);
+                                            $("html body").animate({ scrollTop: 0 });
+                                        }
+                                        else if (d == "UpdatedSuccessfully") {
+                                            campsmsg("@lz.QuickSMSUpdatedSuccessfully", true, '@Url.Action("__QuickSMSTable", "CampaignPlugin", new { Area = "CampaignPlugin" })', "PartialCustomers");
+                                            clearparent('ADDForm', 'QuickSMSOrCampaign_');
+                                            $("#btnReset").trigger("click");
+                                            $("#QuicksmsorCampaign_PreviewMessage").val($("#QuicksmsorCampaign_Message").val());
+                                        }
+                                        else if (d == "InValidseries") {
+
+                                            errorMessage("@lz.MobileNumberdoesnthavingmatchedcountrycodesforselectedsenderID");
+                                            $("html body").animate({ scrollTop: 0 });
+                                        }
+                                        else if (d == "InValidNos") {
+
+                                            errorMessage("@lz.MobileNumbersareInvalid");
+                                            $("html body").animate({ scrollTop: 0 });
+                                            return false;
+                                        }
+                                        $("html body").animate({ scrollTop: 0 });
+                                    },
+                                    error: function (xhr, error, status) {
+                                        $("#hdnQsmsID").val(0);
+                                        var err = xhr;
+                                    }
+                                });
+                            @*} else {
+                                errorMessage("@lz.Messagecreditsshouldnotexceeds12credits");
+                                $("html body").animate({ scrollTop: 0 });
+                                return false;
+                            }*@
+                        }
+                        else if (DupNums != "") {
+                            errorMessage("@lz.DuplicateMobilenumbersfound  : " + DupNums.slice(0, -1));
+                            $("html body").animate({ scrollTop: 0 });
+                            return false;
+                        }
+                        else if (QsmsStatus == false) {
+                            errorMessage("@lz.Pleaseenteronlynumbers");
+                            $("html body").animate({ scrollTop: 0 });
+                            return false;
+                        }
+                        $("body, html").animate({
+                            scrollTop: 0
+                        }, 200)
+                    },
+                    complete: function () {
+                        $(".sendnow").focus();
+                    },
+                });
+            }
+        });
+
+        function langUnicode() {
+            var message = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($("#QuicksmsorCampaign_Message").val()), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            // var message = $("#QuicksmsorCampaign_Message").val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("IsUnicode", "CampaignPlugin")',
+                headers: headers,
+                data: { sms: message },
+                datatype: 'application/json',
+                beforeSend: function () {
+                    $("#qLoverlay").css({ 'display': 'none', 'opacity': '0' }).fadeOut(0).hide();
+                    $("#qLbar").css({ 'display': 'none', 'opacity': '0' }).fadeOut(0).hide();
+
+                },
+                success: function (d) {
+                    if (d.Invalid) {
+                        errorMessage(d.Message, false);
+                        return false;
+                    }
+                    else {
+                        langCrs = d;
+                        langchk = d;
+                    }
+                },
+                complete: function () {
+                    $("#qLoverlay").css({ 'display': 'none', 'opacity': '0' }).fadeOut(0).hide();
+                    $("#qLbar").css({ 'display': 'none', 'opacity': '0' }).fadeOut(0).hide();
+
+                },
+            });
+        }
+
+        //var IsJunkfound = "";
+        function IsunseenJunk() {
+            var message = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($("#QuicksmsorCampaign_Message").val()), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            // var message = $("#QuicksmsorCampaign_Message").val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("IsHavingUnseenJunk", "CampaignPlugin")',
+                headers: headers,
+                data: { sms: message },
+                datatype: 'application/json',
+                beforeSend: function () {
+                    $("#qLoverlay").css({ 'display': 'none', 'opacity': '0' }).fadeOut(0).hide();
+                    $("#qLbar").css({ 'display': 'none', 'opacity': '0' }).fadeOut(0).hide();
+
+                },
+                success: function (res) {
+                    if (res.Invalid) {
+                        errorMessage(res.Message, false);
+                        return false;
+                    }
+                    else {
+                        var chrCount = parseInt($('#txtCharCount').text()) - res;
+                        $('#txtCharCount').text(chrCount).toString();
+                    }
+                },
+                complete: function () {
+                    $("#qLoverlay").css({ 'display': 'none', 'opacity': '0' }).fadeOut(0).hide();
+                    $("#qLbar").css({ 'display': 'none', 'opacity': '0' }).fadeOut(0).hide();
+
+                },
+            });
+        }
+
+        $("#btnReset").click(function () {
+            clearparent('ADDForm', 'QuickSMSOrCampaign_');
+            $('#QuicksmsorCampaign_CampaignNameorRecipient').focus();
+            $("#hdnQsmsID").val(0);
+            $("#ContactsMainDiv").hide();
+            //$("#show-msgpreview").hide();
+            $("#TemplateDiv").hide();
+            $("#QuicksmsorCampaign_Template").removeProp("checked");
+            $("#QuicksmsorCampaign_CampaignNameorRecipient").attr("disabled", false);
+            $("#QuicksmsorCampaign_CampaignNameorRecipient").val("");
+            //$("#QuicksmsorCampaign_SenderId").val(0);
+            $("#QuicksmsorCampaign_AnySender").val("Any");
+            $("#QuicksmsorCampaign_AnySender").attr("disabled", "disabled");
+            $("#divAnySender").css("display", "none");
+            $('.english').attr("checked", true);
+            $('.english').prop("checked", true);
+            $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').attr('dir', 'left').attr('lang', 'en');
+            // $("#QuicksmsorCampaign_PreviewMessage").val("");
+
+            //  $("#QuicksmsorCampaign_Message").val("");
+            $("#QuicksmsorCampaign_Message").attr("disabled", false);
+            $("#QuicksmsorCampaign.PreviewMessage").val("");
+            fnShowCount();
+            $("#QuicksmsorCampaign_DeliveryReport").removeProp("checked");
+            $("#QuicksmsorCampaign_DeliveryReport").removeAttr("checked");
+        });
+
+
+    </script>
+
+    <script type="text/javascript">
+        // Text boxes to accept only numbers and comma
+        $('#QuicksmsorCampaign_CampaignNameorRecipient').keydown(function (e) {
+            if (e.shiftKey || e.altKey) {
+                e.preventDefault();
+            } else {
+                var key = e.keyCode;
+                if (!((key == 8) || (key == 46) || (key == 9) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105) || (key == 188) || (e.ctrlKey && key == 86))) {
+                    e.preventDefault();
+                }
+                else if (key == 9) {
+                }
+            }
+        });
+
+
+
+    </script>
+    <script type="text/javascript">
+
+        //function OnEdit(QSMSID, MobileNos, SenderID, LangID, Message, DLR) {
+        //    var arabiclan = /[\u0621-\u064A]/;
+        //    var unicodelan = /[\u0000-\u007F]/;
+        //    $("#hdnQsmsID").val(QSMSID);
+        //    $("#ContactsMainDiv").hide();
+        //    //$("#show-msgpreview").hide();
+        //    $("#TemplateDiv").hide();
+        //    $("#QuicksmsorCampaign_CampaignNameorRecipient").val(MobileNos).attr("disabled", true);
+
+        //    $("#SelContactsLnk").removeAttr('href');
+
+        //    $("#QuicksmsorCampaign_SenderId").val(SenderID);
+        //    if (LangID == 1) {
+        //        $('.english').attr("checked", true);
+        //        $('.english').prop("checked", true);
+        //        $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'left').attr('lang', 'en');
+        //    }
+        //    else {
+        //        $('.arabic').attr("checked", true);
+        //        $('.arabic').prop("checked", true);
+        //        var msgval = $('#QuicksmsorCampaign_Message').val();
+        //        var msgvall = $('#QuicksmsorCampaign_PreviewMessage').val();
+        //        if (msgval.match(arabiclan) || msgvall.match(arabiclan)) {
+        //            $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'rtl').attr('lang', 'ar');
+        //        }
+        //        else {
+        //            $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'left').attr('lang', 'ar');
+        //        }
+        //    }
+        //    $("#QuicksmsorCampaign_Message").val(Message);
+        //    $("#QuicksmsorCampaign_PreviewMessage").val(Message);
+        //    fnShowCount();
+        //    if (DLR == 1) { $("#QuicksmsorCampaign_DeliveryReport").prop("checked", true); }
+        //    else { $("#QuicksmsorCampaign_DeliveryReport").removeProp("checked"); }
+        //}
+        function OnViewClick(QSMSName, Sender, Lang, Message, CreditsUsed, TotalCredits, Dlr, AddedDate, Status) {
+            var e_msg = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Message.replaceAll("^^", '"').replaceAll("^", "ÞÞ")), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            //   var e_msg = Message;
+            var QSMSName = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(QSMSName), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var Sender = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Sender), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var Lang = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Lang), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var CreditsUsed = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(CreditsUsed), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var TotalCredits = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(TotalCredits), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var Dlr = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Dlr), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var AddedDate = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(AddedDate), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var Status = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Status), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var strRecipentID = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(1), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var ValidCount = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(0), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var GrpName = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(GrpName) == "" ? "QSMS" : GrpName, key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var ScheduleDate = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(ScheduleDate) == "" ? "QSMS" : ScheduleDate, key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+            var ActualFileName = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(ActualFileName) == "" ? "QSMS" : ActualFileName, key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("OnView", "CampaignPlugin")',
+                headers: headers,
+                data: { QSMSName: QSMSName, Sender: Sender, Lang: Lang, Message: e_msg, CreditsUsed: CreditsUsed, TotalCredits: TotalCredits, Dlr: Dlr, AddedDate: AddedDate, Status: Status, strRecipentID: strRecipentID, GrpName: GrpName, ValidCount: ValidCount, ScheduleDate: ScheduleDate, ActualFileName: ActualFileName, cmd: "_QSMSView" },
+                datatype: 'application/json',
+                success: function (d) {
+                    if (d != (null || undefined)) {
+                        if (d.Invalid) {
+                            emsg(d.Message, false);
+                        }
+                        else {
+                            $("#PartialResult").html('');
+                            $("#PartialResult").html(d.PartialResult);
+                        }
+                    }
+                },
+                error: function (xhr, error, status) {
+
+                }
+            });
+        }
+        function sample(value, act) {
+            $("#hdnQsmsID").val(0);
+            $("#QuicksmsorCampaign_CampaignNameorRecipient").attr("disabled", false);
+            $("#SelContactsLnk").prop('href', 'javascript:SelContactsQSMS()');
+            $("#QuicksmsorCampaign_CampaignNameorRecipient").attr("title", "Please enter recipient mobile numbers along with country code, Eg: 97150 XXX XXX, 97155 XXX XXX");
+
+            $("#SelectSheet").hide();
+            $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'left').attr('lang', 'en');
+            if (act != (null || undefined) && act == 'Edit') {
+                internalPost("@Url.Action("OnEdit", "PhoneBookPlugin")", { id: value }, 'ADDForm', 'QuickSMSOrCampaign_');
+            }
+            else {
+                clearparent('ADDForm', 'QuickSMSOrCampaign_');
+                setTimeout(function () { $("#QuicksmsorCampaign_CampaignNameorRecipient").focus(); }, 1000);
+
+            }
+        }
+
+    </script>
+
+    <script type="text/javascript">
+
+        //String.prototype.replaceAll = function (find, replace) {
+        //    var str = this;
+        //    return str.replace(new RegExp(find.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g'), replace);
+        //};
+        function replaceAll(find, replace, value) {
+            return value.replace(new RegExp(find.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g'), replace);
+        }
+
+        function SelContactsQSMS() {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("LoadContactsQSMS", "CampaignPlugin", new { area = "CampaignPlugin" })',
+                data: { Groupids: "" },
+                datatype: 'html',
+                success: function (data) {
+                    $("#ContactsMainDiv").hide();
+                    $("#SelContactsDiv").html("");
+                    if (data != (null || undefined || "")) {//No Mobile numbers in Group(s). Please save a Contact.
+                        $("#SelContactsDiv").html(data);
+                    }
+                },
+                error: function (xhr, status) {
+                }
+            });
+        }
+
+        $("#SaveContacts").click(function () {
+            var checkedCount = $("#SelContactsDiv").find("[data-parent=C]:checked").length;
+            if (checkedCount > 0) {
+                var Contacts = "";
+                var AllCheckedCBs = $("#SelContactsDiv").find("[data-parent=C]:checked");
+                $.each(AllCheckedCBs, function (i, item) {
+                    if ($(item).attr("data-id") != ("" || undefined || null)) {
+                        if (Contacts.indexOf($(item).val()) == -1) {
+                            Contacts += $(item).val() + ",";
+                        }
+                    }
+                });
+                $("#QuicksmsorCampaign_CampaignNameorRecipient").val(Contacts.slice(0, -1));
+                $("#SelContactsDiv").html("");
+                $("#ContactsMainDiv").hide();
+            }
+            else {
+                errorMessage('@lz.PleaseselectatleastoneRecipienttoSubmitaQuickSMS');
+                $("html,body").animate({ scrollTop: 0 }, 600);
+            }
+        });
+        $("#CloseContacts").click(function () {
+            $("#SelContactsDiv").html("");
+            $("#ContactsMainDiv").hide();
+        });
+
+        $('a[data-toggle="tooltip"]').tooltip({
+            animated: 'fade',
+            placement: 'bottom',
+            template: '<div class="tooltip" style="border: 1px solid #cccccc;background: #ffffff; width: 400px; padding: 3px;white-space: nowrap"><div class="tooltip-inner" style="background: #ffffff; width:400px; color:#333333;white-space: nowrap"></div></div>',
+            html: true
+        });
+        function Rdoonchange(value, id) {
+            $('input:hidden[id=' + id + ']').val($(value).attr("datalang"))
+            fnShowCount();
+        }
+        $('.english').on('change click', function () {
+            $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'left').attr('lang', 'en');
+            langUnicode();
+        });
+        $('.arabic').on('change click', function () {
+            var arabiclan = /[\u0621-\u064A]/;
+            var msgval = $('#QuicksmsorCampaign_Message').val();
+            var msgvall = $('#QuicksmsorCampaign_PreviewMessage').val();
+            if (msgval.match(arabiclan) || msgvall.match(arabiclan)) {
+                $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'rtl').attr('lang', 'ar');
+                langUnicode();
+            }
+            else {
+                $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'left').attr('lang', 'ar');
+                langUnicode();
+            }
+        });
+        $('#QuicksmsorCampaign_Message').on('paste change blur', function () {
+            langUnicode();
+            setTimeout(function () {
+                fnShowCount();
+            }, 100);
+        });
+
+    </script>
+
+    <script type="text/javascript">
+
+        var nlangid = 1;
+        function lngchk(ctrl) {
+            if ($('.english').prop('checked') == true) {
+                $('#QuicksmsorCampaign_Language').val(1);
+                nlangid = 1;
+                langUnicode();
+                fnShowCount()
+
+            }
+            else {
+
+                $('#QuicksmsorCampaign_Language').val(2);
+                nlangid = 2;
+                langUnicode();
+                fnShowCount()
+            }
+        }
+
+        function EditorOnpast(e) {
+            var arabiclan = /[\u0621-\u064A]/;
+            var unicodelan = /[\u0000-\u007F]/;
+            var clipboard = e.clipboardData || window.clipboardData;;
+            var value = clipboard.getData("text"); //ctrl.value;
+            if (!value.match(unicodelan)) {
+                $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'ltr').attr('lang', 'en');
+                // $('.english').click();
+                setTimeout(function () {
+                    fnShowCount();
+                }, 100);
+            }
+            else if (value.match(arabiclan)) {
+                $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'rtl').attr('lang', 'ar');
+                var Credits = Math.ceil(valueCount / 67);
+                setTimeout(function () {
+                    fnShowCount();
+                }, 100);
+            }
+            else {
+                var valueCount = count(value);
+                $('#QuicksmsorCampaign_Message,#QuicksmsorCampaign_PreviewMessage').focus().attr('dir', 'ltr').attr('lang', 'ar');
+                // $("#txtCharCount").text(valueCount);
+                var Credits = Math.ceil(valueCount / 67);
+                // $("#txtMSgCount").text(Credits);
+                // $('.arabic').click();
+                setTimeout(function () {
+                    fnShowCount();
+                }, 100);
+            }
+            //var clipboard = e.clipboardData || window.clipboardData;;
+            //var value = clipboard.getData("text"); //ctrl.value;
+            //if (value.match(/[^\u0000-\u007F]/)) {
+            //    langUnicode();
+            //  //  $('.english').click();
+            //    setTimeout(function () {
+            //        fnShowCount();
+            //    }, 100);
+            //}
+            //else {
+            //    var valueCount = count(value);
+            //    // $("#txtCharCount").text(valueCount);
+            //    var Credits = Math.ceil(valueCount / 67);
+            //    // $("#txtMSgCount").text(Credits);
+            //    langUnicode();
+            //   // $('.arabic').click();
+            //    setTimeout(function () {
+            //        fnShowCount();
+            //    }, 100);
+            //}
+        }
+
+        function isArabic(char) {
+            var pattern = new RegExp(/[^\u0000-\u007F]/);
+            return pattern.test(char);
+        }
+
+        function count(string) {
+            var count = 0;
+            for (var i = 0; i < string.length; i++) {
+                if (isArabic(string.charAt(i))) {
+                    count++;
+                };
+            };
+            return count;
+        }
+
+        function splCount(sval) {
+            var regex = /([€|{}\[\]\\~^])/g
+            var allFoundCharacters = sval.match(regex);
+            if (allFoundCharacters != null) {
+                if (allFoundCharacters.length > 0) {
+                    return allFoundCharacters.length * 1
+                }
+            } else {
+                return 0;
+            }
+        }
+        var langCrs = "";
+        function fnShowCount() {
+
+            var obj = $("#QuicksmsorCampaign_Message");
+            var sval = (obj.val().trim()); //.trim();
+            var svalcountspl = splCount(sval);
+            var objCount = $("#txtCharCount");
+            var nlen = sval.length;
+            objCount.innerHTML = nlen;
+            var langidobj = $("#QuicksmsorCampaign_Language");
+            var strCredits = 0;
+            var nLength;
+            var objGSMChars = $("#hdnGSMChars").val();
+            var objExGSMCHars = $("#hdnEXGSMChars").val();
+            var nreturn = true;
+            nLength = sval.length;
+            objGSMChars = unescape(objGSMChars);
+            objExGSMCHars = unescape(objExGSMCHars);
+            for (var i = 0; i < sval.length; i++) {
+                var stvalue = sval[i];
+                if (objGSMChars.indexOf(stvalue) == -1) {
+                    if (objExGSMCHars.indexOf(stvalue) != -1) {
+                        nLength = nLength + 1;
+                    }
+                    else {
+                        nreturn = false;
+                    }
+                }
+            }
+            nlen = nLength;
+            var strNextCountOne = nlen;
+
+            var text = sval.replace(/’/g, "'");
+            if (text.match(/[^\u0000-\u007F]/)) {
+                divider1 = 67;
+                if (nlen <= 70) { strCredits = 1; }
+                else if (nlen > 70 && nlen <= 134) { strCredits = 2; }
+                else {
+                    var strTotal = strNextCountOne / divider1;
+                    strCredits = Math.ceil(strTotal);
+                }
+                nlangid = 2;
+            }
+            else {
+                nlen = nlen + svalcountspl;
+                divider1 = 153;
+                if (nlen <= 160) { strCredits = 1; }
+                else if (nlen > 160 && nlen <= 306) { strCredits = 2; }
+                else {
+                    var strTotal = strNextCountOne / divider1;
+                    strCredits = Math.ceil(strTotal);
+                }
+                nlangid = 1;
+            }
+            if (nlen == 0) {
+                strCredits = 0;
+            }
+            $("#txtMSgCount").html(strCredits);
+            $("#txtCharCount").html(nlen);
+            return false;
+        }
+
+        //credits count
+        function fnCountCredits() {
+
+            var obj = $("#QuicksmsorCampaign_Message");
+            var sval = (obj.val()).trim();
+            var nlen = sval.length;
+            var langid = 1;
+            var langidobj = $(".arabic");
+            if (langidobj.prop('checked') == true)
+                langid = 2;
+            var intCount = 160;
+            var divider1;
+            $("#txtCharCount").val() = nlen;
+            if (langid == 1) {
+                intCount = 160;
+                divider1 = 153;
+            }
+            else if (langid != 1) {
+                intCount = 70;
+                divider1 = 67;
+            }
+            if ($("#txtCharCount").val() > intCount) {
+                var strNextCountOne = $("#txtCharCount").val();
+                var strTotal = strNextCountOne / divider1;
+            }
+            if (langid == 1) {
+                if (($("#txtCharCount").val() == 0) || ($("#txtCharCount").val() < 161)) {
+                }
+            }
+            else {
+                if (($("#txtCharCount").val() == 0) || ($("#txtCharCount").val() < 71)) {
+                }
+            }
+        }
+
+
+
+
+    </script>
+
+
+
+
+    <script type="text/javascript">
+
+        $("#QuicksmsorCampaign_CampaignNameorRecipient").attr("title", "@lz.PleaseenterrecipientmobilenumbersalongwithcountrycodeEg9715097155");
+        $("#MaxLimit").text(@Configuration["MaxQSMSLimit"]);
+        var $remaining = $('#txtCharCount'),
+        $QuicksmsorCampaign_Message = $remaining.next();
+        //function isUnicode(s) { return /[^\u0000-\u00ff]/.test(s); }
+
+        function CheckMaxQSMSLimit(cntrl) {
+            var ContactsCount = $(cntrl).val().split(',').length;
+            var MaxLmt = "@Configuration["MaxQSMSLimit"]";
+            if (parseInt(MaxLmt) < ContactsCount) {
+                errorMessage("@lz.Pleaseenteronly " + MaxLmt + " @lz.RecipientS");
+                $("html,body").animate({ scrollTop: 0 }, 600);
+            }
+        }
+
+
+        $('#QuicksmsorCampaign_Message').keyup(function () {
+            fnShowCount();
+            var value = $(this).val();
+            var TextReplace = $("#hdnTextReplace").val();
+            var KeyValuePair = $("#hdnTextReplace").val().split('||');
+            var replaceText = '';
+            $.each(KeyValuePair, function (i, item) {
+                var Msgkey = "<$" + item.split('::')[0] + "$>";
+                var MsgVal = item.split('::')[1];
+                if (value.indexOf(Msgkey) >= 0) {
+                    //replaceText = value.replaceAll(Msgkey, MsgVal);
+                    //value = replaceText;
+                    replaceText = replaceAll(Msgkey, MsgVal, value);
+                    value = replaceText;
+                }
+                if (KeyValuePair.length == (i + 1)) {
+                    $("#QuicksmsorCampaign_PreviewMessage").val(value);
+                }
+            })
+        }).keyup();
+
+
+        $("#QuicksmsorCampaign_Message").on("keydown", function (e) {
+            if (e.which === 32 && !this.value.length)
+                e.preventDefault();
+        });
+
+        $('#QuicksmsorCampaign_Message').bind('keypress', function (e) {
+            if ((e.keyCode || e.which) == 13 && !this.value.length) {
+                // $(this).parents('form').submit();
+                return false;
+            }
+        });
+        //Added By Murty
+        $("#QuicksmsorCampaign_AnySender").val("Any");
+        $("#divAnySender").css("display", "none");
+        $("#QuicksmsorCampaign_AnySender").attr("disabled", "disabled");
+        $("#QuicksmsorCampaign_SenderId").change(function () {
+            if ($("#QuicksmsorCampaign_SenderId option:selected").text() == "Any") {
+                $("#divAnySender").css("display", "block");
+                $("#QuicksmsorCampaign_AnySender").removeAttr("disabled", "disabled");
+            }
+            else {
+                $("#divAnySender").css("display", "none");
+                $("#QuicksmsorCampaign_AnySender").attr("disabled", "disabled");
+            }
+        });
+
+
+
+
+    </script>
+    <script>
+        $("#QuicksmsorCampaign_category").change(function () {
+            LoadSenderByCategory();
+        });
+        function LoadSenderByCategory() {
+            //alert($("#QuicksmsorCampaign_category option:selected").text());
+            $('#QuicksmsorCampaign_SenderId').empty();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LoadSenderByCategory", "CampaignPlugin")',
+                headers: headers,
+                data: { category: $("#QuicksmsorCampaign_category option:selected").text()},
+                datatype: 'application/json',
+                success: function (d) {
+                    //console.log(d);
+                    if (d != (null || undefined)) {                        
+                        var items = 0;
+                        $.each(d, function (i, item) {
+                            //console.log(item.Code);
+                            if (item.Code != "") { 
+                                items = items + 1;
+                                //alert(items);
+                                $('#QuicksmsorCampaign_SenderId').append($('<option>', {
+                                    value: item.Id,
+                                    text: item.Code
+                                }));
+                            }
+                        });
+                        if (items == 0) {
+                            $('#QuicksmsorCampaign_SenderId').empty();
+                            alert("No senders are configured for the given category!!");
+                        }
+                    }                    
+                },
+                error: function (xhr, error, status) {
+                    var err = xhr;
+                }
+            });
+        }
+    </script>
+
+
+    @*<script type="text/javascript">
+            $(document).ready(function () {
+                $('#QuicksmsorCampaign_Message').change(function () {
+                    var oldVal = this.value;
+                    var contentSplitBySemiColons = oldVal.split(';');
+                    var thisFragment;
+                    for (var i = 1; i < contentSplitBySemiColons.length; i++) {
+                        thisFragment = contentSplitBySemiColons[i];
+                        if (thisFragment[0] != '\n') {
+                            contentSplitBySemiColons[i] = '\n' + thisFragment;
+                        }
+                    }
+                    this.value = contentSplitBySemiColons.join(';');
+                });
+            });
+        </script>*@
+
+
+
+}

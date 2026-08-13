@@ -1,0 +1,39 @@
+﻿@using System.Data;
+@using Core.Models.Dtos.CommonDtos;
+@using Synapse.Web.CampaignPlugin.Helpers;
+@using Synapse.Web.CampaignPlugin.Models;
+@using Synapse.Web.CampaignPlugin.Helpers.SecureAccess;
+@using Core.Models.Enums;
+@inject IConfiguration Configuration;
+@inject IHttpContextAccessor HttpContextAccessor;
+
+@{
+    var lz = SessionExtensions.GetItem<LocalizationResponse>(HttpContextAccessor.HttpContext.Session);
+}
+@model DataTable
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered dataTable gridtable">
+        <thead>
+            <tr>
+                @{
+                    foreach (DataColumn item in Model.Columns)
+                    {
+                        <th>@item.ColumnName.ToString()</th>
+                    }
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (DataRow row in Model.Rows)
+            {
+                <tr>
+                    @foreach (DataColumn col in Model.Columns)
+                    {
+                        <td>@row[col].ToString()</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
