@@ -1,0 +1,107 @@
+﻿@using Core.Models.Dtos.Requests.Synapse.UserCampaigns
+@using Core.Models.Enums;
+@using Synapse.Web.CampaignPlugin.Helpers.SecureAccess;
+@using Core.Models.Dtos.CommonDtos
+@inject IConfiguration Configuration;
+@inject IHttpContextAccessor HttpContextAccessor;
+
+@model InsertBulkSMSOnRequest
+@{
+    var lz = SessionExtensions.GetItem<LocalizationResponse>(HttpContextAccessor.HttpContext.Session);
+}
+<div class="table-responsive">
+    <div class="">
+        <table class="table table-striped table-bordered  table-condensed">
+            <tbody>
+                <tr><td class="col-lg-4">@lz.TotalCount</td><td>@Model.ValidCount</td></tr>
+                @*@if (System.Configuration.ConfigurationManager.AppSettings["IsValidationEnable"] == "true")
+				{
+                <tr><td class="col-lg-4">@lz.ValidateCount</td><td>@Model.ValidCount </td></tr>
+                }*@
+                <tr><td class="col-lg-4">@lz.CreditsPerMessage</td><td>@(Convert.ToInt32(Model.TotalCreditsReq) > 0 ? Model.TotalCreditsReq : 0)</td></tr>
+            </tbody>
+        </table>
+    </div>
+    @*<div class="" style="display:none;">
+        <table class="table table-striped table-bordered  table-condensed">
+            <thead>
+                <tr>
+                    <td class="col-lg-4"><b>Country</b></td>
+                    <td><b>Valid Recipient Counts</b></td>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in @Model.CountryWiseCnt)
+                {
+                    <tr><td class="col-lg-4">@item.Key</td><td>@item.Value</td> </tr>
+                }
+            </tbody>
+        </table>
+
+        <table class="table table-striped table-bordered table-condensed ">
+            <tbody>
+                <tr><td class="col-lg-4">Invalid Recipients</td><td>@Model.InValidCount</td></tr>
+                <tr><td class="col-lg-4">Duplicate Mobile number Count</td><td>@Model.DuplicateCount</td></tr>
+                @if (Model.DuplicateCount == 0)
+                {
+                    <tr><td class="col-lg-4">View Duplicate No. Log</td><td></td></tr>
+                }
+                else
+                {
+                    <tr><td class="col-lg-4"><a href="@Model.DuplicatePath" id="DuplicateLog" target="_blank">View Duplicate No. Log</a></td><td></td></tr>
+                }
+
+                <tr><td class="col-lg-4"><b>Note :</b> Total Credits Required</td><td>@(Convert.ToInt32(Model.TotalCreditsReq) > 0 ? Model.TotalCreditsReq : 0)</td></tr>
+                @if (Model.InValidCount == 0)
+                {
+                    <tr class="hide"><td class="col-lg-4">View Invalid Log</td><td></td></tr>
+                }
+                else
+                {
+                    <tr><td class="col-lg-4"><a href="@Model.InvalidMobPath" id="InvalidLog" target="_blank">View Invalid Log</a></td><td></td></tr>
+                }
+            </tbody>
+        </table>
+    </div>*@
+    <div class="">
+        <table class="table table-striped table-bordered table-condensed ">
+            <thead>
+                <tr><td class="col-lg-4" colspan="2"><b>Campaign Details :</b> </td></tr>
+            </thead>
+            <tbody>
+                <tr><td class="col-lg-4">@lz.CampaignName</td><td>@Model.Name</td></tr>
+                <tr><td class="col-lg-4">@lz.SenderID</td><td>@Model.Sender</td></tr>
+                <tr><td class="col-lg-4">@lz.CampaignType</td><td>@Model.CampaignType</td></tr>
+                <tr><td class="col-lg-4">@lz.MobileNumberField</td><td>@Model.MobileField</td></tr>
+                <tr>
+                    <td class="col-lg-4">@lz.Language</td>
+                    <td>
+                        @if (Configuration["IndianSynapse"] == "true")
+                        {
+                            if (@Model.Language == "Arabic")
+                            {
+                                <span>Unicode</span>
+                            }
+                            else
+                            {
+                                @Model.Language
+                            }
+                        }
+                        else
+                        {
+                            @Model.Language
+                        }
+                    </td>
+                </tr>
+                <tr><td class="col-lg-4">@lz.Message</td><td style="word-break:break-all;">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />"))</td></tr>
+                <tr><td class="col-lg-4">@lz.DeliveryReportRequired</td><td>@((Model.DLR == 1) ? "Yes" : "No")</td></tr>
+                <tr><td class="col-lg-4">@lz.AllowDuplicateNumbers</td><td>@((Model.AllowDuplicates == 1) ? "Yes" : "No")</td></tr>
+                <tr><td class="col-lg-4">@lz.Schedule</td><td>@Model.TotalScheduleString</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+

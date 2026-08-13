@@ -5100,4 +5100,7 @@
   <data name="InvalidrequestNeedtoIncludeLowerCharacters" xml:space="preserve">
     <value>Invalid request need to Include Lower Characters</value>
   </data>
+  <data name="Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
 </root>

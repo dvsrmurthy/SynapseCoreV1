@@ -1,0 +1,68 @@
+﻿@using Synapse.Web.CampaignPlugin.Helpers.SecureAccess;
+@inject IConfiguration Configuration;
+@inject IHttpContextAccessor HttpContextAccessor;
+
+@using Core.Models.Dtos.CommonDtos
+@{
+    var lz = SessionExtensions.GetItem<LocalizationResponse>(HttpContextAccessor.HttpContext.Session);
+}
+<table class="table table-striped table-bordered dataTable gridtable">
+    <thead>
+        <tr>
+
+            <th>Name Or Recipient(s)</th>
+            <th>@lz.SMSType</th>
+            @*<th>Message</th>*@
+            <th>@lz.SenderID</th>
+            <th>@lz.Language</th>
+            <th>@lz.ValidRecipients</th>
+            <th>@lz.Credits</th>
+            <th>@lz.SendDate</th>
+            <th>@lz.Status</th>
+            <th>Functional</th>
+            @*<th>Functional Status</th>*@
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            @*<td>
+                        @switch (@item.RecipientsType)
+                        {
+                            case FILETYPE.NOTEPAD:
+                                <a href="javascript: Download('@item.Recipients')" >
+                                    <span class="icon16 icon16 icomoon-icon-file"></span>
+                                </a>
+                                break;
+                            case FILETYPE.EXCEL:
+                            <a href="javascript: Download('@item.Recipients')" >
+                                <span class="icon16 icon16 icomoon-icon-file-excel"></span>
+                            </a>
+                                break;
+                            case FILETYPE.GROUPS:
+                            <a href="javascript: Download('@item.Recipients')" class="btn btn-default tip">
+                                <span class="icon16 icon16 icomoon-icon-address-book"></span>
+                            </a>
+                                break;
+                        }
+
+                    </td>*@
+            <tr>
+                <td style="word-break:break-all;">
+                    @item.CampaignNameorRecipient.Substring(0, ((item.CampaignNameorRecipient.Length - 1 <= 15) ? item.CampaignNameorRecipient.Length - 1 : 15))
+                </td>
+                <td>@item.TypeofCampaign</td>
+                <td>@item.Sender</td>
+                <td>@item.Language</td>
+                <td>@item.CreditsUsed</td>
+                <td>@item.ValidCount</td>
+                <td>@item.SendDate</td>
+                <td>@item.Status</td>
+
+                <td><a href="#" class="btn btn-sm btn-warning CheckerPendingBtn" alt="Pending" title="Pending">Pending</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

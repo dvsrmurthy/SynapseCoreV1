@@ -1,0 +1,33 @@
+﻿@using Synapse.Web.CampaignPlugin.Models;
+@using Core.Models.Dtos.CommonDtos;
+@using Synapse.Web.CampaignPlugin.Helpers;
+@using Synapse.Web.CampaignPlugin.Helpers.SecureAccess;
+@inject IConfiguration Configuration;
+@inject IHttpContextAccessor HttpContextAccessor;
+
+@model List<Contact>
+@{
+    var lz = SessionExtensions.GetItem<LocalizationResponse>(HttpContextAccessor.HttpContext.Session);
+}
+<div class="scroll_checkboxes">
+    <table class="table table-striped table-bordered table-condensed dataTable gridtable">
+        <thead>
+            <tr>
+                <th><input type="checkbox" id="ParentCB" data-parent="All" onclick="CheckAllContacts(this)" />@lz.All</th>
+                <th>@lz.FirstName</th>
+                <th>@lz.Mobile</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderBy(x => x.FirstName))
+            {
+                <tr>
+                    <td><input type="checkbox" class="ChildCB" data-parent="C" data-id="@item.MobileNo" value="@item.MobileNo" /></td>
+                    <td>@item.FirstName</td>
+                    <td>@item.MobileNo</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

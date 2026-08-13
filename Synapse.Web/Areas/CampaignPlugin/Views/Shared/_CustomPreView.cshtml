@@ -1,0 +1,41 @@
+﻿@using Synapse.Web.CampaignPlugin.Models
+@using Synapse.Web.CampaignPlugin.Helpers.SecureAccess;
+@inject IConfiguration Configuration;
+@inject IHttpContextAccessor HttpContextAccessor;
+
+
+@using Core.Models.Dtos.CommonDtos
+@{
+    var lz = SessionExtensions.GetItem<LocalizationResponse>(HttpContextAccessor.HttpContext.Session);
+}
+@model List<CustomPreView>
+
+<div class="table-responsive" style="">
+    <table class="table  table-bordered" style="background:#fff;">
+        <thead>
+            <tr>
+                <th>@lz.MobileNumber</th>
+                <th>@lz.Message</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.MobileNo</td>
+                    <td>
+                        <div class="handset">
+                            <div class="innermsg">
+                                @*@item.ReplacedMsg*@
+                                <textarea class="innermsg" disabled="disabled" id="@item.MobileNo" value="">@item.ReplacedMsg</textarea>
+                            </div>
+                            @*@Html.TextAreaFor(t => t.ReplacedMsg, new { @Value = item.ReplacedMsg, @class = "form-control previewbox" })*@
+                            @*<textarea id="@item.MobileNo" >@item.ReplacedMsg</textarea>*@
+
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

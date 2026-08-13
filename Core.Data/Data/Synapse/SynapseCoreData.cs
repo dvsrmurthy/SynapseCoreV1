@@ -1834,6 +1834,7 @@ namespace Core.Data.Data.Synapse
                     {
                         request.ischecker = true;
                     }
+                    if (request.SearchCampaign == null) request.SearchCampaign = string.Empty;
                     if (request.ischecker == false)
                     {
                         using (var _consumer = new CoreDBConsumer())
@@ -4345,6 +4346,7 @@ namespace Core.Data.Data.Synapse
         {
             Logger.InfoFormat("PopulateGroups :: started :: GROUPID :: {0}", request.GROUPID);
             var response = new List<GetGroupsContactsOnResponse>();
+            request.REQUESTEDBY = request.REQUESTEDBY ?? string.Empty;
             try
             {
                 using (var _consumer = new CoreDBConsumer())
