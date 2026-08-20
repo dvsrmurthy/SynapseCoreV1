@@ -100,6 +100,11 @@ namespace Core.Models.Dtos.Requests.Synapse.UserCampaigns
         public int UserId { get; set; }
         public string? OTPValue { get; set; } = string.Empty;
     }
+    public class InsertQSMSOnResponse
+    {
+        public int nReturn { get; set; }
+        public int nId { get; set; }       
+    }
     public class CheckerUpdateQSMSOnRequest
     {
         public int QSMSID { get; set; }

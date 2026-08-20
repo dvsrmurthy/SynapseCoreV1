@@ -16,9 +16,13 @@ namespace Synapse.Web.CampaignPlugin.Helpers
         }
         public static string DecryptStringAES(string cipherText)
         {
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory()) // Sets look-up folder to application directory
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
 
-            var keybytes = Encoding.UTF8.GetBytes(_configuration["ScKey"]?.ToString());
-            var iv = Encoding.UTF8.GetBytes(_configuration["ScKey"]?.ToString());
+            var keybytes = Encoding.UTF8.GetBytes(configuration["ScKey"]?.ToString());
+            var iv = Encoding.UTF8.GetBytes(configuration["ScKey"]?.ToString());
 
             var encrypted = Convert.FromBase64String(cipherText);
             var decriptedFromJavascript = DecryptStringFromBytes(encrypted, keybytes, iv);
@@ -66,7 +70,6 @@ namespace Synapse.Web.CampaignPlugin.Helpers
                     {
                         using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
                         {
-
                             using (var srDecrypt = new StreamReader(csDecrypt))
                             {
                                 // Read the decrypted bytes from the decrypting stream

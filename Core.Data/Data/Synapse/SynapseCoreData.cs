@@ -746,7 +746,7 @@ namespace Core.Data.Data.Synapse
             return response;
         }
 
-        public async Task<string> InsertQSMS(InsertQSMSOnRequest request)
+        public async Task<InsertQSMSOnResponse> InsertQSMS(InsertQSMSOnRequest request)
         {
             Logger.InfoFormat("InsertQSMS :: start :: {0}", request.CustomerID);
             try
@@ -777,46 +777,10 @@ namespace Core.Data.Data.Synapse
                     {"@nId",DBNull.Value},
                     {"@UserIp",request.UserIp}
                     });
-
-                    //if (GetConfiguration("IndianSynapse"] == "false" || GetConfiguration("IndianSynapse"] == "" || GetConfiguration("IndianSynapse"] == null)
-                    //{
-                    //    if (response.nId > 0)
-                    //    {
-                    //        var tCounts = request.MobileNos.Split(',').Length;
-                    //        if (tCounts == 0)
-                    //        {
-                    //            tCounts = 1;
-                    //        }
-
-                    //        var LangID = request.LangID;
-                    //        if (LangID == 2)
-                    //            LangID = 8;
-                    //        else
-                    //        {
-                    //            if (request.Message.Contains('@') || request.Message.Contains('{') || request.Message.Contains('}'))
-                    //                LangID = 1;
-                    //            else
-                    //                LangID = 1;
-                    //        }
-
-                    //        //var userid = 
-                    //        var fileName = DateTime.Now.ToString("ddMMyyyyhhmmss") + response.nId;
-                    //        var xmlContent = "<root iscustome='false' priority='5'><sendsms userid='" + request.CreatedBy + "'  username='" + request.UserName + "' campainid='" + 0 + "' sender='" + WebUtility.HtmlEncode(request.Sender) +
-                    //         "' language='" + ((LangID)) + "' message='" + WebUtility.HtmlEncode(request.Message).Replace("\n", "&#10;") +
-                    //                "' mobile=''><mobile>" + request.MobileNos + "</mobile></sendsms></root>";
-                    //        var fPath = Path.Combine(
-                    //                (GetConfiguration("CampaintPath"] + "QuickSMS"),
-                    //                fileName);// + ".xml");
-                    //        if (!Directory.Exists(fPath))
-                    //        {
-                    //            Directory.CreateDirectory(fPath);
-                    //        }
-                    //        File.WriteAllText(Path.Combine(fPath, fileName + ".xml"), xmlContent);
-                    //        var QMsg = "action=start&camp_id=" + response.nId + "&camp_type=0&dir_name=" + fileName + "&count=" + tCounts;
-                    //        var Qresult = new CampaignQLog().PushMessageToQ(QMsg);
-                    //    }
-                    //}
-                    return response.nReturn + "$" + response.nId;
+                    InsertQSMSOnResponse res = new InsertQSMSOnResponse();
+                    res.nId = response.nId;
+                    res.nReturn = response.nReturn;
+                    return res;
                 }
             }
             catch (Exception ex)
@@ -824,7 +788,7 @@ namespace Core.Data.Data.Synapse
                 Logger.ErrorFormat("InsertQSMS Fatal error thoughs :: Err0r :: {0}", ex.ToString());
                 ErrorSignal.FromCurrentContext().Raise(ex);
             }
-            return "0$0";
+            return new InsertQSMSOnResponse();
         }
 
         /// <summary>
@@ -965,7 +929,31 @@ namespace Core.Data.Data.Synapse
             }
             return "0$0";
         }
-
+        public async Task<List<LoadSenderByCategoryResponse>> LoadSenderByCategory(LoadSenderByCategory request)
+        {
+            Logger.InfoFormat("LoadSenderByCategory :: start :: {0}", request.category);
+            try
+            {
+                if (request.category == null) request.category = string.Empty;
+                using (var _consumer = new CoreDBConsumer())
+                {
+                    var response = await
+                        _consumer.DbConsumerForMultiItems<LoadSenderByCategoryResponse>("GetMapSenderIDsByCategory", SqlEventTypes.Select,
+                            new Dictionary<string, object>()
+                            {
+                                {"@NUSERID", request.userId},
+                                {"@SMSCATEGORY", request.category}
+                            });
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorFormat("LoadSenderByCategory Fatal error thoughs :: Err0r :: {0}", ex.ToString());
+                ErrorSignal.FromCurrentContext().Raise(ex);
+            }
+            return new List<LoadSenderByCategoryResponse>();
+        }
         public async Task<List<MobileLengthValidationResponse>> ValidateMobileNums(ReUsableRequest request)
         {
             Logger.InfoFormat("ValidateMobileNums :: start :: {0}", request.CampaignId);

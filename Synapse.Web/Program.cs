@@ -25,12 +25,12 @@ builder.Services.AddScoped<IRestRequest, RestRequest>();
 builder.Services
     .AddControllersWithViews()
     .AddApplicationPart(typeof(AccountController).Assembly)
-    .AddApplicationPart(typeof(SynapseAPI.Controllers.DivisionsController).Assembly);
+    .AddApplicationPart(typeof(SynapseAPI.Controllers.DivisionsController).Assembly)
+    .AddApplicationPart(typeof(SynapseAPI.Controllers.UserController).Assembly);
 
 builder.Services
     .AddControllersWithViews()
-    .AddApplicationPart(
-        typeof(Synapse.Web.CampaignPlugin.Controllers.CampaignPluginController).Assembly);
+    .AddApplicationPart(typeof(Synapse.Web.CampaignPlugin.Controllers.CampaignPluginController).Assembly);
     //.AddApplicationPart(
     //    typeof(Synapse.Web.AlertsPlugin.Controllers.AlertsPluginController)
     //        .Assembly);
@@ -43,7 +43,12 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
-//builder.Services.AddDistributedMemoryCache();
+builder.Services
+    .AddControllersWithViews()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNamingPolicy = null;
+    });
 builder.Services.AddHttpContextAccessor();
 // Add authentication and authorization services - For Forms Authentication
 builder.Services
@@ -67,7 +72,6 @@ builder.Services.AddAuthorization();
 builder.Services.AddScoped<IAccountCoreData, AccountCoreData>();
 builder.Services.AddScoped<ISynapseCoreData, SynapseCoreData>();
 builder.Services.AddScoped<ThirdPartyServiceConsumption>();
-
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSynapseApiServices(builder.Configuration);

@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -691,8 +692,8 @@ namespace Synapse.Web.CampaignPlugin.Models
     {
         public string? SheetName { get; set; }
         public List<string> Columns { get; set; }
-        public dynamic FileRecord { get; set; }
-        public List<dynamic> FileRecords { get; set; }
+        public JsonElement? FileRecord { get; set; }
+        public List<JsonElement> FileRecords { get; set; }
         public string? FilePath { get; set; }
     }
 }

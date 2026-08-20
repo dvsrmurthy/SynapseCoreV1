@@ -25,6 +25,8 @@ using Core.Models.Dtos.Requests.Synapse.ManageMobilityCenter;
 
 namespace SynapseAPI.Controllers
 {
+    [ApiController]
+    [Route("")]
     public class UserController : ServicesBaseController
     {
         #region  Phone Book
@@ -1133,6 +1135,20 @@ namespace SynapseAPI.Controllers
             if (request.CustomerID != 0 && request.CreatedBy != 0 && Convert.ToInt32(request.SenderID) != 0)
             {
                 var response = await _contextSynapseCore.InsertBulkSMS(request);
+                return Ok(response);
+            }
+            return Ok();
+        }
+        [HttpPost("LoadSenderByCategory")]        
+        public async Task<IActionResult> LoadSenderByCategory(LoadSenderByCategory request)
+        {
+            // allow reading the body multiple times
+            HttpContext.Request.EnableBuffering();
+
+            HttpContext.Request.Body.Position = 0;
+            if (request.userId != 0 && request.category != string.Empty)
+            {
+                var response = await _contextSynapseCore.LoadSenderByCategory(request);
                 return Ok(response);
             }
             return Ok();

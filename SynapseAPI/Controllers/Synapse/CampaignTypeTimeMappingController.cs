@@ -10,6 +10,8 @@ using Core.Models.Dtos.CommonDtos;
 
 namespace SynapseAPI.Controllers
 {
+    [ApiController]
+    [Route("")]
     public class CampaignTypeTimeMappingController : ServicesBaseController
     {
         /// <summary>
