@@ -116,7 +116,7 @@
 <body body class="@lngClass">
     @if (u != null && (User.Identity.IsAuthenticated))
     {
-        
+        <script src="~/js/jquery-3.7.1.js"></script>
         <script>
                 var Q = '@Configuration["ScKey"]';
                 var key = CryptoJS.enc.Utf8.parse(Q);
@@ -162,8 +162,8 @@
         @if (u != null && (User.Identity.IsAuthenticated))
         {
             <header id="navbar">
-                <div id="navbar-container" class="boxed">                   
-                    <div class="navbar-header">                      
+                <div id="navbar-container" class="boxed">
+                    <div class="navbar-header">
                         @if (u != null && (User.Identity.IsAuthenticated))
                         {
                             if (u?.RoleId == 1 || u?.RoleId == 13 || u?.RoleId == 15 || u?.RoleId == 16 || u?.RoleId == 23)
@@ -199,59 +199,59 @@
                                 <img src="~/Content/images/home-logo.svg" />
                             </a>
                         }
-                    </div>                   
+                    </div>
                     <div class="navbar-content clearfix">
-                        <ul class="nav navbar-top-links pull-left">                          
+                        <ul class="nav navbar-top-links pull-left">
                             @if (u != null && (User.Identity.IsAuthenticated))
                             {
                                 <li class="tgl-menu-btn" style="display:none;">
                                     <a class="mainnav-toggle" href="#">
                                         <i class="demo-pli-view-list"></i>
                                     </a>
-                                </li>                                
+                                </li>
                             }
                         </ul>
                         <ul class="nav navbar-top-links pull-right">
-                                <li class="dropdown hide">
-                                    <a title="Language" id="demo-lang-switch" class="lang-selector dropdown-toggle" href="#" data-toggle="dropdown">
-                                        <span class="lang-selected">
-                                            <i class="fa fa-globe fa-2x" title="Language"></i>
-                                        </span>
-                                    </a>
+                            <li class="dropdown hide">
+                                <a title="Language" id="demo-lang-switch" class="lang-selector dropdown-toggle" href="#" data-toggle="dropdown">
+                                    <span class="lang-selected">
+                                        <i class="fa fa-globe fa-2x" title="Language"></i>
+                                    </span>
+                                </a>
 
-                                    <!--Language selector menu-->
-                                    <ul class="head-list dropdown-menu dropdown-menu-md dropdown-menu-right">
-                                        <li>
-                                            <!--English-->
-                                            <a onclick="langSelection(this.id)" id="en-lan" class="btn btn-primary">English</a>
-                                        </li>
-                                        <li>
-                                            <!--Arabic-->
-                                            <a onclick="langSelection(this.id)" id="ar-lan" class="btn btn-primary">العربية</a>
-                                        </li>
-                                    </ul>
+                                <!--Language selector menu-->
+                                <ul class="head-list dropdown-menu dropdown-menu-md dropdown-menu-right">
+                                    <li>
+                                        <!--English-->
+                                        <a onclick="langSelection(this.id)" id="en-lan" class="btn btn-primary">English</a>
+                                    </li>
+                                    <li>
+                                        <!--Arabic-->
+                                        <a onclick="langSelection(this.id)" id="ar-lan" class="btn btn-primary">العربية</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            @if (@lngClass == "lnEnglish")
+                            {
+                                <li id="english" style="display:none;">
+                                    <a onclick=" langSelection(this.id)" id="en-lan" class="btn btn-white">English</a>
                                 </li>
 
-                                @if(@lngClass == "lnEnglish")
-                                {
-                                    <li id="english" style="display:none;">
-                                        <a onclick=" langSelection(this.id)" id="en-lan" class="btn btn-white">English</a>
-                                    </li>
+                                <li id="arabic">
+                                    <a onclick="langSelection(this.id)" id="ar-lan" title="العربية" class="btn btn-white">العربية</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li id="english">
+                                    <a onclick=" langSelection(this.id)" id="en-lan" title="English" class="btn btn-white">English</a>
+                                </li>
 
-                                    <li id="arabic">
-                                        <a onclick="langSelection(this.id)" id="ar-lan" title="العربية" class="btn btn-white">العربية</a>
-                                    </li>
-                                }
-                                else
-                                {
-                                    <li id="english">
-                                        <a onclick=" langSelection(this.id)" id="en-lan" title="English" class="btn btn-white">English</a>
-                                    </li>
-
-                                    <li id="arabic" style="display:none;">
-                                        <a onclick="langSelection(this.id)" id="ar-lan" class="btn btn-white">العربية</a>
-                                    </li>
-                                }
+                                <li id="arabic" style="display:none;">
+                                    <a onclick="langSelection(this.id)" id="ar-lan" class="btn btn-white">العربية</a>
+                                </li>
+                            }
                             @if (u != null && (User.Identity.IsAuthenticated))
                             {
                                 <li id="dropdown-user" class="dropdown text-right">
@@ -268,7 +268,7 @@
                                     <div class="dropdown-menu dropdown-menu-md dropdown-menu-right panel-default">
 
                                         <!-- Dropdown heading  -->
-                                        <div class="pad-all bord-btm">                                            
+                                        <div class="pad-all bord-btm">
                                             <p class="text-left" style="font-weight:bold;">
                                                 <span class="fa fa-user-o"> </span> @u.CustomerName
                                             </p>
@@ -278,7 +278,7 @@
                                             else
                                             {
                                                 <p class="text-left">Balance Credits : &nbsp; <span class="badge badge-success pull-right availCredits" id="availableCredits"> </span></p> @*ID Added by murty*@                                                
-                                            }
+                                                    }
                                         </div>
                                         <ul class="head-list text-left">
                                             <li>
@@ -299,7 +299,7 @@
                                         </div>
                                     </div>
                                 </li>
-                            }                            
+                            }
                         </ul>
                     </div>
                 </div>
@@ -307,10 +307,10 @@
         }
         else
         { }
-        <div class="boxed">            
+        <div class="boxed">
             @if (u != null && (User.Identity.IsAuthenticated))
             {
-                <div id="content-container">                    
+                <div id="content-container">
                     <div id="page-content">
                         @RenderBody()
                     </div>
@@ -318,13 +318,13 @@
             }
             else
             {
-                @RenderBody()
+                @RenderBody()                
             }
 
             @if (MenuItems != null && MenuItems.Any() && u != null && (User.Identity.IsAuthenticated))
             {
                 <nav id="mainnav-container">
-                    <div id="mainnav">                      
+                    <div id="mainnav">
                         <div id="mainnav-menu-wrap" style="@((u?.uIsFirstLogin != null && u?.uIsFirstLogin == 1) ? "pointer-events:none" : "")">
                             <div class="nano  has-scrollbar">
                                 <div class="nano-content" id="mainnav-menu">
@@ -361,35 +361,35 @@
                                     <div style="min-height:400px"></div>
                                 </div>
                             </div>
-                        </div>             
+                        </div>
                     </div>
                 </nav>
-            }            
+            }
         </div>
+        @if (u != null && (User.Identity.IsAuthenticated))
+        {
+            <footer id="footer">
+                <span style="margin-left:15px;"> &copy; 2020 @lz.VectramindCorporation</span>
+                <div class="show-fixed pull-right">
+                    You have <a href="#" class="text-bold text-main"><span class="label label-danger">3</span> pending action.</a>
+                </div>
+                <div class="hide-fixed pull-right pad-rgt">
+                </div>
+                <p class="pad-lft" style="float:right;">
+                    @if (u != null && (User.Identity.IsAuthenticated))
+                    {
+                        @Html.Raw(u.FooterNotes)
+                    }
+                    else
+                    {
 
+                    }
+                </p>
+            </footer>
+        }
     </div>
 
-    @if (u != null && (User.Identity.IsAuthenticated))
-    {
-        <footer id="footer">
-            <span style="margin-left:15px;"> &copy; 2020 @lz.VectramindCorporation</span>            
-            <div class="show-fixed pull-right">
-                You have <a href="#" class="text-bold text-main"><span class="label label-danger">3</span> pending action.</a>
-            </div>
-            <div class="hide-fixed pull-right pad-rgt">                
-            </div>
-            <p class="pad-lft" style="float:right;">
-                @if (u != null && (User.Identity.IsAuthenticated))
-                {
-                    @Html.Raw(u.FooterNotes)
-                }
-                else
-                {
-                    
-                }
-            </p>
-        </footer>
-    }
+    
     <button class="scroll-top btn">
         <i class="pci-chevron chevron-up"></i>
     </button>
@@ -449,7 +449,7 @@
                                     <tr>
                                         <td>Balance Credits</td>
                                         <td>
-                                            <span class="availCredits"> </span>                                            
+                                            <span class="availCredits"> </span>
                                         </td>
                                     </tr>
                                     <tr><td>Account Type</td><td>@u.AccountType</td></tr>
@@ -465,14 +465,14 @@
     <script src="~/js/jquery-3.7.1.js"></script>
     <script src="~/js/jquery.validate-vsdoc.js"></script>
     <script src="~/js/jquery.validate.js"></script>
-    <script src="~/js/jquery.validate.min.js"></script>
+    @* <script src="~/js/jquery.validate.min.js"></script> *@
     <script src="~/js/jquery.validate.unobtrusive.js"></script>
-    <script src="~/js/jquery.validate.unobtrusive.min.js"></script>
+    @* <script src="~/js/jquery.validate.unobtrusive.min.js"></script> *@
     <script src="~/js/modernizr-2.6.2.js"></script>
     <script src="~/js/bootstrap.js"></script>
-    <script src="~/js/bootstrap.min.js"></script>
+    @* <script src="~/js/bootstrap.min.js"></script> *@
     <script src="~/css/plugins/summernote/summernote.js"></script>
-    <script src="~/css/plugins/summernote/summernote.min.js"></script>
+    @* <script src="~/css/plugins/summernote/summernote.min.js"></script> *@
     <script src="~/js/other.js"></script>
     <script src="~/js/nifty.js"></script>
     <script src="~/js/d3.v3.min.js"></script>
@@ -493,7 +493,7 @@
     <script src="~/js/select2.min.js"></script>
     <script src="~/js/jquery-ui.js"></script>
     <script src="~/js/sitecommon.js"></script>
-   
+
     <script src="~/js/linq.js"></script>
 
     <script type="text/javascript">
@@ -575,7 +575,7 @@
             }
         });
 
-        window.close = function () {            
+        window.close = function () {
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("LogOff", "Account", new { Area = string.Empty })',
@@ -587,7 +587,7 @@
         var baseurl = "@Url.Content("~/")";
         var synlogo = "Content/images/logo.svg";
         var clilogo = "~/Content/images/client-logo.png";
-        $('.errorpage').append('<p class=""><a class="btn  btn-info " href="@Url.Action("Login", "Account", new { Area = string.Empty })"> Login</a></p>');        
+        $('.errorpage').append('<p class=""><a class="btn  btn-info " href="@Url.Action("Login", "Account", new { Area = string.Empty })"> Login</a></p>');
         $('.errorpage > h1').html('<p><img style="margin:0 auto;" src="' + baseurl + '/' + synlogo + '" width="150px" /></p>');
         $('.errorpagetwo > h1').html('<p><img style="margin:0 auto;" src="' + baseurl + '/' + synlogo + '" width="150px" /></p>');
         $('.errorpage > h2').html('<i class="fa fa-clock-o"></i> @(HttpContextAccessor.HttpContext.Session.GetString("internalmessage") == null ? "Your session has been expired." : HttpContextAccessor.HttpContext.Session.GetString("internalmessage"))');

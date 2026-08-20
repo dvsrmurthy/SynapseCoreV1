@@ -100,13 +100,13 @@ namespace Core.Data.IDataInterfaces.ISynapse
         //Task<long> GetRolesPriviliges(RolesPriviligesOnRequest request);
         //Task<LoadCampaignTypeOnResponse> GetLoadCampaignType(LoadCampaignTypeOnRequest request);
         Task<List<LoadSenderIDCampaignsOnResponse>> loadSenderIDCampaigns(LoadSenderIDCampaignsOnRequest request);
-
+        Task<List<LoadSenderByCategoryResponse>> LoadSenderByCategory(LoadSenderByCategory request);
         Task<List<LoadNationalityCampaignsOnResponse>> loadNationalityCampaigns(LoadNationalityCampaignsOnRequest request);
         Task<List<LoadCityCampaignsOnResponse>> loadCityCampaigns(LoadCityCampaignsOnRequest request);
         Task<List<LoadIncomegroupCampaignsOnResponse>> loadIncomegroupCampaigns(LoadIncomegroupCampaignsOnRequest request);
 
         Task<List<LoadTemplateCampaignsOnResponse>> LoadTemplateCampaigns(LoadTemplateCampaignsOnRequest request);
-        Task<string> InsertQSMS(InsertQSMSOnRequest request);
+        Task<InsertQSMSOnResponse> InsertQSMS(InsertQSMSOnRequest request);
         Task<List<GetgGSMCharsQSMSCampOnResponse>> GetgGSMCharsQSMSCamp();
         //Task<List<KeywordList>> GetKeywordsOnloadAsync();
         Task<int> CheckerUpdateQuickSMS(CheckerUpdateQSMSOnRequest Request);

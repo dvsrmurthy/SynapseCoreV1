@@ -1,17 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Dynamic;
-using System.IO;
-using System.Linq;
-using System.Security.Claims;
-using System.Security.Claims;
-using System.Threading;
-using System.Threading;
-using System.Threading.Tasks;
-using Core.Models;
+﻿using Core.Models;
 using Core.Models.Dtos.Requests.Synapse.UserCampaigns;
 using Core.Models.Dtos.Responses.Synapse.UserCampaigns;
 using Core.Models.Enums;
@@ -26,6 +13,20 @@ using Synapse.Web.CampaignPlugin.Helpers;
 using Synapse.Web.CampaignPlugin.Helpers.CustomAttributes;
 using Synapse.Web.CampaignPlugin.Helpers.SecureAccess;
 using Synapse.Web.CampaignPlugin.Models;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Dynamic;
+using System.IO;
+using System.Linq;
+using System.Security.Claims;
+using System.Security.Claims;
+using System.Text.Json;
+using System.Threading;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Synapse.Web.CampaignPlugin.Controllers
 {
@@ -419,7 +420,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
 
                     fileData.ForEach(X =>
                     {
-                        X.FileRecords = new List<dynamic>();
+                        X.FileRecords = new List<JsonElement>();
                         //X.SheetName = dt.TableName;
                     });
 

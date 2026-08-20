@@ -32,7 +32,7 @@ namespace ClientHTTPConsuming.Utilities
 
         public TResponse Post<TRequest, TResponse>(TRequest request, Uri uri)
         {
-            var webRequest = (HttpWebRequest)WebRequest.Create(uri);           
+            var webRequest = (HttpWebRequest)WebRequest.CreateHttp(uri);           
             var webexetime = GetConfiguration("WebReqExeTime") == null ? "300000" : GetConfiguration("WebReqExeTime");
             webRequest.Timeout = Convert.ToInt32(webexetime);
             webRequest.Method = "POST";

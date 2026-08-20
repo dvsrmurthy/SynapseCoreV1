@@ -52,12 +52,14 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using SessionExtensions = Synapse.Web.CampaignPlugin.Helpers.SecureAccess.SessionExtensions;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Synapse.Web.CampaignPlugin.Controllers
 {
     [AllowRoleBaseAuthorize]
     [CheckUserSessionAttribute]
-    [Area("CampaignPlugin")]    
+    [Area("CampaignPlugin")]
+    [Route("CampaignPlugin")]
     public class CampaignPluginController : Controller
     {
         ILog Logger = LogManager.GetLogger(typeof(CampaignPluginController));
@@ -260,7 +262,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                     Nationality = new QuickSMSOrCampaign().buildNationality(),
                     City = new QuickSMSOrCampaign().buildCity(),
                     Incomegroup = new QuickSMSOrCampaign().buildIncomegroup(),
-                    CampaignTypes = new CampsCampaignType().buildCampTypes(),                    
+                    CampaignTypes = new CampsCampaignType().buildCampTypes(),
                     Groups = new Synapse.Web.CampaignPlugin.Models.Group().buildGroups(ExtendedUser.LogOnRespons.Id).Where(w => w.CurrentStatus == (Cstatus)1).ToList()
                 };
                 return View(model);
@@ -366,7 +368,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             Logger.InfoFormat("LoadTemplates :: start :: {0}", CampType);
             try
             {
-                var extendedUser = SessionExtensions.GetItem<Core.Models.Extensions.CustomeUser>(HttpContext.Session);                
+                var extendedUser = SessionExtensions.GetItem<Core.Models.Extensions.CustomeUser>(HttpContext.Session);
                 var templates = new TemplateCreation().buildmodel(extendedUser.LogOnRespons.CustomerId, extendedUser.LogOnRespons.Id, ExtendedUser.LogOnRespons.GetIPAddress, "", false);
 
                 return Json(templates.Where(x => x.TYPE == CampType && x.STATUS == true));
@@ -498,7 +500,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                         using (StreamWriter csv = new StreamWriter(output, false))
                         {
                             csv.Write(csvData);
-                            csv.Close();                            
+                            csv.Close();
                         }
                         return output;
                     }
@@ -511,11 +513,11 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             return string.Empty;
         }
 
-        [HttpPost]
+        [HttpPost("FileChangedEvent")]
         [RequestTimeout("LongRunningPolicy")]
-        [Synapse.Web.CampaignPlugin.Helpers.ValidateJsonAntiForgeryToken]
-        public ActionResult FileChangedEvent(string file, string fileName, int type = 1)//Type Added by Murty
-        {            
+        //[Synapse.Web.CampaignPlugin.Helpers.ValidateJsonAntiForgeryToken]
+        public IActionResult FileChangedEvent(string file, string fileName, int type = 1)//Type Added by Murty
+        {
             try
             {
                 fileName = AESEncrytDecry.DecryptStringAES(fileName);
@@ -526,7 +528,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                 return Json(new { Invalid = true, Message = lz.InvalidInputParameters });
             }
 
-            string namefile = fileName.Substring(0, fileName.IndexOf('.'));            
+            string namefile = fileName.Substring(0, fileName.IndexOf('.'));
             if (!Regex.IsMatch(namefile, "^(?:[A-Za-z0-9_-]+)(?:[A-Za-z0-9 _-]*)$"))
             {
                 return Json("Special Characters");
@@ -606,7 +608,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                     //fileData[0].FilePath = orginalfilename;
                     fileData.ForEach(x =>
                     {
-                        x.FileRecords = new List<dynamic>();
+                        x.FileRecords = new List<JsonElement>();
                     });
 
                     var ext = extension == ".txt" ? ".csv" : extension;
@@ -698,7 +700,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
 
                     fileData.ForEach(X =>
                     {
-                        X.FileRecords = new List<dynamic>();                        
+                        X.FileRecords = new List<JsonElement>();
                     });
 
                     return Json(fileData);
@@ -774,10 +776,12 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             return View();
         }
 
-        [PreventSpam]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult InsertQSMS(string QSMSID, string SenderID, string LangID, string Message, string DLR, string SenderName, string Module, string MobileNos, string CharCount, string Credits, string MbcID, string ModuleID)
+        //[PreventSpam]        
+        //[ValidateAntiForgeryToken]
+        [HttpPost("InsertQSMS")]
+        public ActionResult InsertQSMS(string QSMSID, string SenderID, string LangID, string Message, string DLR, 
+            string SenderName, string Module, string MobileNos, string CharCount, string Credits, 
+            string MbcID, string ModuleID, string category)
         {
             string QuickSMSFilesToBeSaved = Path.Combine(_configuration["tempPath"]?.ToString(), DateTime.Now.ToString("MMMyyyy"), "QuickSMS");
             if (!Directory.Exists(QuickSMSFilesToBeSaved))
@@ -883,8 +887,8 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                             UserIp = extendedUser.LogOnRespons.GetIPAddress
                         });
 
-                        var result = response.Result.Split('$')[0];
-
+                        //var result = response.Result.Split('$')[0];
+                        var result = (response != null) ? response.Result.nReturn.ToString() : "0";
                         if (_configuration["IndianSynapse"]?.ToString() == "true" && !Regex.IsMatch(SenderName, @"^[a-zA-Z]+$"))
                         {
                             var str = string.Empty;
@@ -911,7 +915,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
 
                             MobileNos = string.Join(",", nondnd);
 
-                            var nId = response.Result.Split('$')[1];
+                            var nId = (response != null) ? response.Result.nId.ToString() : "0";
                             if (nId != "0")
                             {
                                 var tCounts = MobileNos.Split(',').Length;
@@ -976,8 +980,8 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                         else
                         {
                             Logger.Info("SimpleSMS :: Start");
-
-                            var nId = response.Result.Split('$')[1];
+                            var nId = (response != null) ? response.Result.nId.ToString() : "0";
+                            //var nId = response.Result.Split('$')[1];
                             if (nId != "0")
                             {
                                 var tCounts = MobileNos.Split(',').Length;
@@ -997,11 +1001,11 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                                 }
 
                                 var fileName = DateTime.Now.ToString("ddMMyyyyhhmmss") + nId;
-                                string category = string.Empty;
-                                string? sessionCategory = HttpContext.Session.GetString("category");
-                                if (!string.IsNullOrWhiteSpace(sessionCategory))
+                                //string category = string.Empty;
+                                //string? sessionCategory = HttpContext.Session.GetString("category");
+                                if (!string.IsNullOrWhiteSpace(category))
                                 {
-                                    category = sessionCategory.TrimEnd(',');
+                                    category = category.TrimEnd(',');
                                 }
                                 var xmlContent = "<root iscustome='false' priority='5'><sendsms userid='" + extendedUser.LogOnRespons.Id + "'  username='" + ExtendedUser.LogOnRespons.UserName + "' campainid='" + 0 + "' sender='" + WebUtility.HtmlEncode(SenderName) +
                                     "' language='" + ((LangID)) + "' message='" + WebUtility.HtmlEncode(Message).Replace("\n", "&#10;") +
@@ -1021,11 +1025,12 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                                 Logger.Info("SimpleSMS :: End QMsg:: " + QMsg);
                             }
                         }
-                        var nID = response.Result.Split('$')[1];
+                        var nID = (response != null) ? response.Result.nId.ToString() : "0";
+                        //var nID = response.Result.Split('$')[1];
                         if (result == "7" && !(selAction != null && selAction.IsCheckerRequired))
                         {  //Send request to campaign service                            
                             String strInputXml = String.Empty;
-                            strInputXml = "<XML>";                            
+                            strInputXml = "<XML>";
                             strInputXml += "</XML>";
                             ReturnVal = "MsgSubmitSuccess";
                         }
@@ -1078,10 +1083,10 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             return Json("");
         }
 
-        [PreventSpam]
-        [HttpPost]
-        [Synapse.Web.CampaignPlugin.Helpers.ValidateJsonAntiForgeryToken]
-        public ActionResult OnView(string QSMSName, string Sender, string Lang, string Message, string CreditsUsed, string TotalCredits, string Dlr, string AddedDate, string Status, string strRecipentID, string GrpName, string ValidCount, string ScheduleDate, string ActualFileName, string cmd = "")
+        //[PreventSpam]
+        [HttpPost("OnView")]
+        //[Synapse.Web.CampaignPlugin.Helpers.ValidateJsonAntiForgeryToken]
+        public async Task<ActionResult> OnView(string QSMSName, string Sender, string Lang, string Message, string CreditsUsed, string TotalCredits, string Dlr, string AddedDate, string Status, string strRecipentID, string GrpName, string ValidCount, string ScheduleDate, string ActualFileName, string cmd = "")
         {
             Logger.InfoFormat("OnView :: start :: {0}", QSMSName, Sender, Lang, Message, CreditsUsed, TotalCredits, Dlr, AddedDate, Status);
             try
@@ -1132,10 +1137,10 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                 };
                 if (cmd != "")
                 {
+                    var html = await RenderRazorViewToString(cmd, model);
                     return Json(new
                     {
-                        PartialResult = RenderRazorViewToString(cmd, model)
-
+                        PartialResult = html
                     });
                 }
             }
@@ -1202,14 +1207,14 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                                             {
                                                 if (!c.ToLower().Equals(MobileField.ToLower()))
                                                     ro[c] = "";
-                                            }                                    
+                                            }
                                             selectedRecords.Add(ro);
                                         }
                                     }
-                                    
+
                                 }
                             }
-                        }                        
+                        }
                         selectedRecords = (splitItemms.Count == 0) ? datatable.Rows.Cast<DataRow>().Take(previewCnt).ToList() : selectedRecords;
                         foreach (DataRow x in selectedRecords)
                         {
@@ -1272,7 +1277,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                             var repMsg = message;
                             var replacedMsg = "";
                             foreach (var y in holders)
-                            {                                
+                            {
                                 replacedMsg = repMsg.Replace(System.Environment.NewLine, "").Replace("<$" + y + "$>", (x.GetType().GetProperty(y).GetValue(x) != null ? x.GetType().GetProperty(y).GetValue(x).ToString() : "XXX"));
                                 repMsg = replacedMsg;
                             }
@@ -1370,7 +1375,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
         }
 
         [PreventSpam]
-        [HttpPost]
+        [HttpPost("IsUnicode")]
         public ActionResult IsUnicode(string sms)
         {
             Logger.InfoFormat("IsUnicode :: start :: {0}", sms);
@@ -1378,7 +1383,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             {
                 try
                 {
-                    sms = AESEncrytDecry.DecryptStringAES(sms);                   
+                    sms = AESEncrytDecry.DecryptStringAES(sms);
                 }
                 catch (Exception ex)
                 {
@@ -1410,7 +1415,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
         }
 
         [PreventSpam]
-        [HttpPost]
+        [HttpPost("IsHavingUnseenJunk")]
         public ActionResult IsHavingUnseenJunk(string sms)
         {
             Logger.InfoFormat("IsHavingUnseenJunk :: start :: {0}", sms);
@@ -1474,10 +1479,10 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             return null;
         }
 
-        
+
 
         private DndNonDndNumbers DndNumberCheck1(DataTable dt1, string mobilecolumn)
-        {        
+        {
             Logger.InfoFormat("DndNumberCheck1 - start :: {0} :: Count :: {1}", DateTime.Now, dt1.Rows.Count);
             DataTable dt = new DataTable();
             DataTable dt2 = new DataTable();
@@ -1600,7 +1605,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             {
                 Logger.Info("Fatal Error :: " + ex.ToString());
             }
-            return isValid;         
+            return isValid;
         }
         private string ValidateMobileNumbers(int senderid, string filePath, string columnName, string extension, int MessageType, string messagePlaceHolder, string sheetName = "", bool allowdupli = false)
         {
@@ -1608,7 +1613,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             var InvalidMobsCollection = new List<string>();
             var mobileNum = new List<DataRow>();
             bool IsMsgEmpty = false;
-            var tcount = 0;            
+            var tcount = 0;
             try
             {
                 var dt = new DataTable();
@@ -1620,7 +1625,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                             Path.Combine(Path.GetDirectoryName(filePath),
                                 Path.GetFileNameWithoutExtension(filePath) + extension), sheetName);
                     dt = dt.Rows.Cast<DataRow>().Where(row => !Array.TrueForAll(row.ItemArray, value =>
-                    { return value.ToString().Length == 0; })).CopyToDataTable();                    
+                    { return value.ToString().Length == 0; })).CopyToDataTable();
                 }
                 else
                 {
@@ -1791,7 +1796,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                         }
 
                     }
-                }                
+                }
                 var invalidMobfileName = string.Empty;
                 var dupMobs = new List<string>();
                 var DupfileName = string.Empty;
@@ -1812,7 +1817,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                     if (allowdupli == false)
                     {
                         var dupValidationMobs =
-                        dt.Rows.Cast<DataRow>().Select(s => s[columnName].ToString()).ToList();                      
+                        dt.Rows.Cast<DataRow>().Select(s => s[columnName].ToString()).ToList();
                         var dupDt = IEnumerableExtension.BuildTableFromLinesOfList(dupMobs, columnName);
                         if (!allowdupli)
                         {
@@ -1864,7 +1869,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                                 //HttpContext.Session["CountryWiseCollection"] = Dictionary;
                                 HttpContext.Session.SetString("CountryWiseCollection", JsonSerializer.Serialize(Dictionary));
                             }
-                        }                      
+                        }
                     }
                     Logger.InfoFormat("Invalid validation completed :: End :: {0}", DateTime.Now);
                     //Modified by murty - added Message Empty Flag(IsMsgEmpty)
@@ -1944,9 +1949,9 @@ namespace Synapse.Web.CampaignPlugin.Controllers
 
                         HttpContext.Session.AddItem<GroupContactsMain>(sItem);
                         if (sItem.GroupswithContacts.Count == 0)
-                        {                           
+                        {
                             return Json(new { Isvalid = false, Message = "No Contacts in Selected Group / Uploaded File", Nocontacts = true });
-                        }                       
+                        }
                         return Json(new { IsValid = true, Message = "" });
                     }
 
@@ -2141,7 +2146,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                                 LocalModel.GroupOldFilePath = ValidPath.Length > 0 ? _configuration["tempPath"]?.ToString() +
                                                 "\\Schedule" + "\\" + ValidPath[0] : "";
                         }
-                    }                    
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -2880,10 +2885,10 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             var returnElements = new List<KeyValuePair<string, string>>();
             List<DataRow> mobRows = new List<DataRow>();
             mobRows = dt.Rows.Cast<DataRow>().GroupBy(p => p[mobColumnName]).Select(s => s.First()).ToList();
-            var cieledvalue = 0;            
+            var cieledvalue = 0;
             var actualFileName = Path.GetFileNameWithoutExtension(fileName);
-            fileNames.Clear();            
-            fileNames.Add(actualFileName + "_duplicate");            
+            fileNames.Clear();
+            fileNames.Add(actualFileName + "_duplicate");
             var itrations = _configuration["CampaignXMLGeneratedCount"]?.ToString() != null ? Convert.ToInt32(_configuration["CampaignXMLGeneratedCount"]?.ToString()) : 25000; //(int)Math.Ceiling((double)mobileColumn.Count / (double)25000);//fileNames.Count);
             var currentItreation = 0;
             try
@@ -2980,11 +2985,11 @@ namespace Synapse.Web.CampaignPlugin.Controllers
 
                                 returnElements.Add(new KeyValuePair<string, string>(t,
                                     "<root iscustome='" + (isCustome == true ? "true" : "false") + "' ispromotional='" + (isPromo == 0 ? "true" : "false") + "'  priority='" + (isPromo == 0 ? 1 : 3) + "'>" + xElement.ToString() +
-                                    "</root>"));                     
+                                    "</root>"));
                             }
                         }
-                    }                    
-                }               
+                    }
+                }
                 var actualFileName1 = Path.GetFileNameWithoutExtension(fileName);
 
                 //* promotional area
@@ -3362,7 +3367,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                 message = message.Replace("<$" + item + "$>", (dRow[item] != null && dRow[item].ToString() != "") ? dRow[item].ToString() : "");
             }
             return message;
-        }       
+        }
 
         public DataTable ConvertListToDataTable(List<strDndNumbers> list)
         {
@@ -3447,7 +3452,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                 for (var i = 0; i < cieledvalue; i++)
                 {
                     fileNames.Add(actualFileName + "_duplicate_" + i);
-                }               
+                }
                 var itrations = _configuration["CampaignXMLGeneratedCount"]?.ToString() != null ? Convert.ToInt32(_configuration["CampaignXMLGeneratedCount"]) : 25000; //(int)Math.Ceiling((double)mobileColumn.Count / (double)25000);//fileNames.Count);
                 var currentItreation = 0;
 
@@ -3673,7 +3678,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                             "</root>"));
                         }
                     }
-                }                
+                }
                 if (NoCheck.strNonDndNumbers.Count() == 0 || Regex.IsMatch(sender, @"^[a-zA-Z]+$"))
                 {
                     cieledvalue = (int)Math.Ceiling((double)mobRows.Count / (double)(_configuration["CampaignXMLGeneratedCount"] != null ? Convert.ToInt32(_configuration["CampaignXMLGeneratedCount"]) : 25000));
@@ -3830,7 +3835,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                                         WebUtility.HtmlEncode(sender) +
                                         "' language='" + ((languageId == 2) ? 8 : IsHavingAttheRate(message)) + "' message='" + WebUtility.HtmlEncode(message).Replace("\n", "&#10;") +
                                         "' mobile=''><mobile>" + mobilJoinedString + "</mobile></sendsms></root>"));
-                                    currentItreation = currentItreation + itrations;                                  
+                                    currentItreation = currentItreation + itrations;
                                 }
                             }
                             else
@@ -3859,7 +3864,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
 
                                     returnElements.Add(new KeyValuePair<string, string>(t,
                                         "<root iscustome='" + (isCustome == true ? "true" : "false") + "' ispromotional='" + (isPromo == 0 ? "true" : "false") + "'  priority='" + (isPromo == 0 ? 1 : 3) + "'>" + string.Join("", el) +
-                                        "</root>"));                                   
+                                        "</root>"));
                                 }
                             }
 
@@ -3908,10 +3913,10 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                     }
 
                     if (_configuration["IndianSynapse"] == "true" && !Regex.IsMatch(sender, @"^[a-zA-Z]+$"))
-                    {                     
+                    {
                         currentItreation = 0;
                         if (!isCustome)
-                        {                         
+                        {
                             foreach (var t in fileNames)
                             {
                                 xElement.Clear();
@@ -3990,7 +3995,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                     }
 
                     if (!isCustome)
-                    {                       
+                    {
                         if (!Regex.IsMatch(sender, @"^[a-zA-Z]+$"))
                         {
                             currentItreation = 0;
@@ -4026,7 +4031,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                                     mobRows = resultSet.Rows.Cast<DataRow>().GroupBy(p => p[mobColumnName]).Select(s => s.First()).ToList();
 
                                     var mob = (Duplicates.Any()) ? mobRows.Where(x => !string.IsNullOrWhiteSpace(x[mobColumnName].ToString())).Select(s => s[mobColumnName].ToString()).Skip(currentItreation).Take(itrations).ToList() : resultSet.Rows.Cast<DataRow>().Where(x => !string.IsNullOrWhiteSpace(x[mobColumnName].ToString())).Select(s => s[mobColumnName].ToString()).Skip(currentItreation).Take(itrations).ToList();
-                                
+
                                     var mob3 = string.Join(",91", mob);
                                     mob3 = "91" + mob3;
 
@@ -4871,7 +4876,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                 {
                     var lines = System.IO.File.ReadAllLines(filePath);
                     var headers = lines[0].Split(',');
-                  
+
                     foreach (var hrows in headers)
                     {
                         dtCsv.Columns.Add(hrows);
@@ -4880,10 +4885,10 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                     var bodyRows = lines.Skip(1);
                     foreach (var row in bodyRows)
                     {
-                        DataRow dr = dtCsv.NewRow();                      
-                        var colrow = row.Trim().TrimEnd(',').Split(',');                       
+                        DataRow dr = dtCsv.NewRow();
+                        var colrow = row.Trim().TrimEnd(',').Split(',');
                         for (var ind = 0; ind < colrow.Length; ind++)
-                        {                           
+                        {
                             dr[ind] = colrow[ind].ToString();
                         }
                         dtCsv.Rows.Add(dr);
@@ -5406,45 +5411,60 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             }
         }
         //Added By Murty
-        private async Task<string> RenderRazorViewToString(string viewName, object model)
+        private async Task<string> RenderRazorViewToString(string viewName,object model)
         {
-            // 1. Assign model to ViewData
             ViewData.Model = model;
 
-            using (var sw = new StringWriter())
-            {
-                // 2. Get the Razor view engine from HttpContext services
-                var viewEngine = HttpContext.RequestServices.GetService(typeof(IRazorViewEngine)) as IRazorViewEngine;
-                if (viewEngine == null) throw new InvalidOperationException("IRazorViewEngine not found.");
+            await using var sw = new StringWriter();
 
-                // 3. Find the partial view
-                var viewResult = viewEngine.FindView(ControllerContext, viewName, false);
-
-                if (!viewResult.Success)
-                {
-                    // Fallback to absolute or relative path if name lookup fails
-                    viewResult = viewEngine.GetView(executingFilePath: null, viewPath: viewName, isMainPage: false);
-                    if (!viewResult.Success)
-                    {
-                        throw new FileNotFoundException($"Cannot find view: {viewName}");
-                    }
-                }
-
-                // 4. Create the view context required for rendering
-                var tempDataProvider = HttpContext.RequestServices.GetService(typeof(ITempDataProvider)) as ITempDataProvider;
-                var viewContext = new ViewContext(
+            var viewEngine =
+                HttpContext.RequestServices.GetRequiredService<IRazorViewEngine>();
+            ViewEngineResult viewResult =
+                viewEngine.FindView(
                     ControllerContext,
-                    viewResult.View,
-                    ViewData,
-                    new TempDataDictionary(HttpContext, tempDataProvider),
-                    sw,
-                    new HtmlHelperOptions()
-                );
+                    viewName,
+                    isMainPage: false);
 
-                // 5. Render the view async
-                await viewResult.View.RenderAsync(viewContext);
-                return sw.ToString();
+            if (!viewResult.Success)
+            {
+                viewResult =
+                    viewEngine.GetView(
+                        executingFilePath: null,
+                        viewPath: viewName,
+                        isMainPage: false);
             }
+
+            if (!viewResult.Success)
+            {
+                var searchedLocations =
+                    string.Join(
+                        Environment.NewLine,
+                        viewResult.SearchedLocations ?? []);
+
+                throw new InvalidOperationException(
+                    $"Unable to find view '{viewName}'. " +
+                    $"Searched locations:{Environment.NewLine}" +
+                    searchedLocations);
+            }
+
+            var tempDataProvider =
+                HttpContext.RequestServices
+                    .GetRequiredService<ITempDataProvider>();
+
+            var viewContext = new ViewContext(
+                ControllerContext,
+                viewResult.View,
+                ViewData,
+                new TempDataDictionary(
+                    HttpContext,
+                    tempDataProvider),
+                sw,
+                new HtmlHelperOptions()
+            );
+
+            await viewResult.View.RenderAsync(viewContext);
+
+            return sw.ToString();
         }
 
         [HttpPost]
@@ -5970,7 +5990,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             }
             return null;
         }
-        [HttpGet("LoadSenderByCategory")]
+        [HttpPost("LoadSenderByCategory")]
         public ActionResult LoadSenderByCategory(string category)
         {
             try
@@ -5985,6 +6005,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                 using (var ClientAccess = new AuthenticateSecurityClient())
                 {
                     var result = ClientAccess.LoadSenderByCategory(loadSender);
+                    if (result == null) return View();
                     if (result.Result.Count > 0)
                     {
                         return Json(result.Result);

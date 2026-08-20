@@ -30,6 +30,14 @@ namespace Synapse.Web.Helpers
                     "AESEncrytDecry has not been initialized.");
 
             string? scKey = _configuration["ScKey"];
+            if(scKey == null)
+            {
+                var configuration = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory()) // Sets look-up folder to application directory
+                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                    .Build();
+                scKey = configuration["ScKey"];
+            }
 
             if (string.IsNullOrWhiteSpace(scKey))
                 throw new InvalidOperationException(
