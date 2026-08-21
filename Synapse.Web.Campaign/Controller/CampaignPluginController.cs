@@ -779,8 +779,8 @@ namespace Synapse.Web.CampaignPlugin.Controllers
         //[PreventSpam]        
         //[ValidateAntiForgeryToken]
         [HttpPost("InsertQSMS")]
-        public ActionResult InsertQSMS(string QSMSID, string SenderID, string LangID, string Message, string DLR, 
-            string SenderName, string Module, string MobileNos, string CharCount, string Credits, 
+        public ActionResult InsertQSMS(string QSMSID, string SenderID, string LangID, string Message, string DLR,
+            string SenderName, string Module, string MobileNos, string CharCount, string Credits,
             string MbcID, string ModuleID, string category)
         {
             string QuickSMSFilesToBeSaved = Path.Combine(_configuration["tempPath"]?.ToString(), DateTime.Now.ToString("MMMyyyy"), "QuickSMS");
@@ -2081,11 +2081,12 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             //  return 0;
         }
 
-        [PreventSpam]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult LoadSubmitCamp(InsertBulkSMSOnRequest LocalModel, string cmd = "")
+        //[PreventSpam]
+        [HttpPost("LoadSubmitCamp")]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> LoadSubmitCamp(InsertBulkSMSOnRequestFromJS LocalModelJS, string SenderID, string cmd = "")
         {
+            InsertBulkSMSOnRequest LocalModel = new InsertBulkSMSOnRequest();
             string CampaignFilesToBeSaved = Path.Combine(_configuration["tempPath"]?.ToString(), DateTime.Now.ToString("MMMyyyy"), "QuickSMS");
             if (!Directory.Exists(CampaignFilesToBeSaved))
             {
@@ -2096,38 +2097,38 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             {
                 try
                 {
-                    LocalModel.CampID = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.CampID[0]));
-                    LocalModel.Name = AESEncrytDecry.DecryptStringAES(LocalModel.Name);
-                    LocalModel.SenderID = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.SenderID[0]));
-                    LocalModel.Sender = AESEncrytDecry.DecryptStringAES(LocalModel.Sender);
-                    LocalModel.CampaignTypeID = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.CampaignTypeID[0]));
-                    LocalModel.CampaignType = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.CampaignType)) == 1 ? "Promotional" : "Transactional";
-                    LocalModel.MobileField = AESEncrytDecry.DecryptStringAES(LocalModel.MobileField);
-                    LocalModel.Language = AESEncrytDecry.DecryptStringAES(LocalModel.Language);
-                    LocalModel.LangID = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.LangID[0]));
-                    LocalModel.Message = AESEncrytDecry.DecryptStringAES(LocalModel.Message);
-                    LocalModel.DLR = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.DLR[0]));
-                    LocalModel.AllowDuplicates = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.AllowDuplicates[0]));
-                    LocalModel.TotalScheduleString = AESEncrytDecry.DecryptStringAES(LocalModel.TotalScheduleString);
-                    LocalModel.ScheduledType = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.ScheduledType[0]));
-                    LocalModel.CharCount = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.CharCount[0]));
-                    LocalModel.CreditsUsed = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.CreditsUsed[0]));
-                    LocalModel.XMLSchedule = AESEncrytDecry.DecryptStringAES(LocalModel.XMLSchedule);
-                    LocalModel.Criteria = AESEncrytDecry.DecryptStringAES(LocalModel.Criteria);
-                    LocalModel.PlaceHolders = AESEncrytDecry.DecryptStringAES(LocalModel.PlaceHolders);
-                    LocalModel.MessageType = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.MessageType[0]));
-                    LocalModel.Status = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.Status[0]));
-                    LocalModel.Type = AESEncrytDecry.DecryptStringAES(LocalModel.Type);
-                    LocalModel.ImportFileName = AESEncrytDecry.DecryptStringAES(LocalModel.ImportFileName);
-                    LocalModel.ActualFileName = AESEncrytDecry.DecryptStringAES(LocalModel.ActualFileName);
-                    LocalModel.SheetName = AESEncrytDecry.DecryptStringAES(LocalModel.SheetName);
-                    LocalModel.RecipientsType = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.RecipientsType[0]));
-                    LocalModel.RuleId = AESEncrytDecry.DecryptStringAES(LocalModel.RuleId);
-                    LocalModel.GroupIds = AESEncrytDecry.DecryptStringAES(LocalModel.GroupIds);
-                    LocalModel.SchStatus = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.SchStatus[0]));
-                    LocalModel.GroupOldFilePath = AESEncrytDecry.DecryptStringAES(LocalModel.GroupOldFilePath);
-                    LocalModel.BeforeEditSchTime = AESEncrytDecry.DecryptStringAES(LocalModel.BeforeEditSchTime);
-                    LocalModel.MessageField = AESEncrytDecry.DecryptStringAES(LocalModel.MessageField);
+                    LocalModel.CampID = LocalModelJS.CampID != null ? Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModelJS.CampID.ToString())) : 0;
+                    LocalModel.Name = AESEncrytDecry.DecryptStringAES(LocalModelJS.Name);
+                    LocalModel.SenderID = SenderID!=null? SenderID: "0";
+                    LocalModel.Sender = AESEncrytDecry.DecryptStringAES(LocalModelJS.Sender);
+                    LocalModel.CampaignTypeID = LocalModelJS.CampaignTypeID != null ? Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModelJS.CampaignTypeID.ToString())) : 0;
+                    LocalModel.CampaignType = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModelJS.CampaignType)) == 1 ? "Promotional" : "Transactional";
+                    LocalModel.MobileField = AESEncrytDecry.DecryptStringAES(LocalModelJS.MobileField);
+                    LocalModel.Language = AESEncrytDecry.DecryptStringAES(LocalModelJS.Language);
+                    LocalModel.LangID = LocalModelJS.LangID != null ? Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModelJS.LangID.ToString())) : 0;
+                    LocalModel.Message = AESEncrytDecry.DecryptStringAES(LocalModelJS.Message);
+                    LocalModel.DLR = LocalModelJS.DLR != null ? Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModelJS.DLR.ToString())) : 0;
+                    LocalModel.AllowDuplicates = LocalModelJS.AllowDuplicates != null ? Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModelJS.AllowDuplicates.ToString())) : 0;
+                    LocalModel.TotalScheduleString = AESEncrytDecry.DecryptStringAES(LocalModelJS.TotalScheduleString);
+                    LocalModel.ScheduledType = LocalModelJS.ScheduledType != null ? Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModelJS.ScheduledType.ToString())) : 0;
+                    LocalModel.CharCount = LocalModelJS.CharCount != null ? Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModelJS.CharCount.ToString())) : 0;
+                    LocalModel.CreditsUsed = LocalModelJS.CreditsUsed != null ? Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModelJS.CreditsUsed.ToString())) : 0;
+                    LocalModel.XMLSchedule = AESEncrytDecry.DecryptStringAES(LocalModelJS.XMLSchedule);
+                    LocalModel.Criteria = AESEncrytDecry.DecryptStringAES(LocalModelJS.Criteria);
+                    LocalModel.PlaceHolders = AESEncrytDecry.DecryptStringAES(LocalModelJS.PlaceHolders);
+                    LocalModel.MessageType = LocalModelJS.MessageType != null ? Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModelJS.MessageType.ToString())) : 0;
+                    LocalModel.Status = LocalModelJS.Status != null ? Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModelJS.Status.ToString())) : 0;
+                    LocalModel.Type = AESEncrytDecry.DecryptStringAES(LocalModelJS.Type);
+                    LocalModel.ImportFileName = AESEncrytDecry.DecryptStringAES(LocalModelJS.ImportFileName);
+                    LocalModel.ActualFileName = AESEncrytDecry.DecryptStringAES(LocalModelJS.ActualFileName);
+                    LocalModel.SheetName = AESEncrytDecry.DecryptStringAES(LocalModelJS.SheetName);
+                    LocalModel.RecipientsType = LocalModelJS.RecipientsType != null ? Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModelJS.RecipientsType.ToString())) : 0;
+                    LocalModel.RuleId = AESEncrytDecry.DecryptStringAES(LocalModelJS.RuleId);
+                    LocalModel.GroupIds = AESEncrytDecry.DecryptStringAES(LocalModelJS.GroupIds);
+                    LocalModel.SchStatus = LocalModelJS.SchStatus != null ? Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModelJS.SchStatus.ToString())) : 0;
+                    LocalModel.GroupOldFilePath = AESEncrytDecry.DecryptStringAES(LocalModelJS.GroupOldFilePath);
+                    LocalModel.BeforeEditSchTime = AESEncrytDecry.DecryptStringAES(LocalModelJS.BeforeEditSchTime);
+                    LocalModel.MessageField = AESEncrytDecry.DecryptStringAES(LocalModelJS.MessageField);
                     //Added by murty for bulk campaign
                     if (LocalModel.MessageType == 1)
                         LocalModel.AllowDuplicates = 1;
@@ -2202,14 +2203,8 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                         string starttime = LocalModel.TotalScheduleString.Split(',')[1].Split(' ')[6].Substring(0, 5);
                         var StartDate = LocalModel.TotalScheduleString.Split(',')[1].Split(' ');
                         string SchDate = StartDate[3] + "-" + StartDate[2] + "-" + StartDate[4];
-
-
                         ScheduleTime = Convert.ToDateTime(SchDate + " " + starttime + ":" + DateTime.Now.Second);
-                        //ScheduleTime = Convert.ToDateTime(SchDate + " " + LocalModel.BeforeEditSchTime + ":" + DateTime.Now.Second);
-
-                        //PreProcessTime = Convert.ToDateTime(SchDate + " " + starttime + ":" + DateTime.Now.Second).AddMinutes(-10);
                         PreProcessTime = Convert.ToDateTime(LocalModel.BeforeEditSchTime + ":" + DateTime.Now.Second).AddMinutes(-10);
-
                         XMLSchedule = "<XML><RECURRENCE SCHEDULE='5' STARTTIME='" + starttime + "' INTERVAL='" + PreProcessInterval + "' STARTDATE='" + SchDate + "' ENDON='1' ENDONDATE='' SENDALERTON='' EVERYNWEEK='0' WEEKDAYS='' DAYS='' MONTHS='' /></XML>";
                         if (PreProcessTime < DateTime.Now)
                         {
@@ -2236,12 +2231,11 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                     }
                     if (LocalModel.CampID != 0)
                     {
-                        bool Check = LocalModel.ImportFileName.Contains("DocumentTemp");
+                        bool Check = LocalModelJS.ImportFileName.Contains("DocumentTemp");
                         if (Check == false)
                         {
                             LocalModel.ImportFileName = _configuration["tempPath"]?.ToString() + LocalModel.ImportFileName;
-                        }
-                        //LocalModel.ImportFileName = _configuration["tempPath"] + LocalModel.ImportFileName;
+                        }                     
                     }
                     var dir = Path.GetDirectoryName(LocalModel.ImportFileName);
                     var orginalfilename = Path.GetFileNameWithoutExtension(LocalModel.ImportFileName);
@@ -2287,7 +2281,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                         DateTime.Now.ToString("MMMyyyy") + "//" + Path.GetFileName(invalidmobcol[4]);
 
                     }
-                    var tempImportFileName = LocalModel.ImportFileName;
+                    var tempImportFileName = LocalModelJS.ImportFileName;
 
                     HttpContext.Session.SetString("importfilepath", tempImportFileName.Replace(@"\", "^"));
                     var ext = Path.GetExtension(LocalModel.ImportFileName);
@@ -2333,7 +2327,6 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                         }
                         if (!isExisted)
                         {
-
                             if (System.IO.File.Exists(dupPathVerify))
                             {
                                 isExisted = true;
@@ -2362,12 +2355,8 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                 {
                     var sItems = HttpContext.Session.GetItem<GroupContactsMain>();
                     var SchildCount = new List<GroupContacts>();
-
-
-
                     foreach (var item in sItems.GroupswithContacts)
                     {
-                        //if(item.GroupContacts[])
                         SchildCount.AddRange(item.GroupContacts);
                     }
                     var groups = LocalModel.GroupIds;
@@ -2417,9 +2406,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                         dupPath = _configuration["Filterlogpath"]?.ToString() + "//" +
                             DateTime.Now.ToString("MMMyyyy") + "//" + Path.GetFileName(invalidmobcol[4]);
                     }
-
-                }
-                //LocalModel.Message = LocalModel.Message.Replace(@"\", "^");
+                }                
                 var isvalnumb = _configuration["IsValidationEnable"]?.ToString();
                 var model = new InsertBulkSMSOnRequest
                 {
@@ -2431,7 +2418,6 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                     Language = LocalModel.Language,
                     CampaignTypeID = LocalModel.CampaignTypeID,
                     CampaignType = LocalModel.CampaignType,
-
                     Message = LocalModel.Message.Trim(),
                     CharCount = LocalModel.CharCount,
                     CreditsUsed = LocalModel.CreditsUsed,
@@ -2455,8 +2441,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                     SheetName = LocalModel.SheetName,
                     ValidCount = tCount - (invlaidmobcount + DupeCount),//100,
                     InValidCount = invlaidmobcount,//10,
-                    DuplicateCount = DupeCount,//5,
-                    // TotalCount = tCount,//115,
+                    DuplicateCount = DupeCount,//5,                   
                     TotalCount = tCount - (invlaidmobcount + DupeCount),
                     ProcessedCount = tCount * LocalModel.CreditsUsed - (invlaidmobcount + DupeCount),//111,//Totalcount - (Invalid count + if(dupcheck) Duplicates)
                     DuplicatePath = dupPathVerify.Replace(_configuration["tempPath"]?.ToString(), _configuration["Filterlogpath"]?.ToString()),
@@ -2473,15 +2458,11 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                     IsProcess = LocalModel.IsProcess,
                     PreProcessStatus = LocalModel.PreProcessStatus,
                     SchStatus = LocalModel.SchStatus,
-                    Stageids = LocalModel.Stageids,
-                    //  TotalCreditsReq = isvalnumb == "true" ? (Dictionary.Aggregate(0, (current, item) => current + Convert.ToInt32(item.Value)) * LocalModel.CreditsUsed) : LocalModel.CreditsUsed,  //tCount - (invlaidmobcount + DupeCount),//100,
-                    // TotalCreditsReq = (Dictionary.Aggregate(0, (current, item) => current + Convert.ToInt32(item.Value)) * LocalModel.CreditsUsed) ,  //tCount - (invlaidmobcount + DupeCount),//100,
-                    TotalCreditsReq = (Convert.ToInt32(LocalModel.MessageType) == 2) ? GetCustomeCampTotalCount(LocalModel.Message.Trim(), LocalModel.ImportFileName, Convert.ToInt32(LocalModel.LangID), LocalModel.RuleId, LocalModel.SheetName, LocalModel.MobileField, Convert.ToInt32(LocalModel.AllowDuplicates)) - (LocalModel.CreditsUsed * invlaidmobcount) : Convert.ToInt32(LocalModel.CreditsUsed) * (tCount - invlaidmobcount), //changes done on sep3
-                    // TotalCreditsReq = (Convert.ToInt32(LocalModel.MessageType) == 2) ? Convert.ToInt32(LocalModel.CreditsUsed) * tCount - invlaidmobcount : Convert.ToInt32(LocalModel.CreditsUsed) * tCount - invlaidmobcount,
+                    Stageids = LocalModel.Stageids,                    
+                    TotalCreditsReq = (Convert.ToInt32(LocalModel.MessageType) == 2) ? GetCustomeCampTotalCount(LocalModel.Message.Trim(), LocalModel.ImportFileName, Convert.ToInt32(LocalModel.LangID), LocalModel.RuleId, LocalModel.SheetName, LocalModel.MobileField, Convert.ToInt32(LocalModel.AllowDuplicates)) - (LocalModel.CreditsUsed * invlaidmobcount) : Convert.ToInt32(LocalModel.CreditsUsed) * (tCount - invlaidmobcount), //changes done on sep3                    
                     CountryWiseCnt = Dictionary,
                     UserName = ExtendedUser.LogOnRespons.UserName,
-                    UserIp = extendedUser.LogOnRespons.GetIPAddress,
-                    //Language = (LocalModel.LangID == 1 && Lang == "2" && LocalModel.MessageType == 2) ? "Arabic" : "English"
+                    UserIp = extendedUser.LogOnRespons.GetIPAddress                    
                 };
 
                 if (LocalModel.MessageType == 2)
@@ -2513,9 +2494,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                     {
                         return Json(new
                         {
-                            IsValid = false,
-                            // Message = lz.NoContactsinSelectedGroup
-                            //Message = "No Contacts in Selected Group / Uploaded File"
+                            IsValid = false,                        
                             Message = "Please select Mobile no column"
                         });
                     }
@@ -2526,8 +2505,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                     {
                         return Json(new
                         {
-                            IsValid = false,
-                            //Message = lz.InvalidFileMobileColumnShouldnotbeempty
+                            IsValid = false,                            
                             Message = "Selected column doesn't contain valid data"
                         });
                     }
@@ -2545,11 +2523,11 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                 }
                 if (cmd != "")
                 {
+                    var html = await RenderRazorViewToString(cmd, model);
                     return Json(new
                     {
                         IsValid = true,
-                        PartialResult = RenderRazorViewToString(cmd, model)
-
+                        PartialResult = html
                     });
                 }
             }
@@ -5027,7 +5005,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                             var res = clientAcces.InsertCustomSMSActualCredits(new InsertBulkSMSOnRequest
                             {
                                 UserName = username,
-                                CampID = customcampId.ToString(),
+                                CampID = customcampId,
                                 MessageType = request.MessageType,
                                 TotalCreditsReq = totalCredits,
                                 PreprocessTime = DateTime.Now,
@@ -5133,7 +5111,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                             var res = clientAcces.InsertCustomSMSActualCredits(new InsertBulkSMSOnRequest
                             {
                                 UserName = username,
-                                CampID = customcampId.ToString(),
+                                CampID = customcampId,
                                 MessageType = request.MessageType,
                                 TotalCreditsReq = totalCredits,
                                 PreprocessTime = DateTime.Now,
@@ -5411,7 +5389,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             }
         }
         //Added By Murty
-        private async Task<string> RenderRazorViewToString(string viewName,object model)
+        private async Task<string> RenderRazorViewToString(string viewName, object model)
         {
             ViewData.Model = model;
 
@@ -5542,35 +5520,35 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             {
                 try
                 {
-                    LocalModel.CampID = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.CampID[0]));
+                    LocalModel.CampID = LocalModel.CampID != null ? Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.CampID.ToString())) : 0;
                     LocalModel.Name = AESEncrytDecry.DecryptStringAES(LocalModel.Name);
-                    LocalModel.SenderID = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.SenderID[0]));
+                    LocalModel.SenderID = AESEncrytDecry.DecryptStringAES(LocalModel.SenderID);
                     LocalModel.Sender = AESEncrytDecry.DecryptStringAES(LocalModel.Sender);
-                    LocalModel.CampaignTypeID = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.CampaignTypeID[0]));
+                    LocalModel.CampaignTypeID = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.CampaignTypeID.ToString()));
                     LocalModel.CampaignType = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.CampaignType)) == 1 ? "Promotional" : "Transactional";
                     LocalModel.MobileField = AESEncrytDecry.DecryptStringAES(LocalModel.MobileField);
                     LocalModel.Language = AESEncrytDecry.DecryptStringAES(LocalModel.Language);
-                    LocalModel.LangID = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.LangID[0]));
+                    LocalModel.LangID = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.LangID.ToString()));
                     LocalModel.Message = AESEncrytDecry.DecryptStringAES(LocalModel.Message);
-                    LocalModel.DLR = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.DLR[0]));
-                    LocalModel.AllowDuplicates = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.AllowDuplicates[0]));
+                    LocalModel.DLR = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.DLR.ToString()));
+                    LocalModel.AllowDuplicates = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.AllowDuplicates.ToString()));
                     LocalModel.TotalScheduleString = AESEncrytDecry.DecryptStringAES(LocalModel.TotalScheduleString);
-                    LocalModel.ScheduledType = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.ScheduledType[0]));
-                    LocalModel.CharCount = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.CharCount[0]));
-                    LocalModel.CreditsUsed = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.CreditsUsed[0]));
+                    LocalModel.ScheduledType = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.ScheduledType.ToString()));
+                    LocalModel.CharCount = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.CharCount.ToString()));
+                    LocalModel.CreditsUsed = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.CreditsUsed.ToString()));
                     LocalModel.XMLSchedule = AESEncrytDecry.DecryptStringAES(LocalModel.XMLSchedule);
                     LocalModel.Criteria = AESEncrytDecry.DecryptStringAES(LocalModel.Criteria);
                     LocalModel.PlaceHolders = AESEncrytDecry.DecryptStringAES(LocalModel.PlaceHolders);
-                    LocalModel.MessageType = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.MessageType[0]));
-                    LocalModel.Status = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.Status[0]));
+                    LocalModel.MessageType = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.MessageType.ToString()));
+                    LocalModel.Status = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.Status.ToString()));
                     LocalModel.Type = AESEncrytDecry.DecryptStringAES(LocalModel.Type);
                     LocalModel.ImportFileName = AESEncrytDecry.DecryptStringAES(LocalModel.ImportFileName);
                     LocalModel.ActualFileName = AESEncrytDecry.DecryptStringAES(LocalModel.ActualFileName);
                     LocalModel.SheetName = AESEncrytDecry.DecryptStringAES(LocalModel.SheetName);
-                    LocalModel.RecipientsType = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.RecipientsType[0]));
+                    LocalModel.RecipientsType = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.RecipientsType.ToString()));
                     LocalModel.RuleId = AESEncrytDecry.DecryptStringAES(LocalModel.RuleId);
                     LocalModel.GroupIds = AESEncrytDecry.DecryptStringAES(LocalModel.GroupIds);
-                    LocalModel.SchStatus = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.SchStatus[0]));
+                    LocalModel.SchStatus = Convert.ToInt32(AESEncrytDecry.DecryptStringAES(LocalModel.SchStatus.ToString()));
                     LocalModel.GroupOldFilePath = AESEncrytDecry.DecryptStringAES(LocalModel.GroupOldFilePath);
                     LocalModel.BeforeEditSchTime = AESEncrytDecry.DecryptStringAES(LocalModel.BeforeEditSchTime);
 
@@ -5680,24 +5658,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                 var invlaidmobpath = string.Empty;
                 var dupPathVerify = dupPath;
                 Dictionary<string, string> Dictionary = new Dictionary<string, string>();
-
-                var sItems = HttpContext.Session.GetItem<GroupContactsMain>();
-                //var SchildCount = new List<GroupContacts>();
-
-                //foreach (var item in sItems.GroupswithContacts)
-                //{
-                //    SchildCount.AddRange(item.GroupContacts);
-                //}
-
-                //var sItems = Session.GetItem<MobileNos>();
-                //externaldbfilter = new List<string>();
-
-                //foreach (var item in externaldbfilter)
-                //{
-                //    SchildCount.AddRange(item);
-                //}
-
-                //var groups = LocalModel.GroupIds;
+                var sItems = HttpContext.Session.GetItem<GroupContactsMain>();                
                 var externaldb = "ExternalDatabase" + DateTime.Now.Ticks;
                 LocalModel.ImportFileName = BuildCsv(externaldb, externaldbfilter);
                 var MainDirectory = _configuration["tempPath"]?.ToString();
@@ -5711,10 +5672,10 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                 LocalModel.ImportFileName = BuildCsvEDB(filepath + "_" + DateTime.Now.Ticks, externaldbfilter);
 
                 LocalModel.MobileField = "MobileNo";
-
+                string msgHolderName = LocalModel.MessageField;
                 var invalidMobileCollection = ValidateMobileNumbers(Convert.ToInt32(LocalModel.SenderID), LocalModel.ImportFileName,
-                   LocalModel.MobileField, Path.GetExtension(LocalModel.ImportFileName), LocalModel.MessageType,
-                       (Path.GetExtension(LocalModel.ImportFileName) != ".csv") ? LocalModel.SheetName : "", (Convert.ToInt32(LocalModel.AllowDuplicates) == 1)
+                   LocalModel.MobileField, Path.GetExtension(LocalModel.ImportFileName), LocalModel.MessageType, msgHolderName,
+                       (Path.GetExtension(LocalModel.ImportFileName) != ".csv") ? LocalModel.SheetName : "", (LocalModel.AllowDuplicates == 1)
                    );
 
                 if (!string.IsNullOrWhiteSpace(invalidMobileCollection))

@@ -117,24 +117,24 @@ namespace Core.Models.Dtos.Requests.Synapse.UserCampaigns
     public class InsertBulkSMSOnRequest
     {
         public int CustomerID { get; set; }
-        public dynamic CampID { get; set; }
+        public int CampID { get; set; }
         public string? Name { get; set; } = string.Empty;
-        public dynamic SenderID { get; set; }
-        public dynamic LangID { get; set; }
+        public string? SenderID { get; set; }
+        public int LangID { get; set; }
         public string? Language { get; set; } = string.Empty;
-        public dynamic CampaignTypeID { get; set; }
+        public int CampaignTypeID { get; set; }
         public string? CampaignType { get; set; } = string.Empty;
         public string? Message { get; set; } = string.Empty;
-        public dynamic CharCount { get; set; }
-        public dynamic CreditsUsed { get; set; }
-        public dynamic ScheduledType { get; set; }
+        public int CharCount { get; set; }
+        public int CreditsUsed { get; set; }
+        public int ScheduledType { get; set; }
         public string? XMLSchedule { get; set; } = string.Empty;
         public string? Criteria { get; set; } = string.Empty;
         public string? PlaceHolders { get; set; } = string.Empty;
-        public dynamic AllowDuplicates { get; set; }
-        public dynamic DLR { get; set; }
-        public dynamic MessageType { get; set; }
-        public dynamic Status { get; set; }
+        public int AllowDuplicates { get; set; }
+        public int DLR { get; set; }
+        public int MessageType { get; set; }
+        public int Status { get; set; }
         public int CreatedBy { get; set; }
         public string? IpAddress { get; set; } = string.Empty;
         public string? Sender { get; set; } = string.Empty;
@@ -148,7 +148,7 @@ namespace Core.Models.Dtos.Requests.Synapse.UserCampaigns
         public int DuplicateCount { get; set; }
         public string? DuplicatePath { get; set; } = string.Empty;
         public string? InvalidMobPath { get; set; } = string.Empty;
-        public dynamic RecipientsType { get; set; }
+        public int RecipientsType { get; set; }
         public string? MobileField { get; set; } = string.Empty;
         public string? GroupIds { get; set; } = string.Empty;
         public string? RuleId { get; set; } = string.Empty;
@@ -162,7 +162,7 @@ namespace Core.Models.Dtos.Requests.Synapse.UserCampaigns
         public DateTime PreprocessTime { get; set; }
         public int IsProcess { get; set; }
         public int PreProcessStatus { get; set; }
-        public dynamic SchStatus { get; set; }
+        public int SchStatus { get; set; }
         public string? Stageids { get; set; }
         public int TotalCreditsReq { get; set; }
         public Dictionary<string, string> CountryWiseCnt { get; set; }
@@ -170,7 +170,6 @@ namespace Core.Models.Dtos.Requests.Synapse.UserCampaigns
         public string? UserIp { get; set; } = string.Empty;
         public string? GroupOldFilePath { get; set; } = string.Empty;
         public string? BeforeEditSchTime { get; set; } = string.Empty;
-
         public string? IncomeGroup { get; set; } = string.Empty;
         public string? Nationality { get; set; } = string.Empty;
         public string? City { get; set; } = string.Empty;
@@ -181,7 +180,72 @@ namespace Core.Models.Dtos.Requests.Synapse.UserCampaigns
         public string? MessageField { get; set; } = string.Empty;
         public string? category { get; set; } = string.Empty;
     }
-
+    public class InsertBulkSMSOnRequestFromJS
+    {
+        public string? CustomerID { get; set; }
+        public string? CampID { get; set; }
+        public string? Name { get; set; } = string.Empty;
+        public string? SenderID { get; set; }
+        public string? LangID { get; set; }
+        public string? Language { get; set; } = string.Empty;
+        public string? CampaignTypeID { get; set; }
+        public string? CampaignType { get; set; } = string.Empty;
+        public string? Message { get; set; } = string.Empty;
+        public string? CharCount { get; set; }
+        public string? CreditsUsed { get; set; }
+        public string? ScheduledType { get; set; }
+        public string? XMLSchedule { get; set; } = string.Empty;
+        public string? Criteria { get; set; } = string.Empty;
+        public string? PlaceHolders { get; set; } = string.Empty;
+        public string? AllowDuplicates { get; set; }
+        public string? DLR { get; set; }
+        public string? MessageType { get; set; }
+        public string? Status { get; set; }
+        public string? CreatedBy { get; set; }
+        public string? IpAddress { get; set; } = string.Empty;
+        public string? Sender { get; set; } = string.Empty;
+        public string? Type { get; set; } = string.Empty;//module       = string.Empty; 
+        public string? CurrentStatus { get; set; }
+        public string? ImportFileName { get; set; } = string.Empty;
+        public string? ActualFileName { get; set; } = string.Empty;
+        public string? SheetName { get; set; } = string.Empty;
+        public string? ValidCount { get; set; }
+        public string? InValidCount { get; set; }
+        public string? DuplicateCount { get; set; }
+        public string? DuplicatePath { get; set; } = string.Empty;
+        public string? InvalidMobPath { get; set; } = string.Empty;
+        public string? RecipientsType { get; set; }
+        public string? MobileField { get; set; } = string.Empty;
+        public string? GroupIds { get; set; } = string.Empty;
+        public string? RuleId { get; set; } = string.Empty;
+        public string? TempTableName { get; set; } = string.Empty;
+        public string? Remarks { get; set; } = string.Empty;
+        public string? IsDone { get; set; }
+        public string? TotalCount { get; set; }
+        public string? ProcessedCount { get; set; }
+        public DateTime Schedule { get; set; }
+        public string? TotalScheduleString { get; set; } = string.Empty;
+        public DateTime PreprocessTime { get; set; }
+        public string? IsProcess { get; set; }
+        public string? PreProcessStatus { get; set; }
+        public string? SchStatus { get; set; }
+        public string? Stageids { get; set; }
+        public string? TotalCreditsReq { get; set; }
+        public Dictionary<string, string> CountryWiseCnt { get; set; }
+        public string? UserName { get; set; } = string.Empty;
+        public string? UserIp { get; set; } = string.Empty;
+        public string? GroupOldFilePath { get; set; } = string.Empty;
+        public string? BeforeEditSchTime { get; set; } = string.Empty;
+        public string? IncomeGroup { get; set; } = string.Empty;
+        public string? Nationality { get; set; } = string.Empty;
+        public string? City { get; set; } = string.Empty;
+        public string? Gender { get; set; } = string.Empty;
+        public string? CampaignCount { get; set; } = string.Empty;
+        public string? FromRange { get; set; } = string.Empty;
+        public string? ToRange { get; set; } = string.Empty;
+        public string? MessageField { get; set; } = string.Empty;
+        public string? category { get; set; } = string.Empty;
+    }
     public class InsertTestSMSOnRequest
     {
         public int CustomerID { get; set; }
