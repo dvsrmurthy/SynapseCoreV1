@@ -192,7 +192,7 @@
                                                 }
                                                 else
                                                 {
-                                                    @Html.DropDownListFor(x => x.QuicksmsorCampaign.SenderId, SendersList, new { @class = "form-control", @type = "select", @ct = "select", @rc = "y", @errormsg = @lz.PleaseSelectSenderId, @onclick = "removeerrorstylectrolfocus(this)", @onchange = "Drponchange(this,'Campaign_SenderId') " })
+                                                    @Html.DropDownListFor(x => x.QuicksmsorCampaign.SenderId, SendersList, new { @class = "form-control", @type = "select", @ct = "select", @rc = "y", @errormsg = @lz.PleaseSelectSenderId, @onclick = "removeerrorstylectrolfocus(this)" })
                                                 }
 
                                             </div>
@@ -1480,18 +1480,21 @@
                             groupoldfilepath = groupoldfilepath + "_3";
                         }
                         //Added by murty
-                        var SenderName = '';
+                        var SenderName = ''; var SenderId = 0;
                         if ($("#QuicksmsorCampaign_SenderId option:selected").text() == "Any") {
                             SenderName = $("#QuicksmsorCampaign_AnySender").val();
                         }
                         else {
                             SenderName = $("#QuicksmsorCampaign_SenderId option:selected").text();
+                            SenderId  = $("#QuicksmsorCampaign_SenderId option:selected").val();                            
                         }
+                        var charCount = $("#txtCharCount").html();
+                        var creditsUsed = $("#txtMSgCount").html();
                         //End-Added by murty
                         var LocalModel = {
                             CampID: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($("#hdnCampID").val()), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
                             Name: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($("#QuicksmsorCampaign_CampaignNameorRecipient").val().trim()), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
-                            SenderID: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($("#QuicksmsorCampaign_SenderId").val()), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
+                            SenderID: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(SenderId), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
                             //Sender: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($("#QuicksmsorCampaign_SenderId option:selected").text()), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),//Commented by murty - Original Statement
                             Sender: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(SenderName), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),  //added by murty
                             CampaignTypeID: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(CampTypeAssgn), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
@@ -1506,8 +1509,8 @@
                             AllowDuplicates: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(AllowDuplicates), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
                             TotalScheduleString: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(TotalScheduleString.trim()), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
                             ScheduledType: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(ScheduleType), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
-                            CharCount: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($("#txtCharCount").html()), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
-                            CreditsUsed: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($("#txtMSgCount").html()), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
+                            CharCount: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(charCount), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
+                            CreditsUsed: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(creditsUsed), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
                             XMLSchedule: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(XMLSchedule.trim()), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
                             Criteria: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($("#QuicksmsorCampaign_Message").val()), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
                             PlaceHolders: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(""), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
@@ -1535,12 +1538,12 @@
                             GroupOldFilePath: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(groupoldfilepath), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
                             MessageField: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($("#QuicksmsorCampaign_MobileNumberField option:selected").text()), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(), //added by murty
                         };
-
+                        console.log(LocalModel);
                         $.ajax({
                             type: "POST",
                             url: '@Url.Action("LoadSubmitCamp", "CampaignPlugin")',
                             headers: headers,
-                            data: { LocalModel: LocalModel, cmd: "_SubmitCampaign" },
+                            data: { LocalModelJS: LocalModel, SenderID: SenderId, cmd: "_SubmitCampaign" },
                             datatype: 'application/json',
                             beforeSend: function () {
                                 setTimeout(function () {
