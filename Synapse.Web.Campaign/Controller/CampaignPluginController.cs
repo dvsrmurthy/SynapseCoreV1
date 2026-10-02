@@ -170,7 +170,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             }
             return View();
         }
-
+        [HttpGet]
         public async Task<ActionResult> _BulkSMSTable()
         {
             Logger.Info("_BulkSMSTable :: start :: {0}");
@@ -297,8 +297,8 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost("GetCampaignSearchText")]
+        //[ValidateAntiForgeryToken]
         public ActionResult GetCampaignSearchText(string SearchText, string DiffId)
         {
             Logger.InfoFormat("GetCampaignSearchText :: start :: {0}", SearchText);
@@ -361,8 +361,8 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             return View();
         }
 
-        [HttpPost]
-        [Synapse.Web.CampaignPlugin.Helpers.ValidateJsonAntiForgeryToken]
+        [HttpPost("LoadTemplates")]
+        //[Synapse.Web.CampaignPlugin.Helpers.ValidateJsonAntiForgeryToken]
         public ActionResult LoadTemplates(int CampType)
         {
             Logger.InfoFormat("LoadTemplates :: start :: {0}", CampType);
@@ -381,16 +381,16 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost("GettingColumnList")]
+        //[ValidateAntiForgeryToken]
         public ActionResult GettingColumnList(int Id)
         {
             var templates = new templatemapcolumns { }.buildmodelForGetColumns(Id);
             return Json(templates);
         }
 
-        [HttpPost]
-        [Synapse.Web.CampaignPlugin.Helpers.ValidateJsonAntiForgeryToken]
+        [HttpPost("GetStageCounts")]
+        //[Synapse.Web.CampaignPlugin.Helpers.ValidateJsonAntiForgeryToken]
         public ActionResult GetStageCounts(int CampID, string Stages)
         {
             Logger.InfoFormat("GetStageCounts :: start :: {0}", CampID, Stages);
@@ -430,8 +430,8 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             return View();
         }
 
-        [HttpPost]
-        [Synapse.Web.CampaignPlugin.Helpers.ValidateJsonAntiForgeryToken]
+        [HttpPost("CampaignEvents")]
+        //[Synapse.Web.CampaignPlugin.Helpers.ValidateJsonAntiForgeryToken]
 
         public ActionResult CampaignEvents(int CampID, string StageIDs, int Status, string schtype, string cmd = "")
         {
@@ -624,8 +624,8 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             return Json("");
         }
 
-        [HttpPost]
-        [Synapse.Web.CampaignPlugin.Helpers.ValidateJsonAntiForgeryToken]
+        [HttpPost("FileChangedEventOnEdit")]
+        //[Synapse.Web.CampaignPlugin.Helpers.ValidateJsonAntiForgeryToken]
         public ActionResult FileChangedEventOnEdit(string filepath)
         {
             Logger.InfoFormat("FileChangedEventOnEdit :: start :: {0}", filepath);
@@ -714,8 +714,8 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             return Json("");
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost("DeleteFile")]
+        //[ValidateAntiForgeryToken]
         public ActionResult DeleteFile(string FilePath)
         {
             Logger.InfoFormat("DeleteFile :: start :: {0}", FilePath);
@@ -744,8 +744,8 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost("OnSheetChange")]
+        //[ValidateAntiForgeryToken]
         public ActionResult OnSheetChange(string Sheet)
         {
             Logger.InfoFormat("OnSheetChange :: start :: {0}", Sheet);
@@ -1152,8 +1152,8 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             return Json("");
         }
 
-        [HttpPost]
-        [Synapse.Web.CampaignPlugin.Helpers.ValidateJsonAntiForgeryToken]
+        [HttpPost("OnCustomPreview")]
+        //[Synapse.Web.CampaignPlugin.Helpers.ValidateJsonAntiForgeryToken]
         public ActionResult OnCustomPreview(string message, string GroupIds, string uploadType, string PlaceHolders, string MobileField, string SheetName = "", string cmd = "", string msgt = "", string mobs = "")
         {
             Logger.InfoFormat("OnView :: start :: {0}", message, GroupIds, uploadType, PlaceHolders, MobileField);
@@ -1886,7 +1886,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             return invaliedMobs.Count() + "" + "" + "" + "";
         }
 
-        [HttpPost]
+        [HttpPost("BackCampaign")]
         public ActionResult BackCampaign(string filepath)
         {
             Logger.InfoFormat("BackCampaign :: start :: {0}", filepath);
@@ -1923,8 +1923,8 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost("GetGroupContacts")]
+        //[ValidateAntiForgeryToken]
 
         public ActionResult GetGroupContacts(string gids)
         {
@@ -2604,14 +2604,12 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             return string.Empty;
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [RequestTimeout("LongRunningPolicy")]
+        [HttpPost("SubmitCampaign")]
+        //[ValidateAntiForgeryToken]
+        //[RequestTimeout("LongRunningPolicy")]
         public ActionResult SubmitCampaign(string cmd = "")
         {
             Logger.InfoFormat("SubmitCampaign :: start :: {0}", cmd);
-            //HttpContext.Server.ScriptTimeout = 200;
-
             var extendedUser = SessionExtensions.GetItem<Core.Models.Extensions.CustomeUser>(HttpContext.Session);
             string ReturnVal = string.Empty;
             var CampDetails = SessionExtensions.GetItem<InsertBulkSMSOnRequest>(HttpContext.Session);
@@ -2662,34 +2660,24 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                             Logger.InfoFormat("CampaignQLog started ");
                             var Qresult = new CampaignQLog().PushMessageToQ(QMsg);
                             Logger.InfoFormat("CampaignQLog Ended");
-                        }
-                        //if (CampDetails.TotalCount == 0)
-                        //{
-                        //    return Json("notempty");
-                        //}
-
+                        }                        
                         var engineFilePath = !string.IsNullOrWhiteSpace(CampDetails.GroupIds) ? CampDetails.ImportFileName : CampDetails.ActualFileName;
-
-
-                        var actualfilesplititems = !string.IsNullOrWhiteSpace(CampDetails.GroupIds) ? Path.GetFileName(CampDetails.ImportFileName).Split('_') : CampDetails.ActualFileName.Split('_');
-                        // var originalDirPath = Path.GetDirectoryName(CampDetails.ImportFileName);
+                        var actualfilesplititems = !string.IsNullOrWhiteSpace(CampDetails.GroupIds) ? Path.GetFileName(CampDetails.ImportFileName).Split('_') : CampDetails.ActualFileName.Split('_');                        
                         var originalDirPath = !string.IsNullOrWhiteSpace(CampDetails.GroupIds) ? _configuration["tempPath"]?.ToString() : Path.GetDirectoryName(CampDetails.ImportFileName);
                         var modifiedPath = _configuration["tempPath"]?.ToString() +
                                            ((Convert.ToInt32(CampDetails.ScheduledType) == 2) ? "\\Schedule" : "\\NonSchedule") + "\\" +
                                            actualfilesplititems[0];
                         CampDetails.ActualFileName = modifiedPath + "\\" + engineFilePath;
-                        // CampDetails.ActualFileName = !string.IsNullOrWhiteSpace(CampDetails.GroupIds) ? engineFilePath: modifiedPath + "\\" + engineFilePath;
-
                         var response = ClientAccess.InsertBulkSMS(CampDetails);
-                        var result = response.Result.Split('$')[0];
-                        var nID = response.Result.Split('$')[1];
+                        var result = response.Result.nReturn.ToString();
+                        var nID = response.Result.nId;
                         switch (result)
                         {
                             case "7":
                                 ReturnVal = !(selAction != null && selAction.IsCheckerRequired)
                                     ? "MsgSubmitSuccess"
                                     : "MsgSubittedToChecker";
-                                BuildNotifications(CampDetails, response.Result.Split('$')[2], modifiedPath,
+                                BuildNotifications(CampDetails, response.Result.campId.ToString(), modifiedPath,
                                     engineFilePath, actualfilesplititems[0], Convert.ToInt32(CampDetails.AllowDuplicates));
                                 HttpContext.Session.RemoveItem<GroupContactsMain>();
                                 break;
@@ -2710,7 +2698,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                                 break;
                             case "5":
                                 ReturnVal = "UpdatedSuccessfully";
-                                ReturnVal = BuildNotifications(CampDetails, response.Result.Split('$')[2], modifiedPath,
+                                ReturnVal = BuildNotifications(CampDetails, response.Result.campId.ToString(), modifiedPath,
                                     engineFilePath, actualfilesplititems[0], Convert.ToInt32(CampDetails.AllowDuplicates));
                                 break;
                             case "8":
@@ -2721,8 +2709,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                                 break;
                             case "10":
                                 var ctimes = MessageTimings(CampDetails.CampaignType.ToString());
-                                return Json(new { ReturnVal = "InvalidTime", campTimes = ctimes });
-                            //break;
+                                return Json(new { ReturnVal = "InvalidTime", campTimes = ctimes });                            
                             case "11":
                                 ReturnVal = "KickOff";
                                 break;
@@ -2759,7 +2746,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
                 return response.ToList();
             }
         }
-
+        [HttpPost("ValidateCampaignName")]
         public string? ValidateCampaignName(string campName)
         {
             Logger.InfoFormat("ValidateCampaignName :: start :: {0}", campName);
@@ -5189,9 +5176,9 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             return string.Empty;
         }
 
-        [PreventSpam]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[PreventSpam]
+        [HttpPost("InsertTestSMS")]
+        //[ValidateAntiForgeryToken]
         public ActionResult InsertTestSMS(InsertTestSMSOnRequest TestSMSModel, int MbcID = 0)
         {
             Logger.InfoFormat("InsertTestSMS :: start :: {0}", TestSMSModel.CustomerID);
@@ -5370,6 +5357,7 @@ namespace Synapse.Web.CampaignPlugin.Controllers
             }
             return Json("");
         }
+        [HttpPost("UpdateTestSMSCredits")]
         //Added By Murty
         public ActionResult UpdateTestSMSCredits()
         {

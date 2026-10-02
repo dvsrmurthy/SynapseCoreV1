@@ -163,19 +163,19 @@ namespace Synapse.Web.CampaignPlugin.Helpers.SecureAccess
             var client = factory.GetJsonRestRequest(uriBuilder);
             return client.Post<LoadSenderByCategory, List<LoadSenderByCategoryResponse>>(request);
         }
-        public async Task<string> InsertBulkSMS(InsertBulkSMSOnRequest request)
+        public async Task<InsertQSMSOnResponse> InsertBulkSMS(InsertBulkSMSOnRequest request)
         {
             var uriBuilder = GetUriBuilderForServiceMethod("InsertBulkSMS");
             var factory = new RestClientFactory();
             var client = factory.GetJsonRestRequest(uriBuilder);
-            return client.Post<InsertBulkSMSOnRequest, string>(request);
+            return client.Post<InsertBulkSMSOnRequest, InsertQSMSOnResponse>(request);
         }
-        public async Task<string> InsertCustomSMSActualCredits(InsertBulkSMSOnRequest request)
+        public async Task<InsertQSMSOnResponse> InsertCustomSMSActualCredits(InsertBulkSMSOnRequest request)
         {
             var uriBuilder = GetUriBuilderForServiceMethod("InsertCustomSMSActualCredits");
             var factory = new RestClientFactory();
             var client = factory.GetJsonRestRequest(uriBuilder);
-            return client.Post<InsertBulkSMSOnRequest, string>(request);
+            return client.Post<InsertBulkSMSOnRequest, InsertQSMSOnResponse>(request);
         }
         public async Task<string> InsertTestSMSCamp(InsertTestSMSOnRequest request)
         {

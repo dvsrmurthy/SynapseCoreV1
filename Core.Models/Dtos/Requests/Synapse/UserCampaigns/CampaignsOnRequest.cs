@@ -103,7 +103,8 @@ namespace Core.Models.Dtos.Requests.Synapse.UserCampaigns
     public class InsertQSMSOnResponse
     {
         public int nReturn { get; set; }
-        public int nId { get; set; }       
+        public int nId { get; set; }  
+        public int campId { get; set; }
     }
     public class CheckerUpdateQSMSOnRequest
     {
@@ -245,6 +246,8 @@ namespace Core.Models.Dtos.Requests.Synapse.UserCampaigns
         public string? ToRange { get; set; } = string.Empty;
         public string? MessageField { get; set; } = string.Empty;
         public string? category { get; set; } = string.Empty;
+        public int nReturn { get;set; } = 0; 
+        public int nId { get; set; } = 0;    
     }
     public class InsertTestSMSOnRequest
     {
