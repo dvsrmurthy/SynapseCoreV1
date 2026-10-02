@@ -110,13 +110,13 @@ namespace Core.Data.IDataInterfaces.ISynapse
         Task<List<GetgGSMCharsQSMSCampOnResponse>> GetgGSMCharsQSMSCamp();
         //Task<List<KeywordList>> GetKeywordsOnloadAsync();
         Task<int> CheckerUpdateQuickSMS(CheckerUpdateQSMSOnRequest Request);
-        Task<string> InsertBulkSMS(InsertBulkSMSOnRequest request);
+        Task<InsertQSMSOnResponse> InsertBulkSMS(InsertBulkSMSOnRequest request);
         Task<string> InsertTestSMSCamp(InsertTestSMSOnRequest request);
         Task<GetStageCountsOnResponse> GetCampStageCounts(GetStageCountsOnRequest request);
         Task<int> SetCampaignEvents(SetCampEventsOnRequest request);
         Task<List<MobileLengthValidationResponse>> ValidateMobileNums(ReUsableRequest request);
         Task<bool> ValidateCampaignName(ReUsableRequest request);
-        Task<string> InsertCustomSMSActualCredits(InsertBulkSMSOnRequest request);
+        Task<InsertQSMSOnResponse> InsertCustomSMSActualCredits(InsertBulkSMSOnRequest request);
         Task<GroupContactsMain> GetGroupByContacts(ReUsableRequest request);
         //Task<CampaignDndnumbers> DndNumberCheck(ReUsableRequest request);
         Task<DndNonDndNumbers> DndNumberCheck(ReUsableRequest request);

@@ -858,7 +858,7 @@ namespace Core.Data.Data.Synapse
             return 0;
         }
 
-        public async Task<string> InsertBulkSMS(InsertBulkSMSOnRequest request)
+        public async Task<InsertQSMSOnResponse> InsertBulkSMS(InsertBulkSMSOnRequest request)
         {
             Logger.InfoFormat("InsertBulkSMS :: start :: {0}", request.CampID);
             try
@@ -915,11 +915,14 @@ namespace Core.Data.Data.Synapse
                                 {"@TotalCreditsReq", request.TotalCreditsReq},
                                 {"@nReturn", DBNull.Value},
                                 {"@nId", DBNull.Value},
-
                                 {"@CAMPAIGNID", DBNull.Value},
                                 {"@UserIp",request.UserIp}
                             });
-                    return response.nReturn + "$" + response.nId + "$" + response.CampId;
+                    InsertQSMSOnResponse res = new InsertQSMSOnResponse();
+                    res.nReturn = response.nReturn;
+                    res.nId = response.nId;
+                    res.campId = response.CampId;
+                    return res;
                 }
             }
             catch (Exception ex)
@@ -927,7 +930,7 @@ namespace Core.Data.Data.Synapse
                 Logger.ErrorFormat("InsertBulkSMS Fatal error thoughs :: Err0r :: {0}", ex.ToString());
                 ErrorSignal.FromCurrentContext().Raise(ex);
             }
-            return "0$0";
+            return new InsertQSMSOnResponse();
         }
         public async Task<List<LoadSenderByCategoryResponse>> LoadSenderByCategory(LoadSenderByCategory request)
         {
@@ -1922,7 +1925,7 @@ namespace Core.Data.Data.Synapse
             return false;
         }
 
-        public async Task<string> InsertCustomSMSActualCredits(InsertBulkSMSOnRequest request)
+        public async Task<InsertQSMSOnResponse> InsertCustomSMSActualCredits(InsertBulkSMSOnRequest request)
         {
             Logger.InfoFormat("InsertCustomSMSActualCredits :: start :: {0}", request.CampID);
             try
@@ -1939,7 +1942,10 @@ namespace Core.Data.Data.Synapse
                                 {"@TotalCreditsReq", request.TotalCreditsReq},
                                 {"@nReturn", DBNull.Value}
                             });
-                    return response.nReturn + "$" + response.nReturn + "$" + response.CampId;
+                    InsertQSMSOnResponse request1 = new InsertQSMSOnResponse();
+                    request1.nReturn = response.nReturn;
+                    request1.campId = response.CampId;
+                    return request1;
                 }
             }
             catch (Exception ex)
@@ -1947,7 +1953,7 @@ namespace Core.Data.Data.Synapse
                 Logger.ErrorFormat("Fatal Error thouging from InsertCustomSMSActualCredits :: {0} ", ex.StackTrace);
                 ErrorSignal.FromCurrentContext().Raise(ex);
             }
-            return "$$";
+            return new InsertQSMSOnResponse();
         }
 
         public async Task<GroupContactsMain> GetGroupByContacts(ReUsableRequest request)

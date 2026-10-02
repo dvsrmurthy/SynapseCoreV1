@@ -213,7 +213,7 @@
                                                 <div class="col-sm-5" style="">
                                                     @*@Html.HiddenFor(x => x.QuicksmsorCampaign.SenderId, new { @cd = "y" })*@
 
-                                                    @if (System.Configuration.ConfigurationManager.AppSettings["IndianSynapse"] == "true")
+                                                    @if (Configuration["IndianSynapse"] == "true")
                                                     {
                                                         @Html.DropDownListFor(x => x.QuicksmsorCampaign.SenderId, SendersList, new { @class = "form-control", @type = "select", @ct = "select", @rc = "y", @errormsg = @lz.PleaseSelectSenderId, @onclick = "removeerrorstylectrolfocus(this)", @onchange = "Drponchange(this,'Campaign_SenderId'); TransactionalFlag()" })
                                                     }
@@ -253,12 +253,7 @@
                                                             <button class="btn btn-default tip" title="Notepad/Excel" id="Notepad"><span class="fa fa-file-text-o fa-1x text-primary"></span> / <span class="fa fa-file-excel-o fa-1x text-success"></span></button>
                                                             <button class="btn btn-default tip" title="Group" id="Group"><span class="fa fa-address-book-o fa-1x text-purple"></span></button>
                                                             <a class="btn btn-default maininfo" data-toggle="popover" data-trigger="click" data-placement="bottom" title="SampleFile"><span class="fa fa-question-circle-o fa-1x text-warning"></span></a>
-                                                            <a href="@basePath" class="FileDownload"> <span class="btn btn-default fa fa-download" style="padding-top:11px"></span></a>
-                                                            @*<a data-toggle="tooltip" titlle="<img src='~/Content/images/importcontacts.jpg'>" ><span class=" icon16 icomoon-icon-question-5"></span></a>*@
-                                                            @*<input type="button" id="Excel" class="btn btn-sm btn-success" value="Excel">
-                                                                <input type="button" id="Notepad" class="btn btn-sm btn-success" value="Notepad">
-                                                                <input type="button" id="Group" class="btn btn-sm btn-success" value="Group">
-                                                                <img id="imgHelpIn" src="~/images/help.jpg" style="margin-top: 7px" />*@
+                                                            <a href="@basePath" class="FileDownload"> <span class="btn btn-default fa fa-download" style="padding-top:11px"></span></a>                                                           
                                                         </div>
                                                     </div>
                                                 </div>
@@ -274,12 +269,7 @@
                                                                 @Html.TextBoxFor(x => x.QuicksmsorCampaign.ExcelFile, new { @type = "file", @ct = "file", @class = "form-control text-primary", @onclick = "removeerrorstylectrolfocus(this)", @errormsg = @lz.pleaseselectTextExcelfile })
                                                                 <span class="filename">@lz.NofileSelected</span><span class="action"><i class="fa fa-plus fa-1x text-primary"></i></span>
                                                             </div>
-                                                            <span>File name accepts <b><i>a – z , A – Z , 0-9 , - , _ , space</i></b> characters only</span>
-                                                            @*<div class="uploader">
-
-                                                                    @Html.TextBoxFor(x => x.QuicksmsorCampaign.ExcelFile, new { @type = "file", @class = "form-control text-primary", @onclick = "removeerrorstylectrolfocus(this)", @errormsg = "please select Text/Excel file." })
-                                                                    <span class="filename">No file Selected</span><span class="action">Choose File</span>
-                                                                </div>*@
+                                                            <span>File name accepts <b><i>a – z , A – Z , 0-9 , - , _ , space</i></b> characters only</span>                                                            
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -1795,16 +1785,17 @@
             return false;
         }
         //Added by murty
-        var SenderName = '';
+        var SenderName = ''; var SenderId = 0;
         if ($("#QuicksmsorCampaign_SenderId option:selected").text() == "Any") {
             SenderName = $("#QuicksmsorCampaign_AnySender").val();
         }
         else {
             SenderName = $("#QuicksmsorCampaign_SenderId option:selected").text();
+            SenderId  = $("#QuicksmsorCampaign_SenderId option:selected").val();
         }
-                    //End-Added by murty
-
-
+        var charCount = $("#txtCharCount").html();
+        var creditsUsed = $("#txtMSgCount").html();
+        //End-Added by murty
         if (IsValid) {
             var message = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($("#QuicksmsorCampaign_Message").val().replace(/’/g, "'")), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
             // var message = $("#QuicksmsorCampaign_Message").val();
@@ -1987,20 +1978,13 @@
                         if (CampTypeAssgn == 0)
                             CampTypeAssgn = 1;
                     }
-
-                    //if (!groupoldfilepath.endsWith("_3") && $("#hdnCampID").val() > 0 && GroupIds != "") {
-                    //    groupoldfilepath = groupoldfilepath + "_3";
-                    //}
-
                     if (!strEndsWith(groupoldfilepath, "_3") && $("#hdnCampID").val() > 0 && GroupIds != "") {
                         groupoldfilepath = groupoldfilepath + "_3";
                     }
                     var LocalModel = {
-
-
                         CampID: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($("#hdnCampID").val()), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
                         Name: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($("#QuicksmsorCampaign_CampaignNameorRecipient").val().trim()), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
-                        SenderID: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($("#QuicksmsorCampaign_SenderId").val()), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
+                        SenderID: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(SenderId), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
                         Sender: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(SenderName), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
                         CampaignTypeID: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(CampTypeAssgn), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
                         //   CampaignType: CampTypeAssgn == 1 ? "Promotional" : "Transactional",
@@ -2014,8 +1998,8 @@
                         AllowDuplicates: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(AllowDuplicates), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
                         TotalScheduleString: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(TotalScheduleString.trim()), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
                         ScheduledType: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(ScheduleType), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
-                        CharCount: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($("#txtCharCount").html()), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
-                        CreditsUsed: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($("#txtMSgCount").html()), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
+                            CharCount: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(charCount), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
+                            CreditsUsed: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(creditsUsed), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
                         XMLSchedule: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(XMLSchedule.trim()), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
                         Criteria: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(CretiriaMsg), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
                         PlaceHolders: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(PlaceHolders.trim(',')), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
@@ -2048,7 +2032,7 @@
                         type: "POST",
                         url: '@Url.Action("LoadSubmitCamp", "CampaignPlugin")',
                         headers: headers,
-                        data: { LocalModel: LocalModel, cmd: "_SubmitCampaign" },
+                                data: { LocalModelJS: LocalModel, SenderID: SenderId, cmd: "_SubmitCampaign" },
                         datatype: 'application/json',
                         beforeSend: function () {
                             setTimeout(function () {
@@ -2153,7 +2137,7 @@
 
     $("#SendTestSMS").click(function () {
         var ContactsCount = $("#QuicksmsorCampaign_MobileNumber").val().split(',').length;
-        var MaxLmt = " @Configuration["MaxQSMSLimit"]";
+        var MaxLmt = "@Configuration["MaxQSMSLimit"]";
         if (parseInt(MaxLmt) < ContactsCount) {
             errorMessage("@lz.Pleaseenteronly " + MaxLmt + " @lz.RecipientS");
             $("html,body").animate({ scrollTop: 0 }, 600);
@@ -2192,8 +2176,7 @@
                 GroupIds.trim(',');
             }
 
-            var conCode = @System.Configuration.ConfigurationManager.AppSettings["CountryCode"]
-            console.log(conCode);
+            var conCode = '@Configuration["CountryCode"]';            
             if (conCode != (null || undefined) && conCode === 91) {
                 var mNos = $("#QuicksmsorCampaign_MobileNumber").val().split(',');
                 for (var i = 0; i < mNos.length; i++) {
@@ -2214,7 +2197,8 @@
             }
             //var MobileNos = conCode != (null || undefined) ? mNos.join(',') : $("#QuicksmsorCampaign_CampaignNameorRecipient").val();
             var MobileNos = conCode != (null || undefined) ? mNos.join(',') : $("#QuicksmsorCampaign_MobileNumber").val();
-
+            var charCount = $("#txtCharCount").html();
+            var creditsUsed = $("#txtMSgCount").html();
             var TestSMSModel = {
                 LanguageId: LanguageId,
                 MessageId: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(0), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
@@ -2225,8 +2209,8 @@
                 MobileNo: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(MobileNos), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
                 SmsType: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(1), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
                 Message: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($("#QuicksmsorCampaign_TestMessagePrv").val().replace(/’/g, "'")), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
-                CharCount: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($("#txtCharCount").html()), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
-                Credits: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($("#txtMSgCount").html()), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
+                    CharCount: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(charCount), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
+                    Credits: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(creditsUsed), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
                 ReferenceId: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(0), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
                 ShortCode: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(""), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
                 Sender: CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse($("#QuicksmsorCampaign_SenderId option:selected").text()), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(),
@@ -4146,7 +4130,7 @@
         var tflag = $('#QuicksmsorCampaign_SenderId :selected').text();
         tflag = tflag.match(/\d+/g);
         @*if (@System.Configuration.ConfigurationManager.AppSettings["IndianSynapse"] == true) {*@
-        if (tflag != null) {
+        if(tflag != null) {
             $('#QuicksmsorCampaign_CampTypeID').attr("checked", false);
             $('#QuicksmsorCampaign_CampTypeID').prop("checked", false);
             $('#QuicksmsorCampaign_CampTypeID').attr('disabled', true);
